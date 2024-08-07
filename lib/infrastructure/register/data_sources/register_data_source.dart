@@ -4,11 +4,12 @@ import 'package:wallet_guru/domain/core/models/error_response_model.dart';
 import 'package:wallet_guru/domain/core/models/invalid_data.dart';
 import 'package:wallet_guru/domain/register/models/register_model.dart';
 import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
+import 'package:wallet_guru/infrastructure/register/network/register_%20network.dart';
 
 class RegisterDataSource {
   Future<RegisterModel> creationUser(String code) async {
-    var response = await HttpDataSource.post(
-        "", {"project": "ChelseaProject", "code": code});
+    var response = await HttpDataSource.post(RegisterNetwork.registerUser,
+        {"project": "ChelseaProject", "code": code});
 
     if (response["statusCode"] == 200) {
       RegisterModel registerModel = RegisterModel.fromJson(response);
