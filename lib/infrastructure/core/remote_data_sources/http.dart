@@ -1,51 +1,71 @@
-import 'package:http/http.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:http/http.dart' as http;
 
 class HttpDataSource {
-  Future<Response> httpGet(
-    String url, {
-    String? token,
-  }) async {
-    Map<String, String> headers = {};
-    if (token != null) headers['Authorization'] = 'Bearer $token';
-    return await get(Uri.parse(url), headers: headers);
+  static final Map<String, String> _headers = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+  };
+
+  // Parses a JSON string into a Map
+  // Returns: Map<String, dynamic>
+  static dynamic decode(String response) => json.decode(response);
+
+  // Encodes a Map into a JSON string
+  // Returns: String
+  static String encode(Map<String, dynamic> response) => json.encode(response);
+
+  // Makes GET requests to the backend at the specified endpoint
+  // Returns: Future with the result of the query
+  static Future<dynamic> get(String path) async {
+    Uri uri = Uri.parse(path);
+    final response = await http.get(uri, headers: _headers);
+    return _processResponse(response);
   }
 
-  Future<Response> httpPost(
-    String url, {
-    String? body,
-    String? token,
-  }) async {
-    Map<String, String> headers = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-    if (token != null) headers['Authorization'] = 'Bearer $token';
-    return await post(Uri.parse(url), headers: headers, body: body);
+  // Makes POST requests to the backend at the specified endpoint with data
+  // Returns: Future with the result of the query
+  Future<dynamic> post(String path, Map<String, dynamic> data) async {
+    final body = encode(data);
+    Uri uri = Uri.parse(path);
+    final response = await http.post(uri, body: body, headers: _headers);
+    return _processResponse(response);
   }
 
-  Future<Response> httpPut(
-    String url, {
-    required String body,
-    String? token,
-  }) async {
-    Map<String, String> headers = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-    if (token != null) headers['Authorization'] = 'Bearer $token';
-    return await put(Uri.parse(url), headers: headers, body: body);
+  // Makes PUT requests to the backend at the specified endpoint with data
+  // Returns: Future with the result of the query
+  static Future<dynamic> put(String path, Map<String, dynamic> data) async {
+    final body = encode(data);
+    Uri uri = Uri.parse(path);
+    final response = await http.put(uri, body: body, headers: _headers);
+    return _processResponse(response);
   }
 
-  Future<Response> httpDelete(
-    String url, {
-    String? body,
-    String? token,
-  }) async {
-    Map<String, String> headers = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-    if (token != null) headers['Authorization'] = 'Bearer $token';
-    return await delete(Uri.parse(url), headers: headers, body: body);
+  // Makes DELETE requests to the backend at the specified endpoint with data
+  // Returns: Future with the result of the query
+  static Future<dynamic> delete(String path, Map<String, dynamic> data) async {
+    final body = encode(data);
+    Uri uri = Uri.parse(path);
+    final response = await http.delete(uri, body: body, headers: _headers);
+    return _processResponse(response);
+  }
+
+  // Processes the HTTP response and handles errors
+  // Returns: Future with the decoded response body
+  static dynamic _processResponse(http.Response response) {
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        return decode(response.body);
+      case 400:
+        throw Exception('Bad request: ${response.body}');
+      case 401:
+      case 403:
+        throw Exception('Unauthorized: ${response.body}');
+      case 500:
+      default:
+        throw Exception('Error: ${response.body}');
+    }
   }
 }
