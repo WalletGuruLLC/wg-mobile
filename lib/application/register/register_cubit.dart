@@ -1,12 +1,13 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/entities/user_entity.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/domain/register/repositories/register_repository.dart';
 
-part 'user_state.dart';
+part 'register_state.dart';
 
-class UserCubit extends Cubit<UserState> {
-  UserCubit() : super(UserState());
+class RegisterCubit extends Cubit<RegisterState> {
+  RegisterCubit() : super(RegisterState());
 
   final RegisterRepository registerRepository = RegisterRepository();
 

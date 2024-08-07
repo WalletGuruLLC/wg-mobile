@@ -1,6 +1,6 @@
-part of 'user_cubit.dart';
+part of 'register_cubit.dart';
 
-class UserState {
+class RegisterState extends Equatable {
   final String? id;
   final String username;
   final String email;
@@ -9,7 +9,7 @@ class UserState {
   final String mfaType;
   final FormSubmissionStatus formStatus;
 
-  UserState({
+  const RegisterState({
     this.id = '',
     this.username = '',
     this.email = '',
@@ -19,7 +19,7 @@ class UserState {
     this.formStatus = const InitialFormStatus(),
   });
 
-  UserState copyWith({
+  RegisterState copyWith({
     String? id,
     String? username,
     String? email,
@@ -28,7 +28,7 @@ class UserState {
     String? mfaType,
     FormSubmissionStatus? formStatus,
   }) =>
-      UserState(
+      RegisterState(
         id: id ?? this.id,
         username: username ?? this.username,
         email: email ?? this.email,
@@ -38,13 +38,24 @@ class UserState {
         formStatus: formStatus ?? this.formStatus,
       );
 
-  UserState initialState() => UserState(
+  RegisterState initialState() => const RegisterState(
         id: '',
         username: '',
         email: '',
         passwordHash: '',
         mfaEnabled: false,
         mfaType: '',
-        formStatus: const InitialFormStatus(),
+        formStatus: InitialFormStatus(),
       );
+
+  @override
+  List<Object> get props => [
+        id ?? '',
+        username,
+        email,
+        passwordHash,
+        mfaEnabled,
+        mfaType,
+        formStatus,
+      ];
 }
