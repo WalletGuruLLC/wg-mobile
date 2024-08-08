@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
+  Injector.setup();
   runApp(const MyApp());
 }
 
