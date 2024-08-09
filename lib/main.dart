@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
+import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -9,11 +10,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: AppColorSchema.of(context).primary,
@@ -29,12 +33,6 @@ class MyApp extends StatelessWidget {
       color: AppColorSchema.of(context).primary,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: Builder(
-        builder: (BuildContext context) {
-          final l10n = AppLocalizations.of(context)!;
-          return MyHomePage(title: l10n.mama);
-        },
-      ),
     );
   }
 }
