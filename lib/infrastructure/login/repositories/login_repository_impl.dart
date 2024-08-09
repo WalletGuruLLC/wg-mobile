@@ -12,10 +12,10 @@ class LoginRepositoryImpl extends LoginRepository {
 
   @override
   Future<Either<InvalidData, SignInResponseModel>> signInUser(
-      UserEntity singInUser) async {
+      UserEntity signInUser) async {
     try {
       final SignInResponseModel response =
-          await loginDataSource.signInUser(singInUser);
+          await loginDataSource.signInUser(signInUser);
       return Right(response);
     } on InvalidData catch (invalidData) {
       return Left(invalidData);

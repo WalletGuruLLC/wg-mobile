@@ -12,7 +12,12 @@ class LoginCubit extends Cubit<LoginState> {
   final registerRepository = Injector.resolve<LoginRepository>();
 
   void emitSignInUser(UserEntity userEntity) async {
-    emit(state.copyWith(formStatus: FormSubmitting()));
+    emit(
+      state.copyWith(
+        formStatus: FormSubmitting(),
+        email: userEntity.email,
+      ),
+    );
     final verifyEmailOtp = await registerRepository.signInUser(userEntity);
     verifyEmailOtp.fold(
       (error) {

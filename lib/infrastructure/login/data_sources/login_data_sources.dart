@@ -11,7 +11,7 @@ class LoginDataSource {
   Future<SignInResponseModel> signInUser(UserEntity singInUser) async {
     var response = await HttpDataSource.post(
       LoginNetwork.signIn,
-      singInUser.toJson(),
+      singInUser.toSignInJson(),
     );
 
     if (response["statusCode"] == 200) {
