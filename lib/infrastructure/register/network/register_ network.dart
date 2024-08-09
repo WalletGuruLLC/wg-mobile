@@ -1,5 +1,7 @@
+import 'package:wallet_guru/infrastructure/core/env/env.dart';
+
 class RegisterNetwork {
   static final String registerUser =
-      'https://api-colombia.com/api/v1/user';
+      '${Env.baseUrl}user';
 }
 

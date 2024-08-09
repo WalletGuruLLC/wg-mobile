@@ -44,6 +44,8 @@ dependencies:
   shared_preferences: ^2.3.1
   flutter_bloc: ^8.1.6
   kiwi: ^5.0.1
+  envied: ^0.5.4+1
+  envied_generator: ^0.5.4+1
   
 
 dev_dependencies:
