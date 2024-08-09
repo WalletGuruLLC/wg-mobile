@@ -24,8 +24,11 @@ class Validators {
     if (value == null || value.isEmpty) {
       return 'Please enter a password';
     }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
+    const pattern =
+        r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$&*~]).{8,12}$';
+    final regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Password must be 8-12 characters long and include at least one number, one uppercase letter, one lowercase letter, and one special character';
     }
     return null;
   }
