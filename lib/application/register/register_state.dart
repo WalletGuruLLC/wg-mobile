@@ -2,7 +2,8 @@ part of 'register_cubit.dart';
 
 class RegisterState extends Equatable {
   final String? id;
-  final String username;
+  final String firstName;
+  final String lastName;
   final String email;
   final String passwordHash;
   final bool mfaEnabled;
@@ -11,7 +12,8 @@ class RegisterState extends Equatable {
 
   const RegisterState({
     this.id = '',
-    this.username = '',
+    this.firstName = '',
+    this.lastName = '',
     this.email = '',
     this.passwordHash = '',
     this.mfaEnabled = false,
@@ -21,7 +23,8 @@ class RegisterState extends Equatable {
 
   RegisterState copyWith({
     String? id,
-    String? username,
+    String? firstName,
+    String? lastName,
     String? email,
     String? passwordHash,
     bool? mfaEnabled,
@@ -30,7 +33,8 @@ class RegisterState extends Equatable {
   }) =>
       RegisterState(
         id: id ?? this.id,
-        username: username ?? this.username,
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
         email: email ?? this.email,
         passwordHash: passwordHash ?? this.passwordHash,
         mfaEnabled: mfaEnabled ?? this.mfaEnabled,
@@ -40,7 +44,8 @@ class RegisterState extends Equatable {
 
   RegisterState initialState() => const RegisterState(
         id: '',
-        username: '',
+        firstName: '',
+        lastName: '',
         email: '',
         passwordHash: '',
         mfaEnabled: false,
@@ -51,7 +56,8 @@ class RegisterState extends Equatable {
   @override
   List<Object> get props => [
         id ?? '',
-        username,
+        firstName,
+        lastName,
         email,
         passwordHash,
         mfaEnabled,
