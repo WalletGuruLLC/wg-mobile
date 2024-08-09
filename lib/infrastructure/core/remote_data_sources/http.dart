@@ -2,11 +2,19 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpDataSource {
-  static final Map<String, String> _headers = {
-    HttpHeaders.contentTypeHeader: 'application/json',
-  };
+  static final Map<String, String> _headers = {};
+
+  static Future<void> setHeaders() async {
+    _headers[HttpHeaders.contentTypeHeader] = 'application/json';
+    final storage = await SharedPreferences.getInstance();
+    final String? basic = storage.getString('Basic');
+    if (basic != null) {
+      _headers['Authorization'] = 'Bearer $basic';
+    }
+  }
 
   // Parses a JSON string into a Map
   // Returns: Map<String, dynamic>
@@ -26,7 +34,7 @@ class HttpDataSource {
 
   // Makes POST requests to the backend at the specified endpoint with data
   // Returns: Future with the result of the query
-  Future<dynamic> post(String path, Map<String, dynamic> data) async {
+  static Future<dynamic> post(String path, Map<String, dynamic> data) async {
     final body = encode(data);
     Uri uri = Uri.parse(path);
     final response = await http.post(uri, body: body, headers: _headers);
