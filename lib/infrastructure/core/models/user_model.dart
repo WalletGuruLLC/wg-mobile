@@ -3,7 +3,8 @@ import 'package:wallet_guru/domain/core/entities/user_entity.dart';
 class UserModel extends UserEntity {
     UserModel({
         required super.id,
-        required super.username,
+        required super.firstName,
+        required super.lastName,
         required super.email,
         required super.passwordHash,
         required super.mfaEnabled,
@@ -12,7 +13,8 @@ class UserModel extends UserEntity {
 
     factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],
-        username: json["username"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
         email: json["email"],
         passwordHash: json["passwordHash"],
         mfaEnabled: json["mfaEnabled"],

@@ -1,6 +1,7 @@
 class UserEntity {
   final String id;
-  final String username;
+  final String firstName;
+  final String lastName;
   final String email;
   final String passwordHash;
   final bool mfaEnabled;
@@ -8,7 +9,8 @@ class UserEntity {
 
   UserEntity({
     required this.id,
-    required this.username,
+    required this.firstName,
+    required this.lastName,
     required this.email,
     required this.passwordHash,
     required this.mfaEnabled,
@@ -17,7 +19,8 @@ class UserEntity {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "username": username,
+        "firstName": firstName,
+        "lastName": lastName,
         "email": email,
         "passwordHash": passwordHash,
         "mfaEnabled": mfaEnabled,
