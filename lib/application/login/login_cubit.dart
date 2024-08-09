@@ -27,8 +27,6 @@ class LoginCubit extends Cubit<LoginState> {
       },
       (singInUser) {
         emit(state.copyWith(
-          email: singInUser.data.user.email,
-          token: singInUser.data.token,
           formStatus: SubmissionSuccess(),
         ));
       },
