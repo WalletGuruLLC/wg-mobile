@@ -26,4 +26,9 @@ class UserEntity {
         "mfaEnabled": mfaEnabled,
         "mfaType": mfaType,
       };
+
+  Map<String, dynamic> toSignInJson() => {
+        "email": email,
+        "password": passwordHash,
+      };
 }

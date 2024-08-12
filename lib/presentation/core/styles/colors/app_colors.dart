@@ -33,4 +33,5 @@ abstract class AppCustomColors {
   Color get cardBackgroundColor;
   Color get driverProcess;
   LinearGradient get backgroundGradient;
+  Color get errorColor;
 }

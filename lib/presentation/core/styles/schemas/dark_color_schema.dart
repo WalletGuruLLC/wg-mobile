@@ -101,4 +101,7 @@ class DarkColorScheme implements AppCustomColors {
         end: Alignment.bottomRight,
         colors: [Color(0xFF171717), Color(0xFF171717)],
       );
+
+  @override
+  Color get errorColor => const Color(0xFFFF0000);
 }
