@@ -1,3 +1,5 @@
+import 'package:wallet_guru/infrastructure/core/env/env.dart';
+
 class LoginNetwork {
-  static const String signIn = 'https://api-colombia.com/api/v1/user/signin';
+  static final String signIn = '${Env.baseUrl}user/signIn';
 }
