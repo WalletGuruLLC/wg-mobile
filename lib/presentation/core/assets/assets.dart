@@ -1,7 +1,9 @@
 class Assets {
-  // EXAMPLE
+  // BASE
+  static const base = 'assets/';
 
   // IMAGES
+  static const iconLogoSplash = '${base}wallet_logo_white.png';
   static const icon = 'assets/images/icon.png';
   // Audio
   static const warning = 'audio/warning.mp3';
