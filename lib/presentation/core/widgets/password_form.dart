@@ -28,6 +28,13 @@ class _PasswordFormState extends State<PasswordForm> {
 
   @override
   Widget build(BuildContext context) {
+    final OutlineInputBorder defaultBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: BorderSide(
+        color: Colors.grey[400]!,
+        width: 1.5,
+      ),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,26 +46,21 @@ class _PasswordFormState extends State<PasswordForm> {
         BaseTextFormField(
           enabled: widget.enabled,
           initialValue: widget.initialValue,
-          maxLength: 10,
           keyboardType: TextInputType.text,
           obscureText: _obscureText,
-          decoration: InputDecoration(
-            counterText: '',
-            hintText: 'Password',
-            hintStyle: AppTextStyles.formText,
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            suffixIcon: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-              child: Icon(
-                _obscureText
-                    ? Icons.visibility_off_rounded
-                    : Icons.visibility_rounded,
-                color: Colors.grey,
-              ),
+          hintText: 'Password',
+          hintStyle: AppTextStyles.formText,
+          suffixIcon: GestureDetector(
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            child: Icon(
+              _obscureText
+                  ? Icons.visibility_off_rounded
+                  : Icons.visibility_rounded,
+              color: Colors.grey,
             ),
           ),
           validator: (value, context) => Validators.validatePassword(value),

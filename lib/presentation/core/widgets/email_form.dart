@@ -35,19 +35,14 @@ class EmailForm extends StatelessWidget {
         BaseTextFormField(
           enabled: enabled,
           initialValue: initialValue,
-          maxLength: 10,
           keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            counterText: '',
-            hintText: l10n.email,
-            hintStyle: AppTextStyles.formText,
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            suffixIcon: Image.asset(
-              Assets.emailLogo,
-              width: 20,
-              height: 20,
-            ),
+          hintStyle: AppTextStyles.formText,
+          suffixIcon: Image.asset(
+            Assets.emailLogo,
+            width: 20,
+            height: 20,
           ),
+          hintText: l10n.email,
           validator: (value, context) => Validators.validatePhoneNumber(value),
           onChanged: onChanged,
         ),
