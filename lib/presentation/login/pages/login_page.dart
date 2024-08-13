@@ -7,13 +7,14 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
       showAppBar: false,
-      body: Align(
-        alignment: Alignment.topCenter,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: MediaQuery.of(context).size.height,
+          width: size.width * 0.90,
+          height: size.height,
           child: const LoginForm(),
         ),
       ),

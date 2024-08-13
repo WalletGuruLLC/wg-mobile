@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/presentation/core/widgets/email_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/password_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -9,16 +16,66 @@ class LoginForm extends StatefulWidget {
 
 class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  String? _email;
+  String? _password;
 
   @override
   Widget build(BuildContext context) {
+    double size = MediaQuery.of(context).size.height;
     return Form(
       key: _formKey,
       child: Column(
-        children: <Widget>[],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Image.asset(
+            Assets.iconLogo,
+          ),
+          SizedBox(height: size * 0.05),
+          SizedBox(
+            width: 67,
+            child: Divider(
+              color: AppColorSchema.of(context).lineColor,
+              thickness: 4,
+            ),
+          ),
+          const TextBase(
+            text: 'Login',
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
+          SizedBox(height: size * 0.1),
+          EmailForm(
+            initialValue: _email,
+            onChanged: _onEmailChanged,
+          ),
+          SizedBox(height: size * 0.1),
+          PasswordForm(
+            initialValue: _password,
+            onChanged: _onPasswordChanged,
+          ),
+          SizedBox(height: size * 0.1),
+          CustomButton(
+            text: 'Login',
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                print('Login');
+              }
+            },
+          ),
+        ],
       ),
     );
+  }
+
+  void _onEmailChanged(String? value, bool isValid) {
+    setState(() {
+      _email = value;
+    });
+  }
+
+  void _onPasswordChanged(String? value, bool isValid) {
+    setState(() {
+      _password = value;
+    });
   }
 }

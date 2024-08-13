@@ -44,7 +44,7 @@ class _PasswordFormState extends State<PasswordForm> {
           obscureText: _obscureText,
           decoration: InputDecoration(
             counterText: '',
-            hintText: 'Enter phone number',
+            hintText: 'Password',
             hintStyle: AppTextStyles.formText,
             floatingLabelBehavior: FloatingLabelBehavior.never,
             suffixIcon: GestureDetector(

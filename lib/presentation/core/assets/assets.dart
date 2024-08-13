@@ -5,6 +5,8 @@ class Assets {
   // IMAGES
   static const iconLogoSplash = '${base}wallet_logo_white.png';
   static const icon = 'assets/images/icon.png';
+  static const iconLogo = 'assets/wallet_guru_logo_dark.png';
+  static const emailLogo = 'assets/wallet_guru_email_icon.png';
   // Audio
   static const warning = 'audio/warning.mp3';
 

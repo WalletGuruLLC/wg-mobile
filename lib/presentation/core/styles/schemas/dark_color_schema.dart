@@ -104,4 +104,7 @@ class DarkColorScheme implements AppCustomColors {
 
   @override
   Color get errorColor => const Color(0xFFFF0000);
+
+  @override
+  Color get lineColor => const Color(0xFF00B0FB);
 }
