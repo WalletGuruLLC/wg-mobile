@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/main.dart';
+import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
 
 class WalletGuruRouter {
   static List<GoRoute> routes = [
@@ -10,6 +11,11 @@ class WalletGuruRouter {
       builder: (context, state) => const MyHomePage(
         title: 'hola',
       ),
+    ),
+    GoRoute(
+      name: Routes.splash.name,
+      path: Routes.splash.path,
+      builder: (context, state) => const SplashScreenPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
