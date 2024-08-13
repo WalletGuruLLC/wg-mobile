@@ -4,9 +4,10 @@ class Assets {
 
   // IMAGES
   static const iconLogoSplash = '${base}wallet_logo_white.png';
-  static const icon = 'assets/images/icon.png';
-  static const iconLogo = 'assets/wallet_guru_logo_dark.png';
-  static const emailLogo = 'assets/wallet_guru_email_icon.png';
+  static const icon = '${base}images/icon.png';
+  static const iconLogo = '${base}wallet_guru_logo_dark.png';
+  static const emailLogo = '${base}wallet_guru_email_icon.png';
+  static const passwordLogo = '${base}wallet_guru_password_icon.png';
   // Audio
   static const warning = 'audio/warning.mp3';
 

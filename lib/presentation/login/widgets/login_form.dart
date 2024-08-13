@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
@@ -48,18 +47,33 @@ class LoginFormState extends State<LoginForm> {
             initialValue: _email,
             onChanged: _onEmailChanged,
           ),
-          SizedBox(height: size * 0.1),
+          SizedBox(height: size * 0.05),
           PasswordForm(
             initialValue: _password,
             onChanged: _onPasswordChanged,
           ),
-          SizedBox(height: size * 0.1),
+          SizedBox(height: size * 0.025),
+          TextBase(
+              color: AppColorSchema.of(context).terciaryText,
+              text: 'Don\'t have an account? Sign up here',
+              fontSize: 16,
+              fontWeight: FontWeight.w400),
+          SizedBox(height: size * 0.025),
+          TextBase(
+              color: AppColorSchema.of(context).terciaryText,
+              text: 'Forgot password?',
+              fontSize: 16,
+              fontWeight: FontWeight.w400),
+          SizedBox(height: size * 0.2),
           CustomButton(
+            border:
+                Border.all(color: AppColorSchema.of(context).buttonBorderColor),
+            color: Colors.transparent,
             text: 'Login',
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                print('Login');
-              }
+              if (_formKey.currentState!.validate()) {}
             },
           ),
         ],

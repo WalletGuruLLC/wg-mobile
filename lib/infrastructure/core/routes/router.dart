@@ -16,7 +16,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      builder: (context, state) => const LoginPage(),
+      builder: (context, state) => const SplashScreenPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
@@ -26,11 +26,8 @@ class WalletGuruRouter {
       ),
     ),
     GoRoute(
-      name: Routes.logIn.name,
-      path: Routes.logIn.path,
-      builder: (context, state) => const MyHomePage(
-        title: 'hola',
-      ),
-    ),
+        name: Routes.logIn.name,
+        path: Routes.logIn.path,
+        builder: (context, state) => const LoginPage()),
   ];
 }

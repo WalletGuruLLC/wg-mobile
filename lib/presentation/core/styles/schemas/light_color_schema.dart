@@ -30,7 +30,7 @@ class LightColorSchema implements AppCustomColors {
   Color get secondaryText => const Color(0xFFFFFFFF);
 
   @override
-  Color get terciaryText => const Color(0xFF1DA1F2);
+  Color get terciaryText => const Color(0xFF3678B1);
 
   @override
   Color get accentText => const Color(0xFFFFFFFF);
@@ -106,4 +106,7 @@ class LightColorSchema implements AppCustomColors {
 
   @override
   Color get lineColor => const Color(0xFF00B0FB);
+
+  @override
+  Color get buttonBorderColor => const Color(0xFF3C93BE);
 }

@@ -35,4 +35,5 @@ abstract class AppCustomColors {
   LinearGradient get backgroundGradient;
   Color get errorColor;
   Color get lineColor;
+  Color get buttonBorderColor;
 }
