@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/application/core/validations/validations.dart';
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 import 'base_text_form_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -34,14 +35,14 @@ class EmailForm extends StatelessWidget {
         BaseTextFormField(
           enabled: enabled,
           initialValue: initialValue,
-          maxLength: 10,
           keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-            counterText: '',
-            hintText: l10n.email,
-            hintStyle: AppTextStyles.formText,
-            floatingLabelBehavior: FloatingLabelBehavior.never,
+          hintStyle: AppTextStyles.formText,
+          suffixIcon: Image.asset(
+            Assets.emailLogo,
+            width: 20,
+            height: 20,
           ),
+          hintText: l10n.email,
           validator: (value, context) => Validators.validatePhoneNumber(value),
           onChanged: onChanged,
         ),

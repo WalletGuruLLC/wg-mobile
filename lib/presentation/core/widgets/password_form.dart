@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/application/core/validations/validations.dart';
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 import 'base_text_form_field.dart';
 
@@ -39,26 +40,20 @@ class _PasswordFormState extends State<PasswordForm> {
         BaseTextFormField(
           enabled: widget.enabled,
           initialValue: widget.initialValue,
-          maxLength: 10,
           keyboardType: TextInputType.text,
           obscureText: _obscureText,
-          decoration: InputDecoration(
-            counterText: '',
-            hintText: 'Enter phone number',
-            hintStyle: AppTextStyles.formText,
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            suffixIcon: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-              child: Icon(
-                _obscureText
-                    ? Icons.visibility_off_rounded
-                    : Icons.visibility_rounded,
-                color: Colors.grey,
-              ),
+          hintText: 'Password',
+          hintStyle: AppTextStyles.formText,
+          suffixIcon: GestureDetector(
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            child: Image.asset(
+              Assets.passwordLogo,
+              width: 20,
+              height: 20,
             ),
           ),
           validator: (value, context) => Validators.validatePassword(value),

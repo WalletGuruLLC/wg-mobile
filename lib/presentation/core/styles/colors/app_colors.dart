@@ -34,4 +34,6 @@ abstract class AppCustomColors {
   Color get driverProcess;
   LinearGradient get backgroundGradient;
   Color get errorColor;
+  Color get lineColor;
+  Color get buttonBorderColor;
 }
