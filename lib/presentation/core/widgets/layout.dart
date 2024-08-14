@@ -25,25 +25,22 @@ class WalletGuruLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      child: GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: Scaffold(
-            backgroundColor: AppColorSchema.of(context).scaffoldColor,
-            appBar: showAppBar
-                ? null // HEADER SHOULD BE HERE
-                : null,
-            body: SafeArea(
-                top: showSafeArea == true ? true : false,
-                bottom: showSafeArea == true ? true : false,
-                child: body),
-            bottomNavigationBar: showBottomNavigationBar
-                ? null //BOTTOM NAVIGATION SHOULD BE HERE
-                : null),
-      ),
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+          backgroundColor: AppColorSchema.of(context).scaffoldColor,
+          appBar: showAppBar
+              ? null // HEADER SHOULD BE HERE
+              : null,
+          body: SafeArea(
+              top: showSafeArea == true ? true : false,
+              bottom: showSafeArea == true ? true : false,
+              child: body),
+          bottomNavigationBar: showBottomNavigationBar
+              ? null //BOTTOM NAVIGATION SHOULD BE HERE
+              : null),
     );
   }
 
