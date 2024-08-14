@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/otp_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
@@ -35,13 +36,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
             Assets.iconLogo,
           ),
           SizedBox(height: size * 0.05),
-          SizedBox(
-            width: 67,
-            child: Divider(
-              color: AppColorSchema.of(context).lineColor,
-              thickness: 4,
-            ),
-          ),
+          const AuthLoginDivider(),
           TextBase(
             text: l10n.otp_authentication,
             fontSize: 20,

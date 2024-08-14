@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/email_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/password_form.dart';
@@ -39,13 +40,7 @@ class LoginFormState extends State<LoginForm> {
             Assets.iconLogo,
           ),
           SizedBox(height: size * 0.05),
-          SizedBox(
-            width: 67,
-            child: Divider(
-              color: AppColorSchema.of(context).lineColor,
-              thickness: 4,
-            ),
-          ),
+          const AuthLoginDivider(),
           TextBase(
             text: l10n.login,
             fontSize: 20,
