@@ -9,6 +9,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
+      showSafeArea: true,
       showAppBar: false,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

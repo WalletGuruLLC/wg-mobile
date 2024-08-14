@@ -3,7 +3,7 @@
   "title": "Title",
   "email": "Email",
   "password": "Password",
-  "title_register": "titulo",
+  "title_register": "Register",
   "confirm_password": "Confirm Password",
   "login": "Login",
   "sing_up_here": "Don't have an account? Sign up here",

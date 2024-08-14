@@ -63,12 +63,12 @@ class LoginFormState extends State<LoginForm> {
         SizedBox(height: size * 0.1),
         EmailForm(
           initialValue: _email,
-          onChanged: _onEmailChanged,
+          onChanged: (value) => _onFormChanged('email', value),
         ),
         SizedBox(height: size * 0.05),
         PasswordForm(
           initialValue: _password,
-          onChanged: _onPasswordChanged,
+          onChanged: (value) => _onFormChanged('password', value),
         ),
         SizedBox(height: size * 0.025),
         TextBase(
@@ -90,7 +90,7 @@ class LoginFormState extends State<LoginForm> {
           text: l10n.login,
           fontSize: 20,
           fontWeight: FontWeight.w400,
-          onPressed: _validateStepOne,
+          onPressed: () => _onButtonPressed('validateStepOne'),
         ),
       ],
     );
@@ -123,10 +123,10 @@ class LoginFormState extends State<LoginForm> {
           fontSize: 16,
           fontWeight: FontWeight.w400,
         ),
-        SizedBox(height: size * 0.1),
+        SizedBox(height: size * 0.05),
         OtpForm(
           initialValue: _otp,
-          onChanged: _onOtpChanged,
+          onChanged: (value) => _onFormChanged('otp', value),
         ),
         SizedBox(height: size * 0.025),
         TextBase(
@@ -134,7 +134,7 @@ class LoginFormState extends State<LoginForm> {
             text: l10n.valid_code_time,
             fontSize: 16,
             fontWeight: FontWeight.w400),
-        SizedBox(height: size * 0.4),
+        SizedBox(height: size * 0.35),
         CustomButton(
           border:
               Border.all(color: AppColorSchema.of(context).buttonBorderColor),
@@ -142,7 +142,7 @@ class LoginFormState extends State<LoginForm> {
           text: l10n.verify,
           fontSize: 20,
           fontWeight: FontWeight.w400,
-          onPressed: _validateOtp,
+          onPressed: () => _onButtonPressed('validateOtp'),
         ),
         SizedBox(height: size * 0.025),
         TextBase(
@@ -154,35 +154,38 @@ class LoginFormState extends State<LoginForm> {
     );
   }
 
-  void _onEmailChanged(String? value, bool isValid) {
+  // Method to handle form changes
+  void _onFormChanged(String formType, String? value) {
     setState(() {
-      _email = value;
+      switch (formType) {
+        case 'email':
+          _email = value;
+          break;
+        case 'password':
+          _password = value;
+          break;
+        case 'otp':
+          _otp = value;
+          break;
+      }
     });
   }
 
-  void _onPasswordChanged(String? value, bool isValid) {
-    setState(() {
-      _password = value;
-    });
-  }
-
-  void _onOtpChanged(String? value, bool isValid) {
-    setState(() {
-      _otp = value;
-    });
-  }
-
-  void _validateStepOne() {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _currentStep = FormStep.validateOtp; // Cambiar al segundo paso
-      });
-    }
-  }
-
-  void _validateOtp() {
-    if (_formKey.currentState!.validate()) {
-      debugPrint('Validate OTP');
+  // Method to handle button actions
+  void _onButtonPressed(String action) {
+    switch (action) {
+      case 'validateStepOne':
+        if (_formKey.currentState!.validate()) {
+          setState(() {
+            _currentStep = FormStep.validateOtp;
+          });
+        }
+        break;
+      case 'validateOtp':
+        if (_formKey.currentState!.validate()) {
+          debugPrint('Validate OTP');
+        }
+        break;
     }
   }
 }

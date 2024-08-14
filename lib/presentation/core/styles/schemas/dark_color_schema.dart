@@ -110,4 +110,7 @@ class DarkColorScheme implements AppCustomColors {
 
   @override
   Color get buttonBorderColor => const Color(0xFF3C93BE);
+
+  @override
+  Color get secondaryButtonBorderColor => const Color(0xFFDDDDDD);
 }

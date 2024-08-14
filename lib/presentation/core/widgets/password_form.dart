@@ -7,7 +7,7 @@ import 'package:wallet_guru/application/core/validations/validations.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 
 class PasswordForm extends StatefulWidget {
-  final void Function(String?, bool)? onChanged;
+  final void Function(String?)? onChanged;
   final String? initialValue;
   final String? hintText;
   final bool enabled;

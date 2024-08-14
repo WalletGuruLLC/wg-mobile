@@ -82,13 +82,13 @@ class RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  void _onEmailChanged(String? value, bool isValid) {
+  void _onEmailChanged(String? value) {
     setState(() {
       _email = value;
     });
   }
 
-  void _onPasswordChanged(String? value, bool isValid) {
+  void _onPasswordChanged(String? value) {
     setState(() {
       _password = value;
     });
