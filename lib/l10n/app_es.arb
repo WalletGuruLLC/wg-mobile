@@ -2,5 +2,7 @@
   "@@locale": "es",
   "title": "titulo",
   "email": "Correo",
-  "password": "Contraseña"
+  "password": "Contraseña",
+  "title_register": "Regístrate",
+  "confirm_password": "Confirmar Contraseña"
 }
