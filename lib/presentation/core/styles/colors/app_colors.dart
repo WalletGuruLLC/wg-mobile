@@ -10,7 +10,7 @@ abstract class AppCustomColors {
   Color get inputColor;
   Color get primaryText;
   Color get secondaryText;
-  Color get terciaryText;
+  Color get tertiaryText;
   Color get accentText;
   Color get lightText;
   Color get darkText;

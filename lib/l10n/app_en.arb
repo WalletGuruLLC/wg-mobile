@@ -7,5 +7,11 @@
   "confirm_password": "Confirm Password",
   "login": "Login",
   "sing_up_here": "Don't have an account? Sign up here",
-  "forgot_password": "Forgot password?"
+  "forgot_password": "Forgot password?",
+  "enter_auth_code": "Enter your authentication code",
+  "otp_authentication": "Two-Factor Authentication",
+  "otp_authentication_description": "A unique code has been sent to your email address. Please check your inbox and enter the code below",
+  "valid_code_time": "Your code is valid up to 00:30 s",
+  "resend_code": "Resend Code",
+  "verify": "Verify"
 }
