@@ -4,5 +4,8 @@
   "email": "Email",
   "password": "Password",
   "title_register": "titulo",
-  "confirm_password": "Confirm Password"
+  "confirm_password": "Confirm Password",
+  "login": "Login",
+  "sing_up_here": "Don't have an account? Sign up here",
+  "forgot_password": "Forgot password?"
 }

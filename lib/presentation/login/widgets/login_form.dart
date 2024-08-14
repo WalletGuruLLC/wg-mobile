@@ -5,6 +5,7 @@ import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/email_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/password_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -20,6 +21,7 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     double size = MediaQuery.of(context).size.height;
     return Form(
       key: _formKey,
@@ -37,8 +39,8 @@ class LoginFormState extends State<LoginForm> {
               thickness: 4,
             ),
           ),
-          const TextBase(
-            text: 'Login',
+          TextBase(
+            text: l10n.login,
             fontSize: 20,
             fontWeight: FontWeight.w400,
           ),
@@ -55,13 +57,13 @@ class LoginFormState extends State<LoginForm> {
           SizedBox(height: size * 0.025),
           TextBase(
               color: AppColorSchema.of(context).terciaryText,
-              text: 'Don\'t have an account? Sign up here',
+              text: l10n.sing_up_here,
               fontSize: 16,
               fontWeight: FontWeight.w400),
           SizedBox(height: size * 0.025),
           TextBase(
               color: AppColorSchema.of(context).terciaryText,
-              text: 'Forgot password?',
+              text: l10n.forgot_password,
               fontSize: 16,
               fontWeight: FontWeight.w400),
           SizedBox(height: size * 0.2),
@@ -69,7 +71,7 @@ class LoginFormState extends State<LoginForm> {
             border:
                 Border.all(color: AppColorSchema.of(context).buttonBorderColor),
             color: Colors.transparent,
-            text: 'Login',
+            text: l10n.login,
             fontSize: 20,
             fontWeight: FontWeight.w400,
             onPressed: () {
