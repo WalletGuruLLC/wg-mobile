@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallet_guru/application/core/state_provider.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
@@ -16,23 +17,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: router,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: AppColorSchema.of(context).primary,
-        scaffoldBackgroundColor: AppColorSchema.of(context).scaffoldColor,
-        cardColor: AppColorSchema.of(context).cardColor,
-        progressIndicatorTheme: ProgressIndicatorThemeData(
-          color: AppColorSchema.of(context).primary,
+    return WalletGuruStateProvider(
+      child: MaterialApp.router(
+        routerConfig: router,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primaryColor: AppColorSchema.of(context).primary,
+          scaffoldBackgroundColor: AppColorSchema.of(context).scaffoldColor,
+          cardColor: AppColorSchema.of(context).cardColor,
+          progressIndicatorTheme: ProgressIndicatorThemeData(
+            color: AppColorSchema.of(context).primary,
+          ),
+          bottomAppBarTheme: BottomAppBarTheme(
+            color: AppColorSchema.of(context).scaffoldColor,
+          ),
         ),
-        bottomAppBarTheme: BottomAppBarTheme(
-          color: AppColorSchema.of(context).scaffoldColor,
-        ),
+        color: AppColorSchema.of(context).primary,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
       ),
-      color: AppColorSchema.of(context).primary,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
@@ -90,30 +93,24 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: Container(
+          color: Colors.red,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              Container(
+                color: Colors.green,
+                child: Image.asset(
+                  'assets/asset_14.png',
+                  width: 100,
+                  height: 100,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
