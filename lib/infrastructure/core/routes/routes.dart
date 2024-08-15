@@ -5,5 +5,7 @@ class Routes {
   static final splash = Route(path: '/splash', name: 'splash');
   static final signUp = Route(path: '/signUp', name: 'signUp');
   static final logIn = Route(path: '/logIn', name: 'logIn');
+  static final doubleFactorAuth =
+      Route(path: '/doubleFactorAuth', name: 'doubleFactorAuth');
   static final dashboard = Route(path: '/dashboard', name: 'dashboard');
 }

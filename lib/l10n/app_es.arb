@@ -4,5 +4,14 @@
   "email": "Correo",
   "password": "Contraseña",
   "title_register": "Regístrate",
-  "confirm_password": "Confirmar Contraseña"
+  "confirm_password": "Confirmar Contraseña",
+  "login": "Iniciar sesión",
+  "sing_up_here": "No tienes una cuenta? Regístrate aquí",
+  "forgot_password": "Olvidaste tu contraseña?",
+  "enter_auth_code": "Ingresa código de autenticación",
+  "otp_authentication": "Doble Factor de autenticación",
+  "otp_authentication_description": "Se ha enviado un código único a su dirección de correo electrónico. Compruebe su bandeja de entrada e introduzca el código a continuación",
+  "valid_code_time": "Tu código es válido hasta 00:30 s",
+  "resend_code": "Reenviar código",
+  "verify": "Verificar"
 }

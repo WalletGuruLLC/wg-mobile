@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/email_form.dart';
@@ -30,13 +31,7 @@ class RegisterFormState extends State<RegisterForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           SizedBox(height: size * 0.05),
-          SizedBox(
-            width: 67,
-            child: Divider(
-              color: AppColorSchema.of(context).lineColor,
-              thickness: 4,
-            ),
-          ),
+          const AuthLoginDivider(),
           const TextBase(
             text: 'Sign Up',
             fontSize: 20,
@@ -82,13 +77,13 @@ class RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  void _onEmailChanged(String? value, bool isValid) {
+  void _onEmailChanged(String? value) {
     setState(() {
       _email = value;
     });
   }
 
-  void _onPasswordChanged(String? value, bool isValid) {
+  void _onPasswordChanged(String? value) {
     setState(() {
       _password = value;
     });

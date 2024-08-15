@@ -6,7 +6,7 @@ import 'base_text_form_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EmailForm extends StatelessWidget {
-  final void Function(String?, bool)? onChanged;
+  final void Function(String?)? onChanged;
   final String? initialValue;
   final bool enabled;
   final bool allowNull;
@@ -43,7 +43,7 @@ class EmailForm extends StatelessWidget {
             height: 20,
           ),
           hintText: l10n.email,
-          validator: (value, context) => Validators.validatePhoneNumber(value),
+          validator: (value, context) => Validators.validateEmail(value),
           onChanged: onChanged,
         ),
       ],
