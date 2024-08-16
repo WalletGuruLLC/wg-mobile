@@ -56,7 +56,7 @@ class _PasswordFormState extends State<PasswordForm> {
               });
             },
             child: Image.asset(
-              Assets.passwordLogo,
+              _obscureText ? Assets.passwordLogo : Assets.viewPasswordLogo,
               width: 20,
               height: 20,
             ),
