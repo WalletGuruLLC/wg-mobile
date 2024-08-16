@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class WalletGuruLayout extends StatelessWidget {
-  final Widget body;
+  //final Widget body;
+  final List<Widget> children;
+  final MainAxisAlignment? mainAxisAlignment;
+  final CrossAxisAlignment? crossAxisAlignment;
   final PreferredSizeWidget? customAppBar;
   final bool showAppBar;
   final bool showBackButton;
@@ -13,7 +17,9 @@ class WalletGuruLayout extends StatelessWidget {
 
   const WalletGuruLayout({
     super.key,
-    required this.body,
+    required this.children,
+    this.mainAxisAlignment,
+    this.crossAxisAlignment,
     this.pageAppbarTitle,
     this.showAppBar = true,
     this.showBackButton = false,
@@ -35,9 +41,18 @@ class WalletGuruLayout extends StatelessWidget {
               ? null // HEADER SHOULD BE HERE
               : null,
           body: SafeArea(
-              top: showSafeArea == true ? true : false,
-              bottom: showSafeArea == true ? true : false,
-              child: body),
+            top: showSafeArea == true ? true : false,
+            bottom: showSafeArea == true ? true : false,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+                crossAxisAlignment:
+                    crossAxisAlignment ?? CrossAxisAlignment.center,
+                children: children,
+              ),
+            ),
+          ),
           bottomNavigationBar: showBottomNavigationBar
               ? null //BOTTOM NAVIGATION SHOULD BE HERE
               : null),

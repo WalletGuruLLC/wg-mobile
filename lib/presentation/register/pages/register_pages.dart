@@ -10,20 +10,22 @@ class RegisterPages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WalletGuruLayout(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            Image.asset(
-              Assets.iconLogo,
-            ),
-            const RegisterForm()
-          ],
-        ),
-      ),
       showBackButton: false,
       showBottomNavigationBar: true,
       showAppBar: false,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              Image.asset(
+                Assets.iconLogo,
+              ),
+              const RegisterForm()
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
