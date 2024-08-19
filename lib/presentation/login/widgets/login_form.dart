@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
-import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/email_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/password_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -57,11 +58,14 @@ class LoginFormState extends State<LoginForm> {
             onChanged: (value) => _onFormChanged('password', value),
           ),
           SizedBox(height: size * 0.025),
-          TextBase(
-              color: AppColorSchema.of(context).tertiaryText,
-              text: l10n.sing_up_here,
-              fontSize: 16,
-              fontWeight: FontWeight.w400),
+          GestureDetector(
+            onTap: () => GoRouter.of(context).pushNamed(Routes.signUp.name),
+            child: TextBase(
+                color: AppColorSchema.of(context).tertiaryText,
+                text: l10n.sing_up_here,
+                fontSize: 16,
+                fontWeight: FontWeight.w400),
+          ),
           SizedBox(height: size * 0.025),
           TextBase(
               color: AppColorSchema.of(context).tertiaryText,

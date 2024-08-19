@@ -25,7 +25,7 @@ class Validators {
       return 'Please enter a password';
     }
     const pattern =
-        r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$&*~]).{8,12}$';
+        r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$&*~`%^&*()_+\-=\[\]{};:"\\|,.<>\/?]).{8,12}$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Password must be 8-12 characters long and include at least one number, one uppercase letter, one lowercase letter, and one special character';

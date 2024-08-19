@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/email_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/password_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -65,12 +67,10 @@ class RegisterFormState extends State<RegisterForm> {
             border:
                 Border.all(color: AppColorSchema.of(context).buttonBorderColor),
             color: Colors.transparent,
-            text: 'Login',
+            text: 'Sing Up',
             fontSize: 20,
             fontWeight: FontWeight.w400,
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {}
-            },
+            onPressed: () => _onButtonPressed('validateStepOne'),
           ),
         ],
       ),
@@ -87,5 +87,14 @@ class RegisterFormState extends State<RegisterForm> {
     setState(() {
       _password = value;
     });
+  }
+
+  // Method to handle button actions
+  void _onButtonPressed(String action) {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name);
+      });
+    }
   }
 }

@@ -11,14 +11,16 @@ class AuthenticationPage extends StatelessWidget {
     return WalletGuruLayout(
       showSafeArea: true,
       showAppBar: false,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-        child: SizedBox(
-          width: size.width * 0.90,
-          height: size.height,
-          child: const AuthenticationForm(),
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+          child: SizedBox(
+            width: size.width * 0.90,
+            height: size.height,
+            child: const AuthenticationForm(),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

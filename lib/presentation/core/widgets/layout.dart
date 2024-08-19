@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+
+import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class WalletGuruLayout extends StatelessWidget {
-  final Widget body;
+  final List<Widget> children;
+  final MainAxisAlignment? mainAxisAlignment;
+  final CrossAxisAlignment? crossAxisAlignment;
   final PreferredSizeWidget? customAppBar;
   final bool showAppBar;
   final bool showBackButton;
@@ -13,7 +19,9 @@ class WalletGuruLayout extends StatelessWidget {
 
   const WalletGuruLayout({
     super.key,
-    required this.body,
+    required this.children,
+    this.mainAxisAlignment,
+    this.crossAxisAlignment,
     this.pageAppbarTitle,
     this.showAppBar = true,
     this.showBackButton = false,
@@ -30,19 +38,32 @@ class WalletGuruLayout extends StatelessWidget {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-          backgroundColor: AppColorSchema.of(context).scaffoldColor,
-          appBar: showAppBar
-              ? null // HEADER SHOULD BE HERE
-              : null,
-          body: SafeArea(
-              top: showSafeArea == true ? true : false,
-              bottom: showSafeArea == true ? true : false,
-              child: body),
-          bottomNavigationBar: showBottomNavigationBar
-              ? null //BOTTOM NAVIGATION SHOULD BE HERE
-              : null),
+        backgroundColor: AppColorSchema.of(context).scaffoldColor,
+        appBar: showAppBar ? customAppBar : null,
+        body: SafeArea(
+          top: showSafeArea,
+          bottom: showSafeArea,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment:
+                    mainAxisAlignment ?? MainAxisAlignment.center,
+                crossAxisAlignment:
+                    crossAxisAlignment ?? CrossAxisAlignment.center,
+                children: children,
+              ),
+            ),
+          ),
+        ),
+        bottomNavigationBar: showBottomNavigationBar
+            ? null //BOTTOM NAVIGATION SHOULD BE HERE
+            : null,
+      ),
     );
   }
+}
+
 
   // int getSelectedIndex(String currentRoute) {
   //   switch (currentRoute) {
@@ -60,4 +81,4 @@ class WalletGuruLayout extends StatelessWidget {
   //       return 0;
   //   }
   // }
-}
+
