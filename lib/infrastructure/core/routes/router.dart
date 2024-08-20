@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
 import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
 import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
@@ -31,6 +32,11 @@ class WalletGuruRouter {
       name: Routes.doubleFactorAuth.name,
       path: Routes.doubleFactorAuth.path,
       builder: (context, state) => const AuthenticationPage(),
+    ),
+    GoRoute(
+      name: Routes.createWallet.name,
+      path: Routes.createWallet.path,
+      builder: (context, state) => const CreateWalletPage(),
     ),
   ];
 }

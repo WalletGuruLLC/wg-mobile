@@ -27,7 +27,7 @@ class DarkColorScheme implements AppCustomColors {
   Color get primaryText => const Color(0xFFFFFFFF);
 
   @override
-  Color get secondaryText => const Color(0xFFFFFFFF);
+  Color get secondaryText => const Color(0xFF232020);
 
   @override
   Color get tertiaryText => const Color(0xFF3678B1);
@@ -48,7 +48,7 @@ class DarkColorScheme implements AppCustomColors {
   Color get successText => const Color(0xFF067647);
 
   @override
-  Color get buttonColor => const Color(0xFF1DA1F2);
+  Color get buttonColor => const Color(0xFF3678B1);
 
   @override
   Color get buttonTextColor => const Color(0xFFFFFFFF);
@@ -113,4 +113,7 @@ class DarkColorScheme implements AppCustomColors {
 
   @override
   Color get secondaryButtonBorderColor => const Color(0xFFDDDDDD);
+
+  @override
+  Color get modalPrincipalColor => const Color(0xFFFAFAFA);
 }

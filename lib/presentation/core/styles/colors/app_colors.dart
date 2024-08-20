@@ -37,4 +37,5 @@ abstract class AppCustomColors {
   Color get lineColor;
   Color get buttonBorderColor;
   Color get secondaryButtonBorderColor;
+  Color get modalPrincipalColor;
 }
