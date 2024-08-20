@@ -66,4 +66,14 @@ class Validators {
     }
     return null;
   }
+
+  static String? validateAddress(String? value, [BuildContext? context]) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your address';
+    }
+    if (value.length < 5) {
+      return 'Please enter a valid address';
+    }
+    return null;
+  }
 }

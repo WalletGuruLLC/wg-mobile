@@ -48,7 +48,7 @@ class DarkColorScheme implements AppCustomColors {
   Color get successText => const Color(0xFF067647);
 
   @override
-  Color get buttonColor => const Color(0xFF1DA1F2);
+  Color get buttonColor => const Color(0xFF3678B1);
 
   @override
   Color get buttonTextColor => const Color(0xFFFFFFFF);

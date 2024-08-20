@@ -8,4 +8,6 @@ class Routes {
   static final doubleFactorAuth =
       Route(path: '/doubleFactorAuth', name: 'doubleFactorAuth');
   static final dashboard = Route(path: '/dashboard', name: 'dashboard');
+  static final createWallet =
+      Route(path: '/createWallet', name: 'createWallet');
 }

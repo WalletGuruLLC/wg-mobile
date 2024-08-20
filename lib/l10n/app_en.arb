@@ -13,5 +13,9 @@
   "otp_authentication_description": "A unique code has been sent to your email address. Please check your inbox and enter the code below",
   "valid_code_time": "Your code is valid up to 00:30 s",
   "resend_code": "Resend Code",
-  "verify": "Verify"
+  "verify": "Verify",
+  "createWalletAddress": "Create Wallet Address",
+  "generateUniqueWallet": "Generate your unique wallet address to securely send, receive, and store your digital assets.",
+  "addressName": "Address Name",
+  "enterAddressName": "Enter a address name"
 }

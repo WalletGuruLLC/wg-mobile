@@ -13,5 +13,9 @@
   "otp_authentication_description": "Se ha enviado un código único a su dirección de correo electrónico. Compruebe su bandeja de entrada e introduzca el código a continuación",
   "valid_code_time": "Tu código es válido hasta 00:30 s",
   "resend_code": "Reenviar código",
-  "verify": "Verificar"
+  "verify": "Verificar",
+  "createWalletAddress": "Crear Dirección de Billetera",
+  "generateUniqueWallet": "Genera tu dirección de billetera única para enviar, recibir y almacenar tus activos digitales de manera segura.",
+  "addressName": "Nombre de la Dirección",
+   "enterAddressName": "Ingrese el nombre de dirección"
 }
