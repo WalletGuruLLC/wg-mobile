@@ -27,7 +27,7 @@ class LightColorSchema implements AppCustomColors {
   Color get primaryText => const Color(0xFFFFFFFF);
 
   @override
-  Color get secondaryText => const Color(0xFFFFFFFF);
+  Color get secondaryText => const Color(0xFF232020);
 
   @override
   Color get tertiaryText => const Color(0xFF3678B1);
@@ -112,4 +112,7 @@ class LightColorSchema implements AppCustomColors {
 
   @override
   Color get secondaryButtonBorderColor => const Color(0xFFDDDDDD);
+
+  @override
+  Color get modalPrincipalColor => const Color(0xFFFAFAFA);
 }

@@ -17,5 +17,8 @@
   "createWalletAddress": "Create Wallet Address",
   "generateUniqueWallet": "Generate your unique wallet address to securely send, receive, and store your digital assets.",
   "addressName": "Address Name",
-  "enterAddressName": "Enter a address name"
+  "enterAddressName": "Enter a address name",
+  "enterDesiredName": "Enter your desired address name (e.g., \"manuel\") in the input bellow.",
+  "walletSuccessMessage": "Wallet Address Created Successfully!",
+  "continueCheckingProfile": "Your wallet address is ready. You can easily share it by checking your profile."
 }

@@ -42,7 +42,7 @@ class _WalletAddressFormState extends State<WalletAddressForm> {
           enabled: widget.enabled,
           initialValue: widget.initialValue,
           keyboardType: TextInputType.text,
-          hintText: widget.hintText ?? l10n.enterAddressName,
+          hintText: l10n.enterAddressName,
           hintStyle: AppTextStyles.formText,
           onChanged: widget.onChanged,
           validator: (value, context) => Validators.validateAddress(value),

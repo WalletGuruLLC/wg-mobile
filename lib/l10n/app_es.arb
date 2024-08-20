@@ -17,5 +17,16 @@
   "createWalletAddress": "Crear Dirección de Billetera",
   "generateUniqueWallet": "Genera tu dirección de billetera única para enviar, recibir y almacenar tus activos digitales de manera segura.",
   "addressName": "Nombre de la Dirección",
-   "enterAddressName": "Ingrese el nombre de dirección"
+  "enterAddressName": "Ingrese el nombre de dirección",
+  "enterDesiredName": "Ingrese el nombre de dirección deseado (por ejemplo, 'manuel') en el campo de abajo.",
+  "walletSuccessMessage": "Dirección de billetera creada!",
+  "continueCheckingProfile": "Tu dirección de billetera está lista. Puedes compartirla fácilmente revisando tu perfil."
+
+
+
+
+
+
+
+  
 }
