@@ -116,24 +116,25 @@ class CreateWalletFormState extends State<CreateWalletForm> {
         final l10n = AppLocalizations.of(context)!;
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
-          content: Center(
-            child: Column(
-              children: [
-                TextBase(
-                  text: l10n.walletSuccessMessage,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: AppColorSchema.of(context).secondaryText,
-                ),
-                SizedBox(height: size * 0.005),
-                TextBase(
-                  text: l10n.continueCheckingProfile,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: AppColorSchema.of(context).secondaryText,
-                ),
-              ],
-            ),
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.walletSuccessMessage,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.continueCheckingProfile,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
           ),
         );
       },

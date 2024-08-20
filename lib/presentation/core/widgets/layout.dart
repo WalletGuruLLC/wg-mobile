@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-
-import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class WalletGuruLayout extends StatelessWidget {

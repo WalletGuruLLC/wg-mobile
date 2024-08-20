@@ -17,7 +17,7 @@ class BaseModal extends StatelessWidget {
     super.key,
     this.content,
     this.widthFactor = 0.9,
-    this.heightFactor = 0.40,
+    this.heightFactor = 0.26,
     this.borderRadius = 12,
     this.paddingValue = 20,
     this.buildFooter,
