@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/dynamic_container.dart';
 
 class BaseModal extends StatelessWidget {
   final Widget? content;
@@ -42,28 +43,35 @@ class BaseModal extends StatelessWidget {
           sigmaX: blurFactor,
           sigmaY: blurFactor,
         ),
-        child: FractionallySizedBox(
-          widthFactor: widthFactor,
-          heightFactor: heightFactor,
-          child: Container(
-            padding: EdgeInsets.all(paddingValue!),
-            decoration: BoxDecoration(
-              color: modalColor,
-              borderRadius: BorderRadius.circular(borderRadius!),
-              border: Border.all(color: Colors.black, width: 0),
-            ),
-            child: content != null
-                ? Material(
-                    color: Colors.transparent,
-                    child: Column(
-                      children: [
-                        _buildCloseButton(context),
-                        Center(child: content!),
-                        if (buildFooter != null) buildFooter!(),
-                      ],
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width *
+                    0.05), // 5% en each side
+            child: DynamicContainer(
+                // DynamicContainer is a custom widget to handle responsive design
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(paddingValue!),
+                    decoration: BoxDecoration(
+                      color: modalColor,
+                      borderRadius: BorderRadius.circular(borderRadius!),
+                      border: Border.all(color: Colors.black, width: 0),
                     ),
-                  )
-                : Container(),
+                    child: content != null
+                        ? Material(
+                            color: Colors.transparent,
+                            child: Column(
+                              children: [
+                                _buildCloseButton(context),
+                                Center(child: content!),
+                                if (buildFooter != null) buildFooter!(),
+                              ],
+                            ),
+                          )
+                        : Container(),
+                  ),
+                ]),
           ),
         ),
       ),

@@ -22,7 +22,7 @@ class TextBase extends StatelessWidget {
     this.textAlign,
     this.fontStyle,
     this.decoration,
-    this.maxLines = 3,
+    this.maxLines = 5,
     this.textStyle,
   });
 
