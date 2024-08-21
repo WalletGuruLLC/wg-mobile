@@ -1,4 +1,3 @@
-
 import 'package:either_dart/either.dart';
 import 'package:wallet_guru/domain/core/entities/user_entity.dart';
 import 'package:wallet_guru/domain/core/models/invalid_data.dart';
@@ -11,10 +10,11 @@ class RegisterRepositoryImpl extends RegisterRepository {
   RegisterRepositoryImpl({required this.registerDataSource});
 
   @override
-  Future<Either<InvalidData, UserEntity>> creationUser(UserEntity createUser) async {
+  Future<Either<InvalidData, UserEntity>> creationUser(
+      String email, String password) async {
     try {
       final UserEntity response =
-          await registerDataSource.creationUser(createUser);
+          await registerDataSource.creationUser(email, password);
       return Right(response);
     } on InvalidData catch (invalidData) {
       return Left(invalidData);

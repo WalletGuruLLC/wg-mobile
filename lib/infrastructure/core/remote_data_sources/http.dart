@@ -37,8 +37,12 @@ class HttpDataSource {
   static Future<dynamic> post(String path, Map<String, dynamic> data) async {
     final body = encode(data);
     Uri uri = Uri.parse(path);
-    final response = await http.post(uri, body: body, headers: _headers);
-    return _processResponse(response);
+    try {
+      final response = await http.post(uri, body: body, headers: _headers);
+      return response;
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
   }
 
   // Makes PUT requests to the backend at the specified endpoint with data
@@ -73,7 +77,7 @@ class HttpDataSource {
         throw Exception('Unauthorized: ${response.body}');
       case 500:
       default:
-        throw Exception('Error: ${response.body}');
+        throw Exception(response);
     }
   }
 }
