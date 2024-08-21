@@ -5,11 +5,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/email_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/password_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
-import 'package:wallet_guru/presentation/core/widgets/email_form.dart';
+
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
-import 'package:wallet_guru/presentation/core/widgets/password_form.dart';
+
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';

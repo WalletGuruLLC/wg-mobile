@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'base_text_form_field.dart';
-import 'package:wallet_guru/presentation/core/assets/assets.dart';
-import 'package:wallet_guru/application/core/validations/validations.dart';
+import 'forms/base_text_form_field.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 
-class PasswordForm extends StatefulWidget {
+class OtpForm extends StatefulWidget {
   final void Function(String?)? onChanged;
   final String? initialValue;
   final String? hintText;
@@ -14,7 +11,7 @@ class PasswordForm extends StatefulWidget {
   final bool allowNull;
   final String? labelText;
 
-  const PasswordForm({
+  const OtpForm({
     super.key,
     this.initialValue,
     this.hintText,
@@ -25,12 +22,10 @@ class PasswordForm extends StatefulWidget {
   });
 
   @override
-  State<PasswordForm> createState() => _PasswordFormState();
+  State<OtpForm> createState() => _OtpFormState();
 }
 
-class _PasswordFormState extends State<PasswordForm> {
-  bool _obscureText = true;
-
+class _OtpFormState extends State<OtpForm> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -46,22 +41,8 @@ class _PasswordFormState extends State<PasswordForm> {
           enabled: widget.enabled,
           initialValue: widget.initialValue,
           keyboardType: TextInputType.text,
-          obscureText: _obscureText,
-          hintText: widget.hintText ?? l10n.password,
+          hintText: widget.hintText ?? l10n.enter_auth_code,
           hintStyle: AppTextStyles.formText,
-          suffixIcon: GestureDetector(
-            onTap: () {
-              setState(() {
-                _obscureText = !_obscureText;
-              });
-            },
-            child: Image.asset(
-              _obscureText ? Assets.passwordLogo : Assets.viewPasswordLogo,
-              width: 20,
-              height: 20,
-            ),
-          ),
-          validator: (value, context) => Validators.validatePassword(value),
           onChanged: widget.onChanged,
         ),
       ],
