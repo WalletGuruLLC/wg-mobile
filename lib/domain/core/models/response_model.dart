@@ -25,27 +25,32 @@ class ResponseModel {
 }
 
 class Data {
-  final User user;
+  final User? user;
   final String token;
+  final bool success;
+  final String message;
 
   Data({
     required this.user,
     required this.token,
+    required this.success,
+    required this.message,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        user: User.fromJson(json["user"]),
-        token: json["token"],
+        user: json["user"] != null
+            ? User.fromJson(json["user"])
+            : User.initialState(),
+        token: json["token"] ?? '',
+        success: json["success"] ?? false,
+        message: json["message"] ?? '',
       );
-
-  Map<String, dynamic> toJson() => {
-        "user": user.toJson(),
-        "token": token,
-      };
 
   factory Data.initialState() => Data(
         user: User.initialState(),
         token: '',
+        success: false,
+        message: '',
       );
 }
 
