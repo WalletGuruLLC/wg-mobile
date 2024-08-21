@@ -51,3 +51,17 @@ Document any new features or changes in the codebase.
 Who do I talk to?
 Repo owner or admin: Cristian Dulcey
 Other community or team contact: Feel free to open an issue in the repository for any questions or discussions.
+
+if you have problems with this import 
+```dart
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+```
+
+run this command in the terminal
+```bash
+flutter gen-l10n
+```
+for update envs run this command
+```bash
+flutter packages pub run build_runner build --delete-conflicting-outputs
+```
