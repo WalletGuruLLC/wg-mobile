@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
@@ -17,6 +19,13 @@ class AuthenticationForm extends StatefulWidget {
 class AuthenticationFormState extends State<AuthenticationForm> {
   final _formKey = GlobalKey<FormState>();
   String? _otp;
+  late LoginCubit loginCubit;
+
+  @override
+  void initState() {
+    loginCubit = BlocProvider.of<LoginCubit>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +60,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
           SizedBox(height: size * 0.05),
           OtpForm(
             initialValue: _otp,
-            onChanged: (value) => _onFormChanged('otp', value),
+            onChanged: _onFormChanged,
           ),
           SizedBox(height: size * 0.025),
           TextBase(
@@ -81,20 +90,19 @@ class AuthenticationFormState extends State<AuthenticationForm> {
   }
 
   // Method to handle form changes
-  void _onFormChanged(String formType, String? value) {
+  void _onFormChanged(String? value) {
     setState(() {
-      switch (formType) {
-        case 'otp':
-          _otp = value;
-          break;
-      }
+      _otp = value;
+      loginCubit.setOtp(value);
     });
   }
 
   // Method to handle button actions
   void _onButtonPressed(String action) {
     if (_formKey.currentState!.validate()) {
-      setState(() {});
+      setState(() {
+        loginCubit.emitVerifyEmailOtp();
+      });
     }
   }
 }

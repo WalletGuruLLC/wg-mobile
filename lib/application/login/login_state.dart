@@ -5,11 +5,17 @@ class LoginState extends Equatable {
   final String password;
   final String token;
   final FormSubmissionStatus formStatus;
+  final String otp;
+  final String customMessage;
+  final String customMessageEs;
 
   const LoginState({
     this.email = '',
     this.password = '',
     this.token = '',
+    this.otp = '',
+    this.customMessage = '',
+    this.customMessageEs = '',
     this.formStatus = const InitialFormStatus(),
   });
 
@@ -18,12 +24,18 @@ class LoginState extends Equatable {
     String? password,
     String? token,
     FormSubmissionStatus? formStatus,
+    String? otp,
+    String? customMessage,
+    String? customMessageEs,
   }) =>
       LoginState(
         email: email ?? this.email,
         password: password ?? this.password,
         formStatus: formStatus ?? this.formStatus,
         token: token ?? this.token,
+        otp: otp ?? this.otp,
+        customMessage: customMessage ?? this.customMessage,
+        customMessageEs: customMessageEs ?? this.customMessageEs,
       );
 
   LoginState initialState() => const LoginState(
@@ -31,6 +43,9 @@ class LoginState extends Equatable {
         password: '',
         formStatus: InitialFormStatus(),
         token: '',
+        otp: '',
+        customMessage: '',
+        customMessageEs: '',
       );
 
   @override
@@ -39,5 +54,8 @@ class LoginState extends Equatable {
         password,
         formStatus,
         token,
+        otp,
+        customMessage,
+        customMessageEs,
       ];
 }
