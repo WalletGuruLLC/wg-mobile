@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:wallet_guru/presentation/core/assets/assets.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
-import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
-import 'package:wallet_guru/presentation/core/widgets/otp_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:wallet_guru/application/login/login_cubit.dart';
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/otp_form.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+
 class AuthenticationForm extends StatefulWidget {
-  const AuthenticationForm({super.key});
+  const AuthenticationForm({super.key, required this.email});
+  final String email;
 
   @override
   State<AuthenticationForm> createState() => AuthenticationFormState();
@@ -17,6 +22,13 @@ class AuthenticationForm extends StatefulWidget {
 class AuthenticationFormState extends State<AuthenticationForm> {
   final _formKey = GlobalKey<FormState>();
   String? _otp;
+  late LoginCubit loginCubit;
+
+  @override
+  void initState() {
+    loginCubit = BlocProvider.of<LoginCubit>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +63,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
           SizedBox(height: size * 0.05),
           OtpForm(
             initialValue: _otp,
-            onChanged: (value) => _onFormChanged('otp', value),
+            onChanged: _onFormChanged,
           ),
           SizedBox(height: size * 0.025),
           TextBase(
@@ -60,14 +72,28 @@ class AuthenticationFormState extends State<AuthenticationForm> {
               fontSize: 16,
               fontWeight: FontWeight.w400),
           SizedBox(height: size * 0.35),
-          CustomButton(
-            border: Border.all(
-                color: AppColorSchema.of(context).secondaryButtonBorderColor),
-            color: Colors.transparent,
-            text: l10n.verify,
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            onPressed: () => _onButtonPressed('validateOtp'),
+          BlocConsumer<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state.formStatusOtp is SubmissionSuccess) {
+                print('validacion con exito');
+                //GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name);
+              } else if (state.formStatusOtp is SubmissionFailed) {
+                //_buildSuccessfulModal();
+                print('fallo');
+              }
+            },
+            builder: (context, state) {
+              return CustomButton(
+                border: Border.all(
+                    color:
+                        AppColorSchema.of(context).secondaryButtonBorderColor),
+                color: Colors.transparent,
+                text: l10n.verify,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                onPressed: () => _onButtonPressed('validateOtp'),
+              );
+            },
           ),
           SizedBox(height: size * 0.025),
           TextBase(
@@ -81,20 +107,19 @@ class AuthenticationFormState extends State<AuthenticationForm> {
   }
 
   // Method to handle form changes
-  void _onFormChanged(String formType, String? value) {
+  void _onFormChanged(String? value) {
     setState(() {
-      switch (formType) {
-        case 'otp':
-          _otp = value;
-          break;
-      }
+      _otp = value;
+      loginCubit.setOtp(value);
     });
   }
 
   // Method to handle button actions
   void _onButtonPressed(String action) {
     if (_formKey.currentState!.validate()) {
-      setState(() {});
+      setState(() {
+        loginCubit.emitVerifyEmailOtp(widget.email);
+      });
     }
   }
 }

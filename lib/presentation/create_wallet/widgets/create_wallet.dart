@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/wallet_address_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
 
 class CreateWalletForm extends StatefulWidget {
   const CreateWalletForm({super.key});

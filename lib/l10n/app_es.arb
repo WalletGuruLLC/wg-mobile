@@ -4,6 +4,7 @@
   "email": "Correo",
   "password": "Contraseña",
   "title_register": "Regístrate",
+  "description_register": "Para crear una cuenta, complete la siguiente información.",
   "confirm_password": "Confirmar Contraseña",
   "login": "Iniciar sesión",
   "sing_up_here": "No tienes una cuenta? Regístrate aquí",

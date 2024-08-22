@@ -27,6 +27,7 @@ class HttpDataSource {
   // Makes GET requests to the backend at the specified endpoint
   // Returns: Future with the result of the query
   static Future<dynamic> get(String path) async {
+    await setHeaders();
     Uri uri = Uri.parse(path);
     final response = await http.get(uri, headers: _headers);
     return _processResponse(response);
@@ -35,15 +36,21 @@ class HttpDataSource {
   // Makes POST requests to the backend at the specified endpoint with data
   // Returns: Future with the result of the query
   static Future<dynamic> post(String path, Map<String, dynamic> data) async {
+    await setHeaders();
     final body = encode(data);
     Uri uri = Uri.parse(path);
-    final response = await http.post(uri, body: body, headers: _headers);
-    return _processResponse(response);
+    try {
+      final response = await http.post(uri, body: body, headers: _headers);
+      return response;
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
   }
 
   // Makes PUT requests to the backend at the specified endpoint with data
   // Returns: Future with the result of the query
   static Future<dynamic> put(String path, Map<String, dynamic> data) async {
+    await setHeaders();
     final body = encode(data);
     Uri uri = Uri.parse(path);
     final response = await http.put(uri, body: body, headers: _headers);
@@ -73,7 +80,7 @@ class HttpDataSource {
         throw Exception('Unauthorized: ${response.body}');
       case 500:
       default:
-        throw Exception('Error: ${response.body}');
+        throw Exception(response);
     }
   }
 }

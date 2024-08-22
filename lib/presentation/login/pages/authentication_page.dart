@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/login/widgets/authentication_form.dart';
 
 class AuthenticationPage extends StatelessWidget {
-  const AuthenticationPage({super.key});
+  const AuthenticationPage({super.key, required this.email});
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class AuthenticationPage extends StatelessWidget {
           child: SizedBox(
             width: size.width * 0.90,
             height: size.height,
-            child: const AuthenticationForm(),
+            child: AuthenticationForm(email: email),
           ),
         ),
       ],

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/application/register/register_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:wallet_guru/presentation/core/widgets/email_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
-import 'package:wallet_guru/presentation/core/widgets/password_form.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/email_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/password_form.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -21,11 +25,18 @@ class RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   String? _email;
   String? _password;
+  late RegisterCubit registerCubit;
+
+  @override
+  void initState() {
+    registerCubit = BlocProvider.of<RegisterCubit>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.height;
     final l10n = AppLocalizations.of(context)!;
+    double size = MediaQuery.of(context).size.height;
 
     return Form(
       key: _formKey,
@@ -34,14 +45,13 @@ class RegisterFormState extends State<RegisterForm> {
         children: <Widget>[
           SizedBox(height: size * 0.05),
           const AuthLoginDivider(),
-          const TextBase(
-            text: 'Sign Up',
+          TextBase(
+            text: l10n.title_register,
             fontSize: 20,
             fontWeight: FontWeight.w400,
           ),
-          const TextBase(
-            text:
-                'To create an account, please complete the following information',
+          TextBase(
+            text: l10n.description_register,
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
@@ -63,14 +73,26 @@ class RegisterFormState extends State<RegisterForm> {
           ),
           SizedBox(height: size * 0.025),
           SizedBox(height: size * 0.2),
-          CustomButton(
-            border:
-                Border.all(color: AppColorSchema.of(context).buttonBorderColor),
-            color: Colors.transparent,
-            text: 'Sing Up',
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            onPressed: () => _onButtonPressed('validateStepOne'),
+          BlocConsumer<RegisterCubit, RegisterState>(
+            listener: (context, state) {
+              if (state.formStatus is SubmissionSuccess) {
+                GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
+                    extra: state.email);
+              } else if (state.formStatus is SubmissionFailed) {
+                _buildSuccessfulModal();
+              }
+            },
+            builder: (context, state) {
+              return CustomButton(
+                border: Border.all(
+                    color: AppColorSchema.of(context).buttonBorderColor),
+                color: Colors.transparent,
+                text: l10n.title_register,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                onPressed: () => _onButtonPressed('validateStepOne'),
+              );
+            },
           ),
         ],
       ),
@@ -80,21 +102,56 @@ class RegisterFormState extends State<RegisterForm> {
   void _onEmailChanged(String? value) {
     setState(() {
       _email = value;
+      registerCubit.setSignUpEmail(value);
     });
   }
 
   void _onPasswordChanged(String? value) {
     setState(() {
       _password = value;
+      registerCubit.setUserPassword(value);
     });
   }
 
-  // Method to handle button actions
   void _onButtonPressed(String action) {
     if (_formKey.currentState!.validate()) {
       setState(() {
-        GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name);
+        registerCubit.emitUserCreate();
+        //
       });
     }
+  }
+
+  // Method to build the successful modal
+  Future<dynamic> _buildSuccessfulModal() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final l10n = AppLocalizations.of(context)!;
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.walletSuccessMessage,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.continueCheckingProfile,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
