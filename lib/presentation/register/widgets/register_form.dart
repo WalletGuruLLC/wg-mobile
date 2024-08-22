@@ -5,15 +5,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/email_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/password_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
-
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
-
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/email_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/password_form.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -37,8 +35,8 @@ class RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.height;
     final l10n = AppLocalizations.of(context)!;
+    double size = MediaQuery.of(context).size.height;
 
     return Form(
       key: _formKey,
@@ -47,14 +45,13 @@ class RegisterFormState extends State<RegisterForm> {
         children: <Widget>[
           SizedBox(height: size * 0.05),
           const AuthLoginDivider(),
-          const TextBase(
-            text: 'Sign Up',
+          TextBase(
+            text: l10n.title_register,
             fontSize: 20,
             fontWeight: FontWeight.w400,
           ),
-          const TextBase(
-            text:
-                'To create an account, please complete the following information',
+          TextBase(
+            text: l10n.description_register,
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
@@ -79,7 +76,8 @@ class RegisterFormState extends State<RegisterForm> {
           BlocConsumer<RegisterCubit, RegisterState>(
             listener: (context, state) {
               if (state.formStatus is SubmissionSuccess) {
-                GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name);
+                GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
+                    extra: state.email);
               } else if (state.formStatus is SubmissionFailed) {
                 _buildSuccessfulModal();
               }
@@ -89,7 +87,7 @@ class RegisterFormState extends State<RegisterForm> {
                 border: Border.all(
                     color: AppColorSchema.of(context).buttonBorderColor),
                 color: Colors.transparent,
-                text: 'Sing Up',
+                text: l10n.title_register,
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
                 onPressed: () => _onButtonPressed('validateStepOne'),
