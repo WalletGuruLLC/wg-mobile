@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/domain/login/repositories/login_repository.dart';
-import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 
 part 'login_state.dart';
 
@@ -44,14 +45,14 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(otp: otp));
   }
 
-  void emitVerifyEmailOtp() async {
-    emit(state.copyWith(formStatus: FormSubmitting()));
+  void emitVerifyEmailOtp(String email) async {
+    emit(state.copyWith(formStatusOtp: FormSubmitting()));
     final verifyEmailOtp =
-        await registerRepository.verifyEmailOtp(state.email, state.otp);
+        await registerRepository.verifyEmailOtp(email, state.otp);
     verifyEmailOtp.fold(
       (error) {
         emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.message)),
+          formStatusOtp: SubmissionFailed(exception: Exception(error.message)),
         ));
       },
       (verifiedUser) {
@@ -59,7 +60,7 @@ class LoginCubit extends Cubit<LoginState> {
           customMessage: verifiedUser.customCode,
           customMessageEs: verifiedUser.customMessageEs,
           token: verifiedUser.data!.token,
-          formStatus: SubmissionSuccess(),
+          formStatusOtp: SubmissionSuccess(),
         ));
       },
     );

@@ -5,6 +5,7 @@ class LoginState extends Equatable {
   final String password;
   final String token;
   final FormSubmissionStatus formStatus;
+  final FormSubmissionStatus formStatusOtp;
   final String otp;
   final String customMessage;
   final String customMessageEs;
@@ -17,6 +18,7 @@ class LoginState extends Equatable {
     this.customMessage = '',
     this.customMessageEs = '',
     this.formStatus = const InitialFormStatus(),
+    this.formStatusOtp = const InitialFormStatus(),
   });
 
   LoginState copyWith({
@@ -24,6 +26,7 @@ class LoginState extends Equatable {
     String? password,
     String? token,
     FormSubmissionStatus? formStatus,
+    FormSubmissionStatus? formStatusOtp,
     String? otp,
     String? customMessage,
     String? customMessageEs,
@@ -32,6 +35,7 @@ class LoginState extends Equatable {
         email: email ?? this.email,
         password: password ?? this.password,
         formStatus: formStatus ?? this.formStatus,
+        formStatusOtp: formStatusOtp ?? this.formStatusOtp,
         token: token ?? this.token,
         otp: otp ?? this.otp,
         customMessage: customMessage ?? this.customMessage,
@@ -42,6 +46,7 @@ class LoginState extends Equatable {
         email: '',
         password: '',
         formStatus: InitialFormStatus(),
+        formStatusOtp: InitialFormStatus(),
         token: '',
         otp: '',
         customMessage: '',
@@ -53,6 +58,7 @@ class LoginState extends Equatable {
         email,
         password,
         formStatus,
+        formStatusOtp,
         token,
         otp,
         customMessage,
