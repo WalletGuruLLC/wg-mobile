@@ -29,10 +29,12 @@ class WalletGuruRouter {
       builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
-      name: Routes.doubleFactorAuth.name,
-      path: Routes.doubleFactorAuth.path,
-      builder: (context, state) => const AuthenticationPage(),
-    ),
+        name: Routes.doubleFactorAuth.name,
+        path: Routes.doubleFactorAuth.path,
+        builder: (context, state) {
+          final String email = state.extra as String;
+          return AuthenticationPage(email: email);
+        }),
     GoRoute(
       name: Routes.createWallet.name,
       path: Routes.createWallet.path,
