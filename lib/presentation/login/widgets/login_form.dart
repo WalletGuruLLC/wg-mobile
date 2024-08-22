@@ -8,6 +8,7 @@ import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/email_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/password_form.dart';
@@ -82,14 +83,26 @@ class LoginFormState extends State<LoginForm> {
               fontSize: 16,
               fontWeight: FontWeight.w400),
           SizedBox(height: size * 0.2),
-          CustomButton(
-            border:
-                Border.all(color: AppColorSchema.of(context).buttonBorderColor),
-            color: Colors.transparent,
-            text: l10n.login,
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            onPressed: () => _onButtonPressed('validateStepOne'),
+          BlocConsumer<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state.formStatus is SubmissionSuccess) {
+                GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
+                    extra: state.email);
+              } else if (state.formStatus is SubmissionFailed) {
+                print('');
+              }
+            },
+            builder: (context, state) {
+              return CustomButton(
+                border: Border.all(
+                    color: AppColorSchema.of(context).buttonBorderColor),
+                color: Colors.transparent,
+                text: l10n.login,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                onPressed: () => _onButtonPressed('validateStepOne'),
+              );
+            },
           ),
         ],
       ),
@@ -116,7 +129,7 @@ class LoginFormState extends State<LoginForm> {
   void _onButtonPressed(String action) {
     if (_formKey.currentState!.validate()) {
       setState(() {
-        GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name);
+        loginCubit.emitSignInUser();
       });
     }
   }
