@@ -2,7 +2,7 @@ image: cirrusci/flutter:latest
 
 pipelines:
   branches:
-    '{master,development}':
+    'development':
       - step:
           name: APK Assembling
           size: 2x
