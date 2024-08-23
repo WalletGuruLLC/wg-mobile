@@ -6,6 +6,7 @@ pipelines:
       - step:
           name: APK Assembling
           size: 2x
+          deployment: Dev
           caches:
             - gradle
           script:
