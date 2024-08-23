@@ -1,0 +1,20 @@
+image: cirrusci/flutter:latest
+
+pipelines:
+  branches:
+    '{master,development}':
+      - step:
+          name: APK Assembling
+          size: 2x
+          caches:
+            - gradle
+          script:
+            - sed -i "s/#{BASE_URL}#/$BASE_URL/" .env
+            - flutter pub get
+            - flutter gen-l10n
+            - flutter packages pub run build_runner build --delete-conflicting-outputs
+            - flutter analyze --no-fatal-infos --no-fatal-warnings
+            - echo "Building APK"
+            - flutter build apk
+          artifacts:
+            - build/app/outputs/apk/**
