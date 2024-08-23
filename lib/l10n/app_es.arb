@@ -28,7 +28,11 @@
   "lastName": "Apellido",
   "phoneNumber": "Número Telefónica",
   "back": "Atrás",
-  "next": "Avanzar"
+  "next": "Avanzar",
+  "enterFirstName": "Ingrese su nombre",
+  "enterLastName": "Ingrese su apellido",
+  "enterPhoneNumber": "Ingrese su número telefónico"
+
 
 
 

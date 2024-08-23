@@ -17,4 +17,9 @@ class AppTextStyles {
   static final heading = GoogleFonts.lato(fontSize: 18);
   static final body = GoogleFonts.lato(fontSize: 15);
   static final hint = GoogleFonts.lato(fontSize: 13);
+  static final specialFormText = GoogleFonts.lato(
+    color: const Color(0xFFC6C6C6),
+    fontSize: 22,
+    fontWeight: FontWeight.w300,
+  );
 }
