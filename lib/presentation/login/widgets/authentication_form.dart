@@ -27,6 +27,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
   @override
   void initState() {
     loginCubit = BlocProvider.of<LoginCubit>(context);
+    loginCubit.cleanFormStatus();
     super.initState();
   }
 

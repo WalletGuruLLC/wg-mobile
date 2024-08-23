@@ -45,6 +45,10 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(otp: otp));
   }
 
+  void cleanFormStatus() async {
+    emit(state.copyWith(formStatus: const InitialFormStatus()));
+  }
+
   void emitVerifyEmailOtp(String email) async {
     emit(state.copyWith(formStatusOtp: FormSubmitting()));
     final verifyEmailOtp =
