@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
+import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_personal_info_form.dart';
 import 'package:wallet_guru/presentation/create_wallet/widgets/create_wallet.dart';
 
 class CreateProfileOtherInfoPage extends StatelessWidget {
@@ -17,7 +18,7 @@ class CreateProfileOtherInfoPage extends StatelessWidget {
           child: SizedBox(
             width: size.width * 0.90,
             height: size.height,
-            child: const CreateWalletForm(),
+            child: const CreateProfilePersonalInfoForm(),
           ),
         ),
       ],

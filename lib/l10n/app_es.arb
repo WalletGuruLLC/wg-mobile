@@ -31,7 +31,17 @@
   "next": "Avanzar",
   "enterFirstName": "Ingrese su nombre",
   "enterLastName": "Ingrese su apellido",
-  "enterPhoneNumber": "Ingrese su número telefónico"
+  "enterPhoneNumber": "Ingrese su número telefónico",
+  "socialSecurityNumber": "Número de Seguridad Social",
+  "enterSNN": "Ingrese su SSN",
+  "identificationType": "Tipo de Identificación",
+  "selectIdType": "Selecctionar tipo de ID",
+  "identificationNumber": "Número de Identificación",
+  "enterIdNumber": "Ingresa número de ID"
+
+
+
+
 
 
 

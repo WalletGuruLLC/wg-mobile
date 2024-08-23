@@ -52,25 +52,25 @@ class CreateProfileBasicInfoFormState
           FormLabel(label: l10n.firstName),
           FirstNameForm(
             initialValue: _firstName,
-            onChanged: (value) => _onFormChanged(
-                'firstName', value), // Call the corrected _onFormChanged method
+            onChanged: (value) => _onFormChanged('firstName', value),
           ),
           const SizedBox(height: 30),
           FormLabel(label: l10n.lastName),
           LastNameForm(
             initialValue: _lastName,
-            onChanged: (value) => _onFormChanged(
-                'lastName', value), // Call the corrected _onFormChanged method
+            onChanged: (value) => _onFormChanged('lastName', value),
           ),
           const SizedBox(height: 30),
           FormLabel(label: l10n.phoneNumber),
           PhoneNumberForm(
             initialValue: _phoneNumber,
-            onChanged: (value) => _onFormChanged(
-                'Password', value), // Call the corrected _onFormChanged method
+            onChanged: (value) => _onFormChanged('phoneNumber', value),
           ),
           SizedBox(height: size * 0.12),
-          CreateProfileButtons(onPressed1: _onButtonPressed, onPressed2: () {}),
+          CreateProfileButtons(
+            onPressed1: _onBackButtonPressed,
+            onPressed2: _onNextButtonPressed,
+          ),
         ],
       ),
     );
@@ -92,8 +92,12 @@ class CreateProfileBasicInfoFormState
     });
   }
 
+  void _onBackButtonPressed() {
+    Navigator.of(context).pop();
+  }
+
   // Method to handle button actions
-  void _onButtonPressed() {
+  void _onNextButtonPressed() {
     if (_formKey.currentState?.validate() ?? false) {
       // Form is valid, proceed with further actions
       debugPrint('Form is valid');

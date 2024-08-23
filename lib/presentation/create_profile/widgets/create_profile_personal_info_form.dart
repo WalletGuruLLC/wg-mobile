@@ -40,7 +40,7 @@ class CreateProfilePersonalInfoFormState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const UserProfileDescription(),
-          const ProgressBar(currentStep: 2),
+          const ProgressBar(currentStep: 3),
           SizedBox(height: size * 0.030),
           FormLabel(label: l10n.firstName),
           WalletAddressForm(
@@ -62,7 +62,21 @@ class CreateProfilePersonalInfoFormState
             onChanged:
                 _onFormChanged, // Call the corrected _onFormChanged method
           ),
-          SizedBox(height: size * 0.12),
+          const SizedBox(height: 20),
+          FormLabel(label: l10n.phoneNumber),
+          WalletAddressForm(
+            initialValue: _address,
+            onChanged:
+                _onFormChanged, // Call the corrected _onFormChanged method
+          ),
+          const SizedBox(height: 20),
+          FormLabel(label: l10n.phoneNumber),
+          WalletAddressForm(
+            initialValue: _address,
+            onChanged:
+                _onFormChanged, // Call the corrected _onFormChanged method
+          ),
+          SizedBox(height: size * 0.05),
           CreateProfileButtons(onPressed1: () {}, onPressed2: () {}),
         ],
       ),

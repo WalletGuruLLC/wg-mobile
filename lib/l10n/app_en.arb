@@ -31,6 +31,13 @@
   "next": "Next",
   "enterFirstName": "Enter your first name",
   "enterLastName": "Enter your last name",
-  "enterPhoneNumber": "Enter your phone number"
+  "enterPhoneNumber": "Enter your phone number",
+  "socialSecurityNumber": "Social Security Number",
+  "enterSNN": "Enter your SSN",
+  "identificationType": "Identification Type",
+  "selectIdType": "Select your ID type",
+  "identificationNumber": "Identification Number",
+  "enterIdNumber": "Enter you ID number"
+
 
 }

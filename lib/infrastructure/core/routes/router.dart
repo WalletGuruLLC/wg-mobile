@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_basic_info_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_location_info_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_personal_info_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_other_info_page.dart';
 import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_other_info_form.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
 import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
@@ -52,12 +52,12 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.createProfile2.name,
       path: Routes.createProfile2.path,
-      builder: (context, state) => const CreateProfilePersonalInfoPage(),
+      builder: (context, state) => const CreateProfileLocationInfoPage(),
     ),
     GoRoute(
       name: Routes.createProfile3.name,
       path: Routes.createProfile3.path,
-      builder: (context, state) => const CreateProfileLocationInfoPage(),
+      builder: (context, state) => const CreateProfileOtherInfoPage(),
     ),
     GoRoute(
       name: Routes.createProfile4.name,
