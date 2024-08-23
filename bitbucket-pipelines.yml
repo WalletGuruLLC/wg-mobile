@@ -10,7 +10,7 @@ pipelines:
           caches:
             - gradle
           script:
-            - sed -i "" "s#BASE_URL=#BASE_URL=$BASE_URL#g" .env
+            - sed -i "s#BASE_URL=#BASE_URL=$BASE_URL#g" .env
             - flutter pub get
             - flutter gen-l10n
             - flutter packages pub run build_runner build --delete-conflicting-outputs
