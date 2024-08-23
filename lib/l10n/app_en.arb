@@ -23,5 +23,10 @@
   "walletSuccessMessage": "Wallet Address Created Successfully!",
   "continueCheckingProfile": "Your wallet address is ready. You can easily share it by checking your profile.",
   "userProfile": "User Profile",
-  "userProfileMessage": "Your name, email, and contact details are required to use the app. Your data is secure and used to improve your experience."
+  "userProfileMessage": "Your name, email, and contact details are required to use the app. Your data is secure and used to improve your experience.",
+  "firstName": "First Name",
+  "lastName": "last Name",
+  "phoneNumber": "Phone Number",
+  "back": "Back",
+  "next": "Next"
 }

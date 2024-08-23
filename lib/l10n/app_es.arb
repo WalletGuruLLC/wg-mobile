@@ -23,7 +23,12 @@
   "walletSuccessMessage": "Dirección de billetera creada!",
   "continueCheckingProfile": "Tu dirección de billetera está lista. Puedes compartirla fácilmente revisando tu perfil.",
   "userProfile": "Perfil de usuario",
-  "userProfileMessage": "Tu nombre, correo electrónico y detalles de contacto son necesarios para usar la aplicación. Tus datos están seguros y se utilizan para mejorar tu experiencia."
+  "userProfileMessage": "Tu nombre, correo electrónico y detalles de contacto son necesarios para usar la aplicación. Tus datos están seguros y se utilizan para mejorar tu experiencia.",
+  "firstName": "Primer Nombre",
+  "lastName": "Apellido",
+  "phoneNumber": "Número Telefónica",
+  "back": "Atrás",
+  "next": "Avanzar"
 
 
 

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
+import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
@@ -39,7 +40,7 @@ class CreateProfileLocationInfoFormState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const UserProfileDescription(),
-          SizedBox(height: size * 0.030),
+          const ProgressBar(currentStep: 3),
           TextBase(
             text: l10n.addressName,
             fontSize: 16,

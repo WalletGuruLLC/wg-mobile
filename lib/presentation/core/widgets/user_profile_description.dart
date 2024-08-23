@@ -19,9 +19,8 @@ class UserProfileDescription extends StatelessWidget {
         Image.asset(
           Assets.iconLogo,
         ),
-        SizedBox(height: size * 0.05),
+        SizedBox(height: size * 0.04),
         const AuthLoginDivider(),
-        SizedBox(height: size * 0.05),
         TextBase(
           text: l10n.userProfile,
           fontSize: 20,
@@ -33,6 +32,7 @@ class UserProfileDescription extends StatelessWidget {
           fontSize: 16,
           fontWeight: FontWeight.w400,
         ),
+        const SizedBox(height: 20),
       ],
     );
   }

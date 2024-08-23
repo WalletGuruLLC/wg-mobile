@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
+import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
+import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
-import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
 class CreateProfileOtherInfoForm extends StatefulWidget {
   const CreateProfileOtherInfoForm({super.key});
@@ -28,64 +29,42 @@ class CreateProfileOtherInfoFormState
     final l10n = AppLocalizations.of(context)!;
     double size = MediaQuery.of(context).size.height;
     return Form(
-        key: _formKey, child: _buildEmailAndPasswordView(size, context, l10n));
+        key: _formKey, child: _buildProfileOtherInfoView(size, context, l10n));
   }
 
-  Widget _buildEmailAndPasswordView(
+  Widget _buildProfileOtherInfoView(
       double size, BuildContext context, AppLocalizations l10n) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Image.asset(
-            Assets.iconLogo,
-          ),
-          SizedBox(height: size * 0.05),
-          const AuthLoginDivider(),
-          TextBase(
-            text: l10n.createWalletAddress,
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-          ),
-          SizedBox(height: size * 0.005),
-          TextBase(
-            text: l10n.generateUniqueWallet,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
+          const UserProfileDescription(),
+          const ProgressBar(
+            currentStep: 4,
           ),
           SizedBox(height: size * 0.030),
-          TextBase(
-            text: l10n.enterDesiredName,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-          SizedBox(height: size * 0.030),
-          TextBase(
-            text: l10n.addressName,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-          SizedBox(height: size * 0.015),
+          FormLabel(label: l10n.firstName),
           WalletAddressForm(
             initialValue: _address,
             onChanged:
                 _onFormChanged, // Call the corrected _onFormChanged method
           ),
-          SizedBox(height: size * 0.35),
-          CustomButton(
-            border: Border.all(
-                color: !_addressMinLength
-                    ? AppColorSchema.of(context).secondaryButtonBorderColor
-                    : Colors.transparent),
-            color: !_addressMinLength
-                ? Colors.transparent
-                : AppColorSchema.of(context).buttonColor,
-            text: l10n.verify,
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            onPressed: _onButtonPressed,
+          const SizedBox(height: 20),
+          FormLabel(label: l10n.lastName),
+          WalletAddressForm(
+            initialValue: _address,
+            onChanged:
+                _onFormChanged, // Call the corrected _onFormChanged method
           ),
-          SizedBox(height: size * 0.025),
+          const SizedBox(height: 20),
+          FormLabel(label: l10n.phoneNumber),
+          WalletAddressForm(
+            initialValue: _address,
+            onChanged:
+                _onFormChanged, // Call the corrected _onFormChanged method
+          ),
+          SizedBox(height: size * 0.12),
+          CreateProfileButtons(onPressed1: () {}, onPressed2: () {}),
         ],
       ),
     );
