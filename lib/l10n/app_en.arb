@@ -21,5 +21,7 @@
   "enterAddressName": "Enter a address name",
   "enterDesiredName": "Enter your desired address name (e.g., \"manuel\") in the input bellow.",
   "walletSuccessMessage": "Wallet Address Created Successfully!",
-  "continueCheckingProfile": "Your wallet address is ready. You can easily share it by checking your profile."
+  "continueCheckingProfile": "Your wallet address is ready. You can easily share it by checking your profile.",
+  "userProfile": "User Profile",
+  "userProfileMessage": "Your name, email, and contact details are required to use the app. Your data is secure and used to improve your experience."
 }
