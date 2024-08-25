@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/dropdown_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/identification_number_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/identification_type_drop_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/social_security_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
@@ -48,10 +50,12 @@ class CreateProfileLocationInfoFormState
             onChanged: (value) => _onFormChanged('snn', value),
           ),
           const SizedBox(height: 30),
-          FormLabel(label: l10n.socialSecurityNumber),
-          SocialSecurityForm(
-            initialValue: _idType,
-            onChanged: (value) => _onFormChanged('idType', value),
+          const FormLabel(label: 'Identification Type'),
+          IdentificationTypeDropForm(
+            // initialValue: 'item1',
+            hintText: 'Select you ID type',
+            items: const ['item1', 'item2', 'item3'],
+            onChanged: (value) {},
           ),
           const SizedBox(height: 30),
           FormLabel(label: l10n.identificationNumber),
