@@ -43,5 +43,6 @@
   "avatar": "Avatar",
   "uploadPhoto": "Upload your avatar or take a photo.",
   "allow": "Allow",
-  "deny": "Deny"
+  "deny": "Deny",
+  "picturePreview": "Picture Preview"
 }

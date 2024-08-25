@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class CheckPhotoModal extends StatelessWidget {
         children: [
           const SizedBox(height: 10),
           TextBase(
-            text: 'Picture Preview:',
+            text: l10n.picturePreview,
             fontSize: 20,
             color: AppColorSchema.of(context).secondaryText,
             fontWeight: FontWeight.w500,
