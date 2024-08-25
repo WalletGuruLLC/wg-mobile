@@ -37,7 +37,10 @@
   "identificationType": "Tipo de Identificación",
   "selectIdType": "Selecctionar tipo de ID",
   "identificationNumber": "Número de Identificación",
-  "enterIdNumber": "Ingresa número de ID"
+  "enterIdNumber": "Ingresa número de ID",
+  "dateOfBirth": "Año de nacimiento",
+  "avatar": "avatar",
+  "uploadPhoto": "Carga tu avatar o toma una foto."
 
 
 
