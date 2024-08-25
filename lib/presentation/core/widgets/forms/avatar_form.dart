@@ -87,7 +87,22 @@ class _AvatarFormState extends State<AvatarForm> {
               ),
               const SizedBox(width: 30),
               GestureDetector(
-                onTap: () => _handleImagePickerFromCamera(),
+                onTap: () async {
+                  await _handleImagePickerFromCamera();
+                  if (image == null) return;
+                  if (context.mounted) {
+                    showDialog(
+                      context: context,
+                      barrierColor:
+                          AppColorSchema.of(context).modalBarrierColor,
+                      builder: (_) {
+                        return CheckPhotoModal(
+                          image: image!,
+                        );
+                      },
+                    );
+                  }
+                },
                 child: Image.asset(
                   Assets.cameraIcon,
                 ),
