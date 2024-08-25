@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/address_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/city_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/country_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/state_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/zip_code_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
 class CreateProfileThirdForm extends StatefulWidget {
@@ -21,6 +25,7 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
   final _formKey = GlobalKey<FormState>();
   String _address = '';
   bool _addressMinLength = false;
+  List<String> itemsMock = ['item1', 'item2', 'item3'];
 
   @override
   Widget build(BuildContext context) {
@@ -36,44 +41,24 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           const UserProfileDescription(),
           const ProgressBar(currentStep: 3),
           SizedBox(height: size * 0.030),
-          FormLabel(label: l10n.firstName),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
-          ),
+          FormLabel(label: l10n.country),
+          CountryForm(items: itemsMock, onChanged: (value) {}),
           const SizedBox(height: 20),
-          FormLabel(label: l10n.lastName),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
-          ),
+          FormLabel(label: l10n.state),
+          StateForm(items: itemsMock, onChanged: (value) {}),
           const SizedBox(height: 20),
-          FormLabel(label: l10n.phoneNumber),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
-          ),
+          FormLabel(label: l10n.city),
+          CityForm(items: itemsMock, onChanged: (value) {}),
           const SizedBox(height: 20),
-          FormLabel(label: l10n.phoneNumber),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
-          ),
+          FormLabel(label: l10n.zipCode),
+          ZipCodeForm(onChanged: _onFormChanged),
           const SizedBox(height: 20),
-          FormLabel(label: l10n.phoneNumber),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
-          ),
+          FormLabel(label: l10n.address),
+          AddressForm(onChanged: _onFormChanged),
           SizedBox(height: size * 0.05),
           CreateProfileButtons(onPressed1: () {}, onPressed2: () {}),
         ],
