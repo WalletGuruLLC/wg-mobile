@@ -40,9 +40,6 @@
   "enterIdNumber": "Enter you ID number",
   "dateOfBirth": "Date of Birth",
   "selectBirthday": "Select your birthday",
-  "avatar": "avatar",
-   "uploadPhoto": "Upload your avatar or take a photo."
-
-
-
+  "avatar": "Avatar",
+  "uploadPhoto": "Upload your avatar or take a photo."
 }

@@ -39,20 +39,7 @@
   "identificationNumber": "Número de Identificación",
   "enterIdNumber": "Ingresa número de ID",
   "dateOfBirth": "Año de nacimiento",
-  "avatar": "avatar",
-  "uploadPhoto": "Carga tu avatar o toma una foto."
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
+  "selectBirthday": "Selecciona tu cumpleaños",
+  "avatar": "Avatar",
+  "uploadPhoto": "Carga tu avatar o toma una foto."  
 }

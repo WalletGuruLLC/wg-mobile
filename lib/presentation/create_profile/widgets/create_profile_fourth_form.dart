@@ -41,22 +41,15 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
           const ProgressBar(
             currentStep: 4,
           ),
-          SizedBox(height: size * 0.030),
-          FormLabel(label: l10n.firstName),
+          SizedBox(height: size * 0.040),
+          FormLabel(label: l10n.dateOfBirth),
           WalletAddressForm(
             initialValue: _address,
             onChanged:
                 _onFormChanged, // Call the corrected _onFormChanged method
           ),
-          const SizedBox(height: 20),
-          FormLabel(label: l10n.lastName),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
-          ),
-          const SizedBox(height: 20),
-          FormLabel(label: l10n.phoneNumber),
+          SizedBox(height: size * 0.040),
+          FormLabel(label: l10n.avatar),
           WalletAddressForm(
             initialValue: _address,
             onChanged:
