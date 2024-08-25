@@ -44,5 +44,15 @@
   "uploadPhoto": "Carga tu avatar o toma una foto.",
   "allow": "Permitir",
   "deny": "Denegar",
-  "picturePreview": "Previsualización de foto"
+  "picturePreview": "Previsualización de foto",
+  "country": "País",
+  "city": "Ciudad",
+  "state": "Estado",
+  "zipCode": "Código postal",
+  "address": "Dirección",
+  "selectYourCountry": "Selecciona tu país",
+  "selectYourState": "Selecciona tu estado",
+  "selectYourCity": "Selecciona tu ciudad",
+  "enterYourZipCode": "Ingresa tu código postal",
+  "enterYourAddress": "Ingresa tu dirección"
 }

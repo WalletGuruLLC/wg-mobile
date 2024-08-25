@@ -10,6 +10,7 @@ class CustomInputDecoration {
     return InputDecoration(
       counterText: '',
       hintText: hintText,
+      fillColor: Colors.transparent,
       hintStyle: AppTextStyles.specialFormText,
       floatingLabelBehavior: FloatingLabelBehavior.never,
     );
