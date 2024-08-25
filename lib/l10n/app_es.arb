@@ -41,5 +41,7 @@
   "dateOfBirth": "Año de nacimiento",
   "selectBirthday": "Selecciona tu cumpleaños",
   "avatar": "Avatar",
-  "uploadPhoto": "Carga tu avatar o toma una foto."  
+  "uploadPhoto": "Carga tu avatar o toma una foto.",
+  "allow": "Permitir",
+  "deny": "Denegar"
 }

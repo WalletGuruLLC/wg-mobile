@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/avatar_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
@@ -45,16 +46,12 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
           FormLabel(label: l10n.dateOfBirth),
           WalletAddressForm(
             initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
+            onChanged: _onFormChanged,
           ),
           SizedBox(height: size * 0.040),
           FormLabel(label: l10n.avatar),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
-          ),
+          const SizedBox(height: 10),
+          const AvatarForm(),
           SizedBox(height: size * 0.12),
           CreateProfileButtons(onPressed1: () {}, onPressed2: () {}),
         ],
@@ -62,7 +59,6 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
     );
   }
 
-  // Method to handle form changes
   void _onFormChanged(String? value) {
     setState(() {
       _address = value!;
@@ -70,7 +66,6 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
     });
   }
 
-  // Method to handle button actions
   void _onButtonPressed() {
     if (_formKey.currentState!.validate() && _addressMinLength) {
       _formKey.currentState!.reset();
@@ -82,7 +77,6 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
     }
   }
 
-  // Method to build the successful modal
   Future<dynamic> _buildSuccessfulModal() {
     return showDialog(
       context: context,
