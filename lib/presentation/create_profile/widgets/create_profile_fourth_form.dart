@@ -10,16 +10,15 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
-class CreateProfilePersonalInfoForm extends StatefulWidget {
-  const CreateProfilePersonalInfoForm({super.key});
+class CreateProfileFourthForm extends StatefulWidget {
+  const CreateProfileFourthForm({super.key});
 
   @override
-  State<CreateProfilePersonalInfoForm> createState() =>
-      CreateProfilePersonalInfoFormState();
+  State<CreateProfileFourthForm> createState() =>
+      CreateProfileFourthFormState();
 }
 
-class CreateProfilePersonalInfoFormState
-    extends State<CreateProfilePersonalInfoForm> {
+class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
   final _formKey = GlobalKey<FormState>();
   String _address = '';
   bool _addressMinLength = false;
@@ -29,18 +28,19 @@ class CreateProfilePersonalInfoFormState
     final l10n = AppLocalizations.of(context)!;
     double size = MediaQuery.of(context).size.height;
     return Form(
-        key: _formKey,
-        child: _buildProfilePersonalInfoView(size, context, l10n));
+        key: _formKey, child: _buildProfileOtherInfoView(size, context, l10n));
   }
 
-  Widget _buildProfilePersonalInfoView(
+  Widget _buildProfileOtherInfoView(
       double size, BuildContext context, AppLocalizations l10n) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const UserProfileDescription(),
-          const ProgressBar(currentStep: 3),
+          const ProgressBar(
+            currentStep: 4,
+          ),
           SizedBox(height: size * 0.030),
           FormLabel(label: l10n.firstName),
           WalletAddressForm(
@@ -62,21 +62,7 @@ class CreateProfilePersonalInfoFormState
             onChanged:
                 _onFormChanged, // Call the corrected _onFormChanged method
           ),
-          const SizedBox(height: 20),
-          FormLabel(label: l10n.phoneNumber),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
-          ),
-          const SizedBox(height: 20),
-          FormLabel(label: l10n.phoneNumber),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
-          ),
-          SizedBox(height: size * 0.05),
+          SizedBox(height: size * 0.12),
           CreateProfileButtons(onPressed1: () {}, onPressed2: () {}),
         ],
       ),

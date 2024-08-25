@@ -1,9 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_basic_info_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_location_info_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_other_info_page.dart';
-import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_other_info_form.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_first_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_fourth_page.dart';
+import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_fourth_form.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
 import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
@@ -20,7 +21,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      builder: (context, state) => const CreateProfileBasicInfoPage(),
+      builder: (context, state) => const CreateProfileSecondPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
@@ -47,22 +48,22 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.createProfile1.name,
       path: Routes.createProfile1.path,
-      builder: (context, state) => const CreateProfileBasicInfoPage(),
+      builder: (context, state) => const CreateProfileFirstPage(),
     ),
     GoRoute(
       name: Routes.createProfile2.name,
       path: Routes.createProfile2.path,
-      builder: (context, state) => const CreateProfileLocationInfoPage(),
+      builder: (context, state) => const CreateProfileSecondPage(),
     ),
     GoRoute(
       name: Routes.createProfile3.name,
       path: Routes.createProfile3.path,
-      builder: (context, state) => const CreateProfileOtherInfoPage(),
+      builder: (context, state) => const CreateProfileThirdPage(),
     ),
     GoRoute(
       name: Routes.createProfile4.name,
       path: Routes.createProfile4.path,
-      builder: (context, state) => const CreateProfileOtherInfoForm(),
+      builder: (context, state) => const CreateProfileFourthForm(),
     ),
   ];
 }

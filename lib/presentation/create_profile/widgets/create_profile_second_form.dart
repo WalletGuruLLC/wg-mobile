@@ -12,16 +12,15 @@ import 'package:wallet_guru/presentation/core/widgets/forms/social_security_form
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
-class CreateProfileLocationInfoForm extends StatefulWidget {
-  const CreateProfileLocationInfoForm({super.key});
+class CreateProfileSecondForm extends StatefulWidget {
+  const CreateProfileSecondForm({super.key});
 
   @override
-  State<CreateProfileLocationInfoForm> createState() =>
-      CreateProfileLocationInfoFormState();
+  State<CreateProfileSecondForm> createState() =>
+      CreateProfileSecondFormState();
 }
 
-class CreateProfileLocationInfoFormState
-    extends State<CreateProfileLocationInfoForm> {
+class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
   final _formKey = GlobalKey<FormState>();
   String _ssn = '';
   String _identificationNumber = '';

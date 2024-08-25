@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
-import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_location_info_form.dart';
+import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_second_form.dart';
 
-class CreateProfileLocationInfoPage extends StatelessWidget {
-  const CreateProfileLocationInfoPage({super.key});
+class CreateProfileSecondPage extends StatelessWidget {
+  const CreateProfileSecondPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class CreateProfileLocationInfoPage extends StatelessWidget {
           child: SizedBox(
             width: size.width * 0.90,
             height: size.height,
-            child: const CreateProfileLocationInfoForm(),
+            child: const CreateProfileSecondForm(),
           ),
         ),
       ],

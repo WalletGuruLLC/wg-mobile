@@ -11,16 +11,14 @@ import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.da
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
-class CreateProfileBasicInfoForm extends StatefulWidget {
-  const CreateProfileBasicInfoForm({super.key});
+class CreateProfileFirstForm extends StatefulWidget {
+  const CreateProfileFirstForm({super.key});
 
   @override
-  State<CreateProfileBasicInfoForm> createState() =>
-      CreateProfileBasicInfoFormState();
+  State<CreateProfileFirstForm> createState() => CreateProfileFirstFormState();
 }
 
-class CreateProfileBasicInfoFormState
-    extends State<CreateProfileBasicInfoForm> {
+class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
   final _formKey = GlobalKey<FormState>();
   String _firstName = '';
   String _lastName = '';
