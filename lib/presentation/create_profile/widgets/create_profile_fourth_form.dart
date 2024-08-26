@@ -4,11 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/avatar_form.dart';
+
+import 'package:wallet_guru/presentation/core/widgets/forms/date_picker_field.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
 class CreateProfileFourthForm extends StatefulWidget {
@@ -44,10 +45,7 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
           ),
           SizedBox(height: size * 0.040),
           FormLabel(label: l10n.dateOfBirth),
-          WalletAddressForm(
-            initialValue: _address,
-            onChanged: _onFormChanged,
-          ),
+          DatePickerForm(onDateChanged: (DateTime? value) {}),
           SizedBox(height: size * 0.040),
           FormLabel(label: l10n.avatar),
           const SizedBox(height: 10),

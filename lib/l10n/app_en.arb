@@ -54,5 +54,7 @@
   "selectYourState": "Select your state",
   "selectYourCity": "Select your city",
   "enterYourZipCode": "Enter your zip code",
-  "enterYourAddress": "Enter your address"
+  "enterYourAddress": "Enter your address",
+  "selectYourBirth": "Select your birth"
+
 }

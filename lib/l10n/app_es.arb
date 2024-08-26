@@ -54,5 +54,6 @@
   "selectYourState": "Selecciona tu estado",
   "selectYourCity": "Selecciona tu ciudad",
   "enterYourZipCode": "Ingresa tu código postal",
-  "enterYourAddress": "Ingresa tu dirección"
+  "enterYourAddress": "Ingresa tu dirección",
+  "selectYourBirth" : "Selecciona tu fecha de nacimiento"
 }

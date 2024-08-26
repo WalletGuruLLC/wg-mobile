@@ -23,6 +23,7 @@ class BaseTextFormField extends StatefulWidget {
   final String? hintText;
   final TextStyle? hintStyle;
   final Widget? suffixIcon;
+  final bool readOnly;
 
   const BaseTextFormField({
     super.key,
@@ -44,6 +45,7 @@ class BaseTextFormField extends StatefulWidget {
     this.hintText,
     this.hintStyle,
     this.suffixIcon,
+    this.readOnly = false,
   });
 
   @override
@@ -70,10 +72,11 @@ class _BaseTextFormField extends State<BaseTextFormField> {
   Widget build(BuildContext context) {
     InputDecoration defaultDecoration = _buildDefaultDecoration();
     return TextFormField(
+      readOnly: widget.readOnly,
+      enabled: widget.enabled,
       style: GoogleFonts.lato(color: Colors.white),
       textAlign: widget.textAlign,
       maxLength: widget.maxLength,
-      enabled: widget.enabled,
       maxLines: widget.maxLines,
       minLines: widget.minLines,
       controller: _controller,
@@ -82,7 +85,7 @@ class _BaseTextFormField extends State<BaseTextFormField> {
       decoration: widget.decoration ?? defaultDecoration,
       validator: widget.validator != null
           ? (value) => widget.validator!(value, context)
-          : null, // Pass context when calling validator
+          : null,
       inputFormatters: widget.inputFormatters,
       onFieldSubmitted: widget.onFieldSubmitted,
       onChanged:
