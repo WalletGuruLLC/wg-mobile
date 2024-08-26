@@ -79,19 +79,23 @@ class RegisterFormState extends State<RegisterForm> {
                 GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
                     extra: state.email);
               } else if (state.formStatus is SubmissionFailed) {
-                _buildSuccessfulModal();
+                _buildSuccessfulModal(state.customMessage, state.customCode);
               }
             },
             builder: (context, state) {
-              return CustomButton(
-                border: Border.all(
-                    color: AppColorSchema.of(context).buttonBorderColor),
-                color: Colors.transparent,
-                text: l10n.title_register,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-                onPressed: () => _onButtonPressed('validateStepOne'),
-              );
+              if (state.formStatus is FormSubmitting) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return CustomButton(
+                  border: Border.all(
+                      color: AppColorSchema.of(context).buttonBorderColor),
+                  color: Colors.transparent,
+                  text: l10n.title_register,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  onPressed: () => _onButtonPressed('validateStepOne'),
+                );
+              }
             },
           ),
         ],
@@ -123,11 +127,11 @@ class RegisterFormState extends State<RegisterForm> {
   }
 
   // Method to build the successful modal
-  Future<dynamic> _buildSuccessfulModal() {
+  Future<dynamic> _buildSuccessfulModal(String description, String codeError) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        final l10n = AppLocalizations.of(context)!;
+        //final l10n = AppLocalizations.of(context)!;
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
           content: Column(
@@ -135,16 +139,16 @@ class RegisterFormState extends State<RegisterForm> {
               SizedBox(height: size * 0.025),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.walletSuccessMessage,
-                fontSize: 20,
+                text: description,
+                fontSize: 16,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
               SizedBox(height: size * 0.025),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.continueCheckingProfile,
-                fontSize: 16,
+                text: codeError,
+                fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
