@@ -1,0 +1,21 @@
+image: ghcr.io/cirruslabs/flutter:3.24.1
+
+pipelines:
+  branches:
+    'development':
+      - step:
+          name: APK Assembling
+          size: 2x
+          deployment: Dev
+          caches:
+            - gradle
+          script:
+            - sed -i "s#BASE_URL=#BASE_URL=$BASE_URL#g" .env
+            - flutter pub get
+            - flutter gen-l10n
+            - flutter packages pub run build_runner build --delete-conflicting-outputs
+            - flutter analyze --no-fatal-infos --no-fatal-warnings
+            - echo "Building APK"
+            - flutter build apk
+          artifacts:
+            - build/app/outputs/apk/**
