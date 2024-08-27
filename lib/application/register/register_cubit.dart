@@ -42,4 +42,8 @@ class RegisterCubit extends Cubit<RegisterState> {
   void setUserPassword(String? password) async {
     emit(state.copyWith(passwordHash: password));
   }
+
+    void cleanFormStatus() async {
+    emit(state.copyWith(formStatus: const InitialFormStatus()));
+  }
 }
