@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class TextBase extends StatelessWidget {
@@ -12,6 +11,7 @@ class TextBase extends StatelessWidget {
   final TextDecoration? decoration;
   final int? maxLines;
   final TextStyle? textStyle;
+  final String fontFamily;
 
   const TextBase({
     super.key,
@@ -24,6 +24,7 @@ class TextBase extends StatelessWidget {
     this.decoration,
     this.maxLines = 5,
     this.textStyle,
+    this.fontFamily = 'CenturyGothic',
   });
 
   @override
@@ -39,15 +40,15 @@ class TextBase extends StatelessWidget {
             fontSize: fontSize,
             decoration: decoration,
             color: color ?? AppColorSchema.of(context).primaryText,
+            fontFamily: fontFamily,
           ) ??
-          GoogleFonts.inter(
+          TextStyle(
             fontStyle: fontStyle,
             fontWeight: fontWeight,
             fontSize: fontSize,
             decoration: decoration,
-            textStyle: TextStyle(
-              color: color ?? AppColorSchema.of(context).primaryText,
-            ),
+            color: color ?? AppColorSchema.of(context).primaryText,
+            fontFamily: fontFamily,
           ),
     );
   }

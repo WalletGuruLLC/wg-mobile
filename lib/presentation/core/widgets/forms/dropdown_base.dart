@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class BaseDropdown extends StatelessWidget {
   final String? hintText;
@@ -39,7 +38,8 @@ class BaseDropdown extends StatelessWidget {
   Widget _buildItemText(String value) {
     return Text(
       value,
-      style: GoogleFonts.lato(
+      style: const TextStyle(
+        fontFamily: 'CenturyGothic',
         color: Colors.white,
       ),
     );

@@ -23,6 +23,7 @@ class DatePickerForm extends StatefulWidget {
 class _DatePickerFormState extends State<DatePickerForm> {
   final TextEditingController _dateController = TextEditingController();
   DateTime? selectedDate;
+  TextStyle defaultTextStyle = const TextStyle(fontFamily: 'CenturyGothic');
 
   @override
   void initState() {
@@ -65,6 +66,7 @@ class _DatePickerFormState extends State<DatePickerForm> {
             colorScheme: ColorScheme.dark(
                 primary: AppColorSchema.of(context).buttonColor),
             dialogBackgroundColor: Colors.white,
+            textTheme: _buildTextStyle(),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
                 foregroundColor: Colors.blue,
@@ -87,5 +89,25 @@ class _DatePickerFormState extends State<DatePickerForm> {
   void _updateDateController() {
     _dateController.text =
         selectedDate != null ? "${selectedDate!.toLocal()}".split(' ')[0] : '';
+  }
+
+  TextTheme _buildTextStyle() {
+    return TextTheme(
+      displayLarge: defaultTextStyle,
+      displayMedium: defaultTextStyle,
+      displaySmall: defaultTextStyle,
+      headlineLarge: defaultTextStyle,
+      headlineMedium: defaultTextStyle,
+      headlineSmall: defaultTextStyle,
+      titleLarge: defaultTextStyle,
+      titleMedium: defaultTextStyle,
+      titleSmall: defaultTextStyle,
+      bodyLarge: defaultTextStyle,
+      bodyMedium: defaultTextStyle,
+      bodySmall: defaultTextStyle,
+      labelLarge: defaultTextStyle,
+      labelMedium: defaultTextStyle,
+      labelSmall: defaultTextStyle,
+    );
   }
 }
