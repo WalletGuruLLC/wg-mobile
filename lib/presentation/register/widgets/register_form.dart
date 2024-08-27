@@ -13,6 +13,7 @@ import 'package:wallet_guru/presentation/core/widgets/forms/email_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/password_form.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/password_confirm_form.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -25,6 +26,7 @@ class RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   String? _email;
   String? _password;
+  String? _passwordConfirm;
   late RegisterCubit registerCubit;
 
   @override
@@ -66,10 +68,11 @@ class RegisterFormState extends State<RegisterForm> {
             onChanged: _onPasswordChanged,
           ),
           SizedBox(height: size * 0.05),
-          PasswordForm(
-            initialValue: _password,
+          PasswordConfirmForm(
+            initialValue: _passwordConfirm,
+            passwordValue: _password,
             hintText: l10n.confirm_password,
-            onChanged: _onPasswordChanged,
+            onChanged: _onPasswordConfirmChanged,
           ),
           SizedBox(height: size * 0.025),
           SizedBox(height: size * 0.2),
@@ -79,19 +82,23 @@ class RegisterFormState extends State<RegisterForm> {
                 GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
                     extra: state.email);
               } else if (state.formStatus is SubmissionFailed) {
-                _buildSuccessfulModal();
+                _buildlModal(state.customMessage, state.customCode);
               }
             },
             builder: (context, state) {
-              return CustomButton(
-                border: Border.all(
-                    color: AppColorSchema.of(context).buttonBorderColor),
-                color: Colors.transparent,
-                text: l10n.title_register,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-                onPressed: () => _onButtonPressed('validateStepOne'),
-              );
+              if (state.formStatus is FormSubmitting) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return CustomButton(
+                  border: Border.all(
+                      color: AppColorSchema.of(context).buttonBorderColor),
+                  color: Colors.transparent,
+                  text: l10n.title_register,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  onPressed: () => _onButtonPressed('validateStepOne'),
+                );
+              }
             },
           ),
         ],
@@ -113,21 +120,25 @@ class RegisterFormState extends State<RegisterForm> {
     });
   }
 
+  void _onPasswordConfirmChanged(String? value) {
+    setState(() {
+      _passwordConfirm = value;
+    });
+  }
+
   void _onButtonPressed(String action) {
     if (_formKey.currentState!.validate()) {
       setState(() {
         registerCubit.emitUserCreate();
-        //
       });
     }
   }
 
   // Method to build the successful modal
-  Future<dynamic> _buildSuccessfulModal() {
+  Future<dynamic> _buildlModal(String description, String codeError) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        final l10n = AppLocalizations.of(context)!;
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
           content: Column(
@@ -135,21 +146,25 @@ class RegisterFormState extends State<RegisterForm> {
               SizedBox(height: size * 0.025),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.walletSuccessMessage,
-                fontSize: 20,
+                text: description,
+                fontSize: 16,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
               SizedBox(height: size * 0.025),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.continueCheckingProfile,
-                fontSize: 16,
+                text: codeError,
+                fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
             ],
           ),
+          onPressed: () {
+            registerCubit.cleanFormStatus();
+            Navigator.of(context).pop();
+          },
         );
       },
     );

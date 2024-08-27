@@ -7,6 +7,8 @@ class RegisterState extends Equatable {
   final String passwordHash;
   final bool mfaEnabled;
   final String mfaType;
+  final String customCode;
+  final String customMessage;
   final FormSubmissionStatus formStatus;
 
   const RegisterState({
@@ -16,6 +18,8 @@ class RegisterState extends Equatable {
     this.passwordHash = '',
     this.mfaEnabled = false,
     this.mfaType = '',
+    this.customCode = '',
+    this.customMessage = '',
     this.formStatus = const InitialFormStatus(),
   });
 
@@ -26,6 +30,8 @@ class RegisterState extends Equatable {
     String? passwordHash,
     bool? mfaEnabled,
     String? mfaType,
+    String? customCode,
+    String? customMessage,
     FormSubmissionStatus? formStatus,
   }) =>
       RegisterState(
@@ -35,6 +41,8 @@ class RegisterState extends Equatable {
         passwordHash: passwordHash ?? this.passwordHash,
         mfaEnabled: mfaEnabled ?? this.mfaEnabled,
         mfaType: mfaType ?? this.mfaType,
+        customCode: customCode ?? this.customCode,
+        customMessage: customMessage ?? this.customMessage,
         formStatus: formStatus ?? this.formStatus,
       );
 
@@ -45,6 +53,8 @@ class RegisterState extends Equatable {
         passwordHash: '',
         mfaEnabled: false,
         mfaType: '',
+        customCode: '',
+        customMessage: '',
         formStatus: InitialFormStatus(),
       );
 
@@ -56,6 +66,8 @@ class RegisterState extends Equatable {
         passwordHash,
         mfaEnabled,
         mfaType,
+        customCode,
+        customMessage,
         formStatus,
       ];
 }

@@ -1,8 +1,10 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/dynamic_container.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class BaseModal extends StatelessWidget {
   final Widget? content;
@@ -10,7 +12,9 @@ class BaseModal extends StatelessWidget {
   final double? heightFactor;
   final double? borderRadius;
   final double? paddingValue;
+  final bool? isFail;
   final Widget Function()? buildFooter;
+  final void Function()? onPressed;
   final double blurFactor;
   final Color? modalColor;
   final Widget? centerIcon;
@@ -22,7 +26,9 @@ class BaseModal extends StatelessWidget {
     this.heightFactor = 0.26,
     this.borderRadius = 12,
     this.paddingValue = 20,
+    this.isFail = false,
     this.buildFooter,
+    this.onPressed,
     this.blurFactor = 5.0,
     this.modalColor = const Color(0xFFFAFAFA),
     this.centerIcon,
@@ -36,6 +42,7 @@ class BaseModal extends StatelessWidget {
   Widget _buildContent(
     BuildContext context,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -51,81 +58,53 @@ class BaseModal extends StatelessWidget {
                 horizontal: MediaQuery.of(context).size.width *
                     0.05), // 5% en each side
             child: DynamicContainer(
-                // DynamicContainer is a custom widget to handle responsive design
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(paddingValue!),
-                    decoration: BoxDecoration(
-                      color: modalColor,
-                      borderRadius: BorderRadius.circular(borderRadius!),
-                      border: Border.all(color: Colors.black, width: 0),
-                    ),
-                    child: content != null
-                        ? Material(
-                            color: Colors.transparent,
-                            child: Column(
-                              children: [
-                                _buildCloseButton(context),
-                                Center(child: content!),
-                                if (buildFooter != null) buildFooter!(),
-                              ],
-                            ),
-                          )
-                        : Container(),
+              // DynamicContainer is a custom widget to handle responsive design
+              children: [
+                Container(
+                  padding: EdgeInsets.all(paddingValue!),
+                  decoration: BoxDecoration(
+                    color: modalColor,
+                    borderRadius: BorderRadius.circular(borderRadius!),
+                    border: Border.all(color: Colors.black, width: 0),
                   ),
-                ]),
+                  child: content != null
+                      ? Material(
+                          color: Colors.transparent,
+                          child: Column(
+                            children: [
+                              Icon(
+                                isFail!
+                                    ? Icons.warning_amber_sharp
+                                    : Icons.check_circle_outline,
+                                color: AppColorSchema.of(context).buttonColor,
+                              ),
+                              Center(child: content!),
+                              Column(
+                                children: [
+                                  const SizedBox(height: 20),
+                                  CustomButton(
+                                    border: Border.all(
+                                        color: AppColorSchema.of(context)
+                                            .buttonBorderColor),
+                                    text: isFail!
+                                        ? l10n.button_pop_up_fail
+                                        : l10n.button_pop_up_sucefull,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                    onPressed: onPressed,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      : Container(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildCloseButton(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(
-          width: size.width * 0.05,
-        ),
-        centerIcon == null
-            ? Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: .5,
-                    color: AppColorSchema.of(context).buttonColor,
-                  ),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(3.5),
-                  child: Icon(
-                    Icons.check,
-                    color: AppColorSchema.of(context).buttonColor,
-                    size: 20,
-                  ),
-                ),
-              )
-            : centerIcon!,
-        if (showCloseIcon == true)
-          GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: .5, color: Colors.black),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(3.5),
-                child: Icon(
-                  Icons.close,
-                  color: Colors.black,
-                  size: 20,
-                ),
-              ),
-            ),
-          ),
-      ],
     );
   }
 }

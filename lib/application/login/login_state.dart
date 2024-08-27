@@ -9,6 +9,7 @@ class LoginState extends Equatable {
   final String otp;
   final String customMessage;
   final String customMessageEs;
+  final String customCode;
 
   const LoginState({
     this.email = '',
@@ -17,6 +18,7 @@ class LoginState extends Equatable {
     this.otp = '',
     this.customMessage = '',
     this.customMessageEs = '',
+    this.customCode = '',
     this.formStatus = const InitialFormStatus(),
     this.formStatusOtp = const InitialFormStatus(),
   });
@@ -30,6 +32,7 @@ class LoginState extends Equatable {
     String? otp,
     String? customMessage,
     String? customMessageEs,
+    String? customCode,
   }) =>
       LoginState(
         email: email ?? this.email,
@@ -40,6 +43,7 @@ class LoginState extends Equatable {
         otp: otp ?? this.otp,
         customMessage: customMessage ?? this.customMessage,
         customMessageEs: customMessageEs ?? this.customMessageEs,
+        customCode: customCode ?? this.customCode,
       );
 
   LoginState initialState() => const LoginState(
@@ -51,6 +55,7 @@ class LoginState extends Equatable {
         otp: '',
         customMessage: '',
         customMessageEs: '',
+        customCode: '',
       );
 
   @override
@@ -63,5 +68,6 @@ class LoginState extends Equatable {
         otp,
         customMessage,
         customMessageEs,
+        customCode,
       ];
 }
