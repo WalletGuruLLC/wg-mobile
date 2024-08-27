@@ -79,7 +79,7 @@ class RegisterFormState extends State<RegisterForm> {
                 GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
                     extra: state.email);
               } else if (state.formStatus is SubmissionFailed) {
-                _buildSuccessfulModal(state.customMessage, state.customCode);
+                _buildlModal(state.customMessage, state.customCode);
               }
             },
             builder: (context, state) {
@@ -127,11 +127,10 @@ class RegisterFormState extends State<RegisterForm> {
   }
 
   // Method to build the successful modal
-  Future<dynamic> _buildSuccessfulModal(String description, String codeError) {
+  Future<dynamic> _buildlModal(String description, String codeError) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        //final l10n = AppLocalizations.of(context)!;
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
           content: Column(
@@ -154,6 +153,10 @@ class RegisterFormState extends State<RegisterForm> {
               ),
             ],
           ),
+          onPressed: () {
+            registerCubit.cleanFormStatus();
+            Navigator.of(context).pop();
+          },
         );
       },
     );

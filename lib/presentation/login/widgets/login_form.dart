@@ -94,15 +94,19 @@ class LoginFormState extends State<LoginForm> {
               }
             },
             builder: (context, state) {
-              return CustomButton(
-                border: Border.all(
-                    color: AppColorSchema.of(context).buttonBorderColor),
-                color: Colors.transparent,
-                text: l10n.login,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-                onPressed: () => _onButtonPressed('validateStepOne'),
-              );
+              if (state.formStatus is FormSubmitting) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return CustomButton(
+                  border: Border.all(
+                      color: AppColorSchema.of(context).buttonBorderColor),
+                  color: Colors.transparent,
+                  text: l10n.login,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  onPressed: () => _onButtonPressed('validateStepOne'),
+                );
+              }
             },
           ),
         ],
@@ -163,6 +167,10 @@ class LoginFormState extends State<LoginForm> {
               ),
             ],
           ),
+          onPressed: () {
+            loginCubit.cleanFormStatus();
+            Navigator.of(context).pop();
+          },
         );
       },
     );

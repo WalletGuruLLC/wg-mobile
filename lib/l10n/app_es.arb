@@ -13,6 +13,8 @@
   "otp_authentication": "Doble Factor de autenticación",
   "otp_authentication_description": "Se ha enviado un código único a su dirección de correo electrónico. Compruebe su bandeja de entrada e introduzca el código a continuación",
   "valid_code_time": "Tu código es válido hasta 00:30 s",
+  "button_pop_up_fail": "Reintentar",
+  "button_pop_up_sucefull": "Continue",
   "resend_code": "Reenviar código",
   "verify": "Verificar",
   "createWalletAddress": "Crear Dirección de Billetera",
