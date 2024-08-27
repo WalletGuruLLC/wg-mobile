@@ -14,6 +14,7 @@ class BaseModal extends StatelessWidget {
   final double blurFactor;
   final Color? modalColor;
   final Widget? centerIcon;
+  final bool? showCloseIcon;
   const BaseModal({
     super.key,
     this.content,
@@ -25,6 +26,7 @@ class BaseModal extends StatelessWidget {
     this.blurFactor = 5.0,
     this.modalColor = const Color(0xFFFAFAFA),
     this.centerIcon,
+    this.showCloseIcon = true,
   });
   @override
   Widget build(BuildContext context) {
@@ -105,23 +107,24 @@ class BaseModal extends StatelessWidget {
                 ),
               )
             : centerIcon!,
-        GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(width: .5, color: Colors.black),
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.all(3.5),
-              child: Icon(
-                Icons.close,
-                color: Colors.black,
-                size: 20,
+        if (showCloseIcon == true)
+          GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: .5, color: Colors.black),
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(3.5),
+                child: Icon(
+                  Icons.close,
+                  color: Colors.black,
+                  size: 20,
+                ),
               ),
             ),
           ),
-        )
       ],
     );
   }

@@ -7,6 +7,7 @@ import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   Injector.setup();
   runApp(const MyApp());
 }

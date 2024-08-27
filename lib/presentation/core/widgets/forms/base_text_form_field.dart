@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 
@@ -23,6 +22,7 @@ class BaseTextFormField extends StatefulWidget {
   final String? hintText;
   final TextStyle? hintStyle;
   final Widget? suffixIcon;
+  final bool readOnly;
 
   const BaseTextFormField({
     super.key,
@@ -44,6 +44,7 @@ class BaseTextFormField extends StatefulWidget {
     this.hintText,
     this.hintStyle,
     this.suffixIcon,
+    this.readOnly = false,
   });
 
   @override
@@ -70,10 +71,14 @@ class _BaseTextFormField extends State<BaseTextFormField> {
   Widget build(BuildContext context) {
     InputDecoration defaultDecoration = _buildDefaultDecoration();
     return TextFormField(
-      style: GoogleFonts.lato(color: Colors.white),
+      readOnly: widget.readOnly,
+      enabled: widget.enabled,
+      style: const TextStyle(
+        fontFamily: 'CenturyGothic',
+        color: Colors.white,
+      ),
       textAlign: widget.textAlign,
       maxLength: widget.maxLength,
-      enabled: widget.enabled,
       maxLines: widget.maxLines,
       minLines: widget.minLines,
       controller: _controller,
@@ -82,7 +87,7 @@ class _BaseTextFormField extends State<BaseTextFormField> {
       decoration: widget.decoration ?? defaultDecoration,
       validator: widget.validator != null
           ? (value) => widget.validator!(value, context)
-          : null, // Pass context when calling validator
+          : null,
       inputFormatters: widget.inputFormatters,
       onFieldSubmitted: widget.onFieldSubmitted,
       onChanged:

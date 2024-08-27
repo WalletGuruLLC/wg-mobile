@@ -21,13 +21,39 @@
   "enterAddressName": "Ingrese el nombre de dirección",
   "enterDesiredName": "Ingrese el nombre de dirección deseado (por ejemplo, 'manuel') en el campo de abajo.",
   "walletSuccessMessage": "Dirección de billetera creada!",
-  "continueCheckingProfile": "Tu dirección de billetera está lista. Puedes compartirla fácilmente revisando tu perfil."
-
-
-
-
-
-
-
-  
+  "continueCheckingProfile": "Tu dirección de billetera está lista. Puedes compartirla fácilmente revisando tu perfil.",
+  "userProfile": "Perfil de usuario",
+  "userProfileMessage": "Tu nombre, correo electrónico y detalles de contacto son necesarios para usar la aplicación. Tus datos están seguros y se utilizan para mejorar tu experiencia.",
+  "firstName": "Primer Nombre",
+  "lastName": "Apellido",
+  "phoneNumber": "Número Telefónica",
+  "back": "Atrás",
+  "next": "Avanzar",
+  "enterFirstName": "Ingrese su nombre",
+  "enterLastName": "Ingrese su apellido",
+  "enterPhoneNumber": "Ingrese su número telefónico",
+  "socialSecurityNumber": "Número de Seguridad Social",
+  "enterSNN": "Ingrese su SSN",
+  "identificationType": "Tipo de Identificación",
+  "selectIdType": "Selecctionar tipo de ID",
+  "identificationNumber": "Número de Identificación",
+  "enterIdNumber": "Ingresa número de ID",
+  "dateOfBirth": "Año de nacimiento",
+  "selectBirthday": "Selecciona tu cumpleaños",
+  "avatar": "Avatar",
+  "uploadPhoto": "Carga tu avatar o toma una foto.",
+  "allow": "Permitir",
+  "deny": "Denegar",
+  "picturePreview": "Previsualización de foto",
+  "country": "País",
+  "city": "Ciudad",
+  "state": "Estado",
+  "zipCode": "Código postal",
+  "address": "Dirección",
+  "selectYourCountry": "Selecciona tu país",
+  "selectYourState": "Selecciona tu estado",
+  "selectYourCity": "Selecciona tu ciudad",
+  "enterYourZipCode": "Ingresa tu código postal",
+  "enterYourAddress": "Ingresa tu dirección",
+  "selectYourBirth" : "Selecciona tu fecha de nacimiento"
 }
