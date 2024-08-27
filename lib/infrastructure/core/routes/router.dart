@@ -21,7 +21,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      builder: (context, state) => const CreateProfileThirdPage(),
+      builder: (context, state) => const SplashScreenPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
