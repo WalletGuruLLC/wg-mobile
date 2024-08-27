@@ -43,7 +43,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(state.copyWith(passwordHash: password));
   }
 
-    void cleanFormStatus() async {
+  void cleanFormStatus() async {
     emit(state.copyWith(formStatus: const InitialFormStatus()));
   }
 }
