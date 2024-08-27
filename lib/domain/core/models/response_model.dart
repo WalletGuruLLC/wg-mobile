@@ -26,32 +26,43 @@ class ResponseModel {
 
 class Data {
   final User? user;
+  final CreateWallet? createWallet; // Cambiado a nullable
   final String token;
   final bool success;
   final String message;
 
   Data({
-    required this.user,
+    this.user,
+    this.createWallet,
     required this.token,
     required this.success,
     required this.message,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        user: json["user"] != null
+        user: json.containsKey("user") && json["user"] != null
             ? User.fromJson(json["user"])
-            : User.initialState(),
+            : null,
+        createWallet:
+            json.containsKey("createWallet") && json["createWallet"] != null
+                ? CreateWallet.fromJson(json["createWallet"])
+                : null,
         token: json["token"] ?? '',
         success: json["success"] ?? false,
         message: json["message"] ?? '',
       );
 
   factory Data.initialState() => Data(
-        user: User.initialState(),
+        user: null,
+        createWallet: null,
         token: '',
         success: false,
         message: '',
       );
+
+  bool hasUser() => user != null;
+
+  bool hasCreateWallet() => createWallet != null;
 }
 
 class User {
@@ -94,23 +105,23 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        privacyPolicy: json["PrivacyPolicy"],
-        mfaEnabled: json["MfaEnabled"],
+        privacyPolicy: json["PrivacyPolicy"] ?? false,
+        mfaEnabled: json["MfaEnabled"] ?? false,
         createDate: DateTime.parse(json["CreateDate"]),
-        termsConditions: json["TermsConditions"],
-        otp: json["Otp"],
-        sendSms: json["SendSms"],
-        state: json["State"],
-        email: json["Email"],
-        mfaType: json["MfaType"],
-        first: json["First"],
-        roleId: json["RoleId"],
-        sendEmails: json["SendEmails"],
+        termsConditions: json["TermsConditions"] ?? false,
+        otp: json["Otp"] ?? '',
+        sendSms: json["SendSms"] ?? false,
+        state: json["State"] ?? 0,
+        email: json["Email"] ?? '',
+        mfaType: json["MfaType"] ?? '',
+        first: json["First"] ?? false,
+        roleId: json["RoleId"] ?? '',
+        sendEmails: json["SendEmails"] ?? false,
         updateDate: DateTime.parse(json["UpdateDate"]),
-        picture: json["Picture"],
-        serviceProviderId: json["ServiceProviderId"],
-        active: json["Active"],
-        type: json["type"],
+        picture: json["Picture"] ?? '',
+        serviceProviderId: json["ServiceProviderId"] ?? '',
+        active: json["Active"] ?? false,
+        type: json["type"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -151,5 +162,45 @@ class User {
         serviceProviderId: '',
         active: false,
         type: '',
+      );
+}
+
+class CreateWallet {
+  final String id;
+  final String name;
+  final String walletType;
+  final String walletAddress;
+  final bool active;
+
+  CreateWallet({
+    required this.id,
+    required this.name,
+    required this.walletType,
+    required this.walletAddress,
+    required this.active,
+  });
+
+  factory CreateWallet.fromJson(Map<String, dynamic> json) => CreateWallet(
+        id: json["id"] ?? '',
+        name: json["name"] ?? '',
+        walletType: json["walletType"] ?? '',
+        walletAddress: json["walletAddress"] ?? '',
+        active: json["active"] ?? false,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "walletType": walletType,
+        "walletAddress": walletAddress,
+        "active": active,
+      };
+
+  factory CreateWallet.initialState() => CreateWallet(
+        id: '',
+        name: '',
+        walletType: '',
+        walletAddress: '',
+        active: false,
       );
 }
