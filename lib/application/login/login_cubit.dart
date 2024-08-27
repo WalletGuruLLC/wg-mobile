@@ -21,6 +21,8 @@ class LoginCubit extends Cubit<LoginState> {
       (error) {
         emit(state.copyWith(
           formStatus: SubmissionFailed(exception: Exception(error.message)),
+          customCode: error.code,
+          customMessage: error.message,
         ));
       },
       (singInUser) {
