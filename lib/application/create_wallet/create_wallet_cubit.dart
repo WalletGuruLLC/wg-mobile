@@ -23,10 +23,10 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
           formStatus: SubmissionFailed(exception: Exception(error.message)),
         ));
       },
-      (singInUser) {
+      (createdWallet) {
         emit(state.copyWith(
-          customMessage: singInUser.customCode,
-          customMessageEs: singInUser.customMessageEs,
+          customMessage: createdWallet.customCode,
+          customMessageEs: createdWallet.customMessageEs,
           formStatus: SubmissionSuccess(),
         ));
       },
