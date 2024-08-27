@@ -10,4 +10,12 @@ class Routes {
   static final dashboard = Route(path: '/dashboard', name: 'dashboard');
   static final createWallet =
       Route(path: '/createWallet', name: 'createWallet');
+  static final createProfile1 =
+      Route(path: '/createProfile1', name: 'createProfile1');
+  static final createProfile2 =
+      Route(path: '/createProfile2', name: 'createProfile2');
+  static final createProfile3 =
+      Route(path: '/createProfile3', name: 'createProfile3');
+  static final createProfile4 =
+      Route(path: '/createProfile4', name: 'createProfile4');
 }

@@ -81,7 +81,7 @@ class DarkColorScheme implements AppCustomColors {
   Color get alertBorder => const Color(0xFFF04438);
 
   @override
-  Color get cardLink => const Color(0xFFFFDF8B);
+  Color get clearButtonColor => const Color(0xFFEBEBEB);
 
   @override
   Color get modalBarrierColor => Colors.white24;
@@ -90,7 +90,7 @@ class DarkColorScheme implements AppCustomColors {
   Color get circleIconColor => const Color(0xFFE0F0FF);
 
   @override
-  Color get driverProcess => const Color(0xff9DE8A9);
+  Color get avatarBorder => const Color(0xFF494949);
 
   @override
   Color get cardBackgroundColor => const Color(0xFF292929);

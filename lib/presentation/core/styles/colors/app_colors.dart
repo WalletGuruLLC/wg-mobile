@@ -27,11 +27,11 @@ abstract class AppCustomColors {
   Color get headerActionsBackgroundColor;
   Color get alertLink;
   Color get alertBorder;
-  Color get cardLink;
+  Color get clearButtonColor;
   Color get modalBarrierColor;
   Color get circleIconColor;
   Color get cardBackgroundColor;
-  Color get driverProcess;
+  Color get avatarBorder;
   LinearGradient get backgroundGradient;
   Color get errorColor;
   Color get lineColor;

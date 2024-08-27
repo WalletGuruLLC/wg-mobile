@@ -18,6 +18,7 @@ class BaseModal extends StatelessWidget {
   final double blurFactor;
   final Color? modalColor;
   final Widget? centerIcon;
+  final bool? showCloseIcon;
   const BaseModal({
     super.key,
     this.content,
@@ -31,6 +32,7 @@ class BaseModal extends StatelessWidget {
     this.blurFactor = 5.0,
     this.modalColor = const Color(0xFFFAFAFA),
     this.centerIcon,
+    this.showCloseIcon = true,
   });
   @override
   Widget build(BuildContext context) {
