@@ -1,10 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_first_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_fourth_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_fourth_page.dart';
-import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_fourth_form.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
 import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
@@ -21,9 +20,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      builder: (context, state) => const AuthenticationPage(
-        email: 'cristianjosevp@gmail.com',
-      ),
+      builder: (context, state) => const SplashScreenPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
@@ -65,7 +62,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.createProfile4.name,
       path: Routes.createProfile4.path,
-      builder: (context, state) => const CreateProfileFourthForm(),
+      builder: (context, state) => const CreateProfileFourthPage(),
     ),
   ];
 }
