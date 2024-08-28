@@ -37,13 +37,15 @@ class LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context);
     double size = MediaQuery.of(context).size.height;
     return Form(
-        key: _formKey, child: _buildEmailAndPasswordView(size, context, l10n));
+        key: _formKey,
+        child: _buildEmailAndPasswordView(size, context, l10n, locale));
   }
 
   Widget _buildEmailAndPasswordView(
-      double size, BuildContext context, AppLocalizations l10n) {
+      double size, BuildContext context, AppLocalizations l10n, Locale locale) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +92,12 @@ class LoginFormState extends State<LoginForm> {
                 GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
                     extra: state.email);
               } else if (state.formStatus is SubmissionFailed) {
-                _buildlModal(state.customMessage, state.customCode);
+                _buildErrorModal(
+                  state.customMessage,
+                  state.customMessageEs,
+                  state.customCode,
+                  locale,
+                );
               }
             },
             builder: (context, state) {
@@ -140,7 +147,14 @@ class LoginFormState extends State<LoginForm> {
   }
 
   // Method to build the successful modal
-  Future<dynamic> _buildlModal(String description, String codeError) {
+  Future<dynamic> _buildErrorModal(
+    String descriptionEn,
+    String descriptionEs,
+    String codeError,
+    Locale locale,
+  ) {
+    String description =
+        locale.languageCode == 'en' ? descriptionEn : descriptionEs;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
