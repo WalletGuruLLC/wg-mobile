@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/otp_form.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
@@ -27,6 +30,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
   @override
   void initState() {
     loginCubit = BlocProvider.of<LoginCubit>(context);
+    loginCubit.cleanFormStatus();
     super.initState();
   }
 
@@ -75,24 +79,26 @@ class AuthenticationFormState extends State<AuthenticationForm> {
           BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
               if (state.formStatusOtp is SubmissionSuccess) {
-                print('validacion con exito');
-                //GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name);
+                GoRouter.of(context).pushNamed(Routes.createWallet.name);
               } else if (state.formStatusOtp is SubmissionFailed) {
-                //_buildSuccessfulModal();
-                print('fallo');
+                _buildlModal(state.customMessage, state.customCode);
               }
             },
             builder: (context, state) {
-              return CustomButton(
-                border: Border.all(
-                    color:
-                        AppColorSchema.of(context).secondaryButtonBorderColor),
-                color: Colors.transparent,
-                text: l10n.verify,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-                onPressed: () => _onButtonPressed('validateOtp'),
-              );
+              if (state.formStatusOtp is FormSubmitting) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return CustomButton(
+                  border: Border.all(
+                      color: AppColorSchema.of(context)
+                          .secondaryButtonBorderColor),
+                  color: Colors.transparent,
+                  text: l10n.verify,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  onPressed: () => _onButtonPressed('validateOtp'),
+                );
+              }
             },
           ),
           SizedBox(height: size * 0.025),
@@ -121,5 +127,41 @@ class AuthenticationFormState extends State<AuthenticationForm> {
         loginCubit.emitVerifyEmailOtp(widget.email);
       });
     }
+  }
+
+  // Method to build the successful modal
+  Future<dynamic> _buildlModal(String description, String codeError) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: description,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: codeError,
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () {
+            loginCubit.cleanFormStatusOtp();
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
   }
 }

@@ -7,6 +7,7 @@ import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/email_form.dart';
@@ -89,19 +90,23 @@ class LoginFormState extends State<LoginForm> {
                 GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
                     extra: state.email);
               } else if (state.formStatus is SubmissionFailed) {
-                print('');
+                _buildlModal(state.customMessage, state.customCode);
               }
             },
             builder: (context, state) {
-              return CustomButton(
-                border: Border.all(
-                    color: AppColorSchema.of(context).buttonBorderColor),
-                color: Colors.transparent,
-                text: l10n.login,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-                onPressed: () => _onButtonPressed('validateStepOne'),
-              );
+              if (state.formStatus is FormSubmitting) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return CustomButton(
+                  border: Border.all(
+                      color: AppColorSchema.of(context).buttonBorderColor),
+                  color: Colors.transparent,
+                  text: l10n.login,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  onPressed: () => _onButtonPressed('validateStepOne'),
+                );
+              }
             },
           ),
         ],
@@ -132,5 +137,42 @@ class LoginFormState extends State<LoginForm> {
         loginCubit.emitSignInUser();
       });
     }
+  }
+
+  // Method to build the successful modal
+  Future<dynamic> _buildlModal(String description, String codeError) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        //final l10n = AppLocalizations.of(context)!;
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: description,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: codeError,
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () {
+            loginCubit.cleanFormStatus();
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
   }
 }

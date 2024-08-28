@@ -68,100 +68,95 @@ class Data {
 class User {
   final bool privacyPolicy;
   final bool mfaEnabled;
-  final DateTime createDate;
   final bool termsConditions;
   final String otp;
   final bool sendSms;
   final int state;
+  final String type;
   final String email;
   final String mfaType;
   final bool first;
   final String roleId;
   final bool sendEmails;
-  final DateTime updateDate;
   final String picture;
   final String serviceProviderId;
+  final String id;
   final bool active;
-  final String type;
 
   User({
     required this.privacyPolicy,
     required this.mfaEnabled,
-    required this.createDate,
     required this.termsConditions,
     required this.otp,
     required this.sendSms,
     required this.state,
+    required this.type,
     required this.email,
     required this.mfaType,
     required this.first,
     required this.roleId,
     required this.sendEmails,
-    required this.updateDate,
     required this.picture,
     required this.serviceProviderId,
+    required this.id,
     required this.active,
-    required this.type,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        privacyPolicy: json["PrivacyPolicy"] ?? false,
-        mfaEnabled: json["MfaEnabled"] ?? false,
-        createDate: DateTime.parse(json["CreateDate"]),
-        termsConditions: json["TermsConditions"] ?? false,
-        otp: json["Otp"] ?? '',
-        sendSms: json["SendSms"] ?? false,
-        state: json["State"] ?? 0,
-        email: json["Email"] ?? '',
-        mfaType: json["MfaType"] ?? '',
-        first: json["First"] ?? false,
-        roleId: json["RoleId"] ?? '',
-        sendEmails: json["SendEmails"] ?? false,
-        updateDate: DateTime.parse(json["UpdateDate"]),
-        picture: json["Picture"] ?? '',
-        serviceProviderId: json["ServiceProviderId"] ?? '',
-        active: json["Active"] ?? false,
-        type: json["type"] ?? '',
+        privacyPolicy: json["privacyPolicy"],
+        mfaEnabled: json["mfaEnabled"],
+        termsConditions: json["termsConditions"],
+        otp: json["otp"],
+        sendSms: json["sendSms"],
+        state: json["state"],
+        type: json["type"],
+        email: json["email"],
+        mfaType: json["mfaType"],
+        first: json["first"],
+        roleId: json["roleId"],
+        sendEmails: json["sendEmails"],
+        picture: json["picture"],
+        serviceProviderId: json["serviceProviderId"],
+        id: json["id"],
+        active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
         "PrivacyPolicy": privacyPolicy,
         "MfaEnabled": mfaEnabled,
-        "CreateDate": createDate.toIso8601String(),
         "TermsConditions": termsConditions,
         "Otp": otp,
         "SendSms": sendSms,
         "State": state,
+        "type": type,
         "Email": email,
         "MfaType": mfaType,
         "First": first,
         "RoleId": roleId,
         "SendEmails": sendEmails,
-        "UpdateDate": updateDate.toIso8601String(),
         "Picture": picture,
         "ServiceProviderId": serviceProviderId,
+        "id": id,
         "Active": active,
-        "type": type,
       };
 
   factory User.initialState() => User(
         privacyPolicy: false,
         mfaEnabled: false,
-        createDate: DateTime.now(),
         termsConditions: false,
         otp: '',
         sendSms: false,
         state: 0,
+        type: '',
         email: '',
         mfaType: '',
         first: false,
         roleId: '',
         sendEmails: false,
-        updateDate: DateTime.now(),
         picture: '',
         serviceProviderId: '',
+        id: '',
         active: false,
-        type: '',
       );
 }
 
