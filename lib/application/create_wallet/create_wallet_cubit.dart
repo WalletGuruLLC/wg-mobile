@@ -20,7 +20,9 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
     verifyEmailOtp.fold(
       (error) {
         emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.message)),
+          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
         ));
       },
       (createdWallet) {

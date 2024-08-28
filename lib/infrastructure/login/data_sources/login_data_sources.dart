@@ -20,7 +20,8 @@ class LoginDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessageEs);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
     }
   }
 
@@ -38,7 +39,8 @@ class LoginDataSource {
       return userAuthenticationResponse;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessageEs);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
     }
   }
 }

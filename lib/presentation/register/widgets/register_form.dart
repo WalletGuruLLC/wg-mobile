@@ -38,6 +38,7 @@ class RegisterFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context);
     double size = MediaQuery.of(context).size.height;
 
     return Form(
@@ -82,7 +83,12 @@ class RegisterFormState extends State<RegisterForm> {
                 GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
                     extra: state.email);
               } else if (state.formStatus is SubmissionFailed) {
-                _buildlModal(state.customMessage, state.customCode);
+                _buildErrorModal(
+                  state.customMessage,
+                  state.customMessageEs,
+                  state.customCode,
+                  locale,
+                );
               }
             },
             builder: (context, state) {
@@ -135,7 +141,14 @@ class RegisterFormState extends State<RegisterForm> {
   }
 
   // Method to build the successful modal
-  Future<dynamic> _buildlModal(String description, String codeError) {
+  Future<dynamic> _buildErrorModal(
+    String descriptionEn,
+    String descriptionEs,
+    String codeError,
+    Locale locale,
+  ) {
+    String description =
+        locale.languageCode == 'en' ? descriptionEn : descriptionEs;
     return showDialog(
       context: context,
       builder: (BuildContext context) {

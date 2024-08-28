@@ -1,7 +1,12 @@
 class InvalidData {
-  InvalidData(this.code, this.message);
+  InvalidData(
+    this.code,
+    this.messageEn,
+    this.messageEs,
+  );
   String? code;
-  String? message;
+  String? messageEn;
+  String? messageEs;
 
-  factory InvalidData.empty() => InvalidData('', '');
+  factory InvalidData.empty() => InvalidData('', '', '');
 }

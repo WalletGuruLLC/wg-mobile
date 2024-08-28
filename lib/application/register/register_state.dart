@@ -10,6 +10,7 @@ class RegisterState extends Equatable {
   final String customCode;
   final String customMessage;
   final FormSubmissionStatus formStatus;
+  final String customMessageEs;
 
   const RegisterState({
     this.firstName = '',
@@ -21,6 +22,7 @@ class RegisterState extends Equatable {
     this.customCode = '',
     this.customMessage = '',
     this.formStatus = const InitialFormStatus(),
+    this.customMessageEs = '',
   });
 
   RegisterState copyWith({
@@ -33,6 +35,7 @@ class RegisterState extends Equatable {
     String? customCode,
     String? customMessage,
     FormSubmissionStatus? formStatus,
+    final String? customMessageEs,
   }) =>
       RegisterState(
         firstName: firstName ?? this.firstName,
@@ -44,6 +47,7 @@ class RegisterState extends Equatable {
         customCode: customCode ?? this.customCode,
         customMessage: customMessage ?? this.customMessage,
         formStatus: formStatus ?? this.formStatus,
+        customMessageEs: customMessageEs ?? this.customMessageEs,
       );
 
   RegisterState initialState() => const RegisterState(
@@ -56,6 +60,7 @@ class RegisterState extends Equatable {
         customCode: '',
         customMessage: '',
         formStatus: InitialFormStatus(),
+        customMessageEs: '',
       );
 
   @override
@@ -69,5 +74,6 @@ class RegisterState extends Equatable {
         customCode,
         customMessage,
         formStatus,
+        customMessageEs,
       ];
 }

@@ -22,7 +22,8 @@ class CreateWalletDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessageEs);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
     }
   }
 }
