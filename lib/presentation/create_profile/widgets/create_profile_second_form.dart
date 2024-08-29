@@ -65,7 +65,9 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
           const SizedBox(height: 30),
           const FormLabel(label: 'Identification Type'),
           IdentificationTypeDropForm(
-            initialValue: _idType,
+            initialValue: _idType.isNotEmpty && _idType.contains(_idType)
+                ? _idType
+                : null,
             hintText: 'Select you ID type',
             items: const ['National ID', 'Passport', 'Driver´s lisence'],
             onChanged: (value) => _onFormChanged('idType', value),
