@@ -46,4 +46,8 @@ class RegisterCubit extends Cubit<RegisterState> {
   void cleanFormStatus() async {
     emit(state.copyWith(formStatus: const InitialFormStatus()));
   }
+
+  void initialStatus() async {
+    emit(state.initialState());
+  }
 }
