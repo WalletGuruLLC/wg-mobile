@@ -19,7 +19,8 @@ class CreateProfileDataSource {
       return createProfileModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
     }
   }
 }
