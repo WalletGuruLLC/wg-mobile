@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_guru/domain/core/models/invalid_data.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/infrastructure/login/network/login_network.dart';
@@ -34,8 +35,10 @@ class LoginDataSource {
       },
     );
     final result = jsonDecode(response.body);
+    final storage = await SharedPreferences.getInstance();
     if (response.statusCode == 200) {
       ResponseModel userAuthenticationResponse = ResponseModel.fromJson(result);
+      storage.setString('Basic', userAuthenticationResponse.data!.token);
       return userAuthenticationResponse;
     } else {
       final errorModel = ResponseModel.fromJson(result);
