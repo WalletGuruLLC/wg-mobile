@@ -142,7 +142,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
         _address = '';
         _addressMinLength = false;
 
-        //   createWalletCubit.emitFetchWalletAssetId();
+        createWalletCubit.emitFetchWalletAssetId();
       });
     }
   }

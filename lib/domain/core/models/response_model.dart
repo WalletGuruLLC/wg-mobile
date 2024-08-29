@@ -216,10 +216,13 @@ class RafikiAssets {
     required this.code,
   });
 
-  factory RafikiAssets.fromJson(Map<String, dynamic> json) => RafikiAssets(
-        id: json["id"] ?? '',
-        code: json["code"] ?? '',
-      );
+  factory RafikiAssets.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return RafikiAssets(
+      id: json["id"] ?? '',
+      code: json["code"] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
