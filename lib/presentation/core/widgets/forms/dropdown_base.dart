@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BaseDropdown extends StatelessWidget {
+  final bool enabled;
   final String? hintText;
   final String? initialValue;
   final List<String>? items;
@@ -16,6 +17,7 @@ class BaseDropdown extends StatelessWidget {
     this.onChanged,
     this.decoration,
     this.hintStyle,
+    this.enabled = true,
   });
 
   @override
@@ -31,7 +33,7 @@ class BaseDropdown extends StatelessWidget {
           child: _buildItemText(value),
         );
       }).toList(),
-      onChanged: onChanged,
+      onChanged: enabled ? onChanged : null,
     );
   }
 
