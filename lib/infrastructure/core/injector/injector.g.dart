@@ -24,4 +24,14 @@ class _$Injector extends Injector {
       ..registerFactory<LoginRepository>((c) =>
           LoginRepositoryImpl(loginDataSource: c.resolve<LoginDataSource>()));
   }
+
+  @override
+  void _configureCreateProfileFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => CreateProfileDataSource())
+      ..registerFactory<CreateProfileRepository>((c) =>
+          CreateProfileRepositoryImpl(
+              registerDataSource: c.resolve<CreateProfileDataSource>()));
+  }
 }
