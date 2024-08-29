@@ -7,6 +7,10 @@ import 'package:wallet_guru/domain/create_profile/repositories/create_profile_re
 import 'package:wallet_guru/infrastructure/register/repositories/register_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/create_profile/data_sources/create_profile_data_source.dart';
 import 'package:wallet_guru/infrastructure/create_profile/repositories/create_profile_repository_impl.dart';
+import 'package:wallet_guru/domain/create_wallet/repositories/create_wallet_repository.dart';
+import 'package:wallet_guru/infrastructure/create_wallet/repositories/create_wallet_repository_impl.dart';
+import 'package:wallet_guru/infrastructure/create_wallet/data_sources/create_wallet_data_sources.dart';
+
 
 import 'package:kiwi/kiwi.dart';
 
@@ -36,6 +40,7 @@ abstract class Injector {
     _configureRegisterModule();
     _configureLoginModule();
     _configureCreateProfileModule();
+    _configureCreateWalletModule();
   }
 
   void _configureRegisterModule() {
@@ -50,6 +55,10 @@ abstract class Injector {
     _configureCreateProfileFactories();
   }
 
+  void _configureCreateWalletModule() {
+    _configureCreateWalletFactories();
+  }
+
   @Register.factory(RegisterDataSource)
   @Register.factory(RegisterRepository, from: RegisterRepositoryImpl)
   void _configureRegisterFactories();
@@ -61,4 +70,8 @@ abstract class Injector {
   @Register.factory(CreateProfileDataSource)
   @Register.factory(CreateProfileRepository, from: CreateProfileRepositoryImpl)
   void _configureCreateProfileFactories();
+
+  @Register.factory(CreateWalletDataSource)
+  @Register.factory(CreateWalletRepository, from: CreateWalletRepositoryImpl)
+  void _configureCreateWalletFactories();
 }

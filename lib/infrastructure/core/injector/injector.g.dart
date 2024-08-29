@@ -34,4 +34,13 @@ class _$Injector extends Injector {
           CreateProfileRepositoryImpl(
               registerDataSource: c.resolve<CreateProfileDataSource>()));
   }
+
+  void _configureCreateWalletFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => CreateWalletDataSource())
+      ..registerFactory<CreateWalletRepository>((c) =>
+          CreateWalletRepositoryImpl(
+              createWalletDataSources: c.resolve<CreateWalletDataSource>()));
+  }
 }

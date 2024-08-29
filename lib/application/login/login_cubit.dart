@@ -20,9 +20,10 @@ class LoginCubit extends Cubit<LoginState> {
     verifyEmailOtp.fold(
       (error) {
         emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.message)),
+          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
-          customMessage: error.message,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
         ));
       },
       (singInUser) {
@@ -50,7 +51,7 @@ class LoginCubit extends Cubit<LoginState> {
   void cleanFormStatus() async {
     emit(state.copyWith(formStatus: const InitialFormStatus()));
   }
-  
+
   void cleanFormStatusOtp() async {
     emit(state.copyWith(formStatusOtp: const InitialFormStatus()));
   }
@@ -66,9 +67,11 @@ class LoginCubit extends Cubit<LoginState> {
     verifyEmailOtp.fold(
       (error) {
         emit(state.copyWith(
-          formStatusOtp: SubmissionFailed(exception: Exception(error.message)),
+          formStatusOtp:
+              SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
-          customMessage: error.message,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
         ));
       },
       (verifiedUser) {

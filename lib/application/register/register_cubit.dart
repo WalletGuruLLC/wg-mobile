@@ -20,9 +20,10 @@ class RegisterCubit extends Cubit<RegisterState> {
     registerResponse.fold(
       (error) {
         emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.message)),
+          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
-          customMessage: error.message,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
         ));
       },
       (createUser) {

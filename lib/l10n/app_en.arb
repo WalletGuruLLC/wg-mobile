@@ -12,7 +12,7 @@
   "enter_auth_code": "Enter your authentication code",
   "otp_authentication": "Two-Factor Authentication",
   "otp_authentication_description": "A unique code has been sent to your email address. Please check your inbox and enter the code below",
-  "valid_code_time": "Your code is valid up to 00:30 s",
+  "valid_code_time": "Your code is valid up to:",
   "button_pop_up_fail": "Retry",
   "button_pop_up_sucefull": "Continue",
   "resend_code": "Resend Code",

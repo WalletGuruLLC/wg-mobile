@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/domain/core/models/country_model.dart';
 
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -26,6 +27,22 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
   String _address = '';
   bool _addressMinLength = false;
   List<String> itemsMock = ['item1', 'item2', 'item3'];
+  late List<Country> countries;
+  late List<LocationState> locationStates;
+  List<String> cities = [];
+
+  List<String> countriesNames = [];
+  List<String> statesNames = [];
+
+  String? selectedCountry;
+  String? selectedState;
+  String? selectedCity;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCountries();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +63,41 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           const ProgressBar(currentStep: 3),
           SizedBox(height: size * 0.030),
           FormLabel(label: l10n.country),
-          CountryForm(items: itemsMock, onChanged: (value) {}),
+          CountryForm(
+              items: countriesNames,
+              onChanged: (value) {
+                setState(() {
+                  selectedCountry = value!;
+                  if (selectedCountry != null) {
+                    // _loadStates(selectedCountry: selectedCountry!);
+                  }
+                });
+              }),
           const SizedBox(height: 20),
           FormLabel(label: l10n.state),
-          StateForm(items: itemsMock, onChanged: (value) {}),
+          StateForm(
+            enabled: selectedCountry == null ? false : true,
+            items: itemsMock,
+            onChanged: (value) {
+              setState(() {
+                selectedState = 'Meta';
+                if (selectedState != null && selectedCountry != null) {
+                  _loadCities(
+                      selectedState: selectedState!,
+                      selectedCountry: selectedCountry!);
+                }
+              });
+            },
+          ),
           const SizedBox(height: 20),
           FormLabel(label: l10n.city),
-          CityForm(items: itemsMock, onChanged: (value) {}),
+          CityForm(
+              items: cities,
+              onChanged: (value) {
+                if (selectedState != null) {
+                  _loadStates(selectedCountry: selectedCountry!);
+                }
+              }),
           const SizedBox(height: 20),
           FormLabel(label: l10n.zipCode),
           ZipCodeForm(onChanged: _onFormChanged),
@@ -117,5 +162,36 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
         );
       },
     );
+  }
+
+  Future<void> _loadCountries() async {
+    CountriesDataSource countriesDataSource = CountriesDataSource();
+    countries = await countriesDataSource.getCountriesList();
+    for (Country country in countries) {
+      countriesNames.add(country.name);
+    }
+    setState(() {});
+  }
+
+  Future<void> _loadStates({required String selectedCountry}) async {
+    StateDataSource stateDataSource = StateDataSource();
+    locationStates =
+        await stateDataSource.getStates(countryName: selectedCountry);
+    for (LocationState state in locationStates) {
+      statesNames.add(state.name);
+    }
+    print(statesNames);
+    setState(() {});
+  }
+
+  Future<void> _loadCities(
+      {required String selectedState, required String selectedCountry}) async {
+    CitiesDataSource citiesDataSource = CitiesDataSource();
+    cities = await citiesDataSource.getCitites(
+      stateName: selectedState,
+      countryName: selectedCountry,
+    );
+    print(cities);
+    setState(() {});
   }
 }

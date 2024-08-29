@@ -26,32 +26,43 @@ class ResponseModel {
 
 class Data {
   final User? user;
+  final CreateWallet? createWallet; // Cambiado a nullable
   final String token;
   final bool success;
   final String message;
 
   Data({
-    required this.user,
+    this.user,
+    this.createWallet,
     required this.token,
     required this.success,
     required this.message,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        user: json["user"] != null
+        user: json.containsKey("user") && json["user"] != null
             ? User.fromJson(json["user"])
-            : User.initialState(),
+            : null,
+        createWallet:
+            json.containsKey("createWallet") && json["createWallet"] != null
+                ? CreateWallet.fromJson(json["createWallet"])
+                : null,
         token: json["token"] ?? '',
         success: json["success"] ?? false,
         message: json["message"] ?? '',
       );
 
   factory Data.initialState() => Data(
-        user: User.initialState(),
+        user: null,
+        createWallet: null,
         token: '',
         success: false,
         message: '',
       );
+
+  bool hasUser() => user != null;
+
+  bool hasCreateWallet() => createWallet != null;
 }
 
 class User {
@@ -145,6 +156,46 @@ class User {
         picture: '',
         serviceProviderId: '',
         id: '',
+        active: false,
+      );
+}
+
+class CreateWallet {
+  final String id;
+  final String name;
+  final String walletType;
+  final String walletAddress;
+  final bool active;
+
+  CreateWallet({
+    required this.id,
+    required this.name,
+    required this.walletType,
+    required this.walletAddress,
+    required this.active,
+  });
+
+  factory CreateWallet.fromJson(Map<String, dynamic> json) => CreateWallet(
+        id: json["id"] ?? '',
+        name: json["name"] ?? '',
+        walletType: json["walletType"] ?? '',
+        walletAddress: json["walletAddress"] ?? '',
+        active: json["active"] ?? false,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "walletType": walletType,
+        "walletAddress": walletAddress,
+        "active": active,
+      };
+
+  factory CreateWallet.initialState() => CreateWallet(
+        id: '',
+        name: '',
+        walletType: '',
+        walletAddress: '',
         active: false,
       );
 }
