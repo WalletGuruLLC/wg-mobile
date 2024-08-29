@@ -11,10 +11,21 @@ class CreateWalletRepositoryImpl extends CreateWalletRepository {
 
   @override
   Future<Either<InvalidData, ResponseModel>> createWallet(
-      String walletName, String walletAddress, String walletType) async {
+      String addressName, String assetId) async {
     try {
-      final ResponseModel response = await createWalletDataSources.createWallet(
-          walletName, walletAddress, walletType);
+      final ResponseModel response =
+          await createWalletDataSources.createWallet(addressName, assetId);
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> fetchWalletAssetId() async {
+    try {
+      final ResponseModel response =
+          await createWalletDataSources.fetchWalletAssetId();
       return Right(response);
     } on InvalidData catch (invalidData) {
       return Left(invalidData);

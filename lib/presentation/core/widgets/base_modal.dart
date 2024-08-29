@@ -19,6 +19,7 @@ class BaseModal extends StatelessWidget {
   final Color? modalColor;
   final Widget? centerIcon;
   final bool? showCloseIcon;
+  final double? buttonWidth;
   const BaseModal({
     super.key,
     this.content,
@@ -33,6 +34,7 @@ class BaseModal extends StatelessWidget {
     this.modalColor = const Color(0xFFFAFAFA),
     this.centerIcon,
     this.showCloseIcon = true,
+    this.buttonWidth,
   });
   @override
   Widget build(BuildContext context) {
@@ -83,6 +85,7 @@ class BaseModal extends StatelessWidget {
                                 children: [
                                   const SizedBox(height: 20),
                                   CustomButton(
+                                    width: buttonWidth,
                                     border: Border.all(
                                         color: AppColorSchema.of(context)
                                             .buttonBorderColor),

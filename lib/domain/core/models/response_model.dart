@@ -26,14 +26,16 @@ class ResponseModel {
 
 class Data {
   final User? user;
-  final CreateWallet? createWallet; // Cambiado a nullable
+  final Wallet? wallet;
+  final List<RafikiAssets>? rafikiAssets;
   final String token;
   final bool success;
   final String message;
 
   Data({
     this.user,
-    this.createWallet,
+    this.wallet,
+    this.rafikiAssets,
     required this.token,
     required this.success,
     required this.message,
@@ -43,9 +45,13 @@ class Data {
         user: json.containsKey("user") && json["user"] != null
             ? User.fromJson(json["user"])
             : null,
-        createWallet:
-            json.containsKey("createWallet") && json["createWallet"] != null
-                ? CreateWallet.fromJson(json["createWallet"])
+        wallet: json.containsKey("wallet") && json["wallet"] != null
+            ? Wallet.fromJson(json["wallet"])
+            : null,
+        rafikiAssets:
+            json.containsKey("rafikiAssets") && json["rafikiAssets"] != null
+                ? List<RafikiAssets>.from(json["rafikiAssets"]
+                    .map((rafikiAsset) => RafikiAssets.fromJson(rafikiAsset)))
                 : null,
         token: json["token"] ?? '',
         success: json["success"] ?? false,
@@ -54,7 +60,8 @@ class Data {
 
   factory Data.initialState() => Data(
         user: null,
-        createWallet: null,
+        wallet: null,
+        rafikiAssets: null,
         token: '',
         success: false,
         message: '',
@@ -62,7 +69,7 @@ class Data {
 
   bool hasUser() => user != null;
 
-  bool hasCreateWallet() => createWallet != null;
+  bool hasWallet() => wallet != null;
 }
 
 class User {
@@ -160,14 +167,14 @@ class User {
       );
 }
 
-class CreateWallet {
+class Wallet {
   final String id;
   final String name;
   final String walletType;
   final String walletAddress;
   final bool active;
 
-  CreateWallet({
+  Wallet({
     required this.id,
     required this.name,
     required this.walletType,
@@ -175,7 +182,7 @@ class CreateWallet {
     required this.active,
   });
 
-  factory CreateWallet.fromJson(Map<String, dynamic> json) => CreateWallet(
+  factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
         id: json["id"] ?? '',
         name: json["name"] ?? '',
         walletType: json["walletType"] ?? '',
@@ -191,11 +198,36 @@ class CreateWallet {
         "active": active,
       };
 
-  factory CreateWallet.initialState() => CreateWallet(
+  factory Wallet.initialState() => Wallet(
         id: '',
         name: '',
         walletType: '',
         walletAddress: '',
         active: false,
+      );
+}
+
+class RafikiAssets {
+  final String id;
+  final String code;
+
+  RafikiAssets({
+    required this.id,
+    required this.code,
+  });
+
+  factory RafikiAssets.fromJson(Map<String, dynamic> json) => RafikiAssets(
+        id: json["id"] ?? '',
+        code: json["code"] ?? '',
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "code": code,
+      };
+
+  factory RafikiAssets.initialState() => RafikiAssets(
+        id: '',
+        code: '',
       );
 }

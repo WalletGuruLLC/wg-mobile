@@ -1,55 +1,56 @@
 part of 'create_wallet_cubit.dart';
 
 class CreateWalletState extends Equatable {
-  final String walletName;
-  final String walletAddress;
-  final String walletType;
+  final String addressName;
+  final String assetId;
   final FormSubmissionStatus formStatus;
   final String customMessage;
   final String customMessageEs;
+  final String customCode;
 
   const CreateWalletState({
-    this.walletName = '',
+    this.addressName = '',
     this.customMessage = '',
     this.customMessageEs = '',
     this.formStatus = const InitialFormStatus(),
-    this.walletType = 'White Brand',
-    this.walletAddress = 'http://address.whitelabel.co',
+    this.assetId = '',
+    this.customCode = '',
   });
 
   CreateWalletState copyWith({
-    String? walletName,
+    String? addressName,
     FormSubmissionStatus? formStatus,
     String? customMessage,
     String? customMessageEs,
     String? walletType,
-    String? walletAddress,
+    String? assetId,
+    String? customCode,
   }) =>
       CreateWalletState(
-        walletName: walletName ?? this.walletName,
+        addressName: addressName ?? this.addressName,
         formStatus: formStatus ?? this.formStatus,
         customMessage: customMessage ?? this.customMessage,
         customMessageEs: customMessageEs ?? this.customMessageEs,
-        walletType: walletType ?? this.walletType,
-        walletAddress: walletAddress ?? this.walletAddress,
+        assetId: assetId ?? this.assetId,
+        customCode: customCode ?? this.customCode,
       );
 
   CreateWalletState initialState() => const CreateWalletState(
-        walletName: '',
+        addressName: '',
         formStatus: InitialFormStatus(),
         customMessage: '',
         customMessageEs: '',
-        walletType: 'White Brand',
-        walletAddress: 'http://address.whitelabel.co',
+        assetId: '',
+        customCode: '',
       );
 
   @override
   List<Object> get props => [
-        walletName,
+        addressName,
         formStatus,
         customMessage,
         customMessageEs,
-        walletType,
-        walletAddress,
+        assetId,
+        customCode,
       ];
 }

@@ -57,6 +57,7 @@
   "selectYourCity": "Select your city",
   "enterYourZipCode": "Enter your zip code",
   "enterYourAddress": "Enter your address",
-  "selectYourBirth": "Select your birth"
+  "selectYourBirth": "Select your birth",
+  "create": "Create"
 
 }
