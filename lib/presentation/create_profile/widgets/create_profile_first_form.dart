@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
-import 'package:wallet_guru/application/login/login_cubit.dart';
-import 'package:wallet_guru/application/register/register_cubit.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 
+import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/application/register/register_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/last_name_form.dart';
+import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/first_name_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
 class CreateProfileFirstForm extends StatefulWidget {
@@ -133,7 +133,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
   // Method to handle button actions
   void _onNextButtonPressed() {
     if (_formKey.currentState?.validate() ?? false) {
-      GoRouter.of(context).pushNamed(Routes.createProfile2.name);
+      createProfileCubit.emitCreateProfileOne();
     }
   }
 
