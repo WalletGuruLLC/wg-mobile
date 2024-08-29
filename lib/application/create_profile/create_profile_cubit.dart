@@ -30,9 +30,9 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     createProfile1.fold(
       (error) {
         emit(state.copyWith(
-          formStatusOne: SubmissionFailed(exception: Exception(error.message)),
+          formStatusOne: SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
-          customMessage: error.message,
+          customMessage: error.messageEn,
         ));
       },
       (createProfileOne) {
@@ -75,9 +75,9 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     createProfile2.fold(
       (error) {
         emit(state.copyWith(
-          formStatusTwo: SubmissionFailed(exception: Exception(error.message)),
+          formStatusTwo: SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
-          customMessage: error.message,
+          customMessage: error.messageEn,
         ));
       },
       (createProfileTwo) {
@@ -123,9 +123,9 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
       (error) {
         emit(state.copyWith(
           formStatusThree:
-              SubmissionFailed(exception: Exception(error.message)),
+              SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
-          customMessage: error.message,
+          customMessage: error.messageEn,
         ));
       },
       (createProfileTwo) {
