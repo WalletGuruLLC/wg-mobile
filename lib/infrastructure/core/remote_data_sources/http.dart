@@ -29,8 +29,12 @@ class HttpDataSource {
   static Future<dynamic> get(String path) async {
     await setHeaders();
     Uri uri = Uri.parse(path);
-    final response = await http.get(uri, headers: _headers);
-    return _processResponse(response);
+    try {
+      final response = await http.get(uri, headers: _headers);
+      return response;
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
   }
 
   // Makes POST requests to the backend at the specified endpoint with data

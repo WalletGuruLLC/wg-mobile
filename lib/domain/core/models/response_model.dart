@@ -104,7 +104,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         privacyPolicy: json["privacyPolicy"],
-        mfaEnabled: json["mfaEnabled"],
+        mfaEnabled: json["mfaEnabled"] ?? false,
         termsConditions: json["termsConditions"],
         otp: json["otp"],
         sendSms: json["sendSms"],

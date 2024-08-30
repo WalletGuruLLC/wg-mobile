@@ -9,7 +9,6 @@ import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/last_name_form.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
@@ -20,7 +19,8 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
 class CreateProfileFirstForm extends StatefulWidget {
-  const CreateProfileFirstForm({super.key});
+  const CreateProfileFirstForm({super.key, required this.id});
+  final String id;
 
   @override
   State<CreateProfileFirstForm> createState() => CreateProfileFirstFormState();
@@ -39,6 +39,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
     BlocProvider.of<RegisterCubit>(context).initialStatus();
 
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
+    createProfileCubit.setUserId(widget.id);
     super.initState();
   }
 
@@ -83,24 +84,9 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
             onChanged: (value) => _onFormChanged('phoneNumber', value),
           ),
           SizedBox(height: size * 0.12),
-          BlocConsumer<CreateProfileCubit, CreateProfileState>(
-            listener: (context, state) {
-              if (state.formStatusOne is SubmissionSuccess) {
-                GoRouter.of(context).pushNamed(Routes.createProfile2.name);
-              } else if (state.formStatusOne is SubmissionFailed) {
-                _buildlModal(state.customMessage, state.customCode);
-              }
-            },
-            builder: (context, state) {
-              if (state.formStatusOne is FormSubmitting) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                return CreateProfileButtons(
-                  onPressed1: _onBackButtonPressed,
-                  onPressed2: _onNextButtonPressed,
-                );
-              }
-            },
+          CreateProfileButtons(
+            onPressed1: _onBackButtonPressed,
+            onPressed2: _onNextButtonPressed,
           ),
         ],
       ),
@@ -133,7 +119,8 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
   // Method to handle button actions
   void _onNextButtonPressed() {
     if (_formKey.currentState?.validate() ?? false) {
-      createProfileCubit.emitCreateProfileOne();
+      //createProfileCubit.emitCreateProfileOne();
+      GoRouter.of(context).pushNamed(Routes.createProfile2.name);
     }
   }
 
@@ -144,7 +131,6 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
-          isFail: true,
           content: Column(
             children: [
               SizedBox(height: size * 0.025),
