@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:wallet_guru/domain/core/models/country_model.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/city_form.dart';
@@ -26,23 +25,15 @@ class CreateProfileThirdForm extends StatefulWidget {
 class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
   final _formKey = GlobalKey<FormState>();
   String _address = '';
+  String _zipCode = '';
   bool _addressMinLength = false;
-
-  late List<Country> countries;
-  late List<LocationState> locationStates;
-  List<String> cities = [];
-
-  List<String> countriesNames = [];
-  List<String> statesNames = [];
-
-  String? selectedCountry;
-  String? selectedState;
-  String? selectedCity;
+  late CreateProfileCubit createProfileCubit;
 
   @override
   void initState() {
     super.initState();
-    context.read<CreateProfileCubit>().loadCountries();
+    createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
+    createProfileCubit.loadCountries();
   }
 
   @override
@@ -70,7 +61,7 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
                 items: state.countries,
                 onChanged: (value) {
                   if (value != null) {
-                    context.read<CreateProfileCubit>().selectCountry(value);
+                    createProfileCubit.selectCountry(value);
                   }
                 },
               );
@@ -82,10 +73,10 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
             builder: (context, state) {
               return StateForm(
                 enabled: state.country.isNotEmpty,
-                items: state.states,
+                items: state.states.isNotEmpty ? state.states : [''],
                 onChanged: (value) {
                   if (value != null) {
-                    context.read<CreateProfileCubit>().selectState(value);
+                    createProfileCubit.selectState(value);
                   }
                 },
               );
@@ -96,10 +87,10 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           BlocBuilder<CreateProfileCubit, CreateProfileState>(
             builder: (context, state) {
               return CityForm(
-                items: state.cities,
+                items: state.cities.isNotEmpty ? state.cities : [''],
                 onChanged: (value) {
                   if (value != null) {
-                    context.read<CreateProfileCubit>().selectCity(value);
+                    createProfileCubit.selectCity(value);
                   }
                 },
               );
@@ -107,11 +98,10 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           ),
           const SizedBox(height: 20),
           FormLabel(label: l10n.zipCode),
-          ZipCodeForm(onChanged: _onFormChanged),
-
+          ZipCodeForm(onChanged: (value) => _onFormChanged('zipCode', value)),
           const SizedBox(height: 20),
           FormLabel(label: l10n.address),
-          AddressForm(onChanged: _onFormChanged),
+          AddressForm(onChanged: (value) => _onFormChanged('address', value)),
           SizedBox(height: size * 0.05),
           CreateProfileButtons(
             onPressed1: _onBackButtonPressed,
@@ -122,11 +112,19 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
     );
   }
 
-  // Method to handle form changes
-  void _onFormChanged(String? value) {
+  void _onFormChanged(String formType, String? value) {
     setState(() {
-      _address = value!;
-      _addressMinLength = value.length > 4;
+      switch (formType) {
+        case 'zipCode':
+          _zipCode = value!;
+          createProfileCubit.setZipCode(_zipCode);
+          break;
+        case 'address':
+          _address = value!;
+          _addressMinLength = value.length > 4;
+          createProfileCubit.setAddress(_address);
+          break;
+      }
     });
   }
 
@@ -141,5 +139,4 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
       GoRouter.of(context).pushNamed(Routes.createProfile4.name);
     }
   }
-
 }

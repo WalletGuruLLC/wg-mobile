@@ -14,10 +14,10 @@ class ResponseModel {
   });
 
   factory ResponseModel.fromJson(Map<String, dynamic> json) => ResponseModel(
-        statusCode: json["statusCode"],
-        customCode: json["customCode"],
-        customMessage: json["customMessage"],
-        customMessageEs: json["customMessageEs"],
+        statusCode: json["statusCode"] ?? "",
+        customCode: json["customCode"] ?? "",
+        customMessage: json["customMessage"] ?? "",
+        customMessageEs: json["customMessageEs"] ?? "",
         data: json["data"] != null
             ? Data.fromJson(json["data"])
             : Data.initialState(),
