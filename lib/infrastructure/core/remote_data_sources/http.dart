@@ -47,14 +47,32 @@ class HttpDataSource {
     }
   }
 
+  // Makes PATCH requests to the backend at the specified endpoint with data
+  // Returns: Future with the result of the query
+  static Future<dynamic> patch(String path, Map<String, dynamic> data) async {
+    await setHeaders();
+    final body = encode(data);
+    Uri uri = Uri.parse(path);
+    try {
+      final response = await http.patch(uri, body: body, headers: _headers);
+      return response;
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
+  }
+
   // Makes PUT requests to the backend at the specified endpoint with data
   // Returns: Future with the result of the query
   static Future<dynamic> put(String path, Map<String, dynamic> data) async {
     await setHeaders();
     final body = encode(data);
     Uri uri = Uri.parse(path);
-    final response = await http.put(uri, body: body, headers: _headers);
-    return _processResponse(response);
+    try {
+      final response = await http.put(uri, body: body, headers: _headers);
+      return response;
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
   }
 
   // Makes DELETE requests to the backend at the specified endpoint with data
@@ -71,6 +89,7 @@ class HttpDataSource {
   static dynamic _processResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
+        return decode(response.body);
       case 201:
         return decode(response.body);
       case 400:

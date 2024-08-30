@@ -22,7 +22,7 @@ class AppTextStyles {
   static final specialFormText = TextStyle(
     fontFamily: fontFamily,
     color: const Color(0xFFC6C6C6),
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: FontWeight.w300,
   );
 }
