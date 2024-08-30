@@ -80,6 +80,9 @@ class LoginCubit extends Cubit<LoginState> {
           customMessageEs: verifiedUser.customMessageEs,
           token: verifiedUser.data!.token,
           userId: verifiedUser.data!.user!.id,
+          firstName: verifiedUser.data!.user!.firstName,
+          lastName: verifiedUser.data!.user!.lastName,
+          email: verifiedUser.data!.user!.email,
           formStatusOtp: SubmissionSuccess(),
         ));
       },
