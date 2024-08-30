@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wallet_guru/domain/core/models/country_model.dart';
 
+import 'package:wallet_guru/domain/core/models/country_model.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/domain/create_profile/entities/create_profile_entity.dart';
 import 'package:wallet_guru/domain/create_profile/entities/create_profile_two_entity.dart';
 import 'package:wallet_guru/domain/create_profile/entities/create_profile_one_entity.dart';
 import 'package:wallet_guru/domain/create_profile/entities/create_profile_three_entity.dart';
@@ -192,7 +193,61 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     );
   }
 
+  void emitCreateProfile() async {
+    emit(
+      state.copyWith(formStatus: FormSubmitting()),
+    );
+    final createProfile2 =
+        await createProfileRepository.updateUser(CreateProfileEntity(
+      id: state.id,
+      email: state.email,
+      firstName: state.firstName,
+      lastName: state.lastName,
+      phone: state.phone,
+      termsConditions: true,
+      privacyPolicy: true,
+      socialSecurityNumber: state.socialSecurityNumber,
+      identificationType: state.identificationType,
+      identificationNumber: state.identificationNumber,
+      country: state.country,
+      stateLocation: state.stateLocation,
+      city: state.city,
+      zipCode: state.zipCode,
+      address: state.address,
+    ));
+    createProfile2.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatus:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (createProfileTwo) {
+        emit(state.copyWith(
+          customMessage: createProfileTwo.customCode,
+          customMessageEs: createProfileTwo.customMessageEs,
+          formStatus: SubmissionSuccess(),
+        ));
+      },
+    );
+  }
+
   void cleanFormStatusThree() async {
     emit(state.copyWith(formStatusThree: const InitialFormStatus()));
+  }
+  
+  void cleanFormStatus() async {
+    emit(state.copyWith(formStatus: const InitialFormStatus()));
+  }
+
+  void setZipCode(String? zipCode) async {
+    emit(state.copyWith(zipCode: zipCode));
+  }
+
+  void setAddress(String? address) async {
+    emit(state.copyWith(address: address));
   }
 }

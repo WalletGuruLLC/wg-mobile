@@ -112,25 +112,17 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
     );
   }
 
-  // Method to handle form changes
-  /*void _onFormChanged(String? value) {
-    setState(() {
-      _address = value!;
-      _addressMinLength = value.length > 4;
-    });
-  }*/
-
   void _onFormChanged(String formType, String? value) {
     setState(() {
       switch (formType) {
         case 'zipCode':
           _zipCode = value!;
-          //createProfileCubit.setSocialSecurityNumber(_ssn);
+          createProfileCubit.setZipCode(_zipCode);
           break;
         case 'address':
           _address = value!;
           _addressMinLength = value.length > 4;
-          //createProfileCubit.setIdentificationType(_idType);
+          createProfileCubit.setAddress(_address);
           break;
       }
     });

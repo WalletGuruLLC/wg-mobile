@@ -23,6 +23,7 @@ class CreateProfileState extends Equatable {
   final String zipCode;
   final String address;
 
+  final FormSubmissionStatus formStatus;
   final FormSubmissionStatus formStatusOne;
   final FormSubmissionStatus formStatusTwo;
   final FormSubmissionStatus formStatusThree;
@@ -49,6 +50,7 @@ class CreateProfileState extends Equatable {
     this.city = '',
     this.zipCode = '',
     this.address = '',
+    this.formStatus = const InitialFormStatus(),
     this.formStatusOne = const InitialFormStatus(),
     this.formStatusTwo = const InitialFormStatus(),
     this.formStatusThree = const InitialFormStatus(),
@@ -76,6 +78,7 @@ class CreateProfileState extends Equatable {
     String? city,
     String? zipCode,
     String? address,
+    FormSubmissionStatus? formStatus,
     FormSubmissionStatus? formStatusOne,
     FormSubmissionStatus? formStatusTwo,
     FormSubmissionStatus? formStatusThree,
@@ -102,6 +105,7 @@ class CreateProfileState extends Equatable {
         city: city ?? this.city,
         zipCode: zipCode ?? this.zipCode,
         address: address ?? this.address,
+        formStatus: formStatus ?? this.formStatus,
         formStatusOne: formStatusOne ?? this.formStatusOne,
         formStatusTwo: formStatusTwo ?? this.formStatusTwo,
         formStatusThree: formStatusThree ?? this.formStatusThree,
@@ -129,6 +133,7 @@ class CreateProfileState extends Equatable {
         city: '',
         zipCode: '',
         address: '',
+        formStatus: InitialFormStatus(),
         formStatusOne: InitialFormStatus(),
         formStatusTwo: InitialFormStatus(),
         formStatusThree: InitialFormStatus(),
@@ -157,6 +162,7 @@ class CreateProfileState extends Equatable {
         city,
         zipCode,
         address,
+        formStatus,
         formStatusOne,
         formStatusTwo,
         formStatusThree,
