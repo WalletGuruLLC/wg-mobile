@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/application/create_wallet/create_wallet_cubit.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -20,17 +25,31 @@ class CreateWalletFormState extends State<CreateWalletForm> {
   final _formKey = GlobalKey<FormState>();
   String _address = '';
   bool _addressMinLength = false;
+  late CreateWalletCubit createWalletCubit;
+
+  @override
+  void initState() {
+    createWalletCubit = BlocProvider.of<CreateWalletCubit>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context);
     double size = MediaQuery.of(context).size.height;
     return Form(
-        key: _formKey, child: _buildEmailAndPasswordView(size, context, l10n));
+      key: _formKey,
+      child: _buildEmailAndPasswordView(size, context, l10n, locale),
+    );
   }
 
   Widget _buildEmailAndPasswordView(
-      double size, BuildContext context, AppLocalizations l10n) {
+    double size,
+    BuildContext context,
+    AppLocalizations l10n,
+    Locale locale,
+  ) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,22 +85,39 @@ class CreateWalletFormState extends State<CreateWalletForm> {
           SizedBox(height: size * 0.015),
           WalletAddressForm(
             initialValue: _address,
-            onChanged:
-                _onFormChanged, // Call the corrected _onFormChanged method
+            onChanged: _onFormChanged,
           ),
           SizedBox(height: size * 0.35),
-          CustomButton(
-            border: Border.all(
-                color: !_addressMinLength
-                    ? AppColorSchema.of(context).secondaryButtonBorderColor
-                    : Colors.transparent),
-            color: !_addressMinLength
-                ? Colors.transparent
-                : AppColorSchema.of(context).buttonColor,
-            text: l10n.verify,
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            onPressed: _onButtonPressed,
+          BlocConsumer<CreateWalletCubit, CreateWalletState>(
+            listener: (context, state) {
+              if (state.formStatus is SubmissionSuccess) {
+                _buildSuccessfulModal(
+                    state.customMessage, state.customMessageEs, locale);
+              } else if (state.formStatus is SubmissionFailed) {
+                _buildErrorModal(state.customMessage, state.customMessageEs,
+                    state.customCode, locale, l10n);
+              }
+            },
+            builder: (context, state) {
+              if (state.formStatus is FormSubmitting) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return CustomButton(
+                  border: Border.all(
+                    color: !_addressMinLength
+                        ? AppColorSchema.of(context).secondaryButtonBorderColor
+                        : Colors.transparent,
+                  ),
+                  color: !_addressMinLength
+                      ? Colors.transparent
+                      : AppColorSchema.of(context).buttonColor,
+                  text: l10n.create,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  onPressed: _onButtonPressed,
+                );
+              }
+            },
           ),
           SizedBox(height: size * 0.025),
         ],
@@ -93,7 +129,8 @@ class CreateWalletFormState extends State<CreateWalletForm> {
   void _onFormChanged(String? value) {
     setState(() {
       _address = value!;
-      _addressMinLength = value.length > 4;
+      _addressMinLength = value.length > 3;
+      createWalletCubit.setUserWalletName(_address);
     });
   }
 
@@ -104,22 +141,31 @@ class CreateWalletFormState extends State<CreateWalletForm> {
       setState(() {
         _address = '';
         _addressMinLength = false;
+
+        createWalletCubit.emitFetchWalletAssetId();
       });
-      _buildSuccessfulModal();
     }
   }
 
   // Method to build the successful modal
-  Future<dynamic> _buildSuccessfulModal() {
+  Future<dynamic> _buildSuccessfulModal(
+    String descriptionEn,
+    String descriptionEs,
+    Locale locale,
+  ) {
+    String description =
+        locale.languageCode == 'en' ? descriptionEn : descriptionEs;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         final l10n = AppLocalizations.of(context)!;
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
+          isSucefull: false,
+          buttonWidth: MediaQuery.of(context).size.width * 0.40,
           content: Column(
             children: [
-              SizedBox(height: size * 0.025),
+              SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
                 text: l10n.walletSuccessMessage,
@@ -127,16 +173,81 @@ class CreateWalletFormState extends State<CreateWalletForm> {
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
-              SizedBox(height: size * 0.025),
+              SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.continueCheckingProfile,
-                fontSize: 16,
+                text: description,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
             ],
           ),
+          onPressed: () {
+            createWalletCubit.emitInitialStatus();
+            Navigator.of(context).pop();
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.dashboardWallet.name,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // Placeholder for the error modal method
+  void _buildErrorModal(
+    String descriptionEn,
+    String descriptionEs,
+    String codeError,
+    Locale locale,
+    AppLocalizations l10n,
+  ) {
+    String description =
+        locale.languageCode == 'en' ? descriptionEn : descriptionEs;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          buttonWidth: MediaQuery.of(context).size.width * 0.40,
+          isSucefull: true,
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.walletNameTaken,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: description,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: 'Error Code: $codeError',
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () {
+            createWalletCubit.emitInitialStatus();
+            Navigator.of(context).pop();
+
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.createWallet.name,
+            );
+          },
         );
       },
     );

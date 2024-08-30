@@ -26,16 +26,6 @@ class _$Injector extends Injector {
   }
 
   @override
-  void _configureCreateProfileFactories() {
-    final KiwiContainer container = KiwiContainer();
-    container
-      ..registerFactory((c) => CreateProfileDataSource())
-      ..registerFactory<CreateProfileRepository>((c) =>
-          CreateProfileRepositoryImpl(
-              registerDataSource: c.resolve<CreateProfileDataSource>()));
-  }
-
-  @override
   void _configureCreateWalletFactories() {
     final KiwiContainer container = KiwiContainer();
     container
@@ -43,5 +33,15 @@ class _$Injector extends Injector {
       ..registerFactory<CreateWalletRepository>((c) =>
           CreateWalletRepositoryImpl(
               createWalletDataSources: c.resolve<CreateWalletDataSource>()));
+  }
+
+  @override
+  void _configureCreateProfileFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => CreateProfileDataSource())
+      ..registerFactory<CreateProfileRepository>((c) =>
+          CreateProfileRepositoryImpl(
+              registerDataSource: c.resolve<CreateProfileDataSource>()));
   }
 }

@@ -78,6 +78,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
               SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
         ));
       },
       (createProfileOne) {
@@ -125,6 +126,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
               SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
         ));
       },
       (createProfileTwo) {
@@ -174,6 +176,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
               SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
         ));
       },
       (createProfileTwo) {

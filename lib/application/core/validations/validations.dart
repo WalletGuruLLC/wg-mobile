@@ -71,8 +71,11 @@ class Validators {
     if (value == null || value.isEmpty) {
       return 'Please enter your address';
     }
-    if (value.length < 5) {
-      return 'Please enter a valid address';
+    if (value.length < 3 || value.length > 20) {
+      return 'Address must be between 3 and 20 characters long';
+    }
+    if (!RegExp(r'^(?=.*[a-z])(?=.*\d)[a-z\d]+$').hasMatch(value)) {
+      return 'Address must contain at least one letter, one number, and be entirely lowercase';
     }
     return null;
   }

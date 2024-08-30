@@ -6,22 +6,34 @@ import 'package:wallet_guru/infrastructure/create_wallet/network/create_wallet_n
 import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
 
 class CreateWalletDataSource {
-  Future<ResponseModel> createWallet(
-      String walletName, String walletAddress, String walletType) async {
+  Future<ResponseModel> createWallet(String addressName, String assetId) async {
     var response = await HttpDataSource.post(
       CreateWalletNetwork.createWallet,
       {
-        "name": walletName,
-        "walletType": walletType,
-        "walletAddress": walletAddress,
+        "addressName": addressName,
+        "assetId": assetId,
       },
     );
     final result = jsonDecode(response.body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       ResponseModel signInSignInResponseModel = ResponseModel.fromJson(result);
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
+
+  Future<ResponseModel> fetchWalletAssetId() async {
+    var response =
+        await HttpDataSource.get(CreateWalletNetwork.getRafikiAssets);
+    if (response['statusCode'] == 200) {
+      ResponseModel signInSignInResponseModel =
+          ResponseModel.fromJson(response);
+      return signInSignInResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(response);
       throw InvalidData(errorModel.customCode, errorModel.customMessage,
           errorModel.customMessageEs);
     }

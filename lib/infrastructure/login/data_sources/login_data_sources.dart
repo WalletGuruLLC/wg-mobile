@@ -39,6 +39,7 @@ class LoginDataSource {
     if (response.statusCode == 200) {
       ResponseModel userAuthenticationResponse = ResponseModel.fromJson(result);
       storage.setString('Basic', userAuthenticationResponse.data!.token);
+
       return userAuthenticationResponse;
     } else {
       final errorModel = ResponseModel.fromJson(result);

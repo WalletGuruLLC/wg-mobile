@@ -93,6 +93,7 @@ class HttpDataSource {
   static dynamic _processResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
+        return decode(response.body);
       case 201:
         return decode(response.body);
       case 400:

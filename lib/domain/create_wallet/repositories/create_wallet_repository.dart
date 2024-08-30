@@ -4,5 +4,7 @@ import 'package:wallet_guru/domain/core/models/response_model.dart';
 
 abstract class CreateWalletRepository {
   Future<Either<InvalidData, ResponseModel>> createWallet(
-      String walletName, String walletAddress, String walletType);
+      String addressName, String assetId);
+
+  Future<Either<InvalidData, ResponseModel>> fetchWalletAssetId();
 }

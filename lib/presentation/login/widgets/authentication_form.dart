@@ -79,7 +79,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
           SizedBox(height: size * 0.025),
           TextBase(
             color: AppColorSchema.of(context).tertiaryText,
-            text: '${l10n.valid_code_time}: 00:$_remainingSeconds s',
+            text: '${l10n.valid_code_time} 00:$_remainingSeconds s',
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),

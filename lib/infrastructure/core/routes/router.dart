@@ -5,6 +5,7 @@ import 'package:wallet_guru/presentation/create_profile/page/create_profile_four
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
+import 'package:wallet_guru/presentation/dashboard_wallet/page/dashboard_wallet_page.dart';
 import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
 import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
@@ -20,8 +21,8 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      //builder: (context, state) => const SplashScreenPage(),
-      builder: (context, state) => const CreateProfileThirdPage(),
+      builder: (context, state) => const SplashScreenPage(),
+      //builder: (context, state) => const CreateProfileThirdPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
@@ -46,10 +47,12 @@ class WalletGuruRouter {
       builder: (context, state) => const CreateWalletPage(),
     ),
     GoRoute(
-      name: Routes.createProfile1.name,
-      path: Routes.createProfile1.path,
-      builder: (context, state) => const CreateProfileFirstPage(),
-    ),
+        name: Routes.createProfile1.name,
+        path: Routes.createProfile1.path,
+        builder: (context, state) {
+          final String id = state.extra as String;
+          return CreateProfileFirstPage(id: id);
+        }),
     GoRoute(
       name: Routes.createProfile2.name,
       path: Routes.createProfile2.path,
@@ -64,6 +67,11 @@ class WalletGuruRouter {
       name: Routes.createProfile4.name,
       path: Routes.createProfile4.path,
       builder: (context, state) => const CreateProfileFourthPage(),
+    ),
+    GoRoute(
+      name: Routes.dashboardWallet.name,
+      path: Routes.dashboardWallet.path,
+      builder: (context, state) => const DashboardWalletPage(),
     ),
   ];
 }

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/domain/create_wallet/repositories/create_wallet_repository.dart';
 
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
@@ -16,19 +17,23 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
       state.copyWith(formStatus: FormSubmitting()),
     );
     final verifyEmailOtp = await createWalletRepository.createWallet(
-        state.walletName, state.walletAddress, state.walletType);
+      state.addressName,
+      state.assetId,
+    );
     verifyEmailOtp.fold(
       (error) {
         emit(state.copyWith(
           formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
+          customCode: error.code,
         ));
       },
       (createdWallet) {
         emit(state.copyWith(
-          customMessage: createdWallet.customCode,
+          customMessage: createdWallet.customMessage,
           customMessageEs: createdWallet.customMessageEs,
+          customCode: createdWallet.customCode,
           formStatus: SubmissionSuccess(),
         ));
       },
@@ -36,6 +41,36 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
   }
 
   void setUserWalletName(String? walletName) async {
-    emit(state.copyWith(walletName: walletName));
+    emit(state.copyWith(addressName: walletName));
+  }
+
+  void emitFetchWalletAssetId() async {
+    emit(state.copyWith(formStatus: FormSubmitting()));
+    final assetId = await createWalletRepository.fetchWalletAssetId();
+    assetId.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (assetId) {
+        final String usdAssetId = setAssetId(assetId.data!.rafikiAssets!);
+        emit(state.copyWith(
+          assetId: usdAssetId,
+        ));
+        emitCreateWallet();
+      },
+    );
+  }
+
+  void emitInitialStatus() async {
+    emit(state.initialState());
+  }
+
+  String setAssetId(List<RafikiAssets> rafikiAsset) {
+    final usdAsset = rafikiAsset.firstWhere((element) => element.code == 'USD');
+    return usdAsset.id;
   }
 }
