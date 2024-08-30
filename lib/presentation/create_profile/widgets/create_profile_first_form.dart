@@ -19,8 +19,14 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
 class CreateProfileFirstForm extends StatefulWidget {
-  const CreateProfileFirstForm({super.key, required this.id});
+  const CreateProfileFirstForm({
+    super.key,
+    required this.id,
+    required this.email,
+  });
+
   final String id;
+  final String email;
 
   @override
   State<CreateProfileFirstForm> createState() => CreateProfileFirstFormState();
@@ -39,7 +45,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
     BlocProvider.of<RegisterCubit>(context).initialStatus();
 
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
-    createProfileCubit.setUserId(widget.id);
+    createProfileCubit.setUserId(widget.id, widget.email);
     super.initState();
   }
 

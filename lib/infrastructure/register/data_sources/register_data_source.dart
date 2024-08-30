@@ -13,6 +13,8 @@ class RegisterDataSource {
         "email": email,
         "passwordHash": password,
         "type": "WALLET",
+        "termsConditions": true,
+        "privacyPolicy": true,
       },
     );
 

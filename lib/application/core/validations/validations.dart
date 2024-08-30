@@ -67,6 +67,18 @@ class Validators {
     return null;
   }
 
+  static String? validateOtp(String? value, [BuildContext? context]) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your Otp number';
+    }
+    const pattern = r'^[0-9]{6}$';
+    final regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Please enter a valid Otp number';
+    }
+    return null;
+  }
+
   static String? validateAddress(String? value, [BuildContext? context]) {
     if (value == null || value.isEmpty) {
       return 'Please enter your address';
