@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallet_guru/domain/core/models/country_model.dart';
 
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
@@ -13,6 +14,48 @@ part 'create_profile_state.dart';
 class CreateProfileCubit extends Cubit<CreateProfileState> {
   CreateProfileCubit() : super(const CreateProfileState());
   final createProfileRepository = Injector.resolve<CreateProfileRepository>();
+  final countriesDataSource = CountriesDataSource();
+  final stateDataSource = StateDataSource();
+  final citiesDataSource = CitiesDataSource();
+
+  // Cargar los países
+  Future<void> loadCountries() async {
+    final countries = await countriesDataSource.getCountriesList();
+    emit(state.copyWith(
+      countries: countries.map((c) => c.name).toList(),
+      states: [],
+      cities: [],
+    ));
+  }
+
+  // Manejar la selección del país y cargar los estados correspondientes
+  Future<void> selectCountry(String country) async {
+    emit(state.copyWith(country: country, states: [], cities: []));
+    final states = await stateDataSource.getStates(countryName: country);
+    emit(state.copyWith(
+      states: states.map((s) => s.name).toList(),
+      cities: [],
+    ));
+  }
+
+  // Manejar la selección del estado y cargar las ciudades correspondientes
+  Future<void> selectState(String stateLocation) async {
+    emit(state.copyWith(stateLocation: stateLocation, cities: []));
+    final cities = await citiesDataSource.getCities(
+      stateName: stateLocation,
+      countryName: state.country,
+    );
+    emit(state.copyWith(cities: cities));
+  }
+
+  // Manejar la selección de la ciudad
+  void selectCity(String city) {
+    emit(state.copyWith(city: city));
+  }
+
+  void setUserId(String? id) async {
+    emit(state.copyWith(id: id));
+  }
 
   void emitCreateProfileOne() async {
     emit(
@@ -20,7 +63,8 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     );
     final createProfile1 =
         await createProfileRepository.updateUser(CreateProfileOneEntity(
-      id: '0827202450694263WU',
+      id: state.id,
+      email: 'jskynet@yopmail.com',
       firstName: state.firstName,
       lastName: state.lastName,
       phone: state.phone,
@@ -30,7 +74,8 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     createProfile1.fold(
       (error) {
         emit(state.copyWith(
-          formStatusOne: SubmissionFailed(exception: Exception(error.messageEn)),
+          formStatusOne:
+              SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
         ));
@@ -67,7 +112,8 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     );
     final createProfile2 =
         await createProfileRepository.updateUser(CreateProfileTwoEntity(
-      id: '',
+      id: state.id,
+      email: 'jskynet@yopmail.com',
       socialSecurityNumber: state.socialSecurityNumber,
       identificationType: state.identificationType,
       identificationNumber: state.identificationNumber,
@@ -75,7 +121,8 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     createProfile2.fold(
       (error) {
         emit(state.copyWith(
-          formStatusTwo: SubmissionFailed(exception: Exception(error.messageEn)),
+          formStatusTwo:
+              SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
         ));
@@ -112,7 +159,8 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     );
     final createProfile2 =
         await createProfileRepository.updateUser(CreateProfileThreeEntity(
-      id: '',
+      id: state.id,
+      email: 'johnconnor@yopmail.com',
       country: state.country,
       stateLocation: state.stateLocation,
       city: state.city,

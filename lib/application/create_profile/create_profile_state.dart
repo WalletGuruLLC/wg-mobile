@@ -1,7 +1,11 @@
 part of 'create_profile_cubit.dart';
 
 class CreateProfileState extends Equatable {
+  final String id;
   final String token;
+
+  final String email;
+
   final String firstName;
   final String lastName;
   final String phone;
@@ -10,6 +14,9 @@ class CreateProfileState extends Equatable {
   final String identificationType;
   final String identificationNumber;
 
+  final List<String> countries;
+  final List<String> states;
+  final List<String> cities;
   final String country;
   final String stateLocation;
   final String city;
@@ -25,13 +32,18 @@ class CreateProfileState extends Equatable {
   final String customCode;
 
   const CreateProfileState({
+    this.id = '',
     this.token = '',
+    this.email = '',
     this.firstName = '',
     this.lastName = '',
     this.phone = '',
     this.socialSecurityNumber = '',
     this.identificationType = '',
     this.identificationNumber = '',
+    this.countries = const [],
+    this.states = const [],
+    this.cities = const [],
     this.country = '',
     this.stateLocation = '',
     this.city = '',
@@ -47,13 +59,18 @@ class CreateProfileState extends Equatable {
   });
 
   CreateProfileState copyWith({
+    String? id,
     String? token,
+    String? email,
     String? firstName,
     String? lastName,
     String? phone,
     String? socialSecurityNumber,
     String? identificationType,
     String? identificationNumber,
+    List<String>? countries,
+    List<String>? states,
+    List<String>? cities,
     String? country,
     String? stateLocation,
     String? city,
@@ -68,13 +85,18 @@ class CreateProfileState extends Equatable {
     String? customCode,
   }) =>
       CreateProfileState(
+        id: id ?? this.id,
         token: token ?? this.token,
+        email: email ?? this.email,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         phone: phone ?? this.phone,
         socialSecurityNumber: socialSecurityNumber ?? this.socialSecurityNumber,
         identificationType: identificationType ?? this.identificationType,
         identificationNumber: identificationNumber ?? this.identificationNumber,
+        countries: countries ?? this.countries,
+        states: states ?? this.states,
+        cities: cities ?? this.cities,
         country: country ?? this.country,
         stateLocation: stateLocation ?? this.stateLocation,
         city: city ?? this.city,
@@ -90,13 +112,18 @@ class CreateProfileState extends Equatable {
       );
 
   CreateProfileState initialState() => const CreateProfileState(
+        id: '',
         token: '',
+        email: '',
         firstName: '',
         lastName: '',
         phone: '',
         socialSecurityNumber: '',
         identificationType: '',
         identificationNumber: '',
+        countries: [],
+        states: [],
+        cities: [],
         country: '',
         stateLocation: '',
         city: '',
@@ -113,13 +140,18 @@ class CreateProfileState extends Equatable {
 
   @override
   List<Object> get props => [
+        id,
         token,
+        email,
         firstName,
         lastName,
         phone,
         socialSecurityNumber,
         identificationType,
         identificationNumber,
+        countries,
+        states,
+        cities,
         country,
         stateLocation,
         city,
