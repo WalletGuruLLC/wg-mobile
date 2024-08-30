@@ -28,12 +28,12 @@ class CreateWalletDataSource {
   Future<ResponseModel> fetchWalletAssetId() async {
     var response =
         await HttpDataSource.get(CreateWalletNetwork.getRafikiAssets);
-    if (response['statusCode'] == 200) {
-      ResponseModel signInSignInResponseModel =
-          ResponseModel.fromJson(response);
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel signInSignInResponseModel = ResponseModel.fromJson(result);
       return signInSignInResponseModel;
     } else {
-      final errorModel = ResponseModel.fromJson(response);
+      final errorModel = ResponseModel.fromJson(result);
       throw InvalidData(errorModel.customCode, errorModel.customMessage,
           errorModel.customMessageEs);
     }

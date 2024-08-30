@@ -58,6 +58,7 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
       (assetId) {
         final String usdAssetId = setAssetId(assetId.data!.rafikiAssets!);
         emit(state.copyWith(
+          formStatus: SubmissionSuccess(),
           assetId: usdAssetId,
         ));
         emitCreateWallet();
