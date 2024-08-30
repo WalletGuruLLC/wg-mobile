@@ -87,6 +87,13 @@ class User {
   final bool sendEmails;
   final String picture;
   final String serviceProviderId;
+
+  final String city;
+  final String country;
+  final String zipCode;
+
+  final String lastName;
+  final String firstName;
   final String id;
   final bool active;
 
@@ -105,6 +112,11 @@ class User {
     required this.sendEmails,
     required this.picture,
     required this.serviceProviderId,
+    required this.city,
+    required this.country,
+    required this.zipCode,
+    required this.lastName,
+    required this.firstName,
     required this.id,
     required this.active,
   });
@@ -124,6 +136,11 @@ class User {
         sendEmails: json["sendEmails"],
         picture: json["picture"],
         serviceProviderId: json["serviceProviderId"],
+        city: json["city"] ?? "",
+        country: json["country"] ?? "",
+        zipCode: json["zipCode"] ?? "",
+        lastName: json["lastName"] ?? "",
+        firstName: json["firstName"] ?? "",
         id: json["id"],
         active: json["active"],
       );
@@ -143,6 +160,11 @@ class User {
         "SendEmails": sendEmails,
         "Picture": picture,
         "ServiceProviderId": serviceProviderId,
+        "city": city,
+        "country": country,
+        "zipCode": zipCode,
+        "lastName": lastName,
+        "firstName": firstName,
         "id": id,
         "Active": active,
       };
@@ -162,6 +184,11 @@ class User {
         sendEmails: false,
         picture: '',
         serviceProviderId: '',
+        city: '',
+        country: '',
+        zipCode: '',
+        lastName: '',
+        firstName: '',
         id: '',
         active: false,
       );
