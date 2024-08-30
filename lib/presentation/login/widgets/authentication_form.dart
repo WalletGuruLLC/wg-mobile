@@ -89,7 +89,10 @@ class AuthenticationFormState extends State<AuthenticationForm> {
               if (state.formStatusOtp is SubmissionSuccess) {
                 GoRouter.of(context).pushNamed(
                   Routes.createProfile1.name,
-                  extra: state.userId,
+                  extra: {
+                    "id": state.userId,
+                    "email": state.email,
+                  },
                 );
               } else if (state.formStatusOtp is SubmissionFailed) {
                 buildErrorModal(

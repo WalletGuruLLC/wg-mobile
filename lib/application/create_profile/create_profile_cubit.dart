@@ -53,8 +53,11 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     emit(state.copyWith(city: city));
   }
 
-  void setUserId(String? id) async {
-    emit(state.copyWith(id: id));
+  void setUserId(String? id, String? email) async {
+    emit(state.copyWith(
+      id: id,
+      email: email,
+    ));
   }
 
   void emitCreateProfileOne() async {
@@ -64,7 +67,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     final createProfile1 =
         await createProfileRepository.updateUser(CreateProfileOneEntity(
       id: state.id,
-      email: 'jskynet@yopmail.com',
+      email: state.email,
       firstName: state.firstName,
       lastName: state.lastName,
       phone: state.phone,
@@ -114,7 +117,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     final createProfile2 =
         await createProfileRepository.updateUser(CreateProfileTwoEntity(
       id: state.id,
-      email: 'jskynet@yopmail.com',
+      email: state.email,
       socialSecurityNumber: state.socialSecurityNumber,
       identificationType: state.identificationType,
       identificationNumber: state.identificationNumber,
@@ -162,7 +165,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     final createProfile2 =
         await createProfileRepository.updateUser(CreateProfileThreeEntity(
       id: state.id,
-      email: 'johnconnor@yopmail.com',
+      email: state.email,
       country: state.country,
       stateLocation: state.stateLocation,
       city: state.city,

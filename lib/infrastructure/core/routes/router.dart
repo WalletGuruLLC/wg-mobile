@@ -50,8 +50,11 @@ class WalletGuruRouter {
         name: Routes.createProfile1.name,
         path: Routes.createProfile1.path,
         builder: (context, state) {
-          final String id = state.extra as String;
-          return CreateProfileFirstPage(id: id);
+          final params =
+              (state.extra ?? <String, dynamic>{}) as Map<String, dynamic>;
+          final id = params['id'] as String;
+          final email = params['email'] as String;
+          return CreateProfileFirstPage(id: id, email: email);
         }),
     GoRoute(
       name: Routes.createProfile2.name,
