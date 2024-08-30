@@ -15,8 +15,7 @@ class CreateWalletDataSource {
       },
     );
     final result = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      print('this is a resu;t ==== $result');
+    if (response.statusCode == 201) {
       ResponseModel signInSignInResponseModel = ResponseModel.fromJson(result);
       return signInSignInResponseModel;
     } else {
@@ -27,24 +26,13 @@ class CreateWalletDataSource {
   }
 
   Future<ResponseModel> fetchWalletAssetId() async {
-    // `response` es ya un mapa decodificado.
     var response =
         await HttpDataSource.get(CreateWalletNetwork.getRafikiAssets);
-
-    // No necesitas decodificar `response` nuevamente.
-    print('----------------');
-    print('RESPONSEEEEEEEEEE');
-    print(response);
-    print('----------------');
-
-    // Verifica si `response` tiene el código de estado directamente
     if (response['statusCode'] == 200) {
-      // Utiliza el mapa directamente para crear el modelo de respuesta
       ResponseModel signInSignInResponseModel =
           ResponseModel.fromJson(response);
       return signInSignInResponseModel;
     } else {
-      // Crea el modelo de error directamente desde el mapa
       final errorModel = ResponseModel.fromJson(response);
       throw InvalidData(errorModel.customCode, errorModel.customMessage,
           errorModel.customMessageEs);

@@ -79,7 +79,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
           SizedBox(height: size * 0.025),
           TextBase(
             color: AppColorSchema.of(context).tertiaryText,
-            text: '${l10n.valid_code_time}: 00:$_remainingSeconds s',
+            text: '${l10n.valid_code_time} 00:$_remainingSeconds s',
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),
@@ -87,7 +87,8 @@ class AuthenticationFormState extends State<AuthenticationForm> {
           BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
               if (state.formStatusOtp is SubmissionSuccess) {
-                GoRouter.of(context).pushNamed(Routes.createWallet.name);
+                GoRouter.of(context)
+                    .pushReplacementNamed(Routes.createWallet.name);
               } else if (state.formStatusOtp is SubmissionFailed) {
                 buildErrorModal(
                   state.customMessage,

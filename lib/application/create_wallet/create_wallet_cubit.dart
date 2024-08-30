@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/domain/create_wallet/repositories/create_wallet_repository.dart';
 
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
@@ -30,7 +31,7 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
       },
       (createdWallet) {
         emit(state.copyWith(
-          customMessage: createdWallet.customCode,
+          customMessage: createdWallet.customMessage,
           customMessageEs: createdWallet.customMessageEs,
           customCode: createdWallet.customCode,
           formStatus: SubmissionSuccess(),
@@ -55,8 +56,9 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
         ));
       },
       (assetId) {
+        final String usdAssetId = setAssetId(assetId.data!.rafikiAssets!);
         emit(state.copyWith(
-          assetId: assetId.data!.rafikiAssets![0].id,
+          assetId: usdAssetId,
         ));
         emitCreateWallet();
       },
@@ -65,5 +67,10 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
 
   void emitInitialStatus() async {
     emit(state.initialState());
+  }
+
+  String setAssetId(List<RafikiAssets> rafikiAsset) {
+    final usdAsset = rafikiAsset.firstWhere((element) => element.code == 'USD');
+    return usdAsset.id;
   }
 }

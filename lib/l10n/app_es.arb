@@ -58,5 +58,6 @@
   "enterYourZipCode": "Ingresa tu código postal",
   "enterYourAddress": "Ingresa tu dirección",
   "selectYourBirth" : "Selecciona tu fecha de nacimiento",
-  "create": "Crear"
+  "create": "Crear",
+  "walletNameTaken": "Nombre de billetera ya fue tomado"
 }

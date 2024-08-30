@@ -92,10 +92,10 @@ class CreateWalletFormState extends State<CreateWalletForm> {
             listener: (context, state) {
               if (state.formStatus is SubmissionSuccess) {
                 _buildSuccessfulModal(
-                    state.customCode, state.customMessageEs, locale);
+                    state.customMessage, state.customMessageEs, locale);
               } else if (state.formStatus is SubmissionFailed) {
                 _buildErrorModal(state.customMessage, state.customMessageEs,
-                    state.customCode, locale);
+                    state.customCode, locale, l10n);
               }
             },
             builder: (context, state) {
@@ -161,22 +161,23 @@ class CreateWalletFormState extends State<CreateWalletForm> {
         final l10n = AppLocalizations.of(context)!;
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
+          isFail: false,
           buttonWidth: MediaQuery.of(context).size.width * 0.40,
           content: Column(
             children: [
-              SizedBox(height: size * 0.025),
+              SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: description,
+                text: l10n.walletSuccessMessage,
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
-              SizedBox(height: size * 0.025),
+              SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.continueCheckingProfile,
-                fontSize: 16,
+                text: description,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
@@ -185,7 +186,9 @@ class CreateWalletFormState extends State<CreateWalletForm> {
           onPressed: () {
             createWalletCubit.emitInitialStatus();
             Navigator.of(context).pop();
-            // TODO: ENRUTAR A LA SIGUIENTE VISTA (FOTO DE DASHBOARD)
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.dashboardWallet.name,
+            );
           },
         );
       },
@@ -198,6 +201,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
     String descriptionEs,
     String codeError,
     Locale locale,
+    AppLocalizations l10n,
   ) {
     String description =
         locale.languageCode == 'en' ? descriptionEn : descriptionEs;
@@ -206,14 +210,31 @@ class CreateWalletFormState extends State<CreateWalletForm> {
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
+          buttonWidth: MediaQuery.of(context).size.width * 0.40,
           isFail: true,
           content: Column(
             children: [
-              SizedBox(height: size * 0.025),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.walletNameTaken,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
                 text: description,
-                fontSize: 16,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: 'Error Code: $codeError',
+                fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
@@ -222,10 +243,10 @@ class CreateWalletFormState extends State<CreateWalletForm> {
           onPressed: () {
             createWalletCubit.emitInitialStatus();
             Navigator.of(context).pop();
-            //TODO: MEJORAR SOLUCIÓN PARA EMITIR ESTADO INICIAL DE LOS CAMPOS DEL FORM SIN MANDARLO DE NUEVO ACÁ
-            //   GoRouter.of(context).pushNamed(
-            //    Routes.createWallet.name,
-            //  );
+
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.createWallet.name,
+            );
           },
         );
       },

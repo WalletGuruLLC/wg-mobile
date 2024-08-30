@@ -15,4 +15,5 @@ class Assets {
   static const cameraIcon = '${base}camera_icon.png';
   static const uploadIcon = '${base}upload_icon.png';
   static const warningIcon = '${base}warning_icon.svg';
+  static const walletDashboard = '${base}home.png';
 }

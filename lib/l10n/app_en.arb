@@ -58,6 +58,8 @@
   "enterYourZipCode": "Enter your zip code",
   "enterYourAddress": "Enter your address",
   "selectYourBirth": "Select your birth",
-  "create": "Create"
+  "create": "Create",
+  "walletNameTaken": "Wallet Address Name Already Taken"
+
 
 }

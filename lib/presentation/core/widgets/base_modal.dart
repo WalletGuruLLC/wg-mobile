@@ -20,6 +20,7 @@ class BaseModal extends StatelessWidget {
   final Widget? centerIcon;
   final bool? showCloseIcon;
   final double? buttonWidth;
+
   const BaseModal({
     super.key,
     this.content,
@@ -36,75 +37,69 @@ class BaseModal extends StatelessWidget {
     this.showCloseIcon = true,
     this.buttonWidth,
   });
+
   @override
   Widget build(BuildContext context) {
     return _buildContent(context);
   }
 
-  Widget _buildContent(
-    BuildContext context,
-  ) {
+  Widget _buildContent(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return GestureDetector(
-      onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: blurFactor,
-          sigmaY: blurFactor,
-        ),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width *
-                    0.05), // 5% en each side
-            child: DynamicContainer(
-              // DynamicContainer is a custom widget to handle responsive design
-              children: [
-                Container(
-                  padding: EdgeInsets.all(paddingValue!),
-                  decoration: BoxDecoration(
-                    color: modalColor,
-                    borderRadius: BorderRadius.circular(borderRadius!),
-                    border: Border.all(color: Colors.black, width: 0),
-                  ),
-                  child: content != null
-                      ? Material(
-                          color: Colors.transparent,
-                          child: Column(
-                            children: [
-                              Icon(
-                                isFail!
-                                    ? Icons.warning_amber_sharp
-                                    : Icons.check_circle_outline,
-                                color: AppColorSchema.of(context).buttonColor,
-                              ),
-                              Center(child: content!),
-                              Column(
-                                children: [
-                                  const SizedBox(height: 20),
-                                  CustomButton(
-                                    width: buttonWidth,
-                                    border: Border.all(
-                                        color: AppColorSchema.of(context)
-                                            .buttonBorderColor),
-                                    text: isFail!
-                                        ? l10n.button_pop_up_fail
-                                        : l10n.button_pop_up_sucefull,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                    onPressed: onPressed,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                      : Container(),
+    return BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: blurFactor,
+        sigmaY: blurFactor,
+      ),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal:
+                  MediaQuery.of(context).size.width * 0.05), // 5% en cada lado
+          child: DynamicContainer(
+            // DynamicContainer es un widget personalizado para manejar el diseño responsivo
+            children: [
+              Container(
+                padding: EdgeInsets.all(paddingValue!),
+                decoration: BoxDecoration(
+                  color: modalColor,
+                  borderRadius: BorderRadius.circular(borderRadius!),
+                  border: Border.all(color: Colors.black, width: 0),
                 ),
-              ],
-            ),
+                child: content != null
+                    ? Material(
+                        color: Colors.transparent,
+                        child: Column(
+                          children: [
+                            Icon(
+                              isFail!
+                                  ? Icons.warning_amber_sharp
+                                  : Icons.check_circle_outline,
+                              color: AppColorSchema.of(context).buttonColor,
+                            ),
+                            Center(child: content!),
+                            Column(
+                              children: [
+                                const SizedBox(height: 20),
+                                CustomButton(
+                                  width: buttonWidth,
+                                  border: Border.all(
+                                      color: AppColorSchema.of(context)
+                                          .buttonBorderColor),
+                                  text: isFail!
+                                      ? l10n.button_pop_up_fail
+                                      : l10n.button_pop_up_sucefull,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  onPressed: onPressed,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    : Container(),
+              ),
+            ],
           ),
         ),
       ),
