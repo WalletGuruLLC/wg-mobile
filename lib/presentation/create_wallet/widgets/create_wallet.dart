@@ -161,7 +161,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
         final l10n = AppLocalizations.of(context)!;
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
-          isFail: false,
+          isSucefull: false,
           buttonWidth: MediaQuery.of(context).size.width * 0.40,
           content: Column(
             children: [
@@ -211,7 +211,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
           buttonWidth: MediaQuery.of(context).size.width * 0.40,
-          isFail: true,
+          isSucefull: true,
           content: Column(
             children: [
               SizedBox(height: size * 0.010),

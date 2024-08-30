@@ -22,6 +22,7 @@ class WalletGuruRouter {
       name: Routes.splash.name,
       path: Routes.splash.path,
       builder: (context, state) => const SplashScreenPage(),
+      //builder: (context, state) => const CreateProfileThirdPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
@@ -46,10 +47,12 @@ class WalletGuruRouter {
       builder: (context, state) => const CreateWalletPage(),
     ),
     GoRoute(
-      name: Routes.createProfile1.name,
-      path: Routes.createProfile1.path,
-      builder: (context, state) => const CreateProfileFirstPage(),
-    ),
+        name: Routes.createProfile1.name,
+        path: Routes.createProfile1.path,
+        builder: (context, state) {
+          final String id = state.extra as String;
+          return CreateProfileFirstPage(id: id);
+        }),
     GoRoute(
       name: Routes.createProfile2.name,
       path: Routes.createProfile2.path,

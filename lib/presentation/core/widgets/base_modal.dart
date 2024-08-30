@@ -12,7 +12,7 @@ class BaseModal extends StatelessWidget {
   final double? heightFactor;
   final double? borderRadius;
   final double? paddingValue;
-  final bool? isFail;
+  final bool? isSucefull;
   final Widget Function()? buildFooter;
   final void Function()? onPressed;
   final double blurFactor;
@@ -28,7 +28,7 @@ class BaseModal extends StatelessWidget {
     this.heightFactor = 0.26,
     this.borderRadius = 12,
     this.paddingValue = 20,
-    this.isFail = false,
+    this.isSucefull = false,
     this.buildFooter,
     this.onPressed,
     this.blurFactor = 5.0,
@@ -71,9 +71,9 @@ class BaseModal extends StatelessWidget {
                         child: Column(
                           children: [
                             Icon(
-                              isFail!
-                                  ? Icons.warning_amber_sharp
-                                  : Icons.check_circle_outline,
+                              isSucefull!
+                                  ? Icons.check_circle_outline
+                                  : Icons.warning_amber_sharp,
                               color: AppColorSchema.of(context).buttonColor,
                             ),
                             Center(child: content!),
@@ -85,9 +85,9 @@ class BaseModal extends StatelessWidget {
                                   border: Border.all(
                                       color: AppColorSchema.of(context)
                                           .buttonBorderColor),
-                                  text: isFail!
-                                      ? l10n.button_pop_up_fail
-                                      : l10n.button_pop_up_sucefull,
+                                  text: isSucefull!
+                                      ? l10n.button_pop_up_sucefull
+                                      : l10n.button_pop_up_fail,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w400,
                                   onPressed: onPressed,

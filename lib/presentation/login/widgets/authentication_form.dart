@@ -87,8 +87,10 @@ class AuthenticationFormState extends State<AuthenticationForm> {
           BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
               if (state.formStatusOtp is SubmissionSuccess) {
-                GoRouter.of(context)
-                    .pushReplacementNamed(Routes.createWallet.name);
+                GoRouter.of(context).pushNamed(
+                  Routes.createProfile1.name,
+                  extra: state.userId,
+                );
               } else if (state.formStatusOtp is SubmissionFailed) {
                 buildErrorModal(
                   state.customMessage,

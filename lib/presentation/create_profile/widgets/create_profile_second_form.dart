@@ -7,9 +7,7 @@ import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
-//import 'package:wallet_guru/presentation/core/widgets/forms/dropdown_base.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
@@ -79,24 +77,9 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
             onChanged: (value) => _onFormChanged('idNumber', value),
           ),
           SizedBox(height: size * 0.12),
-          BlocConsumer<CreateProfileCubit, CreateProfileState>(
-            listener: (context, state) {
-              if (state.formStatusOne is SubmissionSuccess) {
-                GoRouter.of(context).pushNamed(Routes.createProfile3.name);
-              } else if (state.formStatusOne is SubmissionFailed) {
-                _buildlModal(state.customMessage, state.customCode);
-              }
-            },
-            builder: (context, state) {
-              if (state.formStatusOne is FormSubmitting) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                return CreateProfileButtons(
-                  onPressed1: _onBackButtonPressed,
-                  onPressed2: _onNextButtonPressed,
-                );
-              }
-            },
+          CreateProfileButtons(
+            onPressed1: _onBackButtonPressed,
+            onPressed2: _onNextButtonPressed,
           ),
         ],
       ),
@@ -108,12 +91,15 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
       switch (formType) {
         case 'snn':
           _ssn = value!;
+          createProfileCubit.setSocialSecurityNumber(_ssn);
           break;
         case 'idType':
           _idType = value!;
+          createProfileCubit.setIdentificationType(_idType);
           break;
         case 'idNumber':
           _identificationNumber = value!;
+          createProfileCubit.setIdentificationNumber(_identificationNumber);
           break;
       }
     });
@@ -126,13 +112,9 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
   // Method to handle button actions
   void _onNextButtonPressed() {
     if (_formKey.currentState?.validate() ?? false) {
-      // Form is valid, proceed with further actions
       debugPrint('Form is valid');
-      //createProfileCubit.cleanFormStatusTwo();
+      //createProfileCubit.emitCreateProfileTwo();
       GoRouter.of(context).pushNamed(Routes.createProfile3.name);
-    } else {
-      // Form is invalid, show errors
-      debugPrint('Form is invalid');
     }
   }
 
@@ -143,7 +125,7 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
-          isFail: true,
+          isSucefull: true,
           content: Column(
             children: [
               SizedBox(height: size * 0.025),

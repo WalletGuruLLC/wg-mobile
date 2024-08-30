@@ -9,16 +9,18 @@ class CreateProfileOneEntity extends BaseProfileEntity {
 
   CreateProfileOneEntity({
     required String id,
+    required String email,
     required this.firstName,
     required this.lastName,
     required this.phone,
     required this.termsConditions,
     required this.privacyPolicy,
-  }) : super(id);
+  }) : super(id, email);
 
   @override
   Map<String, dynamic> toJson() => {
         "id": id,
+        "email": email,
         "firstName": firstName,
         "lastName": lastName,
         "phone": phone,
