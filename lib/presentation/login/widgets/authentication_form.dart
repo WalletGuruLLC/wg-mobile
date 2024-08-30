@@ -136,7 +136,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
   void _onFormChanged(String? value) {
     setState(() {
       _otp = value;
-      loginCubit.setOtp(value);
+      loginCubit.setOtp(_otp);
     });
   }
 
