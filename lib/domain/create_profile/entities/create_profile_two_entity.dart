@@ -7,14 +7,16 @@ class CreateProfileTwoEntity extends BaseProfileEntity {
 
   CreateProfileTwoEntity({
     required String id,
+    required String email,
     required this.socialSecurityNumber,
     required this.identificationType,
     required this.identificationNumber,
-  }) : super(id);
+  }) : super(id, email);
 
   @override
   Map<String, dynamic> toJson() => {
         "id": id,
+        "email": email,
         "socialSecurityNumber": socialSecurityNumber,
         "identificationType": identificationType,
         "identificationNumber": identificationNumber,

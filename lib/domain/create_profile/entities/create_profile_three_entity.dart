@@ -9,16 +9,18 @@ class CreateProfileThreeEntity extends BaseProfileEntity {
 
   CreateProfileThreeEntity({
     required String id,
+    required String email,
     required this.country,
     required this.stateLocation,
     required this.city,
     required this.zipCode,
     required this.address,
-  }) : super(id);
+  }) : super(id, email);
 
   @override
   Map<String, dynamic> toJson() => {
         "id": id,
+        "email": email,
         "country": country,
         "stateLocation": stateLocation,
         "city": city,

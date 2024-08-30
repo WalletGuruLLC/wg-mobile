@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/domain/core/models/country_model.dart';
 
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
@@ -26,7 +28,7 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
   final _formKey = GlobalKey<FormState>();
   String _address = '';
   bool _addressMinLength = false;
-  List<String> itemsMock = ['item1', 'item2', 'item3'];
+  
   late List<Country> countries;
   late List<LocationState> locationStates;
   List<String> cities = [];
@@ -41,7 +43,8 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
   @override
   void initState() {
     super.initState();
-    _loadCountries();
+    //_loadCountries();
+    context.read<CreateProfileCubit>().loadCountries();
   }
 
   @override
@@ -63,41 +66,47 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           const ProgressBar(currentStep: 3),
           SizedBox(height: size * 0.030),
           FormLabel(label: l10n.country),
-          CountryForm(
-              items: countriesNames,
-              onChanged: (value) {
-                setState(() {
-                  selectedCountry = value!;
-                  if (selectedCountry != null) {
-                    // _loadStates(selectedCountry: selectedCountry!);
+          BlocBuilder<CreateProfileCubit, CreateProfileState>(
+            builder: (context, state) {
+              return CountryForm(
+                items: state.countries,
+                onChanged: (value) {
+                  if (value != null) {
+                    context.read<CreateProfileCubit>().selectCountry(value);
                   }
-                });
-              }),
+                },
+              );
+            },
+          ),
           const SizedBox(height: 20),
           FormLabel(label: l10n.state),
-          StateForm(
-            enabled: selectedCountry == null ? false : true,
-            items: itemsMock,
-            onChanged: (value) {
-              setState(() {
-                selectedState = 'Meta';
-                if (selectedState != null && selectedCountry != null) {
-                  _loadCities(
-                      selectedState: selectedState!,
-                      selectedCountry: selectedCountry!);
-                }
-              });
+          BlocBuilder<CreateProfileCubit, CreateProfileState>(
+            builder: (context, state) {
+              return StateForm(
+                enabled: state.country.isNotEmpty,
+                items: state.states,
+                onChanged: (value) {
+                  if (value != null) {
+                    context.read<CreateProfileCubit>().selectState(value);
+                  }
+                },
+              );
             },
           ),
           const SizedBox(height: 20),
           FormLabel(label: l10n.city),
-          CityForm(
-              items: cities,
-              onChanged: (value) {
-                if (selectedState != null) {
-                  _loadStates(selectedCountry: selectedCountry!);
-                }
-              }),
+          BlocBuilder<CreateProfileCubit, CreateProfileState>(
+            builder: (context, state) {
+              return CityForm(
+                items: state.cities,
+                onChanged: (value) {
+                  if (value != null) {
+                    context.read<CreateProfileCubit>().selectCity(value);
+                  }
+                },
+              );
+            },
+          ),
           const SizedBox(height: 20),
           FormLabel(label: l10n.zipCode),
           ZipCodeForm(onChanged: _onFormChanged),
@@ -105,7 +114,11 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           FormLabel(label: l10n.address),
           AddressForm(onChanged: _onFormChanged),
           SizedBox(height: size * 0.05),
-          CreateProfileButtons(onPressed1: () {}, onPressed2: () {}),
+          CreateProfileButtons(
+              onPressed1: () {},
+              onPressed2: () {
+                //validar que el formulario este llenado y mandarlo a la siguiente vista
+              }),
         ],
       ),
     );
@@ -163,7 +176,7 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
       },
     );
   }
-
+/*
   Future<void> _loadCountries() async {
     CountriesDataSource countriesDataSource = CountriesDataSource();
     countries = await countriesDataSource.getCountriesList();
@@ -193,5 +206,5 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
     );
     print(cities);
     setState(() {});
-  }
+  }*/
 }
