@@ -32,4 +32,14 @@ class LoginRepositoryImpl extends LoginRepository {
       return Left(invalidData);
     }
   }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> resendOtp(String email) async {
+    try {
+      final ResponseModel response = await loginDataSource.resendOtp(email);
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
 }

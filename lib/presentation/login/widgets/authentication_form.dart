@@ -118,11 +118,20 @@ class AuthenticationFormState extends State<AuthenticationForm> {
             },
           ),
           SizedBox(height: size * 0.025),
-          TextBase(
-            color: AppColorSchema.of(context).tertiaryText,
-            text: l10n.resend_code,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
+          SizedBox(
+            child: GestureDetector(
+              onTap: () {
+                loginCubit.emitResendOtp(widget.email);
+                _remainingSeconds = 30;
+                _startTimer();
+              },
+              child: TextBase(
+                color: AppColorSchema.of(context).tertiaryText,
+                text: l10n.resend_code,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
         ],
       ),
