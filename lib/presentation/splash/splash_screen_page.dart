@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
@@ -15,12 +16,21 @@ class SplashScreenPage extends StatefulWidget {
 
 class _SplashScreenPageState extends State<SplashScreenPage> {
   late Timer _timer;
+  String _version = '';
 
   @override
   void initState() {
     super.initState();
+    _initPackageInfo();
     _timer = Timer(const Duration(seconds: 1), () {
       GoRouter.of(context).pushNamed(Routes.logIn.name);
+    });
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = '${info.version}+${info.buildNumber}';
     });
   }
 
@@ -44,6 +54,14 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
           child: Image.asset(
             Assets.iconLogoSplash,
             fit: BoxFit.scaleDown,
+          ),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Version $_version',
+          style: const TextStyle(
+            fontFamily: 'CenturyGothic',
+            color: Colors.blue,
           ),
         ),
       ],
