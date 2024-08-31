@@ -29,8 +29,6 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   Future<void> _initPackageInfo() async {
     final info = await PackageInfo.fromPlatform();
-    print('info');
-    print(info);
     setState(() {
       _version = '${info.version}+${info.buildNumber}';
     });
