@@ -88,4 +88,25 @@ class LoginCubit extends Cubit<LoginState> {
       },
     );
   }
+
+  void emitResendOtp(String email) async {
+    final verifyEmailOtp = await registerRepository.resendOtp(email);
+    verifyEmailOtp.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatusOtp:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (resendCode) {
+        emit(state.copyWith(
+          customMessage: resendCode.customCode,
+          customMessageEs: resendCode.customMessageEs,
+        ));
+      },
+    );
+  }
 }

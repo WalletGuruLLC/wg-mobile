@@ -4,4 +4,5 @@ class LoginNetwork {
   static final String signIn = '${Env.baseUrl}/api/v1/users/signin';
   static final String verifyEmailOtp =
       '${Env.baseUrl}/api/v1/users/verify/otp/mfa';
+  static final String resendOtp = '${Env.baseUrl}/api/v1/users/send-otp';
 }

@@ -8,4 +8,6 @@ abstract class LoginRepository {
 
   Future<Either<InvalidData, ResponseModel>> verifyEmailOtp(
       String email, String otp);
+
+  Future<Either<InvalidData, ResponseModel>> resendOtp(String email);
 }

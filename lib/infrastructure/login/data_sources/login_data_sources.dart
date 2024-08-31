@@ -47,4 +47,22 @@ class LoginDataSource {
           errorModel.customMessageEs);
     }
   }
+
+  Future<ResponseModel> resendOtp(String email) async {
+    var response = await HttpDataSource.post(
+      LoginNetwork.resendOtp,
+      {
+        "email": email,
+      },
+    );
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 201) {
+      ResponseModel resendOtpResponseModel = ResponseModel.fromJson(result);
+      return resendOtpResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
 }
