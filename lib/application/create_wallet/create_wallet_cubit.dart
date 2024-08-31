@@ -50,7 +50,6 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
     assetId.fold(
       (error) {
         emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
         ));
@@ -58,7 +57,6 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
       (assetId) {
         final String usdAssetId = setAssetId(assetId.data!.rafikiAssets!);
         emit(state.copyWith(
-          formStatus: SubmissionSuccess(),
           assetId: usdAssetId,
         ));
         emitCreateWallet();

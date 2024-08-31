@@ -218,8 +218,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     createProfile2.fold(
       (error) {
         emit(state.copyWith(
-          formStatus:
-              SubmissionFailed(exception: Exception(error.messageEn)),
+          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
@@ -238,7 +237,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
   void cleanFormStatusThree() async {
     emit(state.copyWith(formStatusThree: const InitialFormStatus()));
   }
-  
+
   void cleanFormStatus() async {
     emit(state.copyWith(formStatus: const InitialFormStatus()));
   }
