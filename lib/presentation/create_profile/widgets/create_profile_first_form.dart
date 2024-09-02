@@ -100,9 +100,11 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
                     );
                   },
                 ),
-                PhoneNumberForm(
-                  initialValue: _phoneNumber,
-                  onChanged: (value) => _onFormChanged('phoneNumber', value),
+                Expanded(
+                  child: PhoneNumberForm(
+                    initialValue: _phoneNumber,
+                    onChanged: (value) => _onFormChanged('phoneNumber', value),
+                  ),
                 ),
               ],
             ),
