@@ -5,9 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
-import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/last_name_form.dart';
@@ -15,7 +13,7 @@ import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart
 import 'package:wallet_guru/presentation/core/widgets/forms/first_name_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/country_code_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
 class CreateProfileFirstForm extends StatefulWidget {
@@ -43,9 +41,9 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
   void initState() {
     BlocProvider.of<LoginCubit>(context).initialStatus();
     BlocProvider.of<RegisterCubit>(context).initialStatus();
-
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
     createProfileCubit.setUserId(widget.id, widget.email);
+    createProfileCubit.loadCountryCodeAndCountry();
     super.initState();
   }
 
@@ -85,9 +83,29 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
           ),
           const SizedBox(height: 30),
           FormLabel(label: l10n.phoneNumber),
-          PhoneNumberForm(
-            initialValue: _phoneNumber,
-            onChanged: (value) => _onFormChanged('phoneNumber', value),
+          SizedBox(
+            width: size * 0.8,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BlocBuilder<CreateProfileCubit, CreateProfileState>(
+                  builder: (context, state) {
+                    return CountryCodeForm(
+                      items: state.countries,
+                      onChanged: (value) {
+                        if (value != null) {
+                          createProfileCubit.selectCountryCode(value);
+                        }
+                      },
+                    );
+                  },
+                ),
+                PhoneNumberForm(
+                  initialValue: _phoneNumber,
+                  onChanged: (value) => _onFormChanged('phoneNumber', value),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: size * 0.12),
           CreateProfileButtons(
@@ -125,44 +143,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
   // Method to handle button actions
   void _onNextButtonPressed() {
     if (_formKey.currentState?.validate() ?? false) {
-      //createProfileCubit.emitCreateProfileOne();
       GoRouter.of(context).pushNamed(Routes.createProfile2.name);
     }
-  }
-
-  // Method to build the successful modal
-  Future<dynamic> _buildlModal(String description, String codeError) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        double size = MediaQuery.of(context).size.height;
-        return BaseModal(
-          content: Column(
-            children: [
-              SizedBox(height: size * 0.025),
-              TextBase(
-                textAlign: TextAlign.center,
-                text: description,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-              SizedBox(height: size * 0.025),
-              TextBase(
-                textAlign: TextAlign.center,
-                text: codeError,
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-            ],
-          ),
-          onPressed: () {
-            createProfileCubit.cleanFormStatusOne();
-            Navigator.of(context).pop();
-          },
-        );
-      },
-    );
   }
 }
