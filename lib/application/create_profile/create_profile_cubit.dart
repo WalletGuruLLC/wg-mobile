@@ -20,6 +20,21 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
   final citiesDataSource = CitiesDataSource();
 
   // Cargar los países
+  Future<void> loadCountryCodeAndCountry() async {
+    final countries = await countriesDataSource.getCountriesList();
+    emit(
+      state.copyWith(
+        countries: countries.map((c) => c.name).toList(),
+        countriesCode: countries.map((c) => c.dialCode).toList(),
+      ),
+    );
+  }
+
+  Future<void> selectCountryCode(String countryCode) async {
+    emit(state.copyWith(countryCode: countryCode));
+  }
+
+  // Cargar los países
   Future<void> loadCountries() async {
     final countries = await countriesDataSource.getCountriesList();
     emit(state.copyWith(
