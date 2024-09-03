@@ -162,7 +162,9 @@ class CreateWalletFormState extends State<CreateWalletForm> {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
           isSucefull: true,
-          buttonWidth: MediaQuery.of(context).size.width * 0.40,
+          buttonWidth: locale.languageCode == 'en'
+              ? MediaQuery.of(context).size.width * 0.40
+              : MediaQuery.of(context).size.width * 0.42,
           content: Column(
             children: [
               SizedBox(height: size * 0.010),
@@ -210,7 +212,9 @@ class CreateWalletFormState extends State<CreateWalletForm> {
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
-          buttonWidth: MediaQuery.of(context).size.width * 0.40,
+          buttonWidth: locale.languageCode == 'en'
+              ? MediaQuery.of(context).size.width * 0.40
+              : MediaQuery.of(context).size.width * 0.42,
           isSucefull: false,
           content: Column(
             children: [
