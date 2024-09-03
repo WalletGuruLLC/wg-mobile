@@ -55,7 +55,6 @@ class WalletGuruRouter {
           final id = params['id'] as String;
           final email = params['email'] as String;
           return CreateProfileFirstPage(id: id, email: email);
-          // return const CreateWalletPage();
         }),
     GoRoute(
       name: Routes.createProfile2.name,

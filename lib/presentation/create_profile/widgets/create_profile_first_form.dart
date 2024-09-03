@@ -84,14 +84,14 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
           const SizedBox(height: 30),
           FormLabel(label: l10n.phoneNumber),
           SizedBox(
-            width: size * 0.8,
+            //width: size * 0.9,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BlocBuilder<CreateProfileCubit, CreateProfileState>(
                   builder: (context, state) {
                     return CountryCodeForm(
-                      items: state.countries,
+                      items: state.countriesCode,
                       onChanged: (value) {
                         if (value != null) {
                           createProfileCubit.selectCountryCode(value);

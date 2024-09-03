@@ -86,7 +86,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
       email: state.email,
       firstName: state.firstName,
       lastName: state.lastName,
-      phone: state.phone,
+      phone: "${state.countryCode}-${state.phone}",
       termsConditions: true,
       privacyPolicy: true,
     ));
@@ -218,7 +218,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
       email: state.email,
       firstName: state.firstName,
       lastName: state.lastName,
-      phone: state.phone,
+      phone: "${state.countryCode}-${state.phone}",
       termsConditions: true,
       privacyPolicy: true,
       socialSecurityNumber: state.socialSecurityNumber,

@@ -18,10 +18,10 @@ class CountryCodeForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    String hintText = l10n.selectYourCountry;
+    String hintText = l10n.selectYourCountryCode;
 
     return BaseDropdown(
-      width: 40,
+      width: 80,
       hintText: hintText,
       items: items,
       onChanged: onChanged,
