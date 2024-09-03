@@ -1,9 +1,33 @@
 import 'package:flutter/material.dart';
 
 class Validators {
+  static String? validateEmpty(String? value, [BuildContext? context]) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter the appropriate value';
+    }
+    return null;
+  }
+
   static String? validateName(String? value, [BuildContext? context]) {
     if (value == null || value.isEmpty) {
       return 'Please enter your name';
+    }
+    const pattern = r'^[a-zA-Z\s]+$';
+    final regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Please enter a valid';
+    }
+    return null;
+  }
+
+  static String? validateNumberId(String? value, [BuildContext? context]) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your identification number';
+    }
+    const pattern = r'^\d{5,11}$';
+    final regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Please enter a valid identification number';
     }
     return null;
   }
@@ -63,6 +87,18 @@ class Validators {
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Please enter a valid phone number';
+    }
+    return null;
+  }
+
+  static String? validateSSN(String? value, [BuildContext? context]) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your SSN number';
+    }
+    const pattern = r'^\d{3}-\d{2}-\d{4}$';
+    final regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Please enter a valid SSN number XXX-XX-XXXX';
     }
     return null;
   }

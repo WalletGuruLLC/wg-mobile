@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/decoration_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/dropdown_base.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../styles/text_styles/app_text_styles.dart';
-import 'decoration_form.dart';
-import 'dropdown_base.dart';
-
-class StateForm extends StatelessWidget {
-  final bool enabled;
+class CountryCodeForm extends StatelessWidget {
   final String? initialValue;
   final List<String> items;
   final Function(String?) onChanged;
-  const StateForm({
+  const CountryCodeForm({
     super.key,
-    this.enabled = true,
-    this.initialValue,
     required this.items,
+    this.initialValue,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    String? hintText = l10n.selectYourState;
+    String hintText = l10n.selectYourCountryCode;
+
     return BaseDropdown(
-      enabled: enabled,
+      width: 80,
       hintText: hintText,
       items: items,
       onChanged: onChanged,

@@ -55,11 +55,16 @@ class _DatePickerFormState extends State<DatePickerForm> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime eighteenYearsAgo =
+        DateTime(now.year - 18, now.month, now.day);
+    final DateTime hundredYearsAgo =
+        DateTime(now.year - 100, now.month, now.day);
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      initialDate: selectedDate ?? eighteenYearsAgo,
+      firstDate: hundredYearsAgo,
+      lastDate: eighteenYearsAgo,
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: Theme.of(context).copyWith(

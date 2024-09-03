@@ -3,9 +3,7 @@ part of 'create_profile_cubit.dart';
 class CreateProfileState extends Equatable {
   final String id;
   final String token;
-
   final String email;
-
   final String firstName;
   final String lastName;
   final String phone;
@@ -14,9 +12,11 @@ class CreateProfileState extends Equatable {
   final String identificationType;
   final String identificationNumber;
 
+  final List<String> countriesCode;
   final List<String> countries;
   final List<String> states;
   final List<String> cities;
+  final String countryCode;
   final String country;
   final String stateLocation;
   final String city;
@@ -42,9 +42,11 @@ class CreateProfileState extends Equatable {
     this.socialSecurityNumber = '',
     this.identificationType = '',
     this.identificationNumber = '',
+    this.countriesCode = const [],
     this.countries = const [],
     this.states = const [],
     this.cities = const [],
+    this.countryCode = '',
     this.country = '',
     this.stateLocation = '',
     this.city = '',
@@ -70,9 +72,11 @@ class CreateProfileState extends Equatable {
     String? socialSecurityNumber,
     String? identificationType,
     String? identificationNumber,
+    List<String>? countriesCode,
     List<String>? countries,
     List<String>? states,
     List<String>? cities,
+    String? countryCode,
     String? country,
     String? stateLocation,
     String? city,
@@ -97,10 +101,12 @@ class CreateProfileState extends Equatable {
         socialSecurityNumber: socialSecurityNumber ?? this.socialSecurityNumber,
         identificationType: identificationType ?? this.identificationType,
         identificationNumber: identificationNumber ?? this.identificationNumber,
+        countriesCode: countriesCode ?? this.countriesCode,
         countries: countries ?? this.countries,
+        countryCode: countryCode ?? this.countryCode,
+        country: country ?? this.country,
         states: states ?? this.states,
         cities: cities ?? this.cities,
-        country: country ?? this.country,
         stateLocation: stateLocation ?? this.stateLocation,
         city: city ?? this.city,
         zipCode: zipCode ?? this.zipCode,
@@ -125,9 +131,11 @@ class CreateProfileState extends Equatable {
         socialSecurityNumber: '',
         identificationType: '',
         identificationNumber: '',
+        countriesCode: [],
         countries: [],
         states: [],
         cities: [],
+        countryCode: '',
         country: '',
         stateLocation: '',
         city: '',
@@ -154,10 +162,12 @@ class CreateProfileState extends Equatable {
         socialSecurityNumber,
         identificationType,
         identificationNumber,
+        countriesCode,
         countries,
+        countryCode,
+        country,
         states,
         cities,
-        country,
         stateLocation,
         city,
         zipCode,

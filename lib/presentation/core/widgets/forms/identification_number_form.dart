@@ -40,7 +40,7 @@ class IdentificationNumberForm extends StatelessWidget {
           hintStyle: AppTextStyles.formText,
           decoration:
               CustomInputDecoration(hintText: l10n.enterIdNumber).decoration,
-          validator: (value, context) => Validators.validateName(value),
+          validator: (value, context) => Validators.validateNumberId(value),
           onChanged: onChanged,
         ),
       ],

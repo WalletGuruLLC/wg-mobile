@@ -4,17 +4,17 @@ import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
 
 class Country {
   final String name;
-  final String iso2;
+  final String dialCode;
 
   Country({
     required this.name,
-    required this.iso2,
+    required this.dialCode,
   });
 
   factory Country.fromJson(Map<String, dynamic> json) {
     return Country(
       name: json['name'] ?? '',
-      iso2: json['iso2'] ?? '',
+      dialCode: json['dial_code'] ?? '',
     );
   }
 }
@@ -114,5 +114,6 @@ class CitiesDataSource {
 
 class GetCountriesNetwork {
   static const String getCountries =
-      'https://countriesnow.space/api/v0.1/countries/positions';
+      //'https://countriesnow.space/api/v0.1/countries/positions';
+      'https://countriesnow.space/api/v0.1/countries/codes';
 }

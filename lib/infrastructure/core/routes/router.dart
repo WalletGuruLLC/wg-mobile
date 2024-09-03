@@ -1,15 +1,16 @@
 import 'package:go_router/go_router.dart';
+
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_first_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_fourth_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
+import 'package:wallet_guru/presentation/login/pages/login_page.dart';
+import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
+import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
+import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
 import 'package:wallet_guru/presentation/dashboard_wallet/page/dashboard_wallet_page.dart';
-import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
-import 'package:wallet_guru/presentation/login/pages/login_page.dart';
-import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
-import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_first_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_fourth_page.dart';
 
 class WalletGuruRouter {
   static List<GoRoute> routes = [
@@ -22,7 +23,6 @@ class WalletGuruRouter {
       name: Routes.splash.name,
       path: Routes.splash.path,
       builder: (context, state) => const SplashScreenPage(),
-      //builder: (context, state) => const CreateProfileThirdPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
@@ -55,7 +55,6 @@ class WalletGuruRouter {
           final id = params['id'] as String;
           final email = params['email'] as String;
           return CreateProfileFirstPage(id: id, email: email);
-          // return const CreateWalletPage();
         }),
     GoRoute(
       name: Routes.createProfile2.name,

@@ -9,32 +9,36 @@ class BaseDropdown extends StatelessWidget {
   final Function(String?)? onChanged;
   final InputDecoration? decoration;
   final TextStyle? hintStyle;
+  final double? width;
 
-  const BaseDropdown({
-    super.key,
-    this.hintText,
-    this.initialValue,
-    this.items,
-    this.onChanged,
-    this.decoration,
-    this.hintStyle,
-    this.enabled = true,
-  });
+  const BaseDropdown(
+      {super.key,
+      this.hintText,
+      this.initialValue,
+      this.items,
+      this.onChanged,
+      this.decoration,
+      this.hintStyle,
+      this.enabled = true,
+      this.width});
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField(
-      dropdownColor: Colors.grey[900],
-      style: hintStyle,
-      decoration: decoration,
-      value: initialValue,
-      items: items!.map((String value) {
-        return DropdownMenuItem(
-          value: value,
-          child: _buildItemText(value),
-        );
-      }).toList(),
-      onChanged: enabled ? onChanged : null,
+    return SizedBox(
+      width: width,
+      child: DropdownButtonFormField(
+        dropdownColor: Colors.grey[900],
+        style: hintStyle,
+        decoration: decoration,
+        value: initialValue,
+        items: items!.map((String value) {
+          return DropdownMenuItem(
+            value: value,
+            child: _buildItemText(value),
+          );
+        }).toList(),
+        onChanged: enabled ? onChanged : null,
+      ),
     );
   }
 
