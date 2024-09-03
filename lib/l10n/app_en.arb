@@ -52,6 +52,7 @@
   "state": "State",
   "zipCode": "Zip code",
   "address": "Address",
+  "selectYourCountryCode": "+00",
   "selectYourCountry": "Select your country",
   "selectYourState": "Select your state",
   "selectYourCity": "Select your city",

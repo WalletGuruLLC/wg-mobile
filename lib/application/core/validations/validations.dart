@@ -67,6 +67,18 @@ class Validators {
     return null;
   }
 
+  static String? validateSSN(String? value, [BuildContext? context]) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your SSN number';
+    }
+    const pattern = r'^\d{3}-\d{2}-\d{4}$';
+    final regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Please enter a valid SSN number';
+    }
+    return null;
+  }
+
   static String? validateOtp(String? value, [BuildContext? context]) {
     if (value == null || value.isEmpty) {
       return 'Please enter your Otp number';

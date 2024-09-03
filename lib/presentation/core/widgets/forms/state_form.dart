@@ -11,12 +11,12 @@ class StateForm extends StatelessWidget {
   final List<String> items;
   final Function(String?) onChanged;
   const StateForm({
-    Key? key,
+    super.key,
     this.enabled = true,
     this.initialValue,
     required this.items,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

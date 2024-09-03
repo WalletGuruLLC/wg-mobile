@@ -1,15 +1,16 @@
 import 'package:go_router/go_router.dart';
+
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_first_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_fourth_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
+import 'package:wallet_guru/presentation/login/pages/login_page.dart';
+import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
+import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
+import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
 import 'package:wallet_guru/presentation/dashboard_wallet/page/dashboard_wallet_page.dart';
-import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
-import 'package:wallet_guru/presentation/login/pages/login_page.dart';
-import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
-import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_first_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_fourth_page.dart';
 
 class WalletGuruRouter {
   static List<GoRoute> routes = [
@@ -21,12 +22,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      //builder: (context, state) => const SplashScreenPage(),
-      builder: (context, state) => const CreateProfileFirstPage(
-        id: '1',
-        email: '2',
-      ),
-      //builder: (context, state) => const CreateProfileThirdPage(),
+      builder: (context, state) => const SplashScreenPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,

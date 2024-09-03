@@ -52,6 +52,7 @@
   "state": "Estado",
   "zipCode": "Código postal",
   "address": "Dirección",
+  "selectYourCountryCode": "+00",
   "selectYourCountry": "Selecciona tu país",
   "selectYourState": "Selecciona tu estado",
   "selectYourCity": "Selecciona tu ciudad",
