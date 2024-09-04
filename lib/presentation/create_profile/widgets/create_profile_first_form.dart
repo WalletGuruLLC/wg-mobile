@@ -90,8 +90,10 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
               children: [
                 BlocBuilder<CreateProfileCubit, CreateProfileState>(
                   builder: (context, state) {
+                    final uniqueCountriesCode =
+                        state.countriesCode.toSet().toList();
                     return CountryCodeForm(
-                      items: state.countriesCode,
+                      items: uniqueCountriesCode,
                       onChanged: (value) {
                         if (value != null) {
                           createProfileCubit.selectCountryCode(value);

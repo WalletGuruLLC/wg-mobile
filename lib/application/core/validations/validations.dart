@@ -95,7 +95,7 @@ class Validators {
     if (value == null || value.isEmpty) {
       return 'Please enter your SSN number';
     }
-    const pattern = r'^\d{3}-\d{2}-\d{4}$';
+    const pattern = r'^\d{9}$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return 'Please enter a valid SSN number XXX-XX-XXXX';

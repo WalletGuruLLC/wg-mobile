@@ -28,7 +28,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
   String? _otp;
   late LoginCubit loginCubit;
   late Timer _timer;
-  int _remainingSeconds = 30;
+  int _remainingSeconds = 300;
 
   @override
   void initState() {
@@ -51,6 +51,8 @@ class AuthenticationFormState extends State<AuthenticationForm> {
 
   Widget _buildValidateOtpView(
       double size, BuildContext context, AppLocalizations l10n, Locale locale) {
+    final int minutes = _remainingSeconds ~/ 60;
+    final int seconds = _remainingSeconds % 60;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +81,8 @@ class AuthenticationFormState extends State<AuthenticationForm> {
           SizedBox(height: size * 0.025),
           TextBase(
             color: AppColorSchema.of(context).tertiaryText,
-            text: '${l10n.valid_code_time} 00:$_remainingSeconds s',
+            text:
+                '${l10n.valid_code_time} ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')} s',
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),
@@ -95,6 +98,9 @@ class AuthenticationFormState extends State<AuthenticationForm> {
                       "email": state.email,
                     },
                   );
+                } else if (!state.isFirstTime) {
+                  GoRouter.of(context)
+                      .pushReplacementNamed(Routes.dashboardWallet.name);
                 } else {
                   GoRouter.of(context).pushNamed(Routes.createWallet.name);
                 }
@@ -129,8 +135,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
             child: GestureDetector(
               onTap: () {
                 loginCubit.emitResendOtp(widget.email);
-                _remainingSeconds = 30;
-                _startTimer();
+                _remainingSeconds = 300;
               },
               child: TextBase(
                 color: AppColorSchema.of(context).tertiaryText,

@@ -84,6 +84,7 @@ class LoginCubit extends Cubit<LoginState> {
           lastName: verifiedUser.data!.user!.lastName,
           email: verifiedUser.data!.user!.email,
           formStatusOtp: SubmissionSuccess(),
+          isFirstTime: verifiedUser.data!.user!.first,
         ));
       },
     );

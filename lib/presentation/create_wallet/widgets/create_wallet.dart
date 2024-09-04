@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wallet_guru/application/create_wallet/create_wallet_cubit.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
+import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
-import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
+import 'package:wallet_guru/application/create_wallet/create_wallet_cubit.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
 
@@ -30,6 +31,8 @@ class CreateWalletFormState extends State<CreateWalletForm> {
   @override
   void initState() {
     createWalletCubit = BlocProvider.of<CreateWalletCubit>(context);
+    final loginCubit = BlocProvider.of<LoginCubit>(context);
+    loginCubit.initialStatus();
     super.initState();
   }
 
@@ -162,7 +165,9 @@ class CreateWalletFormState extends State<CreateWalletForm> {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
           isSucefull: true,
-          buttonWidth: MediaQuery.of(context).size.width * 0.40,
+          buttonWidth: locale.languageCode == 'en'
+              ? MediaQuery.of(context).size.width * 0.40
+              : MediaQuery.of(context).size.width * 0.42,
           content: Column(
             children: [
               SizedBox(height: size * 0.010),
@@ -210,7 +215,9 @@ class CreateWalletFormState extends State<CreateWalletForm> {
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
-          buttonWidth: MediaQuery.of(context).size.width * 0.40,
+          buttonWidth: locale.languageCode == 'en'
+              ? MediaQuery.of(context).size.width * 0.40
+              : MediaQuery.of(context).size.width * 0.42,
           isSucefull: false,
           content: Column(
             children: [
