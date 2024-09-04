@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
 
 class WalletGuruLayout extends StatelessWidget {
   final List<Widget> children;
@@ -53,28 +54,27 @@ class WalletGuruLayout extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: showBottomNavigationBar
-            ? null //BOTTOM NAVIGATION SHOULD BE HERE
+            ? BottomNavigationMenu(
+                selectedIndex:
+                    getSelectedIndex(ModalRoute.of(context)!.settings.name!),
+              )
             : null,
       ),
     );
   }
+
+  int getSelectedIndex(String currentRoute) {
+    switch (currentRoute) {
+      case '/dashboardWallet':
+        return 0;
+      case '/home':
+        return 1;
+      case '/createWallet':
+        return 2;
+      case '/splash':
+        return 3;
+      default:
+        return 0;
+    }
+  }
 }
-
-
-  // int getSelectedIndex(String currentRoute) {
-  //   switch (currentRoute) {
-  //     case '/driver_profile':
-  //       return 0;
-  //     case '/message':
-  //       return 1;
-  //     case '/home':
-  //       return 2;
-  //     case '/history_details_loads':
-  //       return 3;
-  //     case '/training_videos':
-  //       return 4;
-  //     default:
-  //       return 0;
-  //   }
-  // }
-
