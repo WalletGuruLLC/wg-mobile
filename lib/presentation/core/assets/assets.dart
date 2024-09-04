@@ -23,4 +23,5 @@ class Assets {
   static const transactionsMenuIcon = '${base}transactions_menu_icon.svg';
   static const verticalTransactionMenuIcon =
       '${base}vertical_transaction_menu_icon.svg';
+  static const fourDotsIcon = '${base}four_dots_icon.svg';
 }

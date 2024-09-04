@@ -48,7 +48,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
               activeIcon: Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
@@ -65,7 +65,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
               icon: Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.black,
                   shape: BoxShape.circle,
                 ),
@@ -85,7 +85,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
               activeIcon: Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
@@ -102,7 +102,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
               icon: Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.black,
                   shape: BoxShape.circle,
                 ),
@@ -122,7 +122,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
               activeIcon: Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
@@ -139,7 +139,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
               icon: Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.black,
                   shape: BoxShape.circle,
                 ),
@@ -159,7 +159,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
               activeIcon: Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
@@ -176,7 +176,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
               icon: Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.black,
                   shape: BoxShape.circle,
                 ),
@@ -214,7 +214,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
         GoRouter.of(context).pushNamed(Routes.createWallet.name);
         break;
       case 3:
-        GoRouter.of(context).pushNamed(Routes.splash.name);
+        GoRouter.of(context).pushNamed(Routes.myProfile.name);
         break;
     }
   }

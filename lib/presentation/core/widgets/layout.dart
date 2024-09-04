@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/app_top_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
 
 class WalletGuruLayout extends StatelessWidget {
   final List<Widget> children;
   final MainAxisAlignment? mainAxisAlignment;
   final CrossAxisAlignment? crossAxisAlignment;
-  final PreferredSizeWidget? customAppBar;
   final bool showAppBar;
   final bool showBackButton;
   final bool showSafeArea;
   final bool isTransparent;
   final bool showBottomNavigationBar;
   final String? pageAppbarTitle;
+  final void Function()? actionAppBar;
+  final bool isAppBarSimpleStyle;
 
   const WalletGuruLayout({
     super.key,
@@ -25,7 +27,8 @@ class WalletGuruLayout extends StatelessWidget {
     this.showSafeArea = true,
     this.isTransparent = false,
     this.showBottomNavigationBar = false,
-    this.customAppBar,
+    this.actionAppBar,
+    this.isAppBarSimpleStyle = true,
   });
 
   @override
@@ -36,7 +39,13 @@ class WalletGuruLayout extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: AppColorSchema.of(context).scaffoldColor,
-        appBar: showAppBar ? customAppBar : null,
+        appBar: showAppBar
+            ? AppTopBar(
+                title: pageAppbarTitle!,
+                action: actionAppBar,
+                isSimpleStyle: isAppBarSimpleStyle,
+              )
+            : null,
         body: SafeArea(
           top: showSafeArea,
           bottom: showSafeArea,
@@ -71,7 +80,7 @@ class WalletGuruLayout extends StatelessWidget {
         return 1;
       case '/createWallet':
         return 2;
-      case '/splash':
+      case '/myProfile':
         return 3;
       default:
         return 0;
