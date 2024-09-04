@@ -98,7 +98,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
                       "email": state.email,
                     },
                   );
-                } else if (state.isFirstTime == false) {
+                } else if (!state.isFirstTime) {
                   GoRouter.of(context)
                       .pushReplacementNamed(Routes.dashboardWallet.name);
                 } else {
@@ -135,8 +135,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
             child: GestureDetector(
               onTap: () {
                 loginCubit.emitResendOtp(widget.email);
-                _remainingSeconds = 30;
-                _startTimer();
+                _remainingSeconds = 300;
               },
               child: TextBase(
                 color: AppColorSchema.of(context).tertiaryText,
