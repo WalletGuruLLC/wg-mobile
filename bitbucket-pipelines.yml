@@ -17,6 +17,10 @@ pipelines:
             - flutter packages pub run build_runner build --delete-conflicting-outputs
             - flutter analyze --no-fatal-infos --no-fatal-warnings
             - echo "Building APK"
-            - flutter build apk
-          artifacts:
-            - build/app/outputs/apk/**
+            - flutter build apk --debug
+            - pipe: atlassian/bitbucket-upload-file:0.1.2
+              variables:
+                BITBUCKET_USERNAME: $BITBUCKET_USERNAME
+                BITBUCKET_APP_PASSWORD: $BITBUCKET_APP_PASSWORD
+                FILENAME: "app/build/outputs/apk/debug/application-debug.apk"
+
