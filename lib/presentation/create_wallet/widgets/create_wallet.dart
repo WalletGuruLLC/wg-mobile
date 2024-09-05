@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,14 +28,24 @@ class CreateWalletFormState extends State<CreateWalletForm> {
   final _formKey = GlobalKey<FormState>();
   String _address = '';
   bool _addressMinLength = false;
+  bool _isVisible = true;
   late CreateWalletCubit createWalletCubit;
+  late TextEditingController _addressController; // Nuevo controlador
 
   @override
   void initState() {
+    super.initState();
     createWalletCubit = BlocProvider.of<CreateWalletCubit>(context);
     final loginCubit = BlocProvider.of<LoginCubit>(context);
     loginCubit.initialStatus();
-    super.initState();
+    _addressController =
+        TextEditingController(text: _address); // Inicializar controlador
+  }
+
+  @override
+  void dispose() {
+    _addressController.dispose(); // Liberar el controlador
+    super.dispose();
   }
 
   @override
@@ -86,11 +98,45 @@ class CreateWalletFormState extends State<CreateWalletForm> {
             fontWeight: FontWeight.w400,
           ),
           SizedBox(height: size * 0.015),
+          Visibility(
+            visible: _isVisible,
+            child: const TextBase(
+              text: 'wwww.walletguru.me/',
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: Colors.grey,
+            ),
+          ),
+          SizedBox(height: size * 0.015),
           WalletAddressForm(
-            initialValue: _address,
+            controller:
+                _addressController, // Asignar el controlador al formulario
             onChanged: _onFormChanged,
           ),
-          SizedBox(height: size * 0.35),
+          SizedBox(height: size * 0.015),
+          Visibility(
+            visible: !_isVisible,
+            child: TextBase(
+              text: 'wwww.walletguru.me/$_address',
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: Colors.grey,
+            ),
+          ),
+          !_isVisible ? SizedBox(height: size * 0.015) : const SizedBox(),
+          GestureDetector(
+            onTap: () {
+              String randomAddress = _generateRandomAddress();
+              _onFormChanged(randomAddress);
+            },
+            child: TextBase(
+              color: AppColorSchema.of(context).tertiaryText,
+              text: 'Random',
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          SizedBox(height: size * 0.20),
           BlocConsumer<CreateWalletCubit, CreateWalletState>(
             listener: (context, state) {
               if (state.formStatus is SubmissionSuccess) {
@@ -128,29 +174,30 @@ class CreateWalletFormState extends State<CreateWalletForm> {
     );
   }
 
-  // Method to handle form changes
+  // Método para manejar los cambios en el formulario
   void _onFormChanged(String? value) {
     setState(() {
       _address = value!;
       _addressMinLength = value.length > 3;
       createWalletCubit.setUserWalletName(_address);
+      _isVisible = _address.isNotEmpty ? false : true;
+      _addressController.text = _address; // Actualizar el controlador
     });
   }
 
-  // Method to handle button actions
+  // Método para manejar el botón
   void _onButtonPressed() {
     if (_formKey.currentState!.validate() && _addressMinLength) {
       _formKey.currentState!.reset();
       setState(() {
         _address = '';
         _addressMinLength = false;
-
         createWalletCubit.emitFetchWalletAssetId();
       });
     }
   }
 
-  // Method to build the successful modal
+  // Método para construir el modal exitoso
   Future<dynamic> _buildSuccessfulModal(
     String descriptionEn,
     String descriptionEs,
@@ -200,7 +247,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
     );
   }
 
-  // Placeholder for the error modal method
+  // Placeholder para el método del modal de error
   void _buildErrorModal(
     String descriptionEn,
     String descriptionEs,
@@ -237,26 +284,26 @@ class CreateWalletFormState extends State<CreateWalletForm> {
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
-              SizedBox(height: size * 0.010),
-              TextBase(
-                textAlign: TextAlign.center,
-                text: 'Error Code: $codeError',
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
             ],
           ),
           onPressed: () {
             createWalletCubit.emitInitialStatus();
             Navigator.of(context).pop();
-
-            GoRouter.of(context).pushReplacementNamed(
-              Routes.createWallet.name,
-            );
           },
         );
       },
     );
+  }
+
+  String _generateRandomAddress() {
+    const String chars = 'abcdefghijklmnopqrstuvwxyz';
+    Random rnd = Random();
+
+    String randomChars = String.fromCharCodes(
+      Iterable.generate(3, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))),
+    );
+    String randomNumbers = (rnd.nextInt(90) + 10).toString();
+
+    return randomChars + randomNumbers;
   }
 }
