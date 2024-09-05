@@ -90,8 +90,6 @@
   "notificationSettings": "Notification Settings",
   "changePassword": "changePassword",
   "lockAccount": "Lock Account",
-  "logOut": "Log Out"
-
-
-
+  "logOut": "Log Out",
+  "myProfile": "My Profile"
 }

@@ -90,5 +90,6 @@
   "notificationSettings": "Configuración de Notificaciones",
   "changePassword": "Cambiar Contraseña",
   "lockAccount": "Bloquear Cuenta",
-  "logOut": "Cerrar sesión"
+  "logOut": "Cerrar sesión",
+  "myProfile": "Mi Perfil"
 }
