@@ -161,4 +161,11 @@ class Validators {
     }
     return null;
   }
+
+  static String? validateEmptyDate(String? value, [BuildContext? context]) {
+    if (value == null || value.isEmpty) {
+      return 'Please select your date of birth';
+    }
+    return null;
+  }
 }
