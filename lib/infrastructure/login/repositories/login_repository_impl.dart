@@ -42,4 +42,14 @@ class LoginRepositoryImpl extends LoginRepository {
       return Left(invalidData);
     }
   }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> logOut() async {
+    try {
+      final ResponseModel response = await loginDataSource.logOut();
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
 }

@@ -10,4 +10,6 @@ abstract class LoginRepository {
       String email, String otp);
 
   Future<Either<InvalidData, ResponseModel>> resendOtp(String email);
+
+  Future<Either<InvalidData, ResponseModel>> logOut();
 }

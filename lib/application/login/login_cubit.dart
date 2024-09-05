@@ -110,4 +110,24 @@ class LoginCubit extends Cubit<LoginState> {
       },
     );
   }
+
+  void emitLogOut() async {
+    final logOut = await registerRepository.logOut();
+    logOut.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatusOtp:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (logOut) {
+        emit(state.copyWith(
+          logOutSuccess: true,
+        ));
+      },
+    );
+  }
 }

@@ -14,6 +14,7 @@ class LoginState extends Equatable {
   final String customMessage;
   final String customMessageEs;
   final String customCode;
+  final bool logOutSuccess;
 
   const LoginState({
     this.userId = '',
@@ -29,6 +30,7 @@ class LoginState extends Equatable {
     this.isFirstTime = true,
     this.formStatus = const InitialFormStatus(),
     this.formStatusOtp = const InitialFormStatus(),
+    this.logOutSuccess = false,
   });
 
   LoginState copyWith({
@@ -45,6 +47,7 @@ class LoginState extends Equatable {
     String? customMessageEs,
     String? customCode,
     bool? isFirstTime,
+    bool? logOutSuccess,
   }) =>
       LoginState(
         userId: userId ?? this.userId,
@@ -60,6 +63,7 @@ class LoginState extends Equatable {
         customMessage: customMessage ?? this.customMessage,
         customMessageEs: customMessageEs ?? this.customMessageEs,
         customCode: customCode ?? this.customCode,
+        logOutSuccess: logOutSuccess ?? this.logOutSuccess,
       );
 
   LoginState initialState() => const LoginState(
@@ -76,6 +80,7 @@ class LoginState extends Equatable {
         customMessageEs: '',
         customCode: '',
         isFirstTime: true,
+        logOutSuccess: false,
       );
 
   @override
@@ -93,5 +98,6 @@ class LoginState extends Equatable {
         customMessageEs,
         customCode,
         isFirstTime,
+        logOutSuccess,
       ];
 }

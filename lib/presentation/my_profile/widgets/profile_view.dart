@@ -38,7 +38,6 @@ class MyProfileMainView extends StatelessWidget {
         ),
         SizedBox(height: size.height * .065),
         LogoutButton(
-          onTap: () {},
           text: l10n.logOut,
         )
       ],
