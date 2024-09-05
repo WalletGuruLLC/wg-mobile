@@ -29,7 +29,7 @@ class AddressForm extends StatelessWidget {
       keyboardType: TextInputType.text,
       hintStyle: AppTextStyles.formText,
       decoration: CustomInputDecoration(hintText: hintText).decoration,
-      validator: (value, context) => Validators.validateEmpty(value),
+      validator: (value, context) => Validators.validateAddress(value, context),
       onChanged: onChanged,
     );
   }

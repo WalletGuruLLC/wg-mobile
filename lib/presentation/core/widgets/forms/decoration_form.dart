@@ -8,15 +8,15 @@ class CustomInputDecoration {
 
   InputDecoration get decoration {
     return InputDecoration(
-      focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-        color: Color(0xFF494949),
-      )),
-      counterText: '',
-      hintText: hintText,
-      fillColor: Colors.transparent,
-      hintStyle: AppTextStyles.specialFormText,
-      floatingLabelBehavior: FloatingLabelBehavior.never,
-    );
+        focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+          color: Color(0xFF494949),
+        )),
+        counterText: '',
+        hintText: hintText,
+        fillColor: Colors.transparent,
+        hintStyle: AppTextStyles.specialFormText,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        errorMaxLines: 5);
   }
 }

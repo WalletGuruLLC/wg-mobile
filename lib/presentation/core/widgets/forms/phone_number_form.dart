@@ -41,7 +41,8 @@ class PhoneNumberForm extends StatelessWidget {
           hintStyle: AppTextStyles.formText,
           decoration:
               CustomInputDecoration(hintText: l10n.enterPhoneNumber).decoration,
-          validator: (value, context) => Validators.validatePhoneNumber(value),
+          validator: (value, context) =>
+              Validators.validatePhoneNumber(value, context),
           onChanged: onChanged,
           maxLength: 10,
           inputFormatters: [

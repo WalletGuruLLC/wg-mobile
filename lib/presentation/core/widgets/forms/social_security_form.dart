@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/application/core/validations/validations.dart';
@@ -36,13 +37,42 @@ class SocialSecurityForm extends StatelessWidget {
         BaseTextFormField(
           enabled: enabled,
           initialValue: initialValue,
-          keyboardType: TextInputType.text,
+          keyboardType: TextInputType.number,
           hintStyle: AppTextStyles.formText,
-          decoration: CustomInputDecoration(hintText: l10n.enterSNN).decoration,
-          validator: (value, context) => Validators.validateSSN(value),
+          decoration: CustomInputDecoration(hintText: l10n.enterSSN).decoration,
+          validator: (value, context) => Validators.validateSSN(value, context),
           onChanged: onChanged,
+          inputFormatters: [SSNInputFormatter()],
         ),
       ],
+    );
+  }
+}
+
+class SSNInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final text = newValue.text;
+
+    // Remove any non-digit characters
+    final digitsOnly = text.replaceAll(RegExp(r'\D'), '');
+
+    // Format the digits into the SSN pattern
+    final buffer = StringBuffer();
+    for (int i = 0; i < digitsOnly.length; i++) {
+      if (i == 3 || i == 5) {
+        buffer.write('-');
+      }
+      buffer.write(digitsOnly[i]);
+    }
+
+    final formattedText = buffer.toString();
+
+    // Return the new formatted value
+    return newValue.copyWith(
+      text: formattedText,
+      selection: TextSelection.collapsed(offset: formattedText.length),
     );
   }
 }

@@ -40,7 +40,8 @@ class LastNameForm extends StatelessWidget {
           hintStyle: AppTextStyles.formText,
           decoration:
               CustomInputDecoration(hintText: l10n.enterLastName).decoration,
-          validator: (value, context) => Validators.validateName(value),
+          validator: (value, context) =>
+              Validators.validateLastName(value, context),
           onChanged: onChanged,
         ),
       ],

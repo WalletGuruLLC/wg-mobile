@@ -21,7 +21,7 @@
   "generateUniqueWallet": "Generate your unique wallet address to securely send, receive, and store your digital assets.",
   "addressName": "Address Name",
   "enterAddressName": "Enter an address name",
-  "enterDesiredName": "Enter your desired address name (e.g., \"manuel\") in the input bellow.",
+  "enterDesiredName": "Enter your desired address name (e.g., \"John doe\") in the input bellow.",
   "walletSuccessMessage": "Wallet Address Created Successfully!",
   "continueCheckingProfile": "Your wallet address is ready. You can easily share it by checking your profile.",
   "userProfile": "User Profile",
@@ -60,7 +60,31 @@
   "enterYourAddress": "Enter your address",
   "selectYourBirth": "Select your birth",
   "create": "Create",
-  "walletNameTaken": "Wallet Address Name Already Taken"
+  "walletNameTaken": "Wallet Address Name Already Taken",
+  "nameValidation": "Please enter a valid first name. The field cannot be empty or contain invalid characters",
+  "lastNameValidation": "Please enter a valid last name. The field cannot be empty or contain invalid characters",
+  "enterIdNumberValidation": "Please enter your identification number",
+  "enterValidIdNumberValidation": "Please enter a valid identification number",
+  "enterEmailValidation": "Please enter your email",
+  "enterValidEmailValidation": "Please enter a valid email address",
+  "enterPasswordValidation": "Please enter a password",
+  "enterValidPasswordValidation": "Password must be 8-12 characters long and include at least one number, one uppercase letter, one lowercase letter, and one special character",
+  "enterConfirmPassword": "'Please confirm your password",
+  "enterValidConfirmPassword": "Passwords do not match",
+  "enterPhoneNumber": "Please enter your phone number",
+  "enterValidPhoneNumber": "Please enter a valid phone number",
+  "enterSSN": "Please enter your SSN number",
+  "enterValidSSN": "Please enter a valid SSN number XXX-XX-XXXX",
+  "enterOTP": "Please enter your Otp number",
+  "enterValidOTP": "Please enter valid Otp number",
+  "enterWalletAddress": "Please enter your address",
+  "enterMinLengthWalletAddress": "Address must be between 3 and 20 characters long",
+  "enterValidWalletAddress": "Address must contain at least one letter, one number, and be entirely lowercase",
+  "enterAddress": "Address cannot be empty. Please enter a valid address",
+  "enterValidAddress": "Address must be at least 4 characters long",
+  "enterZipCode": "Zip code cannot be empty. Please enter a valid zip code",
+  "enterValidZipCode": "Zip code must be at least 3 digits long"
+  
 
 
 }
