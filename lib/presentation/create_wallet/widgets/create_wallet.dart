@@ -190,7 +190,6 @@ class CreateWalletFormState extends State<CreateWalletForm> {
     if (_formKey.currentState!.validate() && _addressMinLength) {
       _formKey.currentState!.reset();
       setState(() {
-        _address = '';
         _addressMinLength = false;
         createWalletCubit.emitFetchWalletAssetId();
       });
