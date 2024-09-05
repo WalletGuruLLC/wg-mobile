@@ -39,13 +39,7 @@ class WalletGuruLayout extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: AppColorSchema.of(context).scaffoldColor,
-        appBar: showAppBar
-            ? WalletGuruAppBar(
-                title: pageAppBarTitle!,
-                action: actionAppBar,
-                showSimpleStyle: showSimpleStyle,
-              )
-            : null,
+        appBar: null,
         body: SafeArea(
           top: showSafeArea,
           bottom: showSafeArea,
@@ -62,12 +56,7 @@ class WalletGuruLayout extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: showBottomNavigationBar
-            ? BottomNavigationMenu(
-                selectedIndex:
-                    getSelectedIndex(ModalRoute.of(context)!.settings.name!),
-              )
-            : null,
+        bottomNavigationBar: null,
       ),
     );
   }
