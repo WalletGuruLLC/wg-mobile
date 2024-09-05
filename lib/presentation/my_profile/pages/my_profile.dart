@@ -15,7 +15,7 @@ class MyProfilePage extends StatelessWidget {
       showSafeArea: true,
       showAppBar: true,
       showBottomNavigationBar: true,
-      pageAppbarTitle: 'My Profile',
+      pageAppBarTitle: 'My Profile',
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

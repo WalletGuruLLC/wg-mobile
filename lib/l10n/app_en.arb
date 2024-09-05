@@ -84,5 +84,7 @@
   "enterValidAddress": "Address must be at least 4 characters long",
   "enterZipCode": "Zip code cannot be empty. Please enter a valid zip code",
   "enterValidZipCode": "Zip code must be at least 3 digits long",
-  "selectBirthDateValidation" : "Please select your date of birth"
+  "selectBirthDateValidation" : "Please select your date of birth",
+  "myProfile": "My Profile",
+  ""
 }

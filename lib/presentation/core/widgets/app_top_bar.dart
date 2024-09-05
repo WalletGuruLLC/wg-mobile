@@ -5,16 +5,16 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
-class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
+class WalletGuruAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final void Function()? action;
-  final bool isSimpleStyle;
+  final bool showSimpleStyle;
 
-  const AppTopBar({
+  const WalletGuruAppBar({
     super.key,
     required this.title,
     required this.action,
-    this.isSimpleStyle = true,
+    this.showSimpleStyle = true,
   });
 
   @override
@@ -29,9 +29,9 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildNavigateBackButton(context, isSimpleStyle: isSimpleStyle),
-            _buidTitle(title),
-            isSimpleStyle
+            _buildNavigateBackButton(context, showSimpleStyle: showSimpleStyle),
+            _buildTitle(title),
+            showSimpleStyle
                 ? _buildEmptyContainer()
                 : _buildFourDotsButton(context),
           ],
@@ -40,15 +40,15 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _buidTitle(String text) => TextBase(text: title, fontSize: 18);
+  Widget _buildTitle(String text) => TextBase(text: title, fontSize: 18);
 
   Widget _buildNavigateBackButton(
     BuildContext context, {
-    required bool isSimpleStyle,
+    required bool showSimpleStyle,
   }) {
     return GestureDetector(
         onTap: () => action ?? Navigator.of(context).pop(),
-        child: isSimpleStyle
+        child: showSimpleStyle
             ? const Icon(Icons.arrow_back_ios, color: Colors.white)
             : Container(
                 width: 40,

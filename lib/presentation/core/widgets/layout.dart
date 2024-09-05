@@ -12,23 +12,23 @@ class WalletGuruLayout extends StatelessWidget {
   final bool showSafeArea;
   final bool isTransparent;
   final bool showBottomNavigationBar;
-  final String? pageAppbarTitle;
+  final String? pageAppBarTitle;
   final void Function()? actionAppBar;
-  final bool isAppBarSimpleStyle;
+  final bool showSimpleStyle;
 
   const WalletGuruLayout({
     super.key,
     required this.children,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
-    this.pageAppbarTitle,
+    this.pageAppBarTitle,
     this.showAppBar = true,
     this.showBackButton = false,
     this.showSafeArea = true,
     this.isTransparent = false,
     this.showBottomNavigationBar = false,
     this.actionAppBar,
-    this.isAppBarSimpleStyle = true,
+    this.showSimpleStyle = true,
   });
 
   @override
@@ -40,10 +40,10 @@ class WalletGuruLayout extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColorSchema.of(context).scaffoldColor,
         appBar: showAppBar
-            ? AppTopBar(
-                title: pageAppbarTitle!,
+            ? WalletGuruAppBar(
+                title: pageAppBarTitle!,
                 action: actionAppBar,
-                isSimpleStyle: isAppBarSimpleStyle,
+                showSimpleStyle: showSimpleStyle,
               )
             : null,
         body: SafeArea(
