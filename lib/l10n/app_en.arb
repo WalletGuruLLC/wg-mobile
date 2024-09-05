@@ -86,5 +86,12 @@
   "enterValidZipCode": "Zip code must be at least 3 digits long",
   "selectBirthDateValidation" : "Please select your date of birth",
   "myProfile": "My Profile",
-  ""
+  "myInfo": "My Info",
+  "notificationSettings": "Notification Settings",
+  "changePassword": "changePassword",
+  "lockAccount": "Lock Account",
+  "logOut": "Log Out"
+
+
+
 }
