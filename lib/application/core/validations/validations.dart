@@ -163,8 +163,9 @@ class Validators {
   }
 
   static String? validateEmptyDate(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
     if (value == null || value.isEmpty) {
-      return 'Please select your date of birth';
+      return l10n!.selectBirthDateValidation;
     }
     return null;
   }

@@ -52,7 +52,8 @@ class _DatePickerFormState extends State<DatePickerForm> {
                   color: Colors.white))),
       hintStyle: AppTextStyles.formText,
       controller: _dateController,
-      validator: (value, context) => Validators.validateEmptyDate(value),
+      validator: (value, context) =>
+          Validators.validateEmptyDate(value, context),
     );
   }
 

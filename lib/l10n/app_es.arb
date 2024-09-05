@@ -83,6 +83,6 @@
   "enterAddress": "La dirección no puede estar vacía. Por favor, ingrese una dirección válida",
   "enterValidAddress": "La dirección debe tener al menos 4 caracteres",
   "enterZipCode": "El código postal no puede estar vacío. Por favor, ingrese un código postal válido",
-  "enterValidZipCode": "El código postal debe tener al menos 3 dígitos"
-
+  "enterValidZipCode": "El código postal debe tener al menos 3 dígitos",
+  "selectBirthDateValidation" : "Por favor, selecciona tu fecha de nacimiento"
 }
