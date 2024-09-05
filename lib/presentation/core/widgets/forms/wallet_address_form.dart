@@ -10,6 +10,7 @@ class WalletAddressForm extends StatelessWidget {
   final bool enabled;
   final bool allowNull;
   final String? labelText;
+  final TextEditingController? controller; // Añadir controlador opcional
 
   const WalletAddressForm({
     super.key,
@@ -18,6 +19,7 @@ class WalletAddressForm extends StatelessWidget {
     required this.onChanged,
     this.labelText,
     this.allowNull = false,
+    this.controller, // Recibir el controlador opcional
   });
 
   @override
@@ -34,6 +36,7 @@ class WalletAddressForm extends StatelessWidget {
         BaseTextFormField(
           enabled: enabled,
           initialValue: initialValue,
+          controller: controller, // Usar el controlador si está disponible
           keyboardType: TextInputType.text,
           hintText: l10n.enterAddressName,
           hintStyle: AppTextStyles.formText,

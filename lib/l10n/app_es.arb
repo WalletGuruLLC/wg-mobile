@@ -84,5 +84,12 @@
   "enterValidAddress": "La dirección debe tener al menos 4 caracteres",
   "enterZipCode": "El código postal no puede estar vacío. Por favor, ingrese un código postal válido",
   "enterValidZipCode": "El código postal debe tener al menos 3 dígitos",
-  "selectBirthDateValidation" : "Por favor, selecciona tu fecha de nacimiento"
+  "selectBirthDateValidation" : "Por favor, selecciona tu fecha de nacimiento",
+  "myProfile": "Mi Perfil",
+  "myInfo": "Mi Info",
+  "notificationSettings": "Configuración de Notificaciones",
+  "changePassword": "Cambiar Contraseña",
+  "lockAccount": "Bloquear Cuenta",
+  "logOut": "Cerrar sesión",
+  "myProfile": "Mi Perfil"
 }
