@@ -24,4 +24,12 @@ class Assets {
   static const verticalTransactionMenuIcon =
       '${base}vertical_transaction_menu_icon.svg';
   static const fourDotsIcon = '${base}four_dots_icon.svg';
+
+  // MY PROFILE ICONS
+  // NEW ICONS
+  static const changePasswordIcon = '${base}change_password_icon.svg';
+  static const lockedIcon = '${base}locked_icon.svg';
+  static const logoutIcon = '${base}logout_icon.svg';
+  static const settingsIcon = '${base}settings_icon.svg';
+  static const userIcon = '${base}user_icon.svg';
 }
