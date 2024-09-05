@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:marquee_text/marquee_text.dart';
 
 class BaseDropdown extends StatelessWidget {
@@ -46,8 +47,7 @@ class BaseDropdown extends StatelessWidget {
     return MarqueeText(
       speed: 10,
       text: TextSpan(text: value),
-      style: const TextStyle(
-        fontFamily: 'CenturyGothic',
+      style: GoogleFonts.montserrat(
         color: Colors.white,
       ),
     );
