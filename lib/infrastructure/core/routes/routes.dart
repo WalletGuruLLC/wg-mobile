@@ -20,4 +20,5 @@ class Routes {
       Route(path: '/createProfile4', name: 'createProfile4');
   static final dashboardWallet =
       Route(path: '/dashboardWallet', name: 'dashboardWallet');
+  static final myProfile = Route(path: '/myProfile', name: 'myProfile');
 }

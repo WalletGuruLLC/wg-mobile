@@ -16,4 +16,20 @@ class Assets {
   static const uploadIcon = '${base}upload_icon.png';
   static const warningIcon = '${base}warning_icon.svg';
   static const walletDashboard = '${base}home.png';
+
+  // BOTTOM MENU ICONS
+  static const homeMenuIcon = '${base}home_menu_icon.svg';
+  static const fundingMenuIcon = '${base}funding_menu_icon.svg';
+  static const transactionsMenuIcon = '${base}transactions_menu_icon.svg';
+  static const verticalTransactionMenuIcon =
+      '${base}vertical_transaction_menu_icon.svg';
+  static const fourDotsIcon = '${base}four_dots_icon.svg';
+
+  // MY PROFILE ICONS
+  // NEW ICONS
+  static const changePasswordIcon = '${base}change_password_icon.svg';
+  static const lockedIcon = '${base}locked_icon.svg';
+  static const logoutIcon = '${base}logout_icon.svg';
+  static const settingsIcon = '${base}settings_icon.svg';
+  static const userIcon = '${base}user_icon.svg';
 }
