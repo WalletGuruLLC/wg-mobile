@@ -29,7 +29,7 @@ class ZipCodeForm extends StatelessWidget {
       keyboardType: TextInputType.number,
       hintStyle: AppTextStyles.formText,
       decoration: CustomInputDecoration(hintText: hintText).decoration,
-      validator: (value, context) => Validators.validateEmpty(value),
+      validator: (value, context) => Validators.validateZipCode(value, context),
       onChanged: onChanged,
     );
   }

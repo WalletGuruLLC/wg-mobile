@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Validators {
   static String? validateEmpty(String? value, [BuildContext? context]) {
@@ -9,121 +10,162 @@ class Validators {
   }
 
   static String? validateName(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
     if (value == null || value.isEmpty) {
-      return 'Please enter your name';
+      return l10n!.nameValidation;
     }
     const pattern = r'^[a-zA-Z\s]+$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Please enter a valid';
+      return l10n!.nameValidation;
+    }
+    return null;
+  }
+
+  static String? validateLastName(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
+    if (value == null || value.isEmpty) {
+      return l10n!.lastNameValidation;
+    }
+    const pattern = r'^[a-zA-Z\s]+$';
+    final regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return l10n!.lastNameValidation;
     }
     return null;
   }
 
   static String? validateNumberId(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
     if (value == null || value.isEmpty) {
-      return 'Please enter your identification number';
+      return l10n!.enterIdNumberValidation;
     }
     const pattern = r'^\d{5,11}$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Please enter a valid identification number';
+      return l10n!.enterValidIdNumberValidation;
     }
     return null;
   }
 
   static String? validateEmail(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
+
     if (value == null || value.isEmpty) {
-      return 'Please enter your email';
+      return l10n!.enterEmailValidation;
     }
     const pattern = r'^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Please enter a valid email address';
+      return l10n!.enterValidEmailValidation;
     }
     return null;
   }
 
   static String? validatePassword(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
     if (value == null || value.isEmpty) {
-      return 'Please enter a password';
+      return l10n!.enterPasswordValidation;
     }
     const pattern =
         r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$&*~`%^&*()_+\-=\[\]{};:"\\|,.<>\/?]).{8,12}$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Password must be 8-12 characters long and include at least one number, one uppercase letter, one lowercase letter, and one special character';
+      return l10n!.enterValidPasswordValidation;
     }
     return null;
   }
 
   static String? validateConfirmPassword(String? value, String password,
       [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
     if (value == null || value.isEmpty) {
-      return 'Please confirm your password';
+      return l10n!.enterConfirmPassword;
     }
     if (value != password) {
-      return 'Passwords do not match';
-    }
-    return null;
-  }
-
-  static String? validateMaxLength(String? value, int maxLength,
-      [BuildContext? context]) {
-    if (value == null || value.isEmpty) {
-      return 'You must submit some information';
-    }
-    if (value.length > maxLength) {
-      return 'The maximum message length is $maxLength words';
+      return l10n!.enterValidConfirmPassword;
     }
     return null;
   }
 
   static String? validatePhoneNumber(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
     if (value == null || value.isEmpty) {
-      return 'Please enter your phone number';
+      return l10n!.enterPhoneNumber;
     }
     const pattern = r'^[0-9]{10}$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Please enter a valid phone number';
+      return l10n!.enterValidPhoneNumber;
     }
     return null;
   }
 
   static String? validateSSN(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
     if (value == null || value.isEmpty) {
-      return 'Please enter your SSN number';
+      return l10n!.enterSSN;
     }
-    const pattern = r'^\d{9}$';
+    const pattern = r'^\d{3}-\d{2}-\d{4}$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Please enter a valid SSN number XXX-XX-XXXX';
+      return l10n!.enterValidSSN;
     }
     return null;
   }
 
   static String? validateOtp(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
     if (value == null || value.isEmpty) {
-      return 'Please enter your Otp number';
+      return l10n!.enterOTP;
     }
     const pattern = r'^[0-9]{6}$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
-      return 'Please enter a valid Otp number';
+      return l10n!.enterValidOTP;
+    }
+    return null;
+  }
+
+  static String? validateWalletAddress(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
+    if (value == null || value.isEmpty) {
+      return l10n!.enterWalletAddress;
+    }
+    if (value.length < 3 || value.length > 20) {
+      return l10n!.enterMinLengthWalletAddress;
+    }
+    if (!RegExp(r'^(?=.*[a-z])(?=.*\d)[a-z\d]+$').hasMatch(value)) {
+      return l10n!.enterValidWalletAddress;
     }
     return null;
   }
 
   static String? validateAddress(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
+
     if (value == null || value.isEmpty) {
-      return 'Please enter your address';
+      return l10n!.enterAddress;
+    } else if (value.length < 4) {
+      return l10n!.enterValidAddress;
     }
-    if (value.length < 3 || value.length > 20) {
-      return 'Address must be between 3 and 20 characters long';
+    return null;
+  }
+
+  static String? validateZipCode(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
+    if (value == null || value.isEmpty) {
+      return l10n!.enterZipCode;
+    } else if (value.length < 3) {
+      return l10n!.enterValidZipCode;
     }
-    if (!RegExp(r'^(?=.*[a-z])(?=.*\d)[a-z\d]+$').hasMatch(value)) {
-      return 'Address must contain at least one letter, one number, and be entirely lowercase';
+    return null;
+  }
+
+  static String? validateEmptyDate(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
+    if (value == null || value.isEmpty) {
+      return l10n!.selectBirthDateValidation;
     }
     return null;
   }

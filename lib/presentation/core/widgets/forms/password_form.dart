@@ -61,7 +61,8 @@ class _PasswordFormState extends State<PasswordForm> {
               height: 20,
             ),
           ),
-          validator: (value, context) => Validators.validatePassword(value),
+          validator: (value, context) =>
+              Validators.validatePassword(value, context),
           onChanged: widget.onChanged,
         ),
       ],

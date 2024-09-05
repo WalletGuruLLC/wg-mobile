@@ -38,7 +38,8 @@ class WalletAddressForm extends StatelessWidget {
           hintText: l10n.enterAddressName,
           hintStyle: AppTextStyles.formText,
           onChanged: onChanged,
-          validator: (value, context) => Validators.validateAddress(value),
+          validator: (value, context) =>
+              Validators.validateWalletAddress(value, context),
         ),
       ],
     );

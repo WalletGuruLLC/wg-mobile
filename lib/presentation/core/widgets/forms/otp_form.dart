@@ -45,7 +45,7 @@ class _OtpFormState extends State<OtpForm> {
           keyboardType: TextInputType.number,
           hintText: widget.hintText ?? l10n.enter_auth_code,
           hintStyle: AppTextStyles.formText,
-          validator: (value, context) => Validators.validateOtp(value),
+          validator: (value, context) => Validators.validateOtp(value, context),
           onChanged: widget.onChanged,
         ),
       ],

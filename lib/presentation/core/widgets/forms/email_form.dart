@@ -44,7 +44,8 @@ class EmailForm extends StatelessWidget {
             height: 20,
           ),
           hintText: l10n.email,
-          validator: (value, context) => Validators.validateEmail(value),
+          validator: (value, context) =>
+              Validators.validateEmail(value, context),
           onChanged: onChanged,
         ),
       ],

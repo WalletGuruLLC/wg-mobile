@@ -3,6 +3,7 @@ import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles
 import 'package:wallet_guru/presentation/core/widgets/forms/base_text_form_field.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/decoration_form.dart';
 
+import '../../../../application/core/validations/validations.dart';
 import '../../styles/schemas/app_color_schema.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -51,6 +52,8 @@ class _DatePickerFormState extends State<DatePickerForm> {
                   color: Colors.white))),
       hintStyle: AppTextStyles.formText,
       controller: _dateController,
+      validator: (value, context) =>
+          Validators.validateEmptyDate(value, context),
     );
   }
 
