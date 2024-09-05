@@ -22,5 +22,6 @@ pipelines:
               variables:
                 BITBUCKET_USERNAME: $BITBUCKET_USERNAME
                 BITBUCKET_APP_PASSWORD: $BITBUCKET_APP_PASSWORD
-                FILENAME: "app/build/outputs/apk/debug/application-debug.apk"
-
+                FILENAME: "build/app/outputs/flutter-apk/app-debug.apk"
+          artifacts:
+            - build/app/outputs/apk/**
