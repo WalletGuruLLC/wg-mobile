@@ -12,44 +12,37 @@ class PhoneNumberForm extends StatelessWidget {
   final String? initialValue;
   final bool enabled;
   final bool allowNull;
-  final String? labelText;
+  final Widget? fieldActivatorWidget;
+  final bool readOnly;
 
   const PhoneNumberForm({
     super.key,
+    required this.onChanged,
     this.initialValue,
     this.enabled = true,
-    required this.onChanged,
-    this.labelText,
     this.allowNull = false,
+    this.fieldActivatorWidget,
+    this.readOnly = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (labelText != null)
-          Text(
-            labelText!,
-            style: AppTextStyles.formText,
-          ),
-        BaseTextFormField(
-          enabled: enabled,
-          initialValue: initialValue,
-          keyboardType: TextInputType.number,
-          hintStyle: AppTextStyles.formText,
-          decoration:
-              CustomInputDecoration(hintText: l10n.enterPhoneNumber).decoration,
-          validator: (value, context) =>
-              Validators.validatePhoneNumber(value, context),
-          onChanged: onChanged,
-          maxLength: 10,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-        ),
-      ],
+    return BaseTextFormField(
+      // enabled: enabled,
+      readOnly: readOnly,
+      initialValue: initialValue,
+      keyboardType: TextInputType.number,
+      hintStyle: AppTextStyles.formText,
+      decoration: CustomInputDecoration(
+        hintText: l10n.enterPhoneNumber,
+        suffixIcon: fieldActivatorWidget,
+      ).decoration,
+      validator: (value, context) =>
+          Validators.validatePhoneNumber(value, context),
+      onChanged: onChanged,
+      maxLength: 10,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
     );
   }
 }

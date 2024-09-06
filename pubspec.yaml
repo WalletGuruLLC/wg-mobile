@@ -91,10 +91,6 @@ flutter:
   assets:
     - assets/
     
-  fonts:
-    - family: CenturyGothic
-      fonts:
-        - asset: assets/fonts/centurygothic.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

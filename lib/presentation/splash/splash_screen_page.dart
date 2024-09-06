@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
@@ -59,8 +60,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         const SizedBox(height: 20),
         Text(
           'Version $_version',
-          style: const TextStyle(
-            fontFamily: 'CenturyGothic',
+          style: GoogleFonts.montserrat(
             color: Colors.blue,
           ),
         ),

@@ -3,11 +3,13 @@ import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles
 
 class CustomInputDecoration {
   final String hintText;
+  final Widget? suffixIcon;
 
-  CustomInputDecoration({required this.hintText});
+  CustomInputDecoration({required this.hintText, this.suffixIcon});
 
   InputDecoration get decoration {
     return InputDecoration(
+        suffixIcon: suffixIcon,
         focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
           color: Color(0xFF494949),

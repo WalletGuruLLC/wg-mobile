@@ -24,7 +24,7 @@ class WalletGuruLayout extends StatelessWidget {
     this.pageAppBarTitle,
     this.showAppBar = true,
     this.showBackButton = false,
-    this.showSafeArea = true,
+    this.showSafeArea = false,
     this.isTransparent = false,
     this.showBottomNavigationBar = false,
     this.actionAppBar,
