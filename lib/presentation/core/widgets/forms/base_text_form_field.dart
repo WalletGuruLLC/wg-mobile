@@ -123,8 +123,8 @@ class _BaseTextFormField extends State<BaseTextFormField> {
       errorMaxLines: 5,
       focusedErrorBorder: errorBorder,
       floatingLabelBehavior: FloatingLabelBehavior.never,
-      contentPadding: const EdgeInsets.symmetric(
-          vertical: 16.0, horizontal: 16.0), // Adjust padding
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
       suffixIcon: widget.suffixIcon,
     );
   }

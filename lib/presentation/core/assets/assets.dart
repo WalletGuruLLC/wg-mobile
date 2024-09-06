@@ -32,4 +32,5 @@ class Assets {
   static const logoutIcon = '${base}logout_icon.svg';
   static const settingsIcon = '${base}settings_icon.svg';
   static const userIcon = '${base}user_icon.svg';
+  static const closeIcon = '${base}close_icon.svg';
 }

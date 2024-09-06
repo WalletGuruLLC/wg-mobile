@@ -1,10 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/dynamic_container.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+
+import '../assets/assets.dart';
 
 class BaseModal extends StatelessWidget {
   final Widget? content;
@@ -20,6 +23,8 @@ class BaseModal extends StatelessWidget {
   final Widget? centerIcon;
   final bool? showCloseIcon;
   final double? buttonWidth;
+  final bool hasActions;
+  final bool hasCloseAction;
 
   const BaseModal({
     super.key,
@@ -36,6 +41,8 @@ class BaseModal extends StatelessWidget {
     this.centerIcon,
     this.showCloseIcon = true,
     this.buttonWidth,
+    this.hasActions = true,
+    this.hasCloseAction = false,
   });
 
   @override
@@ -53,10 +60,9 @@ class BaseModal extends StatelessWidget {
       child: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal:
-                  MediaQuery.of(context).size.width * 0.05), // 5% en cada lado
+              horizontal: MediaQuery.of(context).size.width * 0.05),
           child: DynamicContainer(
-            // DynamicContainer es un widget personalizado para manejar el diseño responsivo
+            // DynamicContainer es un widget personalizado para maneßjar el diseño responsivo
             children: [
               Container(
                 padding: EdgeInsets.all(paddingValue!),
@@ -70,36 +76,56 @@ class BaseModal extends StatelessWidget {
                         color: Colors.transparent,
                         child: Column(
                           children: [
-                            Icon(
-                              isSucefull!
-                                  ? Icons.check_circle_outline
-                                  : Icons.warning_amber_sharp,
-                              color: AppColorSchema.of(context).buttonColor,
-                            ),
+                            if (hasCloseAction) _buildCloseButton(context),
+                            if (hasActions)
+                              Icon(
+                                isSucefull!
+                                    ? Icons.check_circle_outline
+                                    : Icons.warning_amber_sharp,
+                                color: AppColorSchema.of(context).buttonColor,
+                              ),
                             Center(child: content!),
-                            Column(
-                              children: [
-                                const SizedBox(height: 20),
-                                CustomButton(
-                                  width: buttonWidth,
-                                  border: Border.all(
-                                      color: AppColorSchema.of(context)
-                                          .buttonBorderColor),
-                                  text: isSucefull!
-                                      ? l10n.button_pop_up_sucefull
-                                      : l10n.button_pop_up_fail,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  onPressed: onPressed,
-                                ),
-                              ],
-                            ),
+                            if (hasActions)
+                              Column(
+                                children: [
+                                  const SizedBox(height: 20),
+                                  CustomButton(
+                                    width: buttonWidth,
+                                    border: Border.all(
+                                        color: AppColorSchema.of(context)
+                                            .buttonBorderColor),
+                                    text: isSucefull!
+                                        ? l10n.button_pop_up_sucefull
+                                        : l10n.button_pop_up_fail,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                    onPressed: onPressed,
+                                  ),
+                                ],
+                              )
                           ],
                         ),
                       )
                     : Container(),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Align _buildCloseButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).pop(),
+        child: SvgPicture.asset(
+          Assets.closeIcon,
+          height: 30,
+          colorFilter: const ColorFilter.mode(
+            Colors.white,
+            BlendMode.srcIn,
           ),
         ),
       ),
