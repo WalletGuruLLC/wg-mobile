@@ -15,7 +15,8 @@ class _DashboardWalletPageState extends State<DashboardWalletPage> {
   @override
   void initState() {
     final loginCubit = BlocProvider.of<LoginCubit>(context);
-    loginCubit.initialStatus();
+    loginCubit.cleanFormStatus();
+    loginCubit.cleanFormStatusOtp();
     super.initState();
   }
 

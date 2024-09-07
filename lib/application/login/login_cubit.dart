@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallet_guru/domain/core/models/response_model.dart';
 
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
@@ -85,6 +86,7 @@ class LoginCubit extends Cubit<LoginState> {
           email: verifiedUser.data!.user!.email,
           formStatusOtp: SubmissionSuccess(),
           isFirstTime: verifiedUser.data!.user!.first,
+          user: verifiedUser.data!.user,
         ));
       },
     );

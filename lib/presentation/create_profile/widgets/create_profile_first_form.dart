@@ -39,7 +39,8 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
 
   @override
   void initState() {
-    BlocProvider.of<LoginCubit>(context).initialStatus();
+    BlocProvider.of<LoginCubit>(context).cleanFormStatus();
+
     BlocProvider.of<RegisterCubit>(context).initialStatus();
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
     createProfileCubit.setUserId(widget.id, widget.email);

@@ -37,7 +37,8 @@ class CreateWalletFormState extends State<CreateWalletForm> {
     super.initState();
     createWalletCubit = BlocProvider.of<CreateWalletCubit>(context);
     final loginCubit = BlocProvider.of<LoginCubit>(context);
-    loginCubit.initialStatus();
+    loginCubit.cleanFormStatus();
+    loginCubit.cleanFormStatusOtp();
     _addressController =
         TextEditingController(text: _address); // Inicializar controlador
   }

@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
+import 'package:wallet_guru/application/login/login_cubit.dart';
+import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/city_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.dart';
@@ -24,6 +26,7 @@ class MyInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
     Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
       showSafeArea: true,
@@ -34,7 +37,7 @@ class MyInfoPage extends StatelessWidget {
         SizedBox(
           width: size.width * 0.90,
           height: size.height,
-          child: const MyInfoForm(),
+          child: MyInfoForm(),
         ),
       ],
     );
@@ -49,17 +52,19 @@ class MyInfoForm extends StatefulWidget {
 }
 
 class _MyInfoFormState extends State<MyInfoForm> {
+  late LoginCubit loginCubit;
+  late User user;
   final _formKey = GlobalKey<FormState>();
   late CreateProfileCubit createProfileCubit;
-  String nameHC = 'John Doe';
-  String phoneNumberHC = '4383624400';
+  late String nameHC;
+  late String phoneNumberHC;
   String imgURLHC =
       'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg';
-  String zipCodeHC = '75869';
-  String addressHC = 'FalseStreet 123 ouest';
-  String countryHC = 'Colombia';
-  String stateLocationHC = 'Antioquia';
-  String cityHC = 'Medellín';
+  late String zipCodeHC;
+  late String addressHC;
+  late String countryHC;
+  late String stateLocationHC;
+  late String cityHC;
 
   bool readOnly = true;
   bool hasValuesChanged = false;
@@ -75,6 +80,16 @@ class _MyInfoFormState extends State<MyInfoForm> {
   void initState() {
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
     createProfileCubit.loadCountryCodeAndCountry();
+    loginCubit = BlocProvider.of<LoginCubit>(context);
+    user = loginCubit.state.user!;
+    nameHC = '${user.firstName} ${user.lastName}';
+    phoneNumberHC = user.phone;
+    zipCodeHC = user.zipCode;
+    addressHC = user.address;
+    addressHC = user.address;
+    countryHC = user.country;
+    stateLocationHC = user.stateLocation;
+    cityHC = user.city;
     currentPhoneNumber = phoneNumberHC;
     currentZipCode = zipCodeHC;
     currentAddress = addressHC;
@@ -89,6 +104,7 @@ class _MyInfoFormState extends State<MyInfoForm> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     double size = MediaQuery.of(context).size.height;
+    print(loginCubit.state.user);
 
     return Form(
       key: _formKey,

@@ -87,11 +87,12 @@ class User {
   final bool sendEmails;
   final String picture;
   final String serviceProviderId;
-
+  final String phone;
+  final String address;
   final String city;
   final String country;
   final String zipCode;
-
+  final String stateLocation;
   final String lastName;
   final String firstName;
   final String id;
@@ -119,6 +120,9 @@ class User {
     required this.firstName,
     required this.id,
     required this.active,
+    required this.phone,
+    required this.address,
+    required this.stateLocation,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -143,6 +147,9 @@ class User {
         firstName: json["firstName"] ?? "",
         id: json["id"],
         active: json["active"],
+        phone: json["phone"],
+        address: json["address"],
+        stateLocation: json["stateLocation"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -167,6 +174,9 @@ class User {
         "firstName": firstName,
         "id": id,
         "Active": active,
+        "Phone": phone,
+        "Address": address,
+        "StateLocation": stateLocation,
       };
 
   factory User.initialState() => User(
@@ -191,6 +201,9 @@ class User {
         firstName: '',
         id: '',
         active: false,
+        phone: '',
+        address: '',
+        stateLocation: '',
       );
 }
 
