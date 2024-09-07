@@ -28,8 +28,10 @@ class UserCubit extends Cubit<UserState> {
         ));
       },
       (registerResponse) {
+        final user = UserEntity.fromUser(registerResponse.data!.user!);
         emit(state.copyWith(
-          user: UserEntity.fromUser(registerResponse.data!.user!),
+          user: user,
+          initialUser: user,
           formStatus: SubmissionSuccess(),
         ));
       },
@@ -41,7 +43,11 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void setUser(User user) {
-    emit(state.copyWith(user: UserEntity.fromUser(user)));
+    emit(state.copyWith(
+      user: UserEntity.fromUser(user),
+      initialUser: UserEntity.fromUser(user),
+      userId: user.id,
+    ));
   }
 
   void updateUser({
@@ -73,25 +79,46 @@ class UserCubit extends Cubit<UserState> {
   }
 
   // Obtener los campos modificados
-  Map<String, dynamic> getChangedFields(UserEntity initialUser) {
+  Map<String, dynamic> getChangedFields() {
     final currentUserMap = state.user?.toMap();
-    final initialUserMap = initialUser.toMap();
+    final initialUserMap = state.initialUser?.toMap();
     Map<String, dynamic> changes = {};
 
-    currentUserMap?.forEach((key, value) {
-      if (value != initialUserMap[key]) {
-        changes[key] = value;
-      }
-    });
+    if (currentUserMap != null && initialUserMap != null) {
+      currentUserMap.forEach((key, value) {
+        if (value != initialUserMap[key]) {
+          changes[key] = value;
+        }
+      });
+    }
 
     return changes;
   }
 
   // Enviar los cambios detectados al backend
-  Future<void> submitUserChanges(UserEntity initialUser) async {
-    final changedFields = getChangedFields(initialUser);
+  Future<void> submitUserChanges() async {
+    final changedFields = getChangedFields();
     if (changedFields.isNotEmpty) {
-      await userRepository.updateUserInformation(state.user!);
+      final updatedUser = await userRepository.updateUserInformation(
+          changedFields, state.userId);
+      updatedUser.fold(
+        (error) {
+          emit(state.copyWith(
+            formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+            customCode: error.code,
+            customMessage: error.messageEn,
+            customMessageEs: error.messageEs,
+          ));
+        },
+        (updatedUser) {
+          emit(state.copyWith(
+            user: UserEntity.fromUser(updatedUser.data!.user!),
+            initialUser: UserEntity.fromUser(updatedUser.data!.user!),
+            formStatus: SubmissionSuccess(),
+            userHasChanged: false,
+          ));
+        },
+      );
     }
   }
 }
