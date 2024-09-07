@@ -21,7 +21,6 @@ class UserCubit extends Cubit<UserState> {
     registerResponse.fold(
       (error) {
         emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
@@ -32,7 +31,6 @@ class UserCubit extends Cubit<UserState> {
         emit(state.copyWith(
           user: user,
           initialUser: user,
-          formStatus: SubmissionSuccess(),
         ));
       },
     );
@@ -112,13 +110,15 @@ class UserCubit extends Cubit<UserState> {
         },
         (updatedUser) {
           emit(state.copyWith(
-            user: UserEntity.fromUser(updatedUser.data!.user!),
-            initialUser: UserEntity.fromUser(updatedUser.data!.user!),
             formStatus: SubmissionSuccess(),
             userHasChanged: false,
           ));
         },
       );
     }
+  }
+
+  void resetFormStatus() {
+    emit(state.copyWith(formStatus: const InitialFormStatus()));
   }
 }

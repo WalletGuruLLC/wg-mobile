@@ -55,8 +55,6 @@ class _MyInfoViewState extends State<MyInfoView> {
               context: context,
               builder: (BuildContext context) {
                 return PetitionResponseModal(
-                  descriptionEn: state.customMessage,
-                  descriptionEs: state.customMessageEs,
                   locale: Localizations.localeOf(context),
                   isSuccessful: true,
                 );

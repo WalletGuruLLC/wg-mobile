@@ -65,7 +65,7 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
           BlocConsumer<CreateProfileCubit, CreateProfileState>(
               listener: (context, state) {
             if (state.formStatus is SubmissionSuccess) {
-              GoRouter.of(context).pushNamed(
+              GoRouter.of(context).pushReplacementNamed(
                 Routes.createWallet.name,
               );
             } else if (state.formStatus is SubmissionFailed) {

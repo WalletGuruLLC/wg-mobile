@@ -22,7 +22,7 @@ class _DashboardWalletPageState extends State<DashboardWalletPage> {
     userCubit.setUser(loginCubit.state.user!);
     // userCubit.setUserId(loginCubit.state.userId);
     // userCubit.emitGetUserInformation();
-    loginCubit.initialStatus();
+    // loginCubit.initialStatus();
     super.initState();
   }
 
