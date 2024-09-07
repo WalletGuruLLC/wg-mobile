@@ -93,4 +93,6 @@ class UserEntity {
       active: user.active,
     );
   }
+
+  String get fullName => '$firstName $lastName';
 }

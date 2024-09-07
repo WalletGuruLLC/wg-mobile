@@ -76,7 +76,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.dashboardWallet.name,
       path: Routes.dashboardWallet.path,
-      builder: (context, state) => const MyProfilePage(),
+      builder: (context, state) => const DashboardWalletPage(),
     ),
     GoRoute(
       name: Routes.myProfile.name,

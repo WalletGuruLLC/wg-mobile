@@ -7,6 +7,7 @@ class UserState extends Equatable {
   final FormSubmissionStatus formStatus;
   final String customMessageEs;
   final String userId;
+  final bool userHasChanged;
 
   const UserState({
     this.user,
@@ -15,6 +16,7 @@ class UserState extends Equatable {
     this.formStatus = const InitialFormStatus(),
     this.customMessageEs = '',
     this.userId = '',
+    this.userHasChanged = false,
   });
 
   UserState copyWith({
@@ -24,6 +26,7 @@ class UserState extends Equatable {
     String? customMessageEs,
     UserEntity? user,
     String? userId,
+    bool? userHasChanged,
   }) =>
       UserState(
         user: user ?? this.user,
@@ -32,6 +35,7 @@ class UserState extends Equatable {
         formStatus: formStatus ?? this.formStatus,
         customMessageEs: customMessageEs ?? this.customMessageEs,
         userId: userId ?? this.userId,
+        userHasChanged: userHasChanged ?? this.userHasChanged,
       );
 
   @override
@@ -42,5 +46,6 @@ class UserState extends Equatable {
         customMessageEs,
         user,
         userId,
+        userHasChanged
       ];
 }

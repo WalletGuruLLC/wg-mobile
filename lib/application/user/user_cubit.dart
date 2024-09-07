@@ -1,8 +1,7 @@
-import 'dart:js_interop';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/entities/user_entity.dart';
+import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
@@ -28,17 +27,21 @@ class UserCubit extends Cubit<UserState> {
           customMessageEs: error.messageEs,
         ));
       },
-      (createUser) {
+      (registerResponse) {
         emit(state.copyWith(
-          user: UserEntity.fromUser(createUser.data!.user!),
+          user: UserEntity.fromUser(registerResponse.data!.user!),
           formStatus: SubmissionSuccess(),
         ));
       },
     );
   }
 
-  void setUserId(String? userId) async {
+  void setUserId(String? userId) {
     emit(state.copyWith(userId: userId));
+  }
+
+  void setUser(User user) {
+    emit(state.copyWith(user: UserEntity.fromUser(user)));
   }
 
   void updateUser({
@@ -66,7 +69,7 @@ class UserCubit extends Cubit<UserState> {
       active: active,
     );
 
-    emit(state.copyWith(user: updatedUser));
+    emit(state.copyWith(user: updatedUser, userHasChanged: true));
   }
 
   // Obtener los campos modificados
