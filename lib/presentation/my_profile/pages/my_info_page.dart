@@ -37,7 +37,7 @@ class MyInfoPage extends StatelessWidget {
         SizedBox(
           width: size.width * 0.90,
           height: size.height,
-          child: MyInfoForm(),
+          child: const MyInfoForm(),
         ),
       ],
     );
