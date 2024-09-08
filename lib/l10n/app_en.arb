@@ -98,5 +98,10 @@
   "newPassword": "New Password",
   "enterNewPassword": "Enter your new password",
   "confirmPassword": "Confirm Password",
-  "enterConfirmPassword": "Confirm your new password"
+  "enterConfirmPassword": "Confirm your new password",
+  "enterStrongPassword":  "Enter a strong password containing 8 to 12 characters, AT LEAST one number, one alpha character, one upper case character, one lower case access and one special character",
+  "changeSuccessful": "Change Successful!",
+  "changeFailure": "Change Failure",
+  "profileChangedSuccess": "Your Profile is All Set!",
+  "profileChangedSuccessBody": "Your profile is updated. Take a Look!"
 }

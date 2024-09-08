@@ -129,4 +129,43 @@ class UserCubit extends Cubit<UserState> {
   void setNewPassword(String? password) {
     emit(state.copyWith(newPassword: password));
   }
+
+  void setConfirmNewPassword(String? password) {
+    emit(state.copyWith(confirmNewPassword: password));
+  }
+
+  void validatePasswords() {
+    bool isSubmittable = state.currentPassword.isNotEmpty == true &&
+        state.newPassword.isNotEmpty == true &&
+        state.confirmNewPassword == state.newPassword;
+
+    if (isSubmittable) {
+      emit(state.copyWith(isSubmittable: true));
+    } else {
+      emit(state.copyWith(isSubmittable: false));
+    }
+  }
+
+  Future<void> emitChangePassword() async {
+    final updatedUser = await userRepository.changePassword(
+        state.user!.email, state.currentPassword, state.newPassword);
+    updatedUser.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (updatedUser) {
+        emit(state.copyWith(
+          formStatus: SubmissionSuccess(),
+          customCode: updatedUser.customCode,
+          customMessage: updatedUser.customMessage,
+          customMessageEs: updatedUser.customMessageEs,
+        ));
+      },
+    );
+  }
 }

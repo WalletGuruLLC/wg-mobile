@@ -58,7 +58,7 @@ class _PasswordFormState extends State<PasswordForm> {
                   hintText: widget.hintText!,
                   suffixIcon: _buildSuffixIcon(),
                 ).decoration,
-          suffixIcon: !widget.underDecoration! ? null : _buildSuffixIcon(),
+          suffixIcon: !widget.underDecoration! ? _buildSuffixIcon() : null,
           validator: (value, context) =>
               Validators.validatePassword(value, context),
           onChanged: widget.onChanged,

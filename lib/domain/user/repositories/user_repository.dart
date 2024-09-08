@@ -8,4 +8,7 @@ abstract class UserRepository {
   );
   Future<Either<InvalidData, ResponseModel>> updateUserInformation(
       Map<String, dynamic> changedUser, String userId);
+
+  Future<Either<InvalidData, ResponseModel>> changePassword(
+      String email, String currentPassword, String newPassword);
 }

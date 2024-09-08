@@ -34,4 +34,23 @@ class UserDataSource {
           errorModel.customMessageEs);
     }
   }
+
+  Future<ResponseModel> changePassword(
+      String email, String currentPassword, String newPassword) async {
+    var response = await HttpDataSource.post(UserNetwork.changePassword, {
+      'email': email,
+      'currentPassword': currentPassword,
+      'newPassword': newPassword
+    });
+
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel registerModel = ResponseModel.fromJson(result);
+      return registerModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
 }

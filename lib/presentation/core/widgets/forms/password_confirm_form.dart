@@ -60,7 +60,7 @@ class _PasswordConfirmFormState extends State<PasswordConfirmForm> {
                   hintText: widget.hintText!,
                   suffixIcon: _buildSuffixIcon(),
                 ).decoration,
-          suffixIcon: !widget.underDecoration! ? null : _buildSuffixIcon(),
+          suffixIcon: !widget.underDecoration! ? _buildSuffixIcon() : null,
           validator: (value, context) => Validators.validateConfirmPassword(
             value,
             widget.passwordValue!,
