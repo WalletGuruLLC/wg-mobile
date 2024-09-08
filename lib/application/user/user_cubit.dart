@@ -121,4 +121,12 @@ class UserCubit extends Cubit<UserState> {
   void resetFormStatus() {
     emit(state.copyWith(formStatus: const InitialFormStatus()));
   }
+
+  void setCurrentPassword(String? password) {
+    emit(state.copyWith(currentPassword: password));
+  }
+
+  void setNewPassword(String? password) {
+    emit(state.copyWith(newPassword: password));
+  }
 }

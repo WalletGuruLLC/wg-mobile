@@ -91,5 +91,12 @@
   "changePassword": "changePassword",
   "lockAccount": "Lock Account",
   "logOut": "Log Out",
-  "myProfile": "My Profile"
+  "myProfile": "My Profile",
+  "changePassword": "Change Password",
+  "currentPassword": "Current Password",
+  "enterCurrentPassword": "Enter your current password",
+  "newPassword": "New Password",
+  "enterNewPassword": "Enter your new password",
+  "confirmPassword": "Confirm Password",
+  "enterConfirmPassword": "Confirm your new password"
 }

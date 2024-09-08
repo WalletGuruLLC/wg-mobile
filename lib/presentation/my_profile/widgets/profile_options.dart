@@ -19,7 +19,9 @@ class ProfileOption extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => GoRouter.of(context).pushNamed(Routes.myInfo.name),
+      onTap: () {
+        _handleProfileOptionTap(context, profileOrder);
+      },
       child: Column(
         children: [
           Row(
@@ -59,6 +61,25 @@ class ProfileOption extends StatelessWidget {
         return SvgPicture.asset(
           Assets.lockedIcon,
         );
+    }
+  }
+
+  void _handleProfileOptionTap(BuildContext context, int profileOrder) {
+    switch (profileOrder) {
+      case 1:
+        GoRouter.of(context).pushNamed(Routes.myInfo.name);
+        break;
+      case 2:
+        // GoRouter.of(context).pushNamed(Routes.notificationSettings.name);
+        break;
+      case 3:
+        GoRouter.of(context).pushNamed(Routes.changePassword.name);
+        break;
+      case 4:
+        // GoRouter.of(context).pushNamed(Routes.lockAccount.name);
+        break;
+      default:
+        break;
     }
   }
 }

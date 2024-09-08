@@ -9,6 +9,8 @@ class UserState extends Equatable {
   final String userId;
   final bool userHasChanged;
   final UserEntity? initialUser;
+  final String currentPassword;
+  final String? newPassword;
 
   const UserState({
     this.user,
@@ -19,6 +21,8 @@ class UserState extends Equatable {
     this.userId = '',
     this.userHasChanged = false,
     this.initialUser,
+    this.currentPassword = '',
+    this.newPassword,
   });
 
   UserState copyWith({
@@ -30,6 +34,8 @@ class UserState extends Equatable {
     String? userId,
     bool? userHasChanged,
     UserEntity? initialUser,
+    String? currentPassword,
+    String? newPassword,
   }) =>
       UserState(
         user: user ?? this.user,
@@ -40,6 +46,8 @@ class UserState extends Equatable {
         userId: userId ?? this.userId,
         userHasChanged: userHasChanged ?? this.userHasChanged,
         initialUser: initialUser ?? this.initialUser,
+        currentPassword: currentPassword ?? this.currentPassword,
+        newPassword: newPassword ?? this.newPassword,
       );
 
   @override
@@ -52,5 +60,7 @@ class UserState extends Equatable {
         userId,
         userHasChanged,
         initialUser,
+        currentPassword,
+        newPassword,
       ];
 }

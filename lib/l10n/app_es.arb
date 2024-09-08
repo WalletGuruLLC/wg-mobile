@@ -91,5 +91,12 @@
   "changePassword": "Cambiar Contraseña",
   "lockAccount": "Bloquear Cuenta",
   "logOut": "Cerrar sesión",
-  "myProfile": "Mi Perfil"
+  "myProfile": "Mi Perfil",
+  "changePassword": "Cambiar Contraseña",
+"currentPassword": "Contraseña Actual",
+"enterCurrentPassword": "Ingrese su contraseña actual",
+"newPassword": "Nueva Contraseña",
+"enterNewPassword": "Ingrese su nueva contraseña",
+"confirmPassword": "Confirmar Contraseña",
+"enterConfirmPassword": "Confirme su nueva contraseña"
 }
