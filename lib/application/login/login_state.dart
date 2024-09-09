@@ -14,6 +14,8 @@ class LoginState extends Equatable {
   final String customMessage;
   final String customMessageEs;
   final String customCode;
+  final bool logOutSuccess;
+  final User? user;
 
   const LoginState({
     this.userId = '',
@@ -29,6 +31,8 @@ class LoginState extends Equatable {
     this.isFirstTime = true,
     this.formStatus = const InitialFormStatus(),
     this.formStatusOtp = const InitialFormStatus(),
+    this.logOutSuccess = false,
+    this.user,
   });
 
   LoginState copyWith({
@@ -45,6 +49,8 @@ class LoginState extends Equatable {
     String? customMessageEs,
     String? customCode,
     bool? isFirstTime,
+    bool? logOutSuccess,
+    User? user,
   }) =>
       LoginState(
         userId: userId ?? this.userId,
@@ -60,23 +66,26 @@ class LoginState extends Equatable {
         customMessage: customMessage ?? this.customMessage,
         customMessageEs: customMessageEs ?? this.customMessageEs,
         customCode: customCode ?? this.customCode,
+        logOutSuccess: logOutSuccess ?? this.logOutSuccess,
+        user: user ?? this.user,
       );
 
-  LoginState initialState() => const LoginState(
-        userId: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        formStatus: InitialFormStatus(),
-        formStatusOtp: InitialFormStatus(),
-        token: '',
-        otp: '',
-        customMessage: '',
-        customMessageEs: '',
-        customCode: '',
-        isFirstTime: true,
-      );
+  LoginState initialState() => LoginState(
+      userId: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      formStatus: const InitialFormStatus(),
+      formStatusOtp: const InitialFormStatus(),
+      token: '',
+      otp: '',
+      customMessage: '',
+      customMessageEs: '',
+      customCode: '',
+      isFirstTime: true,
+      logOutSuccess: false,
+      user: User.initialState());
 
   @override
   List<Object> get props => [
@@ -93,5 +102,6 @@ class LoginState extends Equatable {
         customMessageEs,
         customCode,
         isFirstTime,
+        logOutSuccess,
       ];
 }

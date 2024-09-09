@@ -44,4 +44,13 @@ class _$Injector extends Injector {
           CreateProfileRepositoryImpl(
               registerDataSource: c.resolve<CreateProfileDataSource>()));
   }
+
+  @override
+  void _configureUserModuleFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => UserDataSource())
+      ..registerFactory<UserRepository>((c) =>
+          UserRepositoryImpl(userDataSource: c.resolve<UserDataSource>()));
+  }
 }

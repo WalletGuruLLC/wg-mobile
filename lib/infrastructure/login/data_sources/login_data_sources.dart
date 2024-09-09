@@ -65,4 +65,23 @@ class LoginDataSource {
           errorModel.customMessageEs);
     }
   }
+
+  Future<ResponseModel> logOut() async {
+    var response = await HttpDataSource.post(
+      LoginNetwork.logOut,
+      {},
+    );
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel logOutResponseModel = ResponseModel.fromJson(result);
+      final storage = await SharedPreferences.getInstance();
+      storage.remove('Basic');
+
+      return logOutResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
 }

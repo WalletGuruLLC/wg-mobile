@@ -91,5 +91,17 @@
   "changePassword": "Cambiar Contraseña",
   "lockAccount": "Bloquear Cuenta",
   "logOut": "Cerrar sesión",
-  "myProfile": "Mi Perfil"
+  "myProfile": "Mi Perfil",
+  "changePassword": "Cambiar Contraseña",
+"currentPassword": "Contraseña Actual",
+"enterCurrentPassword": "Ingrese su contraseña actual",
+"newPassword": "Nueva Contraseña",
+"enterNewPassword": "Ingrese su nueva contraseña",
+"confirmPassword": "Confirmar Contraseña",
+"enterConfirmPassword": "Confirme su nueva contraseña",
+"enterStrongPassword": "Ingrese una contraseña segura que contenga de 8 a 12 caracteres, AL MENOS un número, un carácter alfabético, un carácter en mayúscula, un carácter en minúscula y un carácter especial",
+"changeSuccessful": "¡Cambio Exitoso!",
+"changeFailure": "Fallo en el Cambio",
+"profileChangedSuccess": "¡Tu perfil está listo!",
+"profileChangedSuccessBody": "Tu perfil ha sido actualizado. ¡Échale un vistazo!"
 }

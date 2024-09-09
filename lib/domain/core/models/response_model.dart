@@ -87,15 +87,18 @@ class User {
   final bool sendEmails;
   final String picture;
   final String serviceProviderId;
-
+  final String phone;
+  final String address;
   final String city;
   final String country;
   final String zipCode;
-
+  final String stateLocation;
   final String lastName;
   final String firstName;
   final String id;
   final bool active;
+  final List<String> createDate;
+  final List<String> accessLevel;
 
   User({
     required this.privacyPolicy,
@@ -119,32 +122,45 @@ class User {
     required this.firstName,
     required this.id,
     required this.active,
+    required this.phone,
+    required this.address,
+    required this.stateLocation,
+    required this.createDate,
+    required this.accessLevel,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        privacyPolicy: json["privacyPolicy"],
+        privacyPolicy: json["privacyPolicy"] ?? false,
         mfaEnabled: json["mfaEnabled"] ?? false,
-        termsConditions: json["termsConditions"],
-        otp: json["otp"],
-        sendSms: json["sendSms"],
-        state: json["state"],
-        type: json["type"],
-        email: json["email"],
-        mfaType: json["mfaType"],
-        first: json["first"],
-        roleId: json["roleId"],
-        sendEmails: json["sendEmails"],
-        picture: json["picture"],
-        serviceProviderId: json["serviceProviderId"],
-        city: json["city"] ?? "",
-        country: json["country"] ?? "",
-        zipCode: json["zipCode"] ?? "",
-        lastName: json["lastName"] ?? "",
-        firstName: json["firstName"] ?? "",
-        id: json["id"],
-        active: json["active"],
+        termsConditions: json["termsConditions"] ?? false,
+        otp: json["otp"] ?? '',
+        sendSms: json["sendSms"] ?? false,
+        state: json["state"] ?? 0,
+        type: json["type"] ?? '',
+        email: json["email"] ?? '',
+        mfaType: json["mfaType"] ?? '',
+        first: json["first"] ?? false,
+        roleId: json["roleId"] ?? '',
+        sendEmails: json["sendEmails"] ?? false,
+        picture: json["picture"] ?? '',
+        serviceProviderId: json["serviceProviderId"] ?? '',
+        city: json["city"] ?? '',
+        country: json["country"] ?? '',
+        zipCode: json["zipCode"] ?? '',
+        lastName: json["lastName"] ?? '',
+        firstName: json["firstName"] ?? '',
+        id: json["id"] ?? '',
+        active: json["active"] ?? false,
+        phone: json["phone"] ?? '',
+        address: json["address"] ?? '',
+        stateLocation: json["stateLocation"] ?? '',
+        createDate: json["createDate"] is List
+            ? List<String>.from(json["createDate"])
+            : [],
+        accessLevel: json["accessLevel"] is List
+            ? List<String>.from(json["accessLevel"])
+            : [],
       );
-
   Map<String, dynamic> toJson() => {
         "PrivacyPolicy": privacyPolicy,
         "MfaEnabled": mfaEnabled,
@@ -167,6 +183,11 @@ class User {
         "firstName": firstName,
         "id": id,
         "Active": active,
+        "Phone": phone,
+        "Address": address,
+        "StateLocation": stateLocation,
+        "CreateDate": createDate,
+        "AccessLevel": accessLevel,
       };
 
   factory User.initialState() => User(
@@ -191,6 +212,11 @@ class User {
         firstName: '',
         id: '',
         active: false,
+        phone: '',
+        address: '',
+        stateLocation: '',
+        createDate: [],
+        accessLevel: [],
       );
 }
 

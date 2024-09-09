@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/application/user/user_cubit.dart';
 
 import 'package:wallet_guru/presentation/my_profile/widgets/profile_header.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/profile_logout.dart';
@@ -12,13 +14,14 @@ class MyProfileMainView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
-    String name = 'John Doe';
+    final userFullName =
+        BlocProvider.of<UserCubit>(context).state.user!.fullName;
     String imgURL =
         'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg';
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProfileHeaderWidget(name: name, avatarImage: imgURL),
+        ProfileHeaderWidget(name: userFullName, avatarImage: imgURL),
         SizedBox(height: size.height * .1),
         ProfileOption(
           optionTitle: l10n.myInfo,
@@ -38,7 +41,6 @@ class MyProfileMainView extends StatelessWidget {
         ),
         SizedBox(height: size.height * .065),
         LogoutButton(
-          onTap: () {},
           text: l10n.logOut,
         )
       ],

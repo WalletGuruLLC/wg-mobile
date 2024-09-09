@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 
@@ -73,8 +74,7 @@ class _BaseTextFormField extends State<BaseTextFormField> {
     return TextFormField(
       readOnly: widget.readOnly,
       enabled: widget.enabled,
-      style: const TextStyle(
-        fontFamily: 'CenturyGothic',
+      style: GoogleFonts.montserrat(
         color: Colors.white,
       ),
       textAlign: widget.textAlign,
@@ -123,8 +123,8 @@ class _BaseTextFormField extends State<BaseTextFormField> {
       errorMaxLines: 5,
       focusedErrorBorder: errorBorder,
       floatingLabelBehavior: FloatingLabelBehavior.never,
-      contentPadding: const EdgeInsets.symmetric(
-          vertical: 16.0, horizontal: 16.0), // Adjust padding
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
       suffixIcon: widget.suffixIcon,
     );
   }

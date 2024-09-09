@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/base_text_form_field.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/decoration_form.dart';
@@ -24,7 +25,7 @@ class DatePickerForm extends StatefulWidget {
 class _DatePickerFormState extends State<DatePickerForm> {
   final TextEditingController _dateController = TextEditingController();
   DateTime? selectedDate;
-  TextStyle defaultTextStyle = const TextStyle(fontFamily: 'CenturyGothic');
+  TextStyle defaultTextStyle = GoogleFonts.montserrat();
 
   @override
   void initState() {
