@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wallet_guru/application/core/form_managers/change_password_form_manager.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/change_password/widgets/change_password_button.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
@@ -29,13 +28,15 @@ class ChangePasswordForm extends StatefulWidget {
 
 class ChangePasswordFormState extends State<ChangePasswordForm> {
   final _formKey = GlobalKey<FormState>();
-  late ChangePasswordFormManager _formManager;
+  late UserCubit userCubit;
+  String? _currentPassword;
+  String? _newPassword;
+  String? _confirmNewPassword;
 
   @override
   void initState() {
     super.initState();
-    UserCubit userCubit = BlocProvider.of<UserCubit>(context);
-    _formManager = ChangePasswordFormManager(userCubit);
+    userCubit = BlocProvider.of<UserCubit>(context);
   }
 
   @override
@@ -60,26 +61,28 @@ class ChangePasswordFormState extends State<ChangePasswordForm> {
           SizedBox(height: size * 0.1),
           FormLabel(label: l10n.currentPassword),
           CurrentPasswordForm(
-            initialValue: _formManager.currentPassword,
-            onChanged: (value) => _formManager.updateCurrentPassword(value),
+            initialValue: _currentPassword,
+            onChanged: (value) =>
+                _onPasswordFieldChanged(value, PasswordFieldType.current),
             hintText: l10n.enterCurrentPassword,
           ),
           SizedBox(height: size * 0.02),
           FormLabel(label: l10n.newPassword),
           PasswordForm(
-            initialValue: _formManager.newPassword,
-            hintText: l10n.enterNewPassword,
-            onChanged: (value) => _formManager.updateNewPassword(value),
-            underDecoration: true,
-          ),
+              initialValue: _newPassword,
+              hintText: l10n.enterNewPassword,
+              onChanged: (value) =>
+                  _onPasswordFieldChanged(value, PasswordFieldType.newPassword),
+              underDecoration: true),
           SizedBox(height: size * 0.02),
           FormLabel(label: l10n.confirmPassword),
           PasswordConfirmForm(
             underDecoration: true,
-            initialValue: _formManager.confirmNewPassword,
-            passwordValue: _formManager.newPassword,
+            initialValue: _confirmNewPassword,
+            passwordValue: _newPassword,
             hintText: l10n.enterConfirmPassword,
-            onChanged: (value) => _formManager.updateConfirmNewPassword(value),
+            onChanged: (value) => _onPasswordFieldChanged(
+                value, PasswordFieldType.confirmNewPassword),
           ),
           SizedBox(height: size * 0.02),
           FormLabel(
@@ -87,9 +90,30 @@ class ChangePasswordFormState extends State<ChangePasswordForm> {
             color: AppColorSchema.of(context).tertiaryText,
           ),
           SizedBox(height: size * 0.1),
-          const ChangePasswordButton(),
+          ChangePasswordButton(formKey: _formKey),
         ],
       ),
     );
+  }
+
+  void _onPasswordFieldChanged(String? value, PasswordFieldType fieldType) {
+    setState(() {
+      switch (fieldType) {
+        case PasswordFieldType.current:
+          _currentPassword = value;
+          userCubit.setCurrentPassword(value);
+          break;
+        case PasswordFieldType.newPassword:
+          _newPassword = value;
+          userCubit.setNewPassword(value);
+          break;
+        case PasswordFieldType.confirmNewPassword:
+          _confirmNewPassword = value;
+          userCubit.setConfirmNewPassword(value);
+          break;
+      }
+      // validate passwords
+      userCubit.validatePasswords();
+    });
   }
 }

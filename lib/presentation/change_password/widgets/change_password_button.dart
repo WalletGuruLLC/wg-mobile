@@ -10,8 +10,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 class ChangePasswordButton extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
+
   const ChangePasswordButton({
     super.key,
+    required this.formKey,
   });
 
   @override
@@ -32,6 +35,7 @@ class ChangePasswordButton extends StatelessWidget {
                 locale: locale,
                 isSuccessful: true,
                 onPressed: () {
+                  userCubit.resetFormStatus();
                   Navigator.of(context).pop();
                   GoRouter.of(context).pushReplacementNamed(
                     Routes.dashboardWallet.name,
@@ -58,7 +62,7 @@ class ChangePasswordButton extends StatelessWidget {
                 },
                 title: l10n.changeFailure,
                 content: description,
-                errorCode: state.customCode,
+                errorCode: 'Error code: ${state.customCode}',
               );
             },
           );
@@ -90,7 +94,8 @@ class ChangePasswordButton extends StatelessWidget {
   }
 
   void _onButtonPressed(BuildContext context, UserCubit userCubit) {
-    if (Form.of(context).validate()) {
+    final isValid = formKey.currentState?.validate() ?? false;
+    if (isValid) {
       userCubit.emitChangePassword();
     }
   }
