@@ -73,7 +73,8 @@ class _MyInfoViewState extends State<MyInfoView> {
             SizedBox(height: size * 0.015),
             FormLabel(label: l10n.phoneNumber),
             PhoneNumberFormSection(
-              initialValue: user?.phone ?? '',
+              codeInitialValue: user?.phoneCode ?? '',
+              phoneInitialValue: user?.phone ?? '',
               readOnly: readOnly,
               onChanged: (value) {
                 userCubit.updateUser(phone: value);

@@ -33,30 +33,37 @@ class Data {
   final String message;
 
   Data({
-    this.user,
-    this.wallet,
-    this.rafikiAssets,
+    required this.user,
+    required this.wallet,
+    required this.rafikiAssets,
     required this.token,
     required this.success,
     required this.message,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        user: json.containsKey("user") && json["user"] != null
-            ? User.fromJson(json["user"])
-            : null,
-        wallet: json.containsKey("wallet") && json["wallet"] != null
-            ? Wallet.fromJson(json["wallet"])
-            : null,
-        rafikiAssets:
-            json.containsKey("rafikiAssets") && json["rafikiAssets"] != null
-                ? List<RafikiAssets>.from(json["rafikiAssets"]
-                    .map((rafikiAsset) => RafikiAssets.fromJson(rafikiAsset)))
-                : null,
-        token: json["token"] ?? '',
-        success: json["success"] ?? false,
-        message: json["message"] ?? '',
-      );
+  factory Data.fromJson(Map<String, dynamic> json) {
+    User? user;
+    if (json.containsKey("user") && json["user"] != null) {
+      user = User.fromJson(json["user"]);
+    } else if (!json.containsKey("user") && json.isNotEmpty) {
+      user = User.fromJson(json);
+    }
+
+    return Data(
+      user: user,
+      wallet: json.containsKey("wallet") && json["wallet"] != null
+          ? Wallet.fromJson(json["wallet"])
+          : null,
+      rafikiAssets:
+          json.containsKey("rafikiAssets") && json["rafikiAssets"] != null
+              ? List<RafikiAssets>.from(json["rafikiAssets"]
+                  .map((rafikiAsset) => RafikiAssets.fromJson(rafikiAsset)))
+              : null,
+      token: json["token"] ?? '',
+      success: json["success"] ?? false,
+      message: json["message"] ?? '',
+    );
+  }
 
   factory Data.initialState() => Data(
         user: null,

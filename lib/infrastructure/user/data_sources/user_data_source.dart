@@ -5,8 +5,8 @@ import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
 import 'package:wallet_guru/infrastructure/user/network/user_network.dart';
 
 class UserDataSource {
-  Future<ResponseModel> getCurrentUserInformation(String userId) async {
-    var response = await HttpDataSource.get('${UserNetwork.updateUser}$userId');
+  Future<ResponseModel> getCurrentUserInformation() async {
+    var response = await HttpDataSource.get(UserNetwork.updateUser);
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {

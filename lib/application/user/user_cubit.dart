@@ -15,8 +15,7 @@ class UserCubit extends Cubit<UserState> {
   UserCubit() : super(const UserState());
 
   void emitGetUserInformation() async {
-    final registerResponse =
-        await userRepository.getCurrentUserInformation(state.userId);
+    final registerResponse = await userRepository.getCurrentUserInformation();
 
     registerResponse.fold(
       (error) {
@@ -58,6 +57,7 @@ class UserCubit extends Cubit<UserState> {
     String? stateLocation,
     String? lastName,
     String? firstName,
+    String? phoneCode,
     bool? active,
   }) {
     final updatedUser = state.user?.copyWith(
@@ -71,6 +71,7 @@ class UserCubit extends Cubit<UserState> {
       lastName: lastName,
       firstName: firstName,
       active: active,
+      phoneCode: phoneCode,
     );
 
     emit(state.copyWith(user: updatedUser, userHasChanged: true));
