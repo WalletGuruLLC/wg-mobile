@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
-
 import '../styles/schemas/app_color_schema.dart';
 
 class BottomNavigationMenu extends StatefulWidget {
@@ -16,6 +15,7 @@ class BottomNavigationMenu extends StatefulWidget {
 
 class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
   int _selectedIndex = 0;
+
   @override
   void initState() {
     _selectedIndex = widget.selectedIndex;
@@ -26,8 +26,8 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(36),
-        topRight: Radius.circular(36),
+        topLeft: Radius.circular(24),
+        topRight: Radius.circular(24),
       ),
       child: Theme(
         data: Theme.of(context).copyWith(
@@ -43,156 +43,71 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
           enableFeedback: false,
-          items: [
-            BottomNavigationBarItem(
-              activeIcon: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    Assets.homeMenuIcon,
-                    width: 28,
-                    height: 28,
-                    colorFilter:
-                        const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-              icon: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    Assets.homeMenuIcon,
-                    width: 28,
-                    height: 28,
-                    colorFilter:
-                        const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    Assets.fundingMenuIcon,
-                    width: 28,
-                    height: 28,
-                    colorFilter:
-                        const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-              icon: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    Assets.fundingMenuIcon,
-                    width: 28,
-                    height: 28,
-                    colorFilter:
-                        const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-              label: 'Notifications',
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    Assets.transactionsMenuIcon,
-                    width: 28,
-                    height: 28,
-                    colorFilter:
-                        const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-              icon: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    Assets.transactionsMenuIcon,
-                    width: 28,
-                    height: 28,
-                    colorFilter:
-                        const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-              label: 'Messages',
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    Assets.verticalTransactionMenuIcon,
-                    width: 28,
-                    height: 28,
-                    colorFilter:
-                        const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-              icon: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    Assets.verticalTransactionMenuIcon,
-                    width: 28,
-                    height: 28,
-                    colorFilter:
-                        const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-              label: 'Settings',
-            ),
-          ],
+          items: _buildBottomNavItems(),
+        ),
+      ),
+    );
+  }
+
+  List<BottomNavigationBarItem> _buildBottomNavItems() {
+    return [
+      _buildNavItem(
+        icon: Assets.homeMenuIcon,
+        label: 'Home',
+        index: 0,
+      ),
+      _buildNavItem(
+        icon: Assets.fundingMenuIcon,
+        label: 'Notifications',
+        index: 1,
+      ),
+      _buildNavItem(
+        icon: Assets.transactionsMenuIcon,
+        label: 'Messages',
+        index: 2,
+      ),
+      _buildNavItem(
+        icon: Assets.verticalTransactionMenuIcon,
+        label: 'Settings',
+        index: 3,
+      ),
+    ];
+  }
+
+  BottomNavigationBarItem _buildNavItem({
+    required String icon,
+    required String label,
+    required int index,
+  }) {
+    bool isSelected = _selectedIndex == index;
+    double size = isSelected ? 50 : 40;
+    double iconSize = isSelected ? 24 : 20;
+
+    return BottomNavigationBarItem(
+      activeIcon: _buildIconContainer(icon, Colors.white, iconSize, size),
+      icon: _buildIconContainer(icon, Colors.black, iconSize, size),
+      label: label,
+    );
+  }
+
+  Widget _buildIconContainer(
+      String icon, Color color, double iconSize, double size) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: color == Colors.white ? Colors.white : Colors.black,
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          icon,
+          width: iconSize,
+          height: iconSize,
+          colorFilter: ColorFilter.mode(
+            color == Colors.white ? Colors.black : Colors.white,
+            BlendMode.srcIn,
+          ),
         ),
       ),
     );
@@ -208,13 +123,13 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
         GoRouter.of(context).pushNamed(Routes.dashboardWallet.name);
         break;
       case 1:
-        GoRouter.of(context).pushNamed(Routes.home.name);
+        //   GoRouter.of(context).pushNamed(Routes.home.name);
         break;
       case 2:
-        GoRouter.of(context).pushNamed(Routes.createWallet.name);
+        //    GoRouter.of(context).pushNamed(Routes.createWallet.name);
         break;
       case 3:
-        GoRouter.of(context).pushNamed(Routes.myProfile.name);
+        //    GoRouter.of(context).pushNamed(Routes.myProfile.name);
         break;
     }
   }

@@ -47,7 +47,7 @@ class WalletGuruAppBar extends StatelessWidget implements PreferredSizeWidget {
     required bool showSimpleStyle,
   }) {
     return GestureDetector(
-        onTap: () => action ?? Navigator.of(context).pop(),
+        onTap: action,
         child: showSimpleStyle
             ? const Icon(Icons.arrow_back_ios, color: Colors.white)
             : Container(

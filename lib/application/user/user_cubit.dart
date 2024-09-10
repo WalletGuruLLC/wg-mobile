@@ -168,4 +168,11 @@ class UserCubit extends Cubit<UserState> {
       },
     );
   }
+
+  void resetInitialUser() {
+    emit(state.copyWith(
+      userHasChanged: false,
+      user: state.initialUser,
+    ));
+  }
 }

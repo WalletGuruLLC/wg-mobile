@@ -25,6 +25,8 @@ class BaseModal extends StatelessWidget {
   final double? buttonWidth;
   final bool hasActions;
   final bool hasCloseAction;
+  final bool hasDoubleButton;
+  final Widget? doubleButton;
 
   const BaseModal({
     super.key,
@@ -43,6 +45,8 @@ class BaseModal extends StatelessWidget {
     this.buttonWidth,
     this.hasActions = true,
     this.hasCloseAction = false,
+    this.hasDoubleButton = false,
+    this.doubleButton,
   });
 
   @override
@@ -85,7 +89,7 @@ class BaseModal extends StatelessWidget {
                                 color: AppColorSchema.of(context).buttonColor,
                               ),
                             Center(child: content!),
-                            if (hasActions)
+                            if (hasActions && !hasDoubleButton)
                               Column(
                                 children: [
                                   const SizedBox(height: 20),
@@ -103,6 +107,13 @@ class BaseModal extends StatelessWidget {
                                   ),
                                 ],
                               )
+                            else if (hasActions && hasDoubleButton)
+                              Column(
+                                children: [
+                                  const SizedBox(height: 20),
+                                  doubleButton!,
+                                ],
+                              ),
                           ],
                         ),
                       )

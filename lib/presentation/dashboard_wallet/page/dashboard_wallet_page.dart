@@ -39,7 +39,7 @@ class _DashboardWalletPageState extends State<DashboardWalletPage> {
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
           child: GestureDetector(
             onTap: () {
-              GoRouter.of(context).pushReplacementNamed(
+              GoRouter.of(context).pushNamed(
                 Routes.myProfile.name,
               );
             },

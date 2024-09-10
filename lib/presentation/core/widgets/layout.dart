@@ -15,14 +15,13 @@ class WalletGuruLayout extends StatelessWidget {
   final String? pageAppBarTitle;
   final void Function()? actionAppBar;
   final bool showSimpleStyle;
-
   const WalletGuruLayout({
     super.key,
     required this.children,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
     this.pageAppBarTitle,
-    this.showAppBar = true,
+    this.showAppBar = false,
     this.showBackButton = false,
     this.showSafeArea = false,
     this.isTransparent = false,
@@ -30,7 +29,6 @@ class WalletGuruLayout extends StatelessWidget {
     this.actionAppBar,
     this.showSimpleStyle = true,
   });
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -39,7 +37,13 @@ class WalletGuruLayout extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: AppColorSchema.of(context).scaffoldColor,
-        appBar: null,
+        appBar: showAppBar
+            ? WalletGuruAppBar(
+                title: pageAppBarTitle!,
+                action: actionAppBar,
+                showSimpleStyle: showSimpleStyle,
+              )
+            : null,
         body: SafeArea(
           top: showSafeArea,
           bottom: showSafeArea,
@@ -56,7 +60,12 @@ class WalletGuruLayout extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar: null,
+        bottomNavigationBar: showBottomNavigationBar
+            ? BottomNavigationMenu(
+                selectedIndex:
+                    getSelectedIndex(ModalRoute.of(context)!.settings.name!),
+              )
+            : null,
       ),
     );
   }

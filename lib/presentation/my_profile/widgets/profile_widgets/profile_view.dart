@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 
-import 'package:wallet_guru/presentation/my_profile/widgets/profile_header.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/profile_logout.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/profile_options.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_header.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_logout.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_options.dart';
 
 class MyProfileMainView extends StatelessWidget {
   const MyProfileMainView({super.key});
@@ -14,8 +14,9 @@ class MyProfileMainView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
-    final userFullName =
-        BlocProvider.of<UserCubit>(context).state.user!.fullName;
+    final userCubit = BlocProvider.of<UserCubit>(context);
+    userCubit.resetInitialUser();
+    final userFullName = userCubit.state.user!.fullName;
     String imgURL =
         'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg';
     return Column(

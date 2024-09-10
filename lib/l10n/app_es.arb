@@ -103,5 +103,10 @@
 "changeSuccessful": "¡Cambio Exitoso!",
 "changeFailure": "Fallo en el Cambio",
 "profileChangedSuccess": "¡Tu perfil está listo!",
-"profileChangedSuccessBody": "Tu perfil ha sido actualizado. ¡Échale un vistazo!"
+"profileChangedSuccessBody": "Tu perfil ha sido actualizado. ¡Échale un vistazo!",
+"myInfo": "Mi Información",
+"exit": "Salir",
+"cancel": "Cancelar",
+ "exitWithoutSaving": "¿Salir sin guardar?",
+"changesMayNotBeSaved": "Los cambios pueden no ser guardados"
 }

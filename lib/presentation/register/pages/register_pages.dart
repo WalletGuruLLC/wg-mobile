@@ -11,7 +11,7 @@ class RegisterPages extends StatelessWidget {
   Widget build(BuildContext context) {
     return WalletGuruLayout(
       showBackButton: false,
-      showBottomNavigationBar: true,
+      showBottomNavigationBar: false,
       showAppBar: false,
       children: [
         Padding(
