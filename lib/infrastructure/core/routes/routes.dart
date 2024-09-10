@@ -18,8 +18,6 @@ class Routes {
       Route(path: '/createProfile3', name: 'createProfile3');
   static final createProfile4 =
       Route(path: '/createProfile4', name: 'createProfile4');
-  static final dashboardWallet =
-      Route(path: '/dashboardWallet', name: 'dashboardWallet');
   static final myProfile = Route(path: '/myProfile', name: 'myProfile');
   static final myInfo = Route(path: '/myInfo', name: 'myInfo');
   static final changePassword =

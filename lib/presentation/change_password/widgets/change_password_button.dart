@@ -57,7 +57,7 @@ class _ChangePasswordButtonState extends State<ChangePasswordButton> {
                   userCubit.resetFormStatus();
                   Navigator.of(context).pop();
                   GoRouter.of(context).pushReplacementNamed(
-                    Routes.dashboardWallet.name,
+                    Routes.home.name,
                   );
                 },
                 title: l10n.changeSuccessful,

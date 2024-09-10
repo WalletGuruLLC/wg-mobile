@@ -239,7 +239,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
             createWalletCubit.emitInitialStatus();
             Navigator.of(context).pop();
             GoRouter.of(context).pushReplacementNamed(
-              Routes.dashboardWallet.name,
+              Routes.home.name,
             );
           },
         );

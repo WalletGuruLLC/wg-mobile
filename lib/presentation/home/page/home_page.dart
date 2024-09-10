@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/application/user/user_cubit.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 import 'package:wallet_guru/presentation/home/widgets/balance_card.dart';
 import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
 import 'package:wallet_guru/presentation/home/widgets/last_transactions_list.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    final userCubit = BlocProvider.of<UserCubit>(context);
+    userCubit.emitGetUserInformation();
+    // loginCubit.initialStatus();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,30 +67,38 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.black,
       elevation: 0,
-      title: Row(
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: size.width * 0.05,
-            child: Image.network(
-              'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg',
+      title: GestureDetector(
+        onTap: () {
+          GoRouter.of(context).pushNamed(
+            Routes.myProfile.name,
+          );
+        },
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: size.width * 0.05,
+              child: Image.network(
+                'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg',
+              ),
             ),
-          ),
-          SizedBox(width: size.width * 0.03),
-          Text(
-            "Hi John",
-            style: TextStyle(color: Colors.white, fontSize: size.width * 0.045),
-          ),
-          const Spacer(),
-          CircleAvatar(
-            backgroundImage: const NetworkImage(
-              'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg',
+            SizedBox(width: size.width * 0.03),
+            Text(
+              "Hi John",
+              style:
+                  TextStyle(color: Colors.white, fontSize: size.width * 0.045),
             ),
-            radius: size.width * 0.05,
-          ),
-          SizedBox(width: size.width * 0.03),
-          Icon(Icons.menu, color: Colors.white, size: size.width * 0.07),
-        ],
+            const Spacer(),
+            CircleAvatar(
+              backgroundImage: const NetworkImage(
+                'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg',
+              ),
+              radius: size.width * 0.05,
+            ),
+            SizedBox(width: size.width * 0.03),
+            Icon(Icons.menu, color: Colors.white, size: size.width * 0.07),
+          ],
+        ),
       ),
     );
   }
