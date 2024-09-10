@@ -17,6 +17,7 @@ class CustomButton extends StatelessWidget {
   final FontWeight? fontWeight;
   final Widget? widget;
   final Icon? iconWidget;
+  final bool isModal;
 
   const CustomButton({
     super.key,
@@ -33,61 +34,71 @@ class CustomButton extends StatelessWidget {
     this.fontWeight,
     this.widget,
     this.iconWidget,
+    this.isModal = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return DynamicContainer(
-      minWidth: width ?? MediaQuery.of(context).size.width,
-      minHeight: height ?? 50,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: color ??
-                (isAppColor
-                    ? AppColorSchema.of(context).buttonColor
-                    : Colors.transparent),
+    final buttonContent = widget ??
+        (iconWidget == null
+            ? TextBase(
+                text: text,
+                fontWeight: fontWeight ?? FontWeight.w600,
+                fontSize: fontSize ?? 17.5,
+                color: buttonTextColor ??
+                    AppColorSchema.of(context).buttonTextColor,
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  iconWidget!,
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  TextBase(
+                    text: text,
+                    fontWeight: FontWeight.w600,
+                    fontSize: fontSize ?? 17.5,
+                    color: buttonTextColor ?? Colors.black,
+                  ),
+                  const SizedBox(width: 1),
+                ],
+              ));
+
+    final button = Container(
+      decoration: BoxDecoration(
+        color: color ??
+            (isAppColor
+                ? AppColorSchema.of(context).buttonColor
+                : Colors.transparent),
+        borderRadius: BorderRadius.circular(borderRadius ?? 8),
+        border: border ?? (isAppColor ? null : Border.all(color: Colors.black)),
+      ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius ?? 8),
-            border:
-                border ?? (isAppColor ? null : Border.all(color: Colors.black)),
           ),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(borderRadius ?? 8),
-              ),
-              elevation: 0.0,
-            ),
-            onPressed: onPressed,
-            child: widget ??
-                (iconWidget == null
-                    ? TextBase(
-                        text: text,
-                        fontWeight: fontWeight ?? FontWeight.w600,
-                        fontSize: fontSize ?? 17.5,
-                        color: buttonTextColor ??
-                            AppColorSchema.of(context).buttonTextColor,
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          iconWidget!,
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          TextBase(
-                            text: text,
-                            fontWeight: FontWeight.w600,
-                            fontSize: fontSize ?? 17.5,
-                            color: buttonTextColor ?? Colors.black,
-                          ),
-                          const SizedBox(width: 1),
-                        ],
-                      )),
-          ),
-        )
-      ],
+          elevation: 0.0,
+        ),
+        onPressed: onPressed,
+        child: buttonContent,
+      ),
+    );
+
+    if (isModal) {
+      return DynamicContainer(
+        minWidth: width,
+        minHeight: height ?? 50,
+        children: [button],
+      );
+    }
+
+    return SizedBox(
+      width: width ?? MediaQuery.of(context).size.width,
+      height: height ?? 50,
+      child: button,
     );
   }
 }

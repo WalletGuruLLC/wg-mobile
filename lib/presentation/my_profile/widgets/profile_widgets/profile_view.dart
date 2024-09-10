@@ -16,6 +16,8 @@ class MyProfileMainView extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final userCubit = BlocProvider.of<UserCubit>(context);
     userCubit.resetInitialUser();
+    userCubit.resetFormStatus();
+    userCubit.resetFormStatusLockAccount();
     final userFullName = userCubit.state.user!.fullName;
     String imgURL =
         'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg';

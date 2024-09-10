@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallet_guru/application/user/user_cubit.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -41,19 +44,44 @@ class LockAccountModal extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomButton(
-                borderRadius: 12,
-                width: size.width * 0.33,
-                border: Border.all(
-                  color: AppColorSchema.of(context).secondaryButtonBorderColor,
-                ),
-                color: AppColorSchema.of(context).buttonColor,
-                text: l10n.button_pop_up_sucefull,
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-                onPressed: () {},
+              BlocConsumer<UserCubit, UserState>(
+                listener: (context, state) {
+                  if (state.formStatusLockAccount is SubmissionSuccess) {
+                    Navigator.of(context).pop();
+                    context.read<UserCubit>().resetFormStatusLockAccount();
+                  } else if (state.formStatusLockAccount is SubmissionFailed) {
+                    //TODO DEFINE WHAT TO DO
+                    Navigator.of(context).pop();
+                    context.read<UserCubit>().resetFormStatusLockAccount();
+                  }
+                },
+                builder: (context, state) {
+                  if (state.formStatusLockAccount is FormSubmitting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return CustomButton(
+                      isModal: true,
+                      borderRadius: 12,
+                      width: size.width * 0.33,
+                      border: Border.all(
+                        color: AppColorSchema.of(context)
+                            .secondaryButtonBorderColor,
+                      ),
+                      color: AppColorSchema.of(context).buttonColor,
+                      text: l10n.button_pop_up_sucefull,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      onPressed: () {
+                        context.read<UserCubit>().emitLockAccount();
+                      },
+                    );
+                  }
+                },
               ),
               CustomButton(
+                isModal: true,
                 borderRadius: 12,
                 width: size.width * 0.33,
                 border: Border.all(
