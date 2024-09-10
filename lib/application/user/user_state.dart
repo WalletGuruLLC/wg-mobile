@@ -13,6 +13,7 @@ class UserState extends Equatable {
   final String newPassword;
   final String confirmNewPassword;
   final bool isSubmittable;
+  final FormSubmissionStatus formStatusLockAccount;
 
   const UserState({
     this.user,
@@ -27,6 +28,7 @@ class UserState extends Equatable {
     this.newPassword = '',
     this.confirmNewPassword = '',
     this.isSubmittable = false,
+    this.formStatusLockAccount = const InitialFormStatus(),
   });
 
   UserState copyWith({
@@ -42,6 +44,7 @@ class UserState extends Equatable {
     String? newPassword,
     String? confirmNewPassword,
     bool? isSubmittable,
+    FormSubmissionStatus? formStatusLockAccount,
   }) =>
       UserState(
         user: user ?? this.user,
@@ -56,6 +59,8 @@ class UserState extends Equatable {
         newPassword: newPassword ?? this.newPassword,
         confirmNewPassword: confirmNewPassword ?? this.confirmNewPassword,
         isSubmittable: isSubmittable ?? this.isSubmittable,
+        formStatusLockAccount:
+            formStatusLockAccount ?? this.formStatusLockAccount,
       );
 
   @override
@@ -72,5 +77,6 @@ class UserState extends Equatable {
         newPassword,
         confirmNewPassword,
         isSubmittable,
+        formStatusLockAccount,
       ];
 }

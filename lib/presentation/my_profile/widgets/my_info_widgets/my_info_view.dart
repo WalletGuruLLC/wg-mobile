@@ -146,8 +146,7 @@ class _MyInfoViewState extends State<MyInfoView> {
         Navigator.of(context).pop();
         Future.delayed(const Duration(milliseconds: 100), () {
           BlocProvider.of<UserCubit>(context).resetFormStatus();
-          GoRouter.of(context)
-              .pushReplacementNamed(Routes.dashboardWallet.name);
+          GoRouter.of(context).pushReplacementNamed(Routes.home.name);
         });
       },
     );

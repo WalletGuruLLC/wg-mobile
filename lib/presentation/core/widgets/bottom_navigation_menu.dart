@@ -120,7 +120,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
 
     switch (index) {
       case 0:
-        GoRouter.of(context).pushNamed(Routes.dashboardWallet.name);
+        GoRouter.of(context).pushNamed(Routes.home.name);
         break;
       case 1:
         //   GoRouter.of(context).pushNamed(Routes.home.name);

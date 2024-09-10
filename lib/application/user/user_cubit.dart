@@ -103,6 +103,7 @@ class UserCubit extends Cubit<UserState> {
 
   // Enviar los cambios detectados al backend
   Future<void> submitUserChanges() async {
+    emit(state.copyWith(formStatus: FormSubmitting()));
     final changedFields = getChangedFields();
     if (changedFields.isNotEmpty) {
       final updatedUser = await userRepository.updateUserInformation(
@@ -182,5 +183,35 @@ class UserCubit extends Cubit<UserState> {
       userHasChanged: false,
       user: state.initialUser,
     ));
+  }
+
+  void emitLockAccount() async {
+    emit(
+      state.copyWith(formStatusLockAccount: FormSubmitting()),
+    );
+    final updatedUser = await userRepository.lockAccount();
+    updatedUser.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatusLockAccount:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (updatedUser) {
+        emit(state.copyWith(
+          formStatusLockAccount: SubmissionSuccess(),
+          customCode: updatedUser.customCode,
+          customMessage: updatedUser.customMessage,
+          customMessageEs: updatedUser.customMessageEs,
+        ));
+      },
+    );
+  }
+
+  void resetFormStatusLockAccount() {
+    emit(state.copyWith(formStatusLockAccount: const InitialFormStatus()));
   }
 }

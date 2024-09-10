@@ -110,5 +110,7 @@
  "exitWithoutSaving": "¿Salir sin guardar?",
 "changesMayNotBeSaved": "Los cambios pueden no ser guardados",
 "selectFromCamera": "Selecciona desde la cámara",
-"selectFromDevice": "Selecciona desde el dispositivo"
+"selectFromDevice": "Selecciona desde el dispositivo",
+"lockAccount": "Bloquear tu billetera",
+"lockAccountConfirmation": "¿Quieres bloquear tu billetera? Puedes desbloquearla en cualquier momento"
 }

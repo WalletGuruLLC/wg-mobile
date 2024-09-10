@@ -21,7 +21,7 @@ class MyProfilePage extends StatelessWidget {
         showBottomNavigationBar: true,
         actionAppBar: () {
           GoRouter.of(context).pushReplacementNamed(
-            Routes.dashboardWallet.name,
+            Routes.home.name,
           );
         },
         pageAppBarTitle: l10n.myProfile,

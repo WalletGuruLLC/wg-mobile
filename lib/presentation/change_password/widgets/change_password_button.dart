@@ -9,7 +9,7 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
-class ChangePasswordButton extends StatelessWidget {
+class ChangePasswordButton extends StatefulWidget {
   final GlobalKey<FormState> formKey;
 
   const ChangePasswordButton({
@@ -18,10 +18,29 @@ class ChangePasswordButton extends StatelessWidget {
   });
 
   @override
+  State<ChangePasswordButton> createState() => _ChangePasswordButtonState();
+}
+
+class _ChangePasswordButtonState extends State<ChangePasswordButton> {
+  late UserCubit userCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    userCubit = BlocProvider.of<UserCubit>(context);
+  }
+
+  @override
+  void dispose() {
+    userCubit.resetFormStatus();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context);
-    final userCubit = BlocProvider.of<UserCubit>(context);
+
     return BlocConsumer<UserCubit, UserState>(
       listener: (context, state) {
         if (state.formStatus is SubmissionSuccess) {
@@ -38,7 +57,7 @@ class ChangePasswordButton extends StatelessWidget {
                   userCubit.resetFormStatus();
                   Navigator.of(context).pop();
                   GoRouter.of(context).pushReplacementNamed(
-                    Routes.dashboardWallet.name,
+                    Routes.home.name,
                   );
                 },
                 title: l10n.changeSuccessful,
@@ -94,7 +113,7 @@ class ChangePasswordButton extends StatelessWidget {
   }
 
   void _onButtonPressed(BuildContext context, UserCubit userCubit) {
-    final isValid = formKey.currentState?.validate() ?? false;
+    final isValid = widget.formKey.currentState?.validate() ?? false;
     if (isValid) {
       userCubit.emitChangePassword();
     }

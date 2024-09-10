@@ -99,8 +99,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
                     },
                   );
                 } else if (!state.isFirstTime) {
-                  GoRouter.of(context)
-                      .pushReplacementNamed(Routes.dashboardWallet.name);
+                  GoRouter.of(context).pushReplacementNamed(Routes.home.name);
                 } else {
                   GoRouter.of(context).pushNamed(Routes.createWallet.name);
                 }

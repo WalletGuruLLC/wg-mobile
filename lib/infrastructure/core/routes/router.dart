@@ -10,7 +10,6 @@ import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
 import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
 import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
-import 'package:wallet_guru/presentation/dashboard_wallet/page/dashboard_wallet_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_first_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
@@ -26,7 +25,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      builder: (context, state) => const HomePage(),
+      builder: (context, state) => const SplashScreenPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
@@ -74,11 +73,6 @@ class WalletGuruRouter {
       name: Routes.createProfile4.name,
       path: Routes.createProfile4.path,
       builder: (context, state) => const CreateProfileFourthPage(),
-    ),
-    GoRoute(
-      name: Routes.dashboardWallet.name,
-      path: Routes.dashboardWallet.path,
-      builder: (context, state) => const DashboardWalletPage(),
     ),
     GoRoute(
       name: Routes.myProfile.name,
