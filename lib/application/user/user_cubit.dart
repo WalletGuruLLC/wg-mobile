@@ -86,7 +86,14 @@ class UserCubit extends Cubit<UserState> {
     if (currentUserMap != null && initialUserMap != null) {
       currentUserMap.forEach((key, value) {
         if (value != initialUserMap[key]) {
-          changes[key] = value;
+          if (key == 'phone' || key == 'phoneCode') {
+            // Combinar phone y phoneCode en un solo campo phone
+            final combinedPhone =
+                '${state.user?.phoneCode}-${state.user?.phone}';
+            changes['phone'] = combinedPhone;
+          } else {
+            changes[key] = value;
+          }
         }
       });
     }
@@ -99,7 +106,7 @@ class UserCubit extends Cubit<UserState> {
     final changedFields = getChangedFields();
     if (changedFields.isNotEmpty) {
       final updatedUser = await userRepository.updateUserInformation(
-          changedFields, state.userId);
+          changedFields, state.user!.id);
       updatedUser.fold(
         (error) {
           emit(state.copyWith(

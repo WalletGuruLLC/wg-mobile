@@ -76,8 +76,11 @@ class _MyInfoViewState extends State<MyInfoView> {
               codeInitialValue: user?.phoneCode ?? '',
               phoneInitialValue: user?.phone ?? '',
               readOnly: readOnly,
-              onChanged: (value) {
+              onPhoneChanged: (value) {
                 userCubit.updateUser(phone: value);
+              },
+              onCodeChanged: (value) {
+                userCubit.updateUser(phoneCode: value);
               },
               fieldActivatorWidget: _buildFieldActivatorWidget(),
             ),

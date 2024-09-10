@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
-import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/country_code_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.dart';
 
@@ -9,14 +8,16 @@ class PhoneNumberFormSection extends StatelessWidget {
   final String codeInitialValue;
   final String phoneInitialValue;
   final bool readOnly;
-  final void Function(String?) onChanged;
+  final void Function(String?) onPhoneChanged;
+  final void Function(String?) onCodeChanged;
   final Widget fieldActivatorWidget;
 
   const PhoneNumberFormSection({
     required this.phoneInitialValue,
     required this.codeInitialValue,
     required this.readOnly,
-    required this.onChanged,
+    required this.onPhoneChanged,
+    required this.onCodeChanged,
     required this.fieldActivatorWidget,
     super.key,
   });
@@ -40,11 +41,9 @@ class PhoneNumberFormSection extends StatelessWidget {
               items: uniqueCountriesCode,
               onChanged: (value) {
                 if (value != null) {
-                  BlocProvider.of<UserCubit>(context)
-                      .updateUser(phoneCode: value);
                   BlocProvider.of<CreateProfileCubit>(context)
                       .selectCountryCode(value);
-                  onChanged(value);
+                  onCodeChanged(value);
                 }
               },
             );
@@ -56,7 +55,7 @@ class PhoneNumberFormSection extends StatelessWidget {
             child: PhoneNumberForm(
               readOnly: readOnly,
               initialValue: phoneInitialValue,
-              onChanged: onChanged,
+              onChanged: onPhoneChanged,
               fieldActivatorWidget: fieldActivatorWidget,
             ),
           ),

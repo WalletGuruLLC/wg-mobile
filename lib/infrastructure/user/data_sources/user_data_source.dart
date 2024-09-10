@@ -6,7 +6,8 @@ import 'package:wallet_guru/infrastructure/user/network/user_network.dart';
 
 class UserDataSource {
   Future<ResponseModel> getCurrentUserInformation() async {
-    var response = await HttpDataSource.get(UserNetwork.updateUser);
+    var response =
+        await HttpDataSource.get(UserNetwork.getCurrentUserInformation);
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
@@ -22,7 +23,7 @@ class UserDataSource {
   Future<ResponseModel> updateUserInformation(
       Map<String, dynamic> changedUser, String userId) async {
     var response = await HttpDataSource.put(
-        '${UserNetwork.updateUser}$userId', changedUser);
+        '${UserNetwork.updateCreatedUser}$userId', changedUser);
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
