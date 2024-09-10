@@ -66,6 +66,7 @@ class _MyInfoViewState extends State<MyInfoView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ProfileHeaderWidget(
+              isOnTapAvailable: true,
               name: user?.fullName ?? '',
               avatarImage:
                   'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg',

@@ -13,11 +13,13 @@ import 'package:wallet_guru/presentation/create_profile/widgets/check_photo_moda
 class ProfileHeaderWidget extends StatefulWidget {
   final String name;
   final String avatarImage;
+  final bool? isOnTapAvailable;
 
   const ProfileHeaderWidget({
     super.key,
     required this.name,
     required this.avatarImage,
+    this.isOnTapAvailable = false,
   });
 
   @override
@@ -48,7 +50,11 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
             height: size.height * .1,
             child: GestureDetector(
               onTap: () {
-                showModal(context);
+                if (widget.isOnTapAvailable!) {
+                  showModal(context);
+                } else {
+                  null;
+                }
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),

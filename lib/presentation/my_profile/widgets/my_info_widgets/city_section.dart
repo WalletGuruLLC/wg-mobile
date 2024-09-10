@@ -21,7 +21,7 @@ class CityFormSection extends StatelessWidget {
         return CityForm(
           enabled: state.cities.isNotEmpty,
           initialValue: initialValue,
-          items: state.countries,
+          items: state.cities.isNotEmpty ? state.cities : [''],
           onChanged: (value) {
             if (value != null) {
               onChanged(value);
