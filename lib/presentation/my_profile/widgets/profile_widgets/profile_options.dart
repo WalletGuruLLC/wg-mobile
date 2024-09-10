@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/lock_account_modal.dart';
 
 class ProfileOption extends StatelessWidget {
   final String optionTitle;
@@ -70,13 +71,17 @@ class ProfileOption extends StatelessWidget {
         GoRouter.of(context).pushNamed(Routes.myInfo.name);
         break;
       case 2:
-        // GoRouter.of(context).pushNamed(Routes.notificationSettings.name);
         break;
       case 3:
         GoRouter.of(context).pushNamed(Routes.changePassword.name);
         break;
       case 4:
-        // GoRouter.of(context).pushNamed(Routes.lockAccount.name);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const LockAccountModal();
+          },
+        );
         break;
       default:
         break;

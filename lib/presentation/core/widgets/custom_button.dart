@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/dynamic_container.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
 class CustomButton extends StatelessWidget {
@@ -36,52 +37,57 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width ?? MediaQuery.of(context).size.width,
-      height: height ?? 50,
-      decoration: BoxDecoration(
-        color: color ??
-            (isAppColor
-                ? AppColorSchema.of(context).buttonColor
-                : Colors.transparent),
-        borderRadius: BorderRadius.circular(borderRadius ?? 8),
-        border: border ?? (isAppColor ? null : Border.all(color: Colors.black)),
-      ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
+    return DynamicContainer(
+      minWidth: width ?? MediaQuery.of(context).size.width,
+      minHeight: height ?? 50,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: color ??
+                (isAppColor
+                    ? AppColorSchema.of(context).buttonColor
+                    : Colors.transparent),
             borderRadius: BorderRadius.circular(borderRadius ?? 8),
+            border:
+                border ?? (isAppColor ? null : Border.all(color: Colors.black)),
           ),
-          elevation: 0.0,
-        ),
-        onPressed: onPressed,
-        child: widget ??
-            (iconWidget == null
-                ? TextBase(
-                    text: text,
-                    fontWeight: fontWeight ?? FontWeight.w600,
-                    fontSize: fontSize ?? 17.5,
-                    color: buttonTextColor ??
-                        AppColorSchema.of(context).buttonTextColor,
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      iconWidget!,
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      TextBase(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius ?? 8),
+              ),
+              elevation: 0.0,
+            ),
+            onPressed: onPressed,
+            child: widget ??
+                (iconWidget == null
+                    ? TextBase(
                         text: text,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: fontWeight ?? FontWeight.w600,
                         fontSize: fontSize ?? 17.5,
-                        color: buttonTextColor ?? Colors.black,
-                      ),
-                      const SizedBox(width: 1),
-                    ],
-                  )),
-      ),
+                        color: buttonTextColor ??
+                            AppColorSchema.of(context).buttonTextColor,
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          iconWidget!,
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          TextBase(
+                            text: text,
+                            fontWeight: FontWeight.w600,
+                            fontSize: fontSize ?? 17.5,
+                            color: buttonTextColor ?? Colors.black,
+                          ),
+                          const SizedBox(width: 1),
+                        ],
+                      )),
+          ),
+        )
+      ],
     );
   }
 }

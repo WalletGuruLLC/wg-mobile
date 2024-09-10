@@ -110,5 +110,8 @@
   "exitWithoutSaving": "Exit without saving?",
   "changesMayNotBeSaved": "Changes may not be saved",
   "selectFromCamera": "Select From Camera",
-  "selectFromDevice": "Select From Device"
+  "selectFromDevice": "Select From Device",
+  "lockAccount": "Lock your wallet",
+  "lockAccountConfirmation": "Do you want to lock your wallet? You can unlock it at any time"
+
 }
