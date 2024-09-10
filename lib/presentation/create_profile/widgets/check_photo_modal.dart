@@ -22,6 +22,7 @@ class CheckPhotoModal extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return BaseModal(
       showCloseIcon: true,
+      hasActions: false,
       centerIcon: Container(),
       content: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +49,7 @@ class CheckPhotoModal extends StatelessWidget {
             children: [
               CustomButton(
                 borderRadius: 12,
-                width: size.width * 0.3,
+                width: size.width * 0.33,
                 border: Border.all(
                   color: AppColorSchema.of(context).secondaryButtonBorderColor,
                 ),
@@ -60,7 +61,7 @@ class CheckPhotoModal extends StatelessWidget {
               ),
               CustomButton(
                 borderRadius: 12,
-                width: size.width * 0.3,
+                width: size.width * 0.33,
                 border: Border.all(
                   color: AppColorSchema.of(context).secondaryButtonBorderColor,
                 ),

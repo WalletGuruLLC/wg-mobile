@@ -108,5 +108,7 @@
 "exit": "Salir",
 "cancel": "Cancelar",
  "exitWithoutSaving": "¿Salir sin guardar?",
-"changesMayNotBeSaved": "Los cambios pueden no ser guardados"
+"changesMayNotBeSaved": "Los cambios pueden no ser guardados",
+"selectFromCamera": "Selecciona desde la cámara",
+"selectFromDevice": "Selecciona desde el dispositivo"
 }

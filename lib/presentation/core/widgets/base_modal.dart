@@ -135,7 +135,7 @@ class BaseModal extends StatelessWidget {
           Assets.closeIcon,
           height: 30,
           colorFilter: const ColorFilter.mode(
-            Colors.white,
+            Colors.black,
             BlendMode.srcIn,
           ),
         ),

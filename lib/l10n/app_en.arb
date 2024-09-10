@@ -108,6 +108,7 @@
   "exit": "Exit",
   "cancel": "Cancel",
   "exitWithoutSaving": "Exit without saving?",
-  "changesMayNotBeSaved": "Changes may not be saved"
-
+  "changesMayNotBeSaved": "Changes may not be saved",
+  "selectFromCamera": "Select From Camera",
+  "selectFromDevice": "Select From Device"
 }
