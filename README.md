@@ -53,7 +53,7 @@ Repo owner or admin: Cristian Dulcey
 Other community or team contact: Feel free to open an issue in the repository for any questions or discussions.
 
 if you have problems with this import 
-```dart
+```dart k
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 ```
 
@@ -64,4 +64,11 @@ flutter gen-l10n
 for update envs run this command
 ```bash
 flutter packages pub run build_runner build --delete-conflicting-outputs
+```
+
+for create a new build run this command
+```bash
+flutter gen-l10n
+flutter build apk
+flutter build ios
 ```
