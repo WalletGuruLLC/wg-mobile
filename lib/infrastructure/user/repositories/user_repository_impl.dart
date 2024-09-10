@@ -10,12 +10,10 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl({required this.userDataSource});
 
   @override
-  Future<Either<InvalidData, ResponseModel>> getCurrentUserInformation(
-    String userId,
-  ) async {
+  Future<Either<InvalidData, ResponseModel>> getCurrentUserInformation() async {
     try {
       final ResponseModel response =
-          await userDataSource.getCurrentUserInformation(userId);
+          await userDataSource.getCurrentUserInformation();
       return Right(response);
     } on InvalidData catch (invalidData) {
       return Left(invalidData);

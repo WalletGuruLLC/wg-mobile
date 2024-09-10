@@ -13,6 +13,7 @@ class UserEntity {
   final String firstName;
   final String id;
   final bool active;
+  final String phoneCode;
 
   UserEntity({
     required this.email,
@@ -27,6 +28,7 @@ class UserEntity {
     required this.phone,
     required this.address,
     required this.stateLocation,
+    required this.phoneCode,
   });
 
   UserEntity copyWith({
@@ -43,6 +45,7 @@ class UserEntity {
     String? firstName,
     String? id,
     bool? active,
+    String? phoneCode,
   }) {
     return UserEntity(
       email: email ?? this.email,
@@ -57,6 +60,7 @@ class UserEntity {
       phone: phone ?? this.phone,
       address: address ?? this.address,
       stateLocation: stateLocation ?? this.stateLocation,
+      phoneCode: phoneCode ?? this.phoneCode,
     );
   }
 
@@ -74,14 +78,17 @@ class UserEntity {
       "firstName": firstName,
       "id": id,
       "active": active,
+      "phoneCode": phoneCode,
     };
   }
 
   factory UserEntity.fromUser(User user) {
+    final phoneCode = _extractPhoneCode(user.phone);
+    final phoneNumber = _extractPhoneNumber(user.phone);
     return UserEntity(
       email: user.email,
       picture: user.picture,
-      phone: user.phone,
+      phone: phoneNumber,
       address: user.address,
       city: user.city,
       country: user.country,
@@ -91,8 +98,27 @@ class UserEntity {
       firstName: user.firstName,
       id: user.id,
       active: user.active,
+      phoneCode: phoneCode,
     );
   }
 
   String get fullName => '$firstName $lastName';
+
+  static String _extractPhoneCode(String phone) {
+    final regex = RegExp(r'^(\+\d+)-');
+    final match = regex.firstMatch(phone);
+    if (match != null) {
+      return match.group(1) ?? '';
+    }
+    return '';
+  }
+
+  static String _extractPhoneNumber(String phone) {
+    final regex = RegExp(r'^\+\d+-(.+)$');
+    final match = regex.firstMatch(phone);
+    if (match != null) {
+      return match.group(1) ?? '';
+    }
+    return '';
+  }
 }

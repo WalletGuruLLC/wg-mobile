@@ -103,5 +103,12 @@
   "changeSuccessful": "Change Successful!",
   "changeFailure": "Change Failure",
   "profileChangedSuccess": "Your Profile is All Set!",
-  "profileChangedSuccessBody": "Your profile is updated. Take a Look!"
+  "profileChangedSuccessBody": "Your profile is updated. Take a Look!",
+  "myInfo": "My Info",
+  "exit": "Exit",
+  "cancel": "Cancel",
+  "exitWithoutSaving": "Exit without saving?",
+  "changesMayNotBeSaved": "Changes may not be saved",
+  "selectFromCamera": "Select From Camera",
+  "selectFromDevice": "Select From Device"
 }

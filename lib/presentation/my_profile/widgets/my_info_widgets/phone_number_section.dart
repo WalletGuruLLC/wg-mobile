@@ -5,15 +5,19 @@ import 'package:wallet_guru/presentation/core/widgets/forms/country_code_form.da
 import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.dart';
 
 class PhoneNumberFormSection extends StatelessWidget {
-  final String initialValue;
+  final String codeInitialValue;
+  final String phoneInitialValue;
   final bool readOnly;
-  final void Function(String?) onChanged;
+  final void Function(String?) onPhoneChanged;
+  final void Function(String?) onCodeChanged;
   final Widget fieldActivatorWidget;
 
   const PhoneNumberFormSection({
-    required this.initialValue,
+    required this.phoneInitialValue,
+    required this.codeInitialValue,
     required this.readOnly,
-    required this.onChanged,
+    required this.onPhoneChanged,
+    required this.onCodeChanged,
     required this.fieldActivatorWidget,
     super.key,
   });
@@ -25,13 +29,21 @@ class PhoneNumberFormSection extends StatelessWidget {
         BlocBuilder<CreateProfileCubit, CreateProfileState>(
           builder: (context, state) {
             final uniqueCountriesCode = state.countriesCode.toSet().toList();
+            String adjustedCodeInitialValue =
+                uniqueCountriesCode.contains(codeInitialValue)
+                    ? codeInitialValue
+                    : uniqueCountriesCode.isNotEmpty
+                        ? uniqueCountriesCode.first
+                        : '';
+
             return CountryCodeForm(
+              initialValue: adjustedCodeInitialValue,
               items: uniqueCountriesCode,
               onChanged: (value) {
                 if (value != null) {
                   BlocProvider.of<CreateProfileCubit>(context)
                       .selectCountryCode(value);
-                  onChanged(value);
+                  onCodeChanged(value);
                 }
               },
             );
@@ -42,8 +54,8 @@ class PhoneNumberFormSection extends StatelessWidget {
             padding: const EdgeInsets.only(left: 5),
             child: PhoneNumberForm(
               readOnly: readOnly,
-              initialValue: initialValue,
-              onChanged: onChanged,
+              initialValue: phoneInitialValue,
+              onChanged: onPhoneChanged,
               fieldActivatorWidget: fieldActivatorWidget,
             ),
           ),

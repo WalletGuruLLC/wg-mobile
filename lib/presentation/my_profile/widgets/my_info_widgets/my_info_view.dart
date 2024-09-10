@@ -17,7 +17,7 @@ import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/coun
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/phone_number_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/save_button.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_section.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/profile_header.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_header.dart';
 
 class MyInfoView extends StatefulWidget {
   const MyInfoView({super.key});
@@ -73,10 +73,14 @@ class _MyInfoViewState extends State<MyInfoView> {
             SizedBox(height: size * 0.015),
             FormLabel(label: l10n.phoneNumber),
             PhoneNumberFormSection(
-              initialValue: user?.phone ?? '',
+              codeInitialValue: user?.phoneCode ?? '',
+              phoneInitialValue: user?.phone ?? '',
               readOnly: readOnly,
-              onChanged: (value) {
+              onPhoneChanged: (value) {
                 userCubit.updateUser(phone: value);
+              },
+              onCodeChanged: (value) {
+                userCubit.updateUser(phoneCode: value);
               },
               fieldActivatorWidget: _buildFieldActivatorWidget(),
             ),

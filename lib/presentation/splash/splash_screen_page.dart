@@ -47,7 +47,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       showBackButton: false,
-      showBottomNavigationBar: true,
+      showBottomNavigationBar: false,
       showAppBar: false,
       children: [
         Padding(

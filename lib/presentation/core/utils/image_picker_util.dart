@@ -1,4 +1,5 @@
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ImagePickerService {
   static Future<XFile?> pickImageBytesFromGallery() async {
@@ -24,6 +25,13 @@ class ImagePickerService {
     } else {
       // Handle the case where the user cancels the picker
       return null;
+    }
+  }
+
+  static Future<void> requestCameraPermission() async {
+    var status = await Permission.camera.status;
+    if (!status.isGranted) {
+      await Permission.camera.request();
     }
   }
 }

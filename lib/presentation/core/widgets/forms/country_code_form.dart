@@ -21,6 +21,7 @@ class CountryCodeForm extends StatelessWidget {
     String hintText = l10n.selectYourCountryCode;
 
     return BaseDropdown(
+      initialValue: initialValue,
       width: 80,
       hintText: hintText,
       items: items,

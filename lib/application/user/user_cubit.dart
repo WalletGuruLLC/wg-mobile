@@ -15,8 +15,7 @@ class UserCubit extends Cubit<UserState> {
   UserCubit() : super(const UserState());
 
   void emitGetUserInformation() async {
-    final registerResponse =
-        await userRepository.getCurrentUserInformation(state.userId);
+    final registerResponse = await userRepository.getCurrentUserInformation();
 
     registerResponse.fold(
       (error) {
@@ -58,6 +57,7 @@ class UserCubit extends Cubit<UserState> {
     String? stateLocation,
     String? lastName,
     String? firstName,
+    String? phoneCode,
     bool? active,
   }) {
     final updatedUser = state.user?.copyWith(
@@ -71,6 +71,7 @@ class UserCubit extends Cubit<UserState> {
       lastName: lastName,
       firstName: firstName,
       active: active,
+      phoneCode: phoneCode,
     );
 
     emit(state.copyWith(user: updatedUser, userHasChanged: true));
@@ -85,7 +86,14 @@ class UserCubit extends Cubit<UserState> {
     if (currentUserMap != null && initialUserMap != null) {
       currentUserMap.forEach((key, value) {
         if (value != initialUserMap[key]) {
-          changes[key] = value;
+          if (key == 'phone' || key == 'phoneCode') {
+            // Combinar phone y phoneCode en un solo campo phone
+            final combinedPhone =
+                '${state.user?.phoneCode}-${state.user?.phone}';
+            changes['phone'] = combinedPhone;
+          } else {
+            changes[key] = value;
+          }
         }
       });
     }
@@ -98,7 +106,7 @@ class UserCubit extends Cubit<UserState> {
     final changedFields = getChangedFields();
     if (changedFields.isNotEmpty) {
       final updatedUser = await userRepository.updateUserInformation(
-          changedFields, state.userId);
+          changedFields, state.user!.id);
       updatedUser.fold(
         (error) {
           emit(state.copyWith(
@@ -167,5 +175,12 @@ class UserCubit extends Cubit<UserState> {
         ));
       },
     );
+  }
+
+  void resetInitialUser() {
+    emit(state.copyWith(
+      userHasChanged: false,
+      user: state.initialUser,
+    ));
   }
 }

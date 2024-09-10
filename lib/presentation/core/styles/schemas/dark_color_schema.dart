@@ -116,4 +116,7 @@ class DarkColorScheme implements AppCustomColors {
 
   @override
   Color get modalPrincipalColor => const Color(0xFFFAFAFA);
+
+  @override
+  Color get buttonTertiaryColor => const Color(0xFFF5F5F5);
 }
