@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/app_top_bar.dart';
-import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
 
 class WalletGuruLayout extends StatelessWidget {
   final List<Widget> children;
