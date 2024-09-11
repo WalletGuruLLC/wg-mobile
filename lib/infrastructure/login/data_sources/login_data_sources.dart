@@ -74,9 +74,7 @@ class LoginDataSource {
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       ResponseModel logOutResponseModel = ResponseModel.fromJson(result);
-      final storage = await SharedPreferences.getInstance();
-      storage.remove('Basic');
-
+      HttpDataSource.cleanHeardes();
       return logOutResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
