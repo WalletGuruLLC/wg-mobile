@@ -54,6 +54,7 @@ dependencies:
   marquee_text: ^2.5.0+1
   package_info_plus: ^8.0.2
   flutter_launcher_icons: ^0.13.1
+  url_launcher: ^6.3.0
 
   
 
