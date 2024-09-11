@@ -3,15 +3,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
-import 'package:wallet_guru/presentation/change_password/widgets/change_password_button.dart';
-import 'package:wallet_guru/presentation/core/assets/assets.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/current_password_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/password_form.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/current_password_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/password_confirm_form.dart';
+import 'package:wallet_guru/presentation/change_password/widgets/change_password_button.dart';
 
 enum PasswordFieldType {
   current,
@@ -49,9 +48,6 @@ class ChangePasswordFormState extends State<ChangePasswordForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: size * 0.025),
-          Image.asset(Assets.iconLogo),
-          SizedBox(height: size * 0.05),
           const AuthLoginDivider(),
           TextBase(
             text: l10n.changePassword,
