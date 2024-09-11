@@ -65,11 +65,8 @@ class _MyInfoViewState extends State<MyInfoView> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProfileHeaderWidget(
+            const ProfileHeaderWidget(
               isOnTapAvailable: true,
-              name: user?.fullName ?? '',
-              avatarImage:
-                  'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg',
             ),
             SizedBox(height: size * 0.015),
             FormLabel(label: l10n.phoneNumber),

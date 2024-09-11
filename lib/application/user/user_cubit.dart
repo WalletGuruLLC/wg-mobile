@@ -47,6 +47,7 @@ class UserCubit extends Cubit<UserState> {
     String? firstName,
     String? phoneCode,
     bool? active,
+    String? picture,
   }) {
     final updatedUser = state.user?.copyWith(
       email: email,
@@ -60,6 +61,7 @@ class UserCubit extends Cubit<UserState> {
       firstName: firstName,
       active: active,
       phoneCode: phoneCode,
+      picture: picture,
     );
 
     emit(state.copyWith(user: updatedUser, userHasChanged: true));

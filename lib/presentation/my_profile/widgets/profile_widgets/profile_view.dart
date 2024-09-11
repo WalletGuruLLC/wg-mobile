@@ -18,13 +18,11 @@ class MyProfileMainView extends StatelessWidget {
     userCubit.resetInitialUser();
     userCubit.resetFormStatus();
     userCubit.resetFormStatusLockAccount();
-    final userFullName = userCubit.state.user!.fullName;
-    String imgURL =
-        'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg';
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        ProfileHeaderWidget(name: userFullName, avatarImage: imgURL),
+        const ProfileHeaderWidget(),
         SizedBox(height: size.height * .1),
         ProfileOption(
           optionTitle: l10n.myInfo,
