@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/login/widgets/authentication_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/appbar/appbar_logo_widget.dart';
 
 class AuthenticationPage extends StatelessWidget {
   const AuthenticationPage({super.key, required this.email});
@@ -12,7 +13,7 @@ class AuthenticationPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
       showSafeArea: true,
-      showAppBar: false,
+      appBar: appBarLogoWidget(context),
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

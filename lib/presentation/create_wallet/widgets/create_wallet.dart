@@ -1,12 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/application/login/login_cubit.dart';
-import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -70,10 +68,6 @@ class CreateWalletFormState extends State<CreateWalletForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Image.asset(
-            Assets.iconLogo,
-          ),
-          SizedBox(height: size * 0.05),
           const AuthLoginDivider(),
           TextBase(
             text: l10n.createWalletAddress,
