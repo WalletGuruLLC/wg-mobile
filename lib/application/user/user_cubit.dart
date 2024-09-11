@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/entities/user_entity.dart';
+import 'package:wallet_guru/domain/core/entities/wallet_entity.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 
@@ -185,11 +186,28 @@ class UserCubit extends Cubit<UserState> {
     ));
   }
 
+  void emitGetWalletInformation() async {
+    final updatedUser = await userRepository.getWalletInformation();
+    updatedUser.fold(
+      (error) {
+        emit(state.copyWith(
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (updatedUser) {
+        emit(state.copyWith(
+            wallet: WalletEntity.fromWallet(updatedUser.data!.wallet!)));
+      },
+    );
+  }
+
   void emitLockAccount() async {
     emit(
       state.copyWith(formStatusLockAccount: FormSubmitting()),
     );
-    final updatedUser = await userRepository.lockAccount();
+    final updatedUser = await userRepository.lockAccount(state.wallet!.id);
     updatedUser.fold(
       (error) {
         emit(state.copyWith(

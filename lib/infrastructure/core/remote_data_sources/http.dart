@@ -16,6 +16,12 @@ class HttpDataSource {
     }
   }
 
+  static void cleanHeaders() async {
+    final storage = await SharedPreferences.getInstance();
+    storage.remove('Basic');
+    _headers.clear();
+  }
+
   // Parses a JSON string into a Map
   // Returns: Map<String, dynamic>
   static dynamic decode(String response) => json.decode(response);

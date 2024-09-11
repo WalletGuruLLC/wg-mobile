@@ -55,8 +55,23 @@ class UserDataSource {
     }
   }
 
-  Future<ResponseModel> lockAccount() async {
-    var response = await HttpDataSource.post(UserNetwork.lockAccount, {});
+  Future<ResponseModel> lockAccount(String userIdRole) async {
+    var response = await HttpDataSource.patch(
+        '${UserNetwork.lockAccount}$userIdRole/toggle}', {});
+
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel registerModel = ResponseModel.fromJson(result);
+      return registerModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
+
+  Future<ResponseModel> getWalletInformation() async {
+    var response = await HttpDataSource.get(UserNetwork.getWalletInformation);
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {

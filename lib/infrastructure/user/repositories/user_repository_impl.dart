@@ -45,9 +45,22 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<InvalidData, ResponseModel>> lockAccount() async {
+  Future<Either<InvalidData, ResponseModel>> lockAccount(
+      String walletAddressId) async {
     try {
-      final ResponseModel response = await userDataSource.lockAccount();
+      final ResponseModel response =
+          await userDataSource.lockAccount(walletAddressId);
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> getWalletInformation() async {
+    try {
+      final ResponseModel response =
+          await userDataSource.getWalletInformation();
       return Right(response);
     } on InvalidData catch (invalidData) {
       return Left(invalidData);

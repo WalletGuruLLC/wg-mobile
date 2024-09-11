@@ -9,5 +9,7 @@ abstract class UserRepository {
 
   Future<Either<InvalidData, ResponseModel>> changePassword(
       String email, String currentPassword, String newPassword);
-  Future<Either<InvalidData, ResponseModel>> lockAccount();
+  Future<Either<InvalidData, ResponseModel>> lockAccount(
+      String walletAddressId);
+  Future<Either<InvalidData, ResponseModel>> getWalletInformation();
 }
