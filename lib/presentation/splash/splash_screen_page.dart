@@ -60,7 +60,6 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         showBackButton: false,
         showBottomNavigationBar: false,
-        showAppBar: false,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40.0),
