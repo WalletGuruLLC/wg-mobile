@@ -1,15 +1,15 @@
 import 'package:go_router/go_router.dart';
 
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/change_password/page/change_password_page.dart';
 import 'package:wallet_guru/presentation/home/page/home_page.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
+import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
 import 'package:wallet_guru/presentation/my_profile/pages/my_info_page.dart';
 import 'package:wallet_guru/presentation/my_profile/pages/profile_page.dart';
-import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
 import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
 import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
+import 'package:wallet_guru/presentation/change_password/page/change_password_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_first_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
