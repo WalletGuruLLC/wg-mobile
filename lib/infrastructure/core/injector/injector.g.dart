@@ -53,4 +53,15 @@ class _$Injector extends Injector {
       ..registerFactory<UserRepository>((c) =>
           UserRepositoryImpl(userDataSource: c.resolve<UserDataSource>()));
   }
+
+  @override
+  void _configureTranslationsErrorModuleFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => TranslationsErrorDataSources())
+      ..registerFactory<TranslationsErrorRepository>((c) =>
+          TranslationsErrorRepositoryImpl(
+              translationsErrorDataSources:
+                  c.resolve<TranslationsErrorDataSources>()));
+  }
 }
