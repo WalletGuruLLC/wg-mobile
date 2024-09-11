@@ -48,25 +48,44 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SizedBox(
             height: size.height * .1,
+            width: size.height * .1, // Para mantener la proporción cuadrada
             child: GestureDetector(
               onTap: () {
                 if (widget.isOnTapAvailable!) {
                   showModal(context);
-                } else {
-                  null;
                 }
               },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: image != null
-                    ? Image.memory(
-                        image!,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.network(
-                        widget.avatarImage,
-                        fit: BoxFit.cover,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: image != null
+                        ? Image.memory(
+                            image!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          )
+                        : Image.network(
+                            widget.avatarImage,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
+                  ),
+                  if (widget.isOnTapAvailable!)
+                    Center(
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey.withOpacity(0.7),
+                        radius: 14,
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 16,
+                        ),
                       ),
+                    ),
+                ],
               ),
             ),
           ),

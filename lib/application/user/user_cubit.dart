@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/entities/user_entity.dart';
 import 'package:wallet_guru/domain/core/entities/wallet_entity.dart';
-import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
@@ -36,18 +35,6 @@ class UserCubit extends Cubit<UserState> {
     );
   }
 
-  void setUserId(String? userId) {
-    emit(state.copyWith(userId: userId));
-  }
-
-  void setUser(User user) {
-    emit(state.copyWith(
-      user: UserEntity.fromUser(user),
-      initialUser: UserEntity.fromUser(user),
-      userId: user.id,
-    ));
-  }
-
   void updateUser({
     String? email,
     String? phone,
@@ -78,7 +65,6 @@ class UserCubit extends Cubit<UserState> {
     emit(state.copyWith(user: updatedUser, userHasChanged: true));
   }
 
-  // Obtener los campos modificados
   Map<String, dynamic> getChangedFields() {
     final currentUserMap = state.user?.toMap();
     final initialUserMap = state.initialUser?.toMap();
@@ -102,7 +88,6 @@ class UserCubit extends Cubit<UserState> {
     return changes;
   }
 
-  // Enviar los cambios detectados al backend
   Future<void> submitUserChanges() async {
     emit(state.copyWith(formStatus: FormSubmitting()));
     final changedFields = getChangedFields();
@@ -231,5 +216,9 @@ class UserCubit extends Cubit<UserState> {
 
   void resetFormStatusLockAccount() {
     emit(state.copyWith(formStatusLockAccount: const InitialFormStatus()));
+  }
+
+  void submitUserPicture(String? picture) async {
+    emit(state.copyWith(formStatus: FormSubmitting()));
   }
 }
