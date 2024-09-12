@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/register/widgets/register_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/appbar/appbar_logo_widget.dart';
 
 class RegisterPages extends StatelessWidget {
   const RegisterPages({super.key});
@@ -13,7 +12,7 @@ class RegisterPages extends StatelessWidget {
     return WalletGuruLayout(
       showBackButton: false,
       showBottomNavigationBar: false,
-      appBar: appBarLogoWidget(context),
+      showNotLoggedAppBar: true,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

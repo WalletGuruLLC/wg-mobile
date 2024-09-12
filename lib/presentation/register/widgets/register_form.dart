@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/application/settings/settings_state.dart';
+import 'package:wallet_guru/application/settings/settings_cubit.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -28,11 +31,25 @@ class RegisterFormState extends State<RegisterForm> {
   String? _password;
   String? _passwordConfirm;
   late RegisterCubit registerCubit;
+  bool acceptTerms = false;
+  bool acceptPrivacy = false;
+
+  String termsUrl = '';
+  String privacyUrl = '';
 
   @override
   void initState() {
     registerCubit = BlocProvider.of<RegisterCubit>(context);
+    BlocProvider.of<SettingsCubit>(context).loadSettings();
     super.initState();
+  }
+
+  void _launchURL(String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -46,7 +63,6 @@ class RegisterFormState extends State<RegisterForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: size * 0.05),
           const AuthLoginDivider(),
           TextBase(
             text: l10n.title_register,
@@ -76,7 +92,63 @@ class RegisterFormState extends State<RegisterForm> {
             onChanged: _onPasswordConfirmChanged,
           ),
           SizedBox(height: size * 0.025),
-          SizedBox(height: size * 0.2),
+          BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsLoaded) {
+                final termsSetting = state.settings
+                    .firstWhere((s) => s.key == 'terms-condition');
+                final privacySetting =
+                    state.settings.firstWhere((s) => s.key == 'privacy-police');
+                termsUrl = termsSetting.value;
+                privacyUrl = privacySetting.value;
+              }
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: acceptTerms,
+                        activeColor: AppColorSchema.of(context).tertiaryText,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            acceptTerms = value!;
+                          });
+                        },
+                      ),
+                      GestureDetector(
+                        onTap: () => _launchURL(termsUrl),
+                        child: TextBase(
+                          text: l10n.accept_terms_and_conditions,
+                          color: AppColorSchema.of(context).tertiaryText,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: acceptPrivacy,
+                        activeColor: AppColorSchema.of(context).tertiaryText,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            acceptPrivacy = value!;
+                          });
+                        },
+                      ),
+                      GestureDetector(
+                        onTap: () => _launchURL(privacyUrl),
+                        child: TextBase(
+                          text: l10n.accept_privacy_policy,
+                          color: AppColorSchema.of(context).tertiaryText,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
+          SizedBox(height: size * 0.1),
           BlocConsumer<RegisterCubit, RegisterState>(
             listener: (context, state) {
               if (state.formStatus is SubmissionSuccess) {
