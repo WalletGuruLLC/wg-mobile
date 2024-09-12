@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/widgets/appbar/app_top_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/my_info_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,7 +41,11 @@ class MyInfoPage extends StatelessWidget {
       canPop: false,
       child: WalletGuruLayout(
         showSafeArea: true,
-        showAppBar: true,
+        /*appBar: WalletGuruAppBar(
+              title: l10n.myInfo,
+              action: handleAction,
+              //showSimpleStyle: showSimpleStyle,
+            ),*/
         showBottomNavigationBar: false,
         pageAppBarTitle: l10n.myInfo,
         actionAppBar: handleAction,

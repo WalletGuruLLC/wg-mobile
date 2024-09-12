@@ -11,7 +11,6 @@ class SettingsDataSource {
       SettingsNetwork.getSetting,
     );
     final result = jsonDecode(response.body);
-
     if (response.statusCode == 200) {
       final translationsList = result['data'] as List;
       return translationsList
