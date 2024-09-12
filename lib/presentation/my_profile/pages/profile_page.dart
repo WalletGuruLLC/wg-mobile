@@ -17,11 +17,7 @@ class MyProfilePage extends StatelessWidget {
       canPop: false,
       child: WalletGuruLayout(
         showSafeArea: true,
-        /*appBar: WalletGuruAppBar(
-              title: l10n.myInfo,
-              action: handleAction,
-              //showSimpleStyle: showSimpleStyle,
-            ),*/
+        showLoggedUserAppBar: true,
         showBottomNavigationBar: true,
         actionAppBar: () {
           GoRouter.of(context).pushReplacementNamed(

@@ -18,7 +18,7 @@ class CreateProfileFirstPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
       showSafeArea: true,
-      appBar: appBarLogoWidget(context),
+      showNotLoggedAppBar: true,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
