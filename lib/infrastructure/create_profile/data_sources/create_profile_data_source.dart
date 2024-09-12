@@ -13,6 +13,7 @@ class CreateProfileDataSource {
       "${CreateProfileNetwork.updateUser}${entity.id}",
       entity.toJson(),
     );
+    print(entity.toJson());
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       ResponseModel createProfileModel = ResponseModel.fromJson(result);

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:wallet_guru/domain/core/models/response_model.dart';
 
 class UserEntity {
@@ -14,6 +16,7 @@ class UserEntity {
   final String id;
   final bool active;
   final String phoneCode;
+  final File pictureFile;
 
   UserEntity({
     required this.email,
@@ -29,6 +32,7 @@ class UserEntity {
     required this.address,
     required this.stateLocation,
     required this.phoneCode,
+    required this.pictureFile,
   });
 
   UserEntity copyWith({
@@ -46,6 +50,7 @@ class UserEntity {
     String? id,
     bool? active,
     String? phoneCode,
+    File? pictureFile,
   }) {
     return UserEntity(
       email: email ?? this.email,
@@ -61,6 +66,7 @@ class UserEntity {
       address: address ?? this.address,
       stateLocation: stateLocation ?? this.stateLocation,
       phoneCode: phoneCode ?? this.phoneCode,
+      pictureFile: pictureFile ?? this.pictureFile,
     );
   }
 
@@ -79,6 +85,7 @@ class UserEntity {
       "id": id,
       "active": active,
       "phoneCode": phoneCode,
+      "pictureFile": pictureFile,
     };
   }
 
@@ -99,6 +106,7 @@ class UserEntity {
       id: user.id,
       active: user.active,
       phoneCode: phoneCode,
+      pictureFile: File(''),
     );
   }
 

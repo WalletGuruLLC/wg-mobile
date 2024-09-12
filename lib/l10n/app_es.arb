@@ -114,5 +114,6 @@
 "selectFromCamera": "Selecciona desde la cámara",
 "selectFromDevice": "Selecciona desde el dispositivo",
 "lockAccount": "Bloquear tu billetera",
-"lockAccountConfirmation": "¿Quieres bloquear tu billetera? Puedes desbloquearla en cualquier momento"
+"lockAccountConfirmation": "¿Quieres bloquear tu billetera? Puedes desbloquearla en cualquier momento",
+"unlockAccountConfirmation": "¿Quieres desbloquear tu billetera? Puedes bloquearla en cualquier momento"
 }

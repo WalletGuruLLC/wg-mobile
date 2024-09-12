@@ -114,6 +114,7 @@
   "selectFromCamera": "Select From Camera",
   "selectFromDevice": "Select From Device",
   "lockAccount": "Lock your wallet",
-  "lockAccountConfirmation": "Do you want to lock your wallet? You can unlock it at any time"
+  "lockAccountConfirmation": "Do you want to lock your wallet? You can unlock it at any time",
+  "unlockAccountConfirmation": "Do you want to unlock your wallet? You can lock it at any time"
 
 }
