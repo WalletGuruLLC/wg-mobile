@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-
-import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/appbar/app_top_bar.dart';
+import 'package:wallet_guru/presentation/core/widgets/appbar/appbar_logo_widget.dart';
+import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
 
 class WalletGuruLayout extends StatelessWidget {
   final List<Widget> children;
   final MainAxisAlignment? mainAxisAlignment;
   final CrossAxisAlignment? crossAxisAlignment;
-  final AppBar? appBar;
+  final bool showLoggedUserAppBar;
   final bool showBackButton;
   final bool showSafeArea;
   final bool isTransparent;
@@ -15,17 +16,19 @@ class WalletGuruLayout extends StatelessWidget {
   final String? pageAppBarTitle;
   final void Function()? actionAppBar;
   final bool showSimpleStyle;
+  final bool showNotLoggedAppBar;
   const WalletGuruLayout({
     super.key,
     required this.children,
     this.mainAxisAlignment,
     this.crossAxisAlignment,
     this.pageAppBarTitle,
-    this.appBar,
+    this.showLoggedUserAppBar = false,
     this.showBackButton = false,
     this.showSafeArea = false,
     this.isTransparent = false,
     this.showBottomNavigationBar = false,
+    this.showNotLoggedAppBar = false,
     this.actionAppBar,
     this.showSimpleStyle = true,
   });
@@ -37,7 +40,15 @@ class WalletGuruLayout extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: AppColorSchema.of(context).scaffoldColor,
-        appBar: appBar,
+        appBar: showLoggedUserAppBar && !showNotLoggedAppBar
+            ? WalletGuruAppBar(
+                title: pageAppBarTitle!,
+                action: actionAppBar,
+                showSimpleStyle: showSimpleStyle,
+              )
+            : !showLoggedUserAppBar && showNotLoggedAppBar
+                ? appBarLogoWidget(context)
+                : null,
         body: SafeArea(
           top: showSafeArea,
           bottom: showSafeArea,
