@@ -64,4 +64,13 @@ class _$Injector extends Injector {
               translationsErrorDataSources:
                   c.resolve<TranslationsErrorDataSources>()));
   }
+
+  @override
+  void _configureSettingsrModuleFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => SettingsDataSource())
+      ..registerFactory<SettingsRepository>((c) => SettingsRepositoryImpl(
+          settingsDataSource: c.resolve<SettingsDataSource>()));
+  }
 }

@@ -1,8 +1,11 @@
 import 'package:kiwi/kiwi.dart';
+import 'package:wallet_guru/domain/settings/repositories/settings_repository.dart';
 
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 import 'package:wallet_guru/domain/login/repositories/login_repository.dart';
 import 'package:wallet_guru/domain/register/repositories/register_repository.dart';
+import 'package:wallet_guru/infrastructure/settings/data_sources/settings_data_source.dart';
+import 'package:wallet_guru/infrastructure/settings/repositories/settings_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/user/data_sources/user_data_source.dart';
 import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 import 'package:wallet_guru/infrastructure/user/repositories/user_repository_impl.dart';
@@ -48,6 +51,7 @@ abstract class Injector {
     _configureCreateProfileModule();
     _configureUserModule();
     _configureTranslationsErrorModule();
+    _configureSettingsrModule();
   }
 
   void _configureRegisterModule() {
@@ -72,6 +76,10 @@ abstract class Injector {
 
   void _configureTranslationsErrorModule() {
     _configureTranslationsErrorModuleFactories();
+  }
+  
+  void _configureSettingsrModule() {
+    _configureSettingsrModuleFactories();
   }
 
   @Register.factory(RegisterDataSource)
@@ -98,4 +106,9 @@ abstract class Injector {
   @Register.factory(TranslationsErrorRepository,
       from: TranslationsErrorRepositoryImpl)
   void _configureTranslationsErrorModuleFactories();
+
+  @Register.factory(SettingsDataSource)
+  @Register.factory(SettingsRepository,
+      from: SettingsRepositoryImpl)
+  void _configureSettingsrModuleFactories();
 }
