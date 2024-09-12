@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/entities/user_entity.dart';
@@ -48,6 +50,7 @@ class UserCubit extends Cubit<UserState> {
     String? phoneCode,
     bool? active,
     String? picture,
+    File? pictureFile,
   }) {
     final updatedUser = state.user?.copyWith(
       email: email,
@@ -62,6 +65,7 @@ class UserCubit extends Cubit<UserState> {
       active: active,
       phoneCode: phoneCode,
       picture: picture,
+      pictureFile: pictureFile,
     );
 
     emit(state.copyWith(user: updatedUser, userHasChanged: true));
@@ -75,8 +79,8 @@ class UserCubit extends Cubit<UserState> {
     if (currentUserMap != null && initialUserMap != null) {
       currentUserMap.forEach((key, value) {
         if (value != initialUserMap[key]) {
+          if (key == 'picture' || key == 'pictureFile') return;
           if (key == 'phone' || key == 'phoneCode') {
-            // Combinar phone y phoneCode en un solo campo phone
             final combinedPhone =
                 '${state.user?.phoneCode}-${state.user?.phone}';
             changes['phone'] = combinedPhone;
@@ -93,6 +97,12 @@ class UserCubit extends Cubit<UserState> {
   Future<void> submitUserChanges() async {
     emit(state.copyWith(formStatus: FormSubmitting()));
     final changedFields = getChangedFields();
+    final picture = state.user?.pictureFile;
+
+    if (picture != state.initialUser?.picture) {
+      await submitUserPicture(state.user!.pictureFile, state.user!.id);
+    }
+
     if (changedFields.isNotEmpty) {
       final updatedUser = await userRepository.updateUserInformation(
           changedFields, state.user!.id);
@@ -220,7 +230,25 @@ class UserCubit extends Cubit<UserState> {
     emit(state.copyWith(formStatusLockAccount: const InitialFormStatus()));
   }
 
-  void submitUserPicture(String? picture) async {
-    emit(state.copyWith(formStatus: FormSubmitting()));
+  Future<void> submitUserPicture(File picture, String userId) async {
+    final updatedUser = await userRepository.updateUserPicture(picture, userId);
+    updatedUser.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (updatedUser) {
+        emit(state.copyWith(
+          formStatus: SubmissionSuccess(),
+          customCode: updatedUser.customCode,
+          customMessage: updatedUser.customMessage,
+          customMessageEs: updatedUser.customMessageEs,
+        ));
+      },
+    );
   }
 }

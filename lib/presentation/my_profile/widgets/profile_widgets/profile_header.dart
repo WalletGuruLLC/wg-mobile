@@ -6,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/utils/image_picker_util.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/create_profile/widgets/check_photo_modal.dart';
 
 class ProfileHeaderWidget extends StatefulWidget {
   final bool? isOnTapAvailable;
@@ -141,16 +143,21 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
     IconData icon,
     Future<void> Function() onTap,
   ) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        TextBase(
-          text: label,
-          color: Colors.black,
-          fontSize: 16,
-        ),
-        Icon(icon, size: 24),
-      ],
+    return GestureDetector(
+      onTap: () async {
+        await onTap();
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextBase(
+            text: label,
+            color: Colors.black,
+            fontSize: 16,
+          ),
+          Icon(icon, size: 24),
+        ],
+      ),
     );
   }
 
@@ -158,11 +165,11 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
     XFile? selectedImage = await ImagePickerService.pickImageBytesFromGallery();
     if (selectedImage != null) {
       Uint8List? imageBytes = await File(selectedImage.path).readAsBytes();
-      String base64Image = base64Encode(imageBytes);
       if (mounted) {
         setState(() {
           image = imageBytes;
-          BlocProvider.of<UserCubit>(context).updateUser(picture: base64Image);
+          BlocProvider.of<UserCubit>(context)
+              .updateUser(pictureFile: File(selectedImage.path));
         });
       }
     }
@@ -172,11 +179,11 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
     XFile? selectedImage = await ImagePickerService.pickImageBytesFromCamera();
     if (selectedImage != null) {
       Uint8List? imageBytes = await File(selectedImage.path).readAsBytes();
-      String base64Image = base64Encode(imageBytes);
       if (mounted) {
         setState(() {
           image = imageBytes;
-          BlocProvider.of<UserCubit>(context).updateUser(picture: base64Image);
+          BlocProvider.of<UserCubit>(context)
+              .updateUser(pictureFile: File(selectedImage.path));
         });
       }
     }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:either_dart/either.dart';
 import 'package:wallet_guru/domain/core/models/invalid_data.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
@@ -61,6 +63,18 @@ class UserRepositoryImpl extends UserRepository {
     try {
       final ResponseModel response =
           await userDataSource.getWalletInformation();
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> updateUserPicture(
+      File picture, String userId) async {
+    try {
+      final ResponseModel response =
+          await userDataSource.updateUserPicture(picture, userId);
       return Right(response);
     } on InvalidData catch (invalidData) {
       return Left(invalidData);
