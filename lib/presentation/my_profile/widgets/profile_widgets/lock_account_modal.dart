@@ -18,6 +18,9 @@ class LockAccountModal extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
+    final bool isWalletAvailable =
+        BlocProvider.of<UserCubit>(context).state.wallet!.active;
+
     return BaseModal(
       showCloseIcon: true,
       hasActions: false,
@@ -34,7 +37,9 @@ class LockAccountModal extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           TextBase(
-            text: l10n.lockAccountConfirmation,
+            text: isWalletAvailable
+                ? l10n.lockAccountConfirmation
+                : l10n.unlockAccountConfirmation,
             fontSize: 14,
             color: AppColorSchema.of(context).secondaryText,
             fontWeight: FontWeight.w400,
@@ -50,7 +55,6 @@ class LockAccountModal extends StatelessWidget {
                     Navigator.of(context).pop();
                     context.read<UserCubit>().resetFormStatusLockAccount();
                   } else if (state.formStatusLockAccount is SubmissionFailed) {
-                    //TODO DEFINE WHAT TO DO
                     Navigator.of(context).pop();
                     context.read<UserCubit>().resetFormStatusLockAccount();
                   }

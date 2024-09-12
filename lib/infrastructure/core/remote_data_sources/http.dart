@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:http_parser/http_parser.dart'; // Necesario para MediaType
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,12 @@ class HttpDataSource {
     if (basic != null) {
       _headers['Authorization'] = 'Bearer $basic';
     }
+  }
+
+  static void cleanHeaders() async {
+    final storage = await SharedPreferences.getInstance();
+    storage.remove('Basic');
+    _headers.clear();
   }
 
   // Parses a JSON string into a Map
@@ -88,6 +95,33 @@ class HttpDataSource {
     return _processResponse(response);
   }
 
+  static Future<dynamic> putMultipart(String path, File file) async {
+    await setHeaders();
+    String fieldName = 'file';
+    String filePath = file.path;
+    String mimeType = _getMimeType(filePath);
+
+    Uri uri = Uri.parse(path);
+    var request = http.MultipartRequest('PUT', uri);
+    request.headers.addAll(_headers);
+
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        fieldName,
+        filePath,
+        contentType: MediaType.parse(mimeType),
+      ),
+    );
+
+    try {
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      return response;
+    } on Exception catch (e) {
+      throw Exception('Error al subir el archivo: $e');
+    }
+  }
+
   // Processes the HTTP response and handles errors
   // Returns: Future with the decoded response body
   static dynamic _processResponse(http.Response response) {
@@ -104,6 +138,25 @@ class HttpDataSource {
       case 500:
       default:
         throw Exception(response);
+    }
+  }
+
+  static String _getMimeType(String filePath) {
+    final extension = filePath.split('.').last.toLowerCase();
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      case 'gif':
+        return 'image/gif';
+      case 'pdf':
+        return 'application/pdf';
+      case 'txt':
+        return 'text/plain';
+      default:
+        return 'application/octet-stream'; // Tipo MIME genérico
     }
   }
 }

@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/entities/user_entity.dart';
-import 'package:wallet_guru/domain/core/models/response_model.dart';
+import 'package:wallet_guru/domain/core/entities/wallet_entity.dart';
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
@@ -35,18 +37,6 @@ class UserCubit extends Cubit<UserState> {
     );
   }
 
-  void setUserId(String? userId) {
-    emit(state.copyWith(userId: userId));
-  }
-
-  void setUser(User user) {
-    emit(state.copyWith(
-      user: UserEntity.fromUser(user),
-      initialUser: UserEntity.fromUser(user),
-      userId: user.id,
-    ));
-  }
-
   void updateUser({
     String? email,
     String? phone,
@@ -59,6 +49,8 @@ class UserCubit extends Cubit<UserState> {
     String? firstName,
     String? phoneCode,
     bool? active,
+    String? picture,
+    File? pictureFile,
   }) {
     final updatedUser = state.user?.copyWith(
       email: email,
@@ -72,12 +64,13 @@ class UserCubit extends Cubit<UserState> {
       firstName: firstName,
       active: active,
       phoneCode: phoneCode,
+      picture: picture,
+      pictureFile: pictureFile,
     );
 
     emit(state.copyWith(user: updatedUser, userHasChanged: true));
   }
 
-  // Obtener los campos modificados
   Map<String, dynamic> getChangedFields() {
     final currentUserMap = state.user?.toMap();
     final initialUserMap = state.initialUser?.toMap();
@@ -86,8 +79,8 @@ class UserCubit extends Cubit<UserState> {
     if (currentUserMap != null && initialUserMap != null) {
       currentUserMap.forEach((key, value) {
         if (value != initialUserMap[key]) {
+          if (key == 'picture' || key == 'pictureFile') return;
           if (key == 'phone' || key == 'phoneCode') {
-            // Combinar phone y phoneCode en un solo campo phone
             final combinedPhone =
                 '${state.user?.phoneCode}-${state.user?.phone}';
             changes['phone'] = combinedPhone;
@@ -101,10 +94,15 @@ class UserCubit extends Cubit<UserState> {
     return changes;
   }
 
-  // Enviar los cambios detectados al backend
   Future<void> submitUserChanges() async {
     emit(state.copyWith(formStatus: FormSubmitting()));
     final changedFields = getChangedFields();
+    final picture = state.user?.pictureFile;
+
+    if (picture != state.initialUser?.picture) {
+      await submitUserPicture(state.user!.pictureFile, state.user!.id);
+    }
+
     if (changedFields.isNotEmpty) {
       final updatedUser = await userRepository.updateUserInformation(
           changedFields, state.user!.id);
@@ -185,11 +183,28 @@ class UserCubit extends Cubit<UserState> {
     ));
   }
 
+  void emitGetWalletInformation() async {
+    final updatedUser = await userRepository.getWalletInformation();
+    updatedUser.fold(
+      (error) {
+        emit(state.copyWith(
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (updatedUser) {
+        emit(state.copyWith(
+            wallet: WalletEntity.fromWallet(updatedUser.data!.wallet!)));
+      },
+    );
+  }
+
   void emitLockAccount() async {
     emit(
       state.copyWith(formStatusLockAccount: FormSubmitting()),
     );
-    final updatedUser = await userRepository.lockAccount();
+    final updatedUser = await userRepository.lockAccount(state.wallet!.id);
     updatedUser.fold(
       (error) {
         emit(state.copyWith(
@@ -213,5 +228,27 @@ class UserCubit extends Cubit<UserState> {
 
   void resetFormStatusLockAccount() {
     emit(state.copyWith(formStatusLockAccount: const InitialFormStatus()));
+  }
+
+  Future<void> submitUserPicture(File picture, String userId) async {
+    final updatedUser = await userRepository.updateUserPicture(picture, userId);
+    updatedUser.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (updatedUser) {
+        emit(state.copyWith(
+          formStatus: SubmissionSuccess(),
+          customCode: updatedUser.customCode,
+          customMessage: updatedUser.customMessage,
+          customMessageEs: updatedUser.customMessageEs,
+        ));
+      },
+    );
   }
 }

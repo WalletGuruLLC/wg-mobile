@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:wallet_guru/domain/core/models/invalid_data.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
@@ -55,8 +56,38 @@ class UserDataSource {
     }
   }
 
-  Future<ResponseModel> lockAccount() async {
-    var response = await HttpDataSource.post(UserNetwork.lockAccount, {});
+  Future<ResponseModel> lockAccount(String userIdRole) async {
+    var response = await HttpDataSource.patch(
+        '${UserNetwork.lockAccount}$userIdRole/toggle}', {});
+
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel registerModel = ResponseModel.fromJson(result);
+      return registerModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
+
+  Future<ResponseModel> getWalletInformation() async {
+    var response = await HttpDataSource.get(UserNetwork.getWalletInformation);
+
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel registerModel = ResponseModel.fromJson(result);
+      return registerModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
+
+  Future<ResponseModel> updateUserPicture(File picture, String userId) async {
+    var response = await HttpDataSource.putMultipart(
+        '${UserNetwork.updateUserPicture}$userId', picture);
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
