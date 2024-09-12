@@ -6,6 +6,8 @@
   "title_register": "Sign Up",
   "description_register": "To create an account, please complete the following information.",
   "confirm_password": "Confirm Password",
+  "accept_terms_and_conditions": "I accept the terms and conditions",
+  "accept_privacy_policy": "I accept the privacy policy",
   "login": "Login",
   "sing_up_here": "Don't have an account? Sign up here",
   "forgot_password": "Forgot password?",

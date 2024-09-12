@@ -5,6 +5,7 @@ import 'package:wallet_guru/application/create_wallet/create_wallet_cubit.dart';
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
+import 'package:wallet_guru/application/translations_error/translation_error_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 
 class WalletGuruStateProvider extends StatelessWidget {
@@ -32,6 +33,9 @@ class WalletGuruStateProvider extends StatelessWidget {
       ),
       BlocProvider.value(
         value: UserCubit(),
+      ),
+      BlocProvider.value(
+        value: TranslationErrorCubit(),
       ),
     ], child: child);
   }

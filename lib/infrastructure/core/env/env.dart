@@ -8,4 +8,7 @@ abstract class Env {
 
   @EnviedField(varName: 'BASE_URL_WALLET', obfuscate: true)
   static final String baseUrlWallet = _Env.baseUrlWallet;
+  
+  @EnviedField(varName: 'BASE_URL_CODES', obfuscate: true)
+  static final String baseUrlCodes = _Env.baseUrlCodes;
 }

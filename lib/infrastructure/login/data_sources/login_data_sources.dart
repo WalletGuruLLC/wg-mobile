@@ -74,7 +74,7 @@ class LoginDataSource {
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       ResponseModel logOutResponseModel = ResponseModel.fromJson(result);
-      HttpDataSource.cleanHeaders();
+      HttpDataSource.cleanHeardes();
       return logOutResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);

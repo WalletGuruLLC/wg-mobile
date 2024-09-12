@@ -17,7 +17,7 @@ class HttpDataSource {
     }
   }
 
-  static void cleanHeaders() async {
+  static void cleanHeardes() async {
     final storage = await SharedPreferences.getInstance();
     storage.remove('Basic');
     _headers.clear();

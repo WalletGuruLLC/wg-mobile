@@ -1,12 +1,16 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/application/translations_error/translation_error_state.dart';
+import 'package:wallet_guru/application/translations_error/translation_error_cubit.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
@@ -23,9 +27,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   void initState() {
     super.initState();
     _initPackageInfo();
-    _timer = Timer(const Duration(seconds: 1), () {
-      GoRouter.of(context).pushNamed(Routes.logIn.name);
-    });
+    String lang = Intl.getCurrentLocale();
+    BlocProvider.of<TranslationErrorCubit>(context).loadTranslations(lang);
   }
 
   Future<void> _initPackageInfo() async {
@@ -43,28 +46,37 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WalletGuruLayout(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      showBackButton: false,
-      showBottomNavigationBar: false,
-      showAppBar: false,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40.0),
-          child: Image.asset(
-            Assets.iconLogoSplash,
-            fit: BoxFit.scaleDown,
+    return BlocListener<TranslationErrorCubit, TranslationErrorState>(
+      listener: (context, state) {
+        if (state is TranslationLoaded) {
+          GoRouter.of(context).pushNamed(Routes.logIn.name);
+        } else if (state is TranslationError) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Error: ${state.message}')));
+        }
+      },
+      child: WalletGuruLayout(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        showBackButton: false,
+        showBottomNavigationBar: false,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            child: Image.asset(
+              Assets.iconLogoSplash,
+              fit: BoxFit.scaleDown,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          'Version $_version',
-          style: GoogleFonts.montserrat(
-            color: Colors.blue,
+          const SizedBox(height: 20),
+          Text(
+            'Version $_version',
+            style: GoogleFonts.montserrat(
+              color: Colors.blue,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

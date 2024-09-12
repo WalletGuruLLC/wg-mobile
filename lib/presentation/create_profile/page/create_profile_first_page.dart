@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
+import 'package:wallet_guru/presentation/core/widgets/appbar/appbar_logo_widget.dart';
 import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_first_form.dart';
 
 class CreateProfileFirstPage extends StatelessWidget {
@@ -16,7 +18,7 @@ class CreateProfileFirstPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
       showSafeArea: true,
-      showAppBar: false,
+      appBar: appBarLogoWidget(context),
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

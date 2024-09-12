@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/presentation/core/assets/assets.dart';
 
-import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
 
 class UserProfileDescription extends StatelessWidget {
   const UserProfileDescription({super.key});
@@ -16,10 +15,6 @@ class UserProfileDescription extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(
-          Assets.iconLogo,
-        ),
-        SizedBox(height: size * 0.04),
         const AuthLoginDivider(),
         TextBase(
           text: l10n.userProfile,
