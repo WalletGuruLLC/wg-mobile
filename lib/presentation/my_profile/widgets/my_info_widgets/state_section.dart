@@ -20,7 +20,7 @@ class StateFormSection extends StatelessWidget {
         final createProfileCubit = context.read<CreateProfileCubit>();
         return StateForm(
           initialValue: initialValue,
-          enabled: state.country.isNotEmpty,
+          enabled: state.states.isNotEmpty,
           items: state.states.isNotEmpty ? state.states : [''],
           onChanged: (value) {
             if (value != null) {

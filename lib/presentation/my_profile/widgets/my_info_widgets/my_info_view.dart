@@ -27,6 +27,7 @@ class MyInfoView extends StatefulWidget {
 }
 
 class _MyInfoViewState extends State<MyInfoView> {
+  final _formKey = GlobalKey<FormState>();
   late UserCubit userCubit;
   late CreateProfileCubit createProfileCubit;
 
@@ -62,73 +63,80 @@ class _MyInfoViewState extends State<MyInfoView> {
       },
       builder: (context, state) {
         final user = state.user;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const ProfileHeaderWidget(
-              isOnTapAvailable: true,
-            ),
-            SizedBox(height: size * 0.015),
-            FormLabel(label: l10n.phoneNumber),
-            PhoneNumberFormSection(
-              codeInitialValue: user?.phoneCode ?? '',
-              phoneInitialValue: user?.phone ?? '',
-              readOnly: readOnly,
-              onPhoneChanged: (value) {
-                userCubit.updateUser(phone: value);
-              },
-              onCodeChanged: (value) {
-                userCubit.updateUser(phoneCode: value);
-              },
-              fieldActivatorWidget: _buildFieldActivatorWidget(),
-            ),
-            SizedBox(height: size * 0.015),
-            FormLabel(label: l10n.country),
-            CountryFormSection(
-              initialValue: user?.country ?? '',
-              onChanged: (value) {
-                userCubit.updateUser(country: value);
-              },
-            ),
-            SizedBox(height: size * 0.015),
-            FormLabel(label: l10n.state),
-            StateFormSection(
-              initialValue: user?.stateLocation ?? '',
-              onChanged: (value) {
-                userCubit.updateUser(stateLocation: value);
-              },
-            ),
-            SizedBox(height: size * 0.015),
-            FormLabel(label: l10n.city),
-            CityFormSection(
-              initialValue: user?.city ?? '',
-              onChanged: (value) {
-                userCubit.updateUser(city: value);
-              },
-            ),
-            SizedBox(height: size * 0.015),
-            FormLabel(label: l10n.zipCode),
-            ZipCodeForm(
-              readOnly: readOnly,
-              initialValue: user?.zipCode ?? '',
-              onChanged: (value) {
-                userCubit.updateUser(zipCode: value);
-              },
-              fieldActivatorWidget: _buildFieldActivatorWidget(),
-            ),
-            SizedBox(height: size * 0.015),
-            FormLabel(label: l10n.address),
-            AddressForm(
-              readOnly: readOnly,
-              initialValue: user?.address ?? '',
-              onChanged: (value) {
-                userCubit.updateUser(address: value);
-              },
-              fieldActivatorWidget: _buildFieldActivatorWidget(),
-            ),
-            SizedBox(height: size * 0.025),
-            const SaveButton(),
-          ],
+        print('user: $user');
+        return Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const ProfileHeaderWidget(
+                isOnTapAvailable: true,
+              ),
+              SizedBox(height: size * 0.015),
+              FormLabel(label: l10n.phoneNumber),
+              PhoneNumberFormSection(
+                codeInitialValue: user?.phoneCode ?? '',
+                phoneInitialValue: user?.phone ?? '',
+                readOnly: readOnly,
+                onPhoneChanged: (value) {
+                  userCubit.updateUser(phone: value);
+                },
+                onCodeChanged: (value) {
+                  userCubit.updateUser(phoneCode: value);
+                },
+                fieldActivatorWidget: _buildFieldActivatorWidget(),
+              ),
+              SizedBox(height: size * 0.015),
+              FormLabel(label: l10n.country),
+              CountryFormSection(
+                initialValue: user?.country ?? '',
+                onChanged: (value) {
+                  userCubit.updateUser(
+                      country: value, stateLocation: '', city: '');
+                },
+              ),
+              SizedBox(height: size * 0.015),
+              FormLabel(label: l10n.state),
+              StateFormSection(
+                initialValue: user?.stateLocation ?? '',
+                onChanged: (value) {
+                  userCubit.updateUser(stateLocation: value);
+                },
+              ),
+              SizedBox(height: size * 0.015),
+              FormLabel(label: l10n.city),
+              CityFormSection(
+                initialValue: user?.city ?? '',
+                onChanged: (value) {
+                  userCubit.updateUser(city: value);
+                },
+              ),
+              SizedBox(height: size * 0.015),
+              FormLabel(label: l10n.zipCode),
+              ZipCodeForm(
+                readOnly: readOnly,
+                initialValue: user?.zipCode ?? '',
+                onChanged: (value) {
+                  userCubit.updateUser(zipCode: value);
+                },
+                fieldActivatorWidget: _buildFieldActivatorWidget(),
+              ),
+              SizedBox(height: size * 0.015),
+              FormLabel(label: l10n.address),
+              AddressForm(
+                readOnly: readOnly,
+                initialValue: user?.address ?? '',
+                onChanged: (value) {
+                  userCubit.updateUser(address: value);
+                },
+                fieldActivatorWidget: _buildFieldActivatorWidget(),
+              ),
+              SizedBox(height: size * 0.025),
+              SaveButton(
+                formKey: _formKey,
+              ),
+            ],
+          ),
         );
       },
     );

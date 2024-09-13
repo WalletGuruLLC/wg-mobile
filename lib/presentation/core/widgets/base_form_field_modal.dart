@@ -110,7 +110,7 @@ class _BaseFormFieldModalState extends State<BaseFormFieldModal> {
             hasActions: false,
             showCloseIcon: true,
             modalColor: Colors.black,
-            content: hasItems ? _buildItemList(context) : _buildEmptyState(),
+            content: _buildItemList(context),
           );
         },
       );
