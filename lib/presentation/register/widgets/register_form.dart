@@ -211,8 +211,8 @@ class RegisterFormState extends State<RegisterForm> {
       });
     } else {
       _buildErrorModal(
-        'tienes que aceptar los terminos y condiciones',
         'you must accept the terms and conditions',
+        'tienes que aceptar los terminos y condiciones',
         'WGE0000',
         locale,
       );
