@@ -170,6 +170,7 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
           image = imageBytes;
           BlocProvider.of<UserCubit>(context)
               .updateUser(pictureFile: File(selectedImage.path));
+          Navigator.of(context).pop();
         });
       }
     }
@@ -184,6 +185,7 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
           image = imageBytes;
           BlocProvider.of<UserCubit>(context)
               .updateUser(pictureFile: File(selectedImage.path));
+          Navigator.of(context).pop();
         });
       }
     }
