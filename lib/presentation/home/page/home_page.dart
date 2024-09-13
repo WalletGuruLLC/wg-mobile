@@ -1,9 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/home/widgets/balance_card.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
@@ -21,9 +24,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     final userCubit = BlocProvider.of<UserCubit>(context);
     userCubit.emitGetUserInformation();
-    userCubit.emitGetWalletInformation();
+    //userCubit.emitGetWalletInformation();
     BlocProvider.of<CreateProfileCubit>(context).emitInitialStatus();
-    // loginCubit.initialStatus();
     super.initState();
   }
 
@@ -32,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: CustomAppBar(size: size),
+      appBar: const CustomAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
@@ -61,13 +63,15 @@ class _HomePageState extends State<HomePage> {
 }
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final Size size;
-
-  const CustomAppBar({super.key, required this.size});
+  const CustomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    Uint8List? image;
+
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: Colors.black,
       elevation: 0,
       title: GestureDetector(
@@ -76,31 +80,40 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Routes.myProfile.name,
           );
         },
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: size.width * 0.05,
-              child: Image.network(
-                'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg',
-              ),
-            ),
-            SizedBox(width: size.width * 0.03),
-            Text(
-              "Hi John",
-              style:
-                  TextStyle(color: Colors.white, fontSize: size.width * 0.045),
-            ),
-            const Spacer(),
-            CircleAvatar(
-              backgroundImage: const NetworkImage(
-                'https://pbs.twimg.com/profile_images/725013638411489280/4wx8EcIA_400x400.jpg',
-              ),
-              radius: size.width * 0.05,
-            ),
-            SizedBox(width: size.width * 0.03),
-            Icon(Icons.menu, color: Colors.white, size: size.width * 0.07),
-          ],
+        child: BlocBuilder<UserCubit, UserState>(
+          builder: (context, state) {
+            return Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: size.width * 0.05,
+                  child: Image.asset(
+                    Assets.iconLogo,
+                  ),
+                ),
+                SizedBox(width: size.width * 0.03),
+                Text(
+                  "Hi ${state.user?.firstName}",
+                  style: TextStyle(
+                      color: Colors.white, fontSize: size.width * 0.045),
+                ),
+                const Spacer(),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: state.user != null
+                      ? Image.network(state.user!.picture,
+                          width: 39, height: 39)
+                      : const Icon(
+                          Icons.account_circle,
+                          size: 45,
+                          color: Colors.grey,
+                        ),
+                ),
+                SizedBox(width: size.width * 0.03),
+                Icon(Icons.menu, color: Colors.white, size: size.width * 0.07),
+              ],
+            );
+          },
         ),
       ),
     );
