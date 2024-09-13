@@ -22,6 +22,7 @@ class StateForm extends StatelessWidget {
     return BaseFormFieldModal(
       initialValue: initialValue,
       readOnly: true,
+      enabled: enabled,
       hintText: hintText,
       items: items,
       onChanged: onChanged,
