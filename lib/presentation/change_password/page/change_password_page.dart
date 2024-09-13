@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
-import 'package:wallet_guru/presentation/core/widgets/appbar/appbar_logo_widget.dart';
 import 'package:wallet_guru/presentation/change_password/widgets/change_password_form.dart';
 
 class ChangePasswordPage extends StatelessWidget {

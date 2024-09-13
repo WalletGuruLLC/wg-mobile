@@ -15,6 +15,39 @@ class StateFormSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('initialValue, $initialValue');
+    return BlocBuilder<CreateProfileCubit, CreateProfileState>(
+      builder: (context, state) {
+        final createProfileCubit = context.read<CreateProfileCubit>();
+        return StateForm(
+          initialValue: initialValue,
+          enabled: state.states.isNotEmpty,
+          items: state.states.isNotEmpty ? state.states : [''],
+          onChanged: (value) {
+            if (value != null) {
+              onChanged(value);
+              createProfileCubit.selectState(value);
+            }
+          },
+        );
+      },
+    );
+  }
+}
+
+class StateFormSection2 extends StatelessWidget {
+  final String? initialValue;
+  final void Function(String?) onChanged;
+
+  const StateFormSection2({
+    super.key,
+    required this.initialValue,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    print('initialValue, $initialValue');
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
         final createProfileCubit = context.read<CreateProfileCubit>();

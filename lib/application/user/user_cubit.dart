@@ -107,9 +107,14 @@ class UserCubit extends Cubit<UserState> {
       return;
     }
     final changedFields = getChangedFields();
-    final picture = state.user?.pictureFile;
 
-    if (picture != state.initialUser?.picture) {
+    if (state.user!.pictureFile.path != '' &&
+        state.initialUser!.picture != '') {
+      await submitUserPicture(state.user!.pictureFile, state.user!.id);
+    }
+
+    if (state.user!.pictureFile.path != '' &&
+        state.initialUser!.picture == '') {
       await submitUserPicture(state.user!.pictureFile, state.user!.id);
     }
 

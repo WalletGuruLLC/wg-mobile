@@ -48,12 +48,7 @@ class _MyInfoViewState extends State<MyInfoView> {
 
     return BlocConsumer<UserCubit, UserState>(
       listener: (context, state) {
-        if (state.formStatus is SubmissionFailed) {
-          final error = (state.formStatus as SubmissionFailed).exception;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${error.toString()}')),
-          );
-        } else if (state.formStatus is SubmissionSuccess) {
+        if (state.formStatus is SubmissionSuccess) {
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -63,6 +58,7 @@ class _MyInfoViewState extends State<MyInfoView> {
       },
       builder: (context, state) {
         final user = state.user;
+        final initialUser = state.initialUser;
         print('user: $user');
         return Form(
           key: _formKey,
@@ -97,12 +93,20 @@ class _MyInfoViewState extends State<MyInfoView> {
               ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.state),
-              StateFormSection(
-                initialValue: user?.stateLocation ?? '',
-                onChanged: (value) {
-                  userCubit.updateUser(stateLocation: value);
-                },
-              ),
+              if (user?.stateLocation == initialUser?.stateLocation)
+                StateFormSection(
+                  initialValue: initialUser?.stateLocation ?? '',
+                  onChanged: (value) {
+                    userCubit.updateUser(stateLocation: value);
+                  },
+                ),
+              if (user?.stateLocation != initialUser?.stateLocation)
+                StateFormSection2(
+                  initialValue: user?.stateLocation,
+                  onChanged: (value) {
+                    userCubit.updateUser(stateLocation: value);
+                  },
+                ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.city),
               CityFormSection(
