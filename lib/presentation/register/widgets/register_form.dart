@@ -40,7 +40,6 @@ class RegisterFormState extends State<RegisterForm> {
   @override
   void initState() {
     registerCubit = BlocProvider.of<RegisterCubit>(context);
-    BlocProvider.of<SettingsCubit>(context).loadSettings();
     super.initState();
   }
 
@@ -205,10 +204,18 @@ class RegisterFormState extends State<RegisterForm> {
   }
 
   void _onButtonPressed(String action) {
-    if (_formKey.currentState!.validate()) {
+    final locale = Localizations.localeOf(context);
+    if (_formKey.currentState!.validate() && acceptPrivacy && acceptTerms) {
       setState(() {
         registerCubit.emitUserCreate();
       });
+    } else {
+      _buildErrorModal(
+        'tienes que aceptar los terminos y condiciones',
+        'you must accept the terms and conditions',
+        'WGE0000',
+        locale,
+      );
     }
   }
 
