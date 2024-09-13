@@ -7,7 +7,8 @@ class UserNetwork {
       '${Env.baseUrl}/api/v1/users/change-password';
   static final String updateCreatedUser = '${Env.baseUrl}/api/v1/users/';
   static final String lockAccount = '${Env.baseUrl}/api/v1/wallets/';
-  static final String getWalletInformation = '${Env.baseUrl}/api/v1/wallets/';
+  static final String getWalletInformation =
+      '${Env.baseUrlWallet}/api/v1/wallets/wallet/token';
   static final String updateUserPicture =
       '${Env.baseUrl}/api/v1/users/upload-image/';
 }

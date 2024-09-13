@@ -8,6 +8,7 @@ class BaseFormFieldModal extends StatefulWidget {
   final Function(String?)? onChanged;
   final String? initialValue;
   final InputDecoration? decoration;
+  final String? Function(String?, BuildContext)? validator;
   final TextStyle? hintStyle;
   final List<String>? items;
   final String? hintText;
@@ -15,18 +16,18 @@ class BaseFormFieldModal extends StatefulWidget {
   final bool enabled;
   final bool readOnly;
 
-  const BaseFormFieldModal({
-    super.key,
-    this.onChanged,
-    this.initialValue,
-    this.decoration,
-    this.hintStyle,
-    this.items,
-    this.controller,
-    this.hintText,
-    this.enabled = true,
-    this.readOnly = false,
-  });
+  const BaseFormFieldModal(
+      {super.key,
+      this.onChanged,
+      this.initialValue,
+      this.decoration,
+      this.hintStyle,
+      this.items,
+      this.controller,
+      this.hintText,
+      this.enabled = true,
+      this.readOnly = false,
+      this.validator});
 
   @override
   State<BaseFormFieldModal> createState() => _BaseFormFieldModalState();
@@ -55,6 +56,9 @@ class _BaseFormFieldModalState extends State<BaseFormFieldModal> {
 
     return TextFormField(
       readOnly: widget.readOnly,
+      validator: widget.validator != null
+          ? (value) => widget.validator!(value, context)
+          : null,
       decoration: defaultDecoration,
       controller: _controller,
       onChanged: widget.onChanged,
@@ -110,7 +114,7 @@ class _BaseFormFieldModalState extends State<BaseFormFieldModal> {
             hasActions: false,
             showCloseIcon: true,
             modalColor: Colors.black,
-            content: hasItems ? _buildItemList(context) : _buildEmptyState(),
+            content: _buildItemList(context),
           );
         },
       );

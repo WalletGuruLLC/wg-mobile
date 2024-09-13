@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:wallet_guru/application/settings/settings_cubit.dart';
 
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
@@ -29,6 +30,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     _initPackageInfo();
     String lang = Intl.getCurrentLocale();
     BlocProvider.of<TranslationErrorCubit>(context).loadTranslations(lang);
+    BlocProvider.of<SettingsCubit>(context).loadSettings();
   }
 
   Future<void> _initPackageInfo() async {

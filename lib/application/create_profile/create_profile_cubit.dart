@@ -264,4 +264,8 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
   void setAddress(String? address) async {
     emit(state.copyWith(address: address));
   }
+
+  void emitInitialStatus() async {
+    emit(state.initialState());
+  }
 }

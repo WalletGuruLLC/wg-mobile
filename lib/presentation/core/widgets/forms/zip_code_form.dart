@@ -30,14 +30,12 @@ class ZipCodeForm extends StatelessWidget {
     String hintText = l10n.enterYourZipCode;
 
     return BaseTextFormField(
-      // enabled: enabled,
       readOnly: readOnly,
       initialValue: initialValue,
       keyboardType: TextInputType.number,
       hintStyle: AppTextStyles.formText,
       decoration: CustomInputDecoration(
         hintText: hintText,
-        suffixIcon: fieldActivatorWidget,
       ).decoration,
       suffixIcon: fieldActivatorWidget,
       validator: (value, context) => Validators.validateZipCode(value, context),

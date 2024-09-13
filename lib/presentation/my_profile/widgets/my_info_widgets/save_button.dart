@@ -6,7 +6,9 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 
 class SaveButton extends StatelessWidget {
+  final GlobalKey<FormState> formKey;
   const SaveButton({
+    required this.formKey,
     super.key,
   });
 
@@ -33,7 +35,10 @@ class SaveButton extends StatelessWidget {
             text: 'Save',
             onPressed: () {
               if (hasValuesChanged) {
-                context.read<UserCubit>().submitUserChanges();
+                final isValid = formKey.currentState?.validate() ?? false;
+                if (isValid) {
+                  context.read<UserCubit>().submitUserChanges();
+                }
               }
             },
           );

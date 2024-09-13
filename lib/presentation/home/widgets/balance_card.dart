@@ -35,12 +35,12 @@ class BalanceCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Reserved Funds: \$1,500.13",
+                "Reserved Funds:\n\$1,500.13",
                 style: TextStyle(
                     color: Colors.white70, fontSize: size.width * 0.035),
               ),
               Text(
-                "Available Funds: \$9,067.17",
+                "Available Funds:\n\$9,067.17",
                 style: TextStyle(
                     color: Colors.white70, fontSize: size.width * 0.035),
               ),

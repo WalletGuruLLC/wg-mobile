@@ -96,10 +96,25 @@ class UserCubit extends Cubit<UserState> {
 
   Future<void> submitUserChanges() async {
     emit(state.copyWith(formStatus: FormSubmitting()));
-    final changedFields = getChangedFields();
-    final picture = state.user?.pictureFile;
+    validateRequiredFields();
 
-    if (picture != state.initialUser?.picture) {
+    if (!state.isSubmittable) {
+      emit(
+        state.copyWith(
+          formStatus: const InitialFormStatus(),
+        ),
+      );
+      return;
+    }
+    final changedFields = getChangedFields();
+
+    if (state.user!.pictureFile.path != '' &&
+        state.initialUser!.picture != '') {
+      await submitUserPicture(state.user!.pictureFile, state.user!.id);
+    }
+
+    if (state.user!.pictureFile.path != '' &&
+        state.initialUser!.picture == '') {
       await submitUserPicture(state.user!.pictureFile, state.user!.id);
     }
 
@@ -126,7 +141,10 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void resetFormStatus() {
-    emit(state.copyWith(formStatus: const InitialFormStatus()));
+    emit(state.copyWith(
+      formStatus: const InitialFormStatus(),
+      isSubmittable: false,
+    ));
   }
 
   void setCurrentPassword(String? password) {
@@ -180,6 +198,7 @@ class UserCubit extends Cubit<UserState> {
     emit(state.copyWith(
       userHasChanged: false,
       user: state.initialUser,
+      isSubmittable: false,
     ));
   }
 
@@ -227,7 +246,10 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void resetFormStatusLockAccount() {
-    emit(state.copyWith(formStatusLockAccount: const InitialFormStatus()));
+    emit(state.copyWith(
+      formStatusLockAccount: const InitialFormStatus(),
+      isSubmittable: false,
+    ));
   }
 
   Future<void> submitUserPicture(File picture, String userId) async {
@@ -250,5 +272,17 @@ class UserCubit extends Cubit<UserState> {
         ));
       },
     );
+  }
+
+  void validateRequiredFields() {
+    bool isSubmittable = state.user?.email.isNotEmpty == true &&
+        state.user?.phone.isNotEmpty == true &&
+        state.user?.address.isNotEmpty == true &&
+        state.user?.city.isNotEmpty == true &&
+        state.user?.country.isNotEmpty == true &&
+        state.user?.zipCode.isNotEmpty == true &&
+        state.user?.stateLocation.isNotEmpty == true;
+
+    emit(state.copyWith(isSubmittable: isSubmittable));
   }
 }
