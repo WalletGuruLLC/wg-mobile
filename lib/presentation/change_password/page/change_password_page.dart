@@ -11,6 +11,8 @@ class ChangePasswordPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
       showSafeArea: true,
+      showBackButton: false,
+      showNotLoggedAppBar: true,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

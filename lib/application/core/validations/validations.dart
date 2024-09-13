@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class Validators {
   static String? validateEmpty(String? value, [BuildContext? context]) {
     if (value == null || value.isEmpty) {
-      return 'Please enter the appropriate value';
+      return 'Please select a value for this field';
     }
     return null;
   }

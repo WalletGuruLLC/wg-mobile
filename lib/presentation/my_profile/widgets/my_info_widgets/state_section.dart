@@ -15,7 +15,6 @@ class StateFormSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('initialValue, $initialValue');
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
         final createProfileCubit = context.read<CreateProfileCubit>();
@@ -47,13 +46,11 @@ class StateFormSection2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('initialValue, $initialValue');
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
         final createProfileCubit = context.read<CreateProfileCubit>();
         return StateForm(
           initialValue: initialValue,
-          enabled: state.states.isNotEmpty,
           items: state.states.isNotEmpty ? state.states : [''],
           onChanged: (value) {
             if (value != null) {

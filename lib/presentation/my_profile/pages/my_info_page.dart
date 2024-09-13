@@ -41,7 +41,7 @@ class MyInfoPage extends StatelessWidget {
       child: WalletGuruLayout(
         showSafeArea: true,
         showLoggedUserAppBar: true,
-        showBottomNavigationBar: false,
+        showBottomNavigationBar: true,
         pageAppBarTitle: l10n.myInfo,
         actionAppBar: handleAction,
         children: [

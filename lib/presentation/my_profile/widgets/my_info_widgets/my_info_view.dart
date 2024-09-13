@@ -109,12 +109,20 @@ class _MyInfoViewState extends State<MyInfoView> {
                 ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.city),
-              CityFormSection(
-                initialValue: user?.city ?? '',
-                onChanged: (value) {
-                  userCubit.updateUser(city: value);
-                },
-              ),
+              if (user?.city == initialUser?.city)
+                CityFormSection(
+                  initialValue: initialUser?.city ?? '',
+                  onChanged: (value) {
+                    userCubit.updateUser(city: value);
+                  },
+                ),
+              if (user?.city != initialUser?.city)
+                CityFormSection2(
+                  initialValue: user?.city ?? '',
+                  onChanged: (value) {
+                    userCubit.updateUser(city: value);
+                  },
+                ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.zipCode),
               ZipCodeForm(

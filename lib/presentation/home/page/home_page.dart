@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
     final userCubit = BlocProvider.of<UserCubit>(context);
     userCubit.emitGetUserInformation();
     userCubit.emitGetWalletInformation();
+    BlocProvider.of<CreateProfileCubit>(context).emitInitialStatus();
     // loginCubit.initialStatus();
     super.initState();
   }
