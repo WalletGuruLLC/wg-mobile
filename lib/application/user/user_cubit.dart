@@ -214,7 +214,7 @@ class UserCubit extends Cubit<UserState> {
       },
       (updatedUser) {
         emit(state.copyWith(
-            wallet: WalletEntity.fromWallet(updatedUser.data!.wallet!)));
+            wallet: WalletEntity.fromWallet(updatedUser.wallet!)));
       },
     );
   }
@@ -240,6 +240,7 @@ class UserCubit extends Cubit<UserState> {
           customCode: updatedUser.customCode,
           customMessage: updatedUser.customMessage,
           customMessageEs: updatedUser.customMessageEs,
+          wallet: WalletEntity.fromWallet(updatedUser.data!.wallet!),
         ));
       },
     );

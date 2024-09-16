@@ -58,7 +58,7 @@ class UserDataSource {
 
   Future<ResponseModel> lockAccount(String userIdRole) async {
     var response = await HttpDataSource.patch(
-        '${UserNetwork.lockAccount}$userIdRole/toggle}', {});
+        '${UserNetwork.lockAccount}$userIdRole/toggle', {});
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
