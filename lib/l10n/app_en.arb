@@ -115,6 +115,12 @@
   "selectFromDevice": "Select From Device",
   "lockAccount": "Lock your wallet",
   "lockAccountConfirmation": "Do you want to lock your wallet? You can unlock it at any time",
-  "unlockAccountConfirmation": "Do you want to unlock your wallet? You can lock it at any time"
+  "unlockAccountConfirmation": "Do you want to unlock your wallet? You can lock it at any time",
+  "idType": "Identification type",
+  "selectIdType": "Select your ID type",
+  "nationalId": "National ID",
+  "passport": "Passport",
+  "driversLicense": "Driver's license",
+  "pleaseSelectGenericValue": "Please select a value for this field"
 
 }
