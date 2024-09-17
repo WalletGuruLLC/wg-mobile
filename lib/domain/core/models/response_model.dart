@@ -4,6 +4,7 @@ class ResponseModel {
   final String customMessage;
   final String customMessageEs;
   final Data? data;
+  final Wallet? wallet;
 
   ResponseModel({
     required this.statusCode,
@@ -11,6 +12,7 @@ class ResponseModel {
     required this.customMessage,
     required this.customMessageEs,
     required this.data,
+    required this.wallet,
   });
 
   factory ResponseModel.fromJson(Map<String, dynamic> json) => ResponseModel(
@@ -18,6 +20,11 @@ class ResponseModel {
         customCode: json["customCode"] ?? "",
         customMessage: json["customMessage"] ?? "",
         customMessageEs: json["customMessageEs"] ?? "",
+        wallet: json["wallet"] != null
+            ? (json["wallet"]["wallet"] != null
+                ? Wallet.fromJson(json["wallet"]["wallet"])
+                : Wallet.fromJson(json["wallet"]))
+            : null,
         data: json["data"] != null
             ? Data.fromJson(json["data"])
             : Data.initialState(),
