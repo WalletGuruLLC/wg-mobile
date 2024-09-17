@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -6,11 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/utils/image_picker_util.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:wallet_guru/presentation/create_profile/widgets/check_photo_modal.dart';
 
 class ProfileHeaderWidget extends StatefulWidget {
   final bool? isOnTapAvailable;

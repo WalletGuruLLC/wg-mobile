@@ -63,10 +63,8 @@ class CheckPhotoModal extends StatelessWidget {
                 text: l10n.allow,
                 fontSize: 18,
                 onPressed: () {
-                  print('Button pressed');
                   File imageFile = File(imageSelected.path);
                   if (imageFile.existsSync()) {
-                    print('Image file exists');
                     BlocProvider.of<CreateProfileCubit>(context)
                         .updateUserPicture(imageFile);
                     Navigator.of(context).pop();

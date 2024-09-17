@@ -59,7 +59,6 @@ class _MyInfoViewState extends State<MyInfoView> {
       builder: (context, state) {
         final user = state.user;
         final initialUser = state.initialUser;
-        print('user: $user');
         return Form(
           key: _formKey,
           child: Column(
