@@ -16,6 +16,10 @@ class Assets {
   static const uploadIcon = '${base}upload_icon.png';
   static const warningIcon = '${base}warning_icon.svg';
   static const walletDashboard = '${base}home.png';
+  static const mainLogoWithLetter = '${base}main_logo_with_letter.png';
+  static const addIcon = '${base}add_icon.png';
+  static const arrowDownIcon = '${base}arrow_down.png';
+  static const arrowUpIcon = '${base}arrow_up.png';
 
   // BOTTOM MENU ICONS
   static const homeMenuIcon = '${base}home_menu_icon.svg';

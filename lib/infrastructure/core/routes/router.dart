@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/presentation/home/page/home_page.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
+import 'package:wallet_guru/presentation/payments/pages/payments_page.dart';
 import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
 import 'package:wallet_guru/presentation/my_profile/pages/my_info_page.dart';
 import 'package:wallet_guru/presentation/my_profile/pages/profile_page.dart';
@@ -25,7 +26,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      builder: (context, state) => const SplashScreenPage(),
+      builder: (context, state) => const PaymentsPage(),
     ),
     GoRoute(
       name: Routes.signUp.name,
@@ -88,6 +89,11 @@ class WalletGuruRouter {
       name: Routes.changePassword.name,
       path: Routes.changePassword.path,
       builder: (context, state) => const ChangePasswordPage(),
-    )
+    ),
+    GoRoute(
+      name: Routes.payments.name,
+      path: Routes.payments.path,
+      builder: (context, state) => const PaymentsPage(),
+    ),
   ];
 }

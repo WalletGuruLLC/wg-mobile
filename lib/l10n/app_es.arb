@@ -121,5 +121,9 @@
 "nationalId": "Cédula de identidad",
 "passport": "Pasaporte",
 "driversLicense": "Licencia de conducir",
-"pleaseSelectGenericValue": "Por favor seleccionar un valor para este campo"
+"pleaseSelectGenericValue": "Por favor seleccionar un valor para este campo",
+"payments": "Pagos",
+"receivePayment": "Recibir Pagos",
+"sendPayment": "Enviar Pago",
+"addService": "Agregar Servicio"
 }

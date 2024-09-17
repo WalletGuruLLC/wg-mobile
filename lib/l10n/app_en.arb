@@ -121,6 +121,10 @@
   "nationalId": "National ID",
   "passport": "Passport",
   "driversLicense": "Driver's license",
-  "pleaseSelectGenericValue": "Please select a value for this field"
+  "pleaseSelectGenericValue": "Please select a value for this field",
+  "payments": "Payments",
+  "receivePayment": "Receive Payments",
+  "sendPayment": "Send Payment",
+  "addService": "Add Service"
 
 }

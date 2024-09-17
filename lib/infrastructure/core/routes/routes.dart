@@ -22,4 +22,5 @@ class Routes {
   static final myInfo = Route(path: '/myInfo', name: 'myInfo');
   static final changePassword =
       Route(path: '/changePassword', name: 'changePassword');
+  static final payments = Route(path: '/payments', name: 'payments');
 }

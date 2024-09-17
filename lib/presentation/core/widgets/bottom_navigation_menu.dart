@@ -58,17 +58,17 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
       ),
       _buildNavItem(
         icon: Assets.fundingMenuIcon,
-        label: 'Notifications',
+        label: 'Wallet',
         index: 1,
       ),
       _buildNavItem(
         icon: Assets.transactionsMenuIcon,
-        label: 'Messages',
+        label: 'Payments',
         index: 2,
       ),
       _buildNavItem(
         icon: Assets.verticalTransactionMenuIcon,
-        label: 'Settings',
+        label: 'Receive',
         index: 3,
       ),
     ];
@@ -126,7 +126,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
         //   GoRouter.of(context).pushNamed(Routes.home.name);
         break;
       case 2:
-        //    GoRouter.of(context).pushNamed(Routes.createWallet.name);
+        GoRouter.of(context).pushNamed(Routes.payments.name);
         break;
       case 3:
         //    GoRouter.of(context).pushNamed(Routes.myProfile.name);
