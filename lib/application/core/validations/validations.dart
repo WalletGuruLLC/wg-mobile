@@ -95,7 +95,7 @@ class Validators {
     if (value == null || value.isEmpty) {
       return l10n!.enterPhoneNumber;
     }
-    const pattern = r'^[0-9]{10}$';
+    const pattern = r'^[0-9]{8,}$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return l10n!.enterValidPhoneNumber;
@@ -151,9 +151,14 @@ class Validators {
     if (value.length < 4) {
       return l10n!.enterValidAddress;
     }
-    const pattern = r'^[a-zA-Z0-9\s]+$';
+    const pattern = r'^[a-zA-Z0-9\s,.\-#/&]+$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
+      return l10n!.enterValidAddress;
+    }
+    const specialCharsPattern = r'[#/&.,\s\-]{3,}';
+    final specialCharsRegex = RegExp(specialCharsPattern);
+    if (specialCharsRegex.hasMatch(value)) {
       return l10n!.enterValidAddress;
     }
     return null;

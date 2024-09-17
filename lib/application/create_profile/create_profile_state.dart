@@ -7,6 +7,7 @@ class CreateProfileState extends Equatable {
   final String firstName;
   final String lastName;
   final String phone;
+  final dynamic picture;
 
   final String socialSecurityNumber;
   final String identificationType;
@@ -39,6 +40,7 @@ class CreateProfileState extends Equatable {
     this.firstName = '',
     this.lastName = '',
     this.phone = '',
+    this.picture = '',
     this.socialSecurityNumber = '',
     this.identificationType = '',
     this.identificationNumber = '',
@@ -69,6 +71,7 @@ class CreateProfileState extends Equatable {
     String? firstName,
     String? lastName,
     String? phone,
+    File? picture,
     String? socialSecurityNumber,
     String? identificationType,
     String? identificationNumber,
@@ -98,6 +101,7 @@ class CreateProfileState extends Equatable {
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         phone: phone ?? this.phone,
+        picture: picture ?? this.picture,
         socialSecurityNumber: socialSecurityNumber ?? this.socialSecurityNumber,
         identificationType: identificationType ?? this.identificationType,
         identificationNumber: identificationNumber ?? this.identificationNumber,
@@ -128,6 +132,7 @@ class CreateProfileState extends Equatable {
         firstName: '',
         lastName: '',
         phone: '',
+        picture: '',
         socialSecurityNumber: '',
         identificationType: '',
         identificationNumber: '',
@@ -180,5 +185,6 @@ class CreateProfileState extends Equatable {
         customMessage,
         customMessageEs,
         customCode,
+        picture,
       ];
 }

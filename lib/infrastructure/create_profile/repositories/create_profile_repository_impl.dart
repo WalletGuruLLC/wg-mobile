@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:either_dart/either.dart';
 
 import 'package:wallet_guru/domain/core/models/invalid_data.dart';
@@ -11,10 +13,24 @@ class CreateProfileRepositoryImpl extends CreateProfileRepository {
 
   CreateProfileRepositoryImpl({required this.registerDataSource});
 
-    @override
-  Future<Either<InvalidData, ResponseModel>> updateUser<T extends BaseProfileEntity>(T entity) async {
+  @override
+  Future<Either<InvalidData, ResponseModel>>
+      updateUser<T extends BaseProfileEntity>(T entity) async {
     try {
-      final ResponseModel response = await registerDataSource.updateUser(entity);
+      final ResponseModel response =
+          await registerDataSource.updateUser(entity);
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> updateUserPicture(
+      File picture, String userId) async {
+    try {
+      final ResponseModel response =
+          await registerDataSource.updateUserPicture(picture, userId);
       return Right(response);
     } on InvalidData catch (invalidData) {
       return Left(invalidData);

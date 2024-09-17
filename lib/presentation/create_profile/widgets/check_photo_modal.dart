@@ -1,6 +1,10 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -10,10 +14,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CheckPhotoModal extends StatelessWidget {
   final Uint8List image;
+  final XFile imageSelected;
 
   const CheckPhotoModal({
     super.key,
     required this.image,
+    required this.imageSelected,
   });
 
   @override
@@ -56,8 +62,18 @@ class CheckPhotoModal extends StatelessWidget {
                 color: AppColorSchema.of(context).buttonColor,
                 text: l10n.allow,
                 fontSize: 18,
-                fontWeight: FontWeight.w400,
-                onPressed: () {},
+                onPressed: () {
+                  print('Button pressed');
+                  File imageFile = File(imageSelected.path);
+                  if (imageFile.existsSync()) {
+                    print('Image file exists');
+                    BlocProvider.of<CreateProfileCubit>(context)
+                        .updateUserPicture(imageFile);
+                    Navigator.of(context).pop();
+                  } else {
+                    print('Image file does not exist');
+                  }
+                },
               ),
               CustomButton(
                 borderRadius: 12,

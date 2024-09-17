@@ -83,7 +83,7 @@
   "enterMinLengthWalletAddress": "Address must be between 3 and 20 characters long",
   "enterValidWalletAddress": "Address must contain at least one letter, one number, and be entirely lowercase",
   "enterAddress": "Address cannot be empty. Please enter a valid address",
-  "enterValidAddress": "Address must be at least 4 characters long",
+  "enterValidAddress": "Address must be at least 4 characters long and be a valid direction",
   "enterZipCode": "Zip code cannot be empty. Please enter a valid zip code",
   "enterValidZipCode": "Zip code must be at least 3 digits long",
   "selectBirthDateValidation" : "Please select your date of birth",

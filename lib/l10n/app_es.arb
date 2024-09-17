@@ -83,7 +83,7 @@
   "enterMinLengthWalletAddress": "La dirección debe tener entre 3 y 20 caracteres",
   "enterValidWalletAddress": "La dirección debe contener al menos una letra, un número y estar completamente en minúsculas",
   "enterAddress": "La dirección no puede estar vacía. Por favor, ingrese una dirección válida",
-  "enterValidAddress": "La dirección debe tener al menos 4 caracteres",
+  "enterValidAddress": "La dirección debe tener al menos 4 caracteres y ser una dirección valida",
   "enterZipCode": "El código postal no puede estar vacío. Por favor, ingrese un código postal válido",
   "enterValidZipCode": "El código postal debe tener al menos 3 dígitos",
   "selectBirthDateValidation" : "Por favor, selecciona tu fecha de nacimiento",

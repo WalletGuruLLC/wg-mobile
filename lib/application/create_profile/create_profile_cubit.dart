@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -126,6 +128,10 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     emit(state.copyWith(formStatusOne: const InitialFormStatus()));
   }
 
+  void setProfilePicture(File? picture) async {
+    emit(state.copyWith(picture: picture));
+  }
+
   void emitCreateProfileTwo() async {
     emit(
       state.copyWith(formStatusTwo: FormSubmitting()),
@@ -212,6 +218,9 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     emit(
       state.copyWith(formStatus: FormSubmitting()),
     );
+
+    await submitUserPicture(state.picture!, state.id);
+
     final createProfile2 =
         await createProfileRepository.updateUser(CreateProfileEntity(
       id: state.id,
@@ -267,5 +276,31 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
 
   void emitInitialStatus() async {
     emit(state.initialState());
+  }
+
+  Future<void> submitUserPicture(File picture, String userId) async {
+    final updatedUser =
+        await createProfileRepository.updateUserPicture(picture, userId);
+    updatedUser.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (updatedUser) {
+        emit(state.copyWith(
+          customCode: updatedUser.customCode,
+          customMessage: updatedUser.customMessage,
+          customMessageEs: updatedUser.customMessageEs,
+        ));
+      },
+    );
+  }
+
+  void updateUserPicture(File picture) async {
+    emit(state.copyWith(picture: picture));
   }
 }
