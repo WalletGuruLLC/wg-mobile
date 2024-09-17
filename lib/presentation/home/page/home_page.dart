@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     final userCubit = BlocProvider.of<UserCubit>(context);
     userCubit.emitGetUserInformation();
-    //userCubit.emitGetWalletInformation();
+    userCubit.emitGetWalletInformation();
     BlocProvider.of<CreateProfileCubit>(context).emitInitialStatus();
     super.initState();
   }
