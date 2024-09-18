@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallet_guru/application/core/validations/validations.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_form_field_modal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -24,6 +25,7 @@ class CountryForm extends StatelessWidget {
       hintText: hintText,
       items: items,
       onChanged: onChanged,
+      validator: (value, context) => Validators.validateEmpty(value, context),
     );
   }
 }

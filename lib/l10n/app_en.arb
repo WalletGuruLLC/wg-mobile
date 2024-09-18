@@ -83,7 +83,7 @@
   "enterMinLengthWalletAddress": "Address must be between 3 and 20 characters long",
   "enterValidWalletAddress": "Address must contain at least one letter, one number, and be entirely lowercase",
   "enterAddress": "Address cannot be empty. Please enter a valid address",
-  "enterValidAddress": "Address must be at least 4 characters long",
+  "enterValidAddress": "Address must be at least 4 characters long and be a valid direction",
   "enterZipCode": "Zip code cannot be empty. Please enter a valid zip code",
   "enterValidZipCode": "Zip code must be at least 3 digits long",
   "selectBirthDateValidation" : "Please select your date of birth",
@@ -115,6 +115,12 @@
   "selectFromDevice": "Select From Device",
   "lockAccount": "Lock your wallet",
   "lockAccountConfirmation": "Do you want to lock your wallet? You can unlock it at any time",
-  "unlockAccountConfirmation": "Do you want to unlock your wallet? You can lock it at any time"
+  "unlockAccountConfirmation": "Do you want to unlock your wallet? You can lock it at any time",
+  "idType": "Identification type",
+  "selectIdType": "Select your ID type",
+  "nationalId": "National ID",
+  "passport": "Passport",
+  "driversLicense": "Driver's license",
+  "pleaseSelectGenericValue": "Please select a value for this field"
 
 }

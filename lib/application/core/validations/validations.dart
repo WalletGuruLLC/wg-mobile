@@ -3,8 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Validators {
   static String? validateEmpty(String? value, [BuildContext? context]) {
+    final l10n = AppLocalizations.of(context!);
+
     if (value == null || value.isEmpty) {
-      return 'Please select a value for this field';
+      return l10n!.pleaseSelectGenericValue;
     }
     return null;
   }
@@ -93,7 +95,7 @@ class Validators {
     if (value == null || value.isEmpty) {
       return l10n!.enterPhoneNumber;
     }
-    const pattern = r'^[0-9]{10}$';
+    const pattern = r'^[0-9]{8,}$';
     final regex = RegExp(pattern);
     if (!regex.hasMatch(value)) {
       return l10n!.enterValidPhoneNumber;
@@ -143,10 +145,20 @@ class Validators {
 
   static String? validateAddress(String? value, [BuildContext? context]) {
     final l10n = AppLocalizations.of(context!);
-
     if (value == null || value.isEmpty) {
       return l10n!.enterAddress;
-    } else if (value.length < 4) {
+    }
+    if (value.length < 4) {
+      return l10n!.enterValidAddress;
+    }
+    const pattern = r'^[a-zA-Z0-9\s,.\-#/&]+$';
+    final regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return l10n!.enterValidAddress;
+    }
+    const specialCharsPattern = r'[#/&.,\s\-]{3,}';
+    final specialCharsRegex = RegExp(specialCharsPattern);
+    if (specialCharsRegex.hasMatch(value)) {
       return l10n!.enterValidAddress;
     }
     return null;
@@ -156,7 +168,13 @@ class Validators {
     final l10n = AppLocalizations.of(context!);
     if (value == null || value.isEmpty) {
       return l10n!.enterZipCode;
-    } else if (value.length < 3) {
+    }
+    if (value.length < 3) {
+      return l10n!.enterValidZipCode;
+    }
+    const pattern = r'^[a-zA-Z0-9]+$';
+    final regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
       return l10n!.enterValidZipCode;
     }
     return null;

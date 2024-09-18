@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/social_security_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/identification_number_form.dart';
@@ -61,13 +57,13 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
             onChanged: (value) => _onFormChanged('snn', value),
           ),
           const SizedBox(height: 30),
-          const FormLabel(label: 'Identification Type'),
+          FormLabel(label: l10n.idType),
           IdentificationTypeDropForm(
             initialValue: _idType.isNotEmpty && _idType.contains(_idType)
                 ? _idType
                 : null,
-            hintText: 'Select you ID type',
-            items: const ['National ID', 'Passport', 'Driver´s lisence'],
+            hintText: l10n.selectIdType,
+            items: [l10n.nationalId, l10n.passport, l10n.driversLicense],
             onChanged: (value) => _onFormChanged('idType', value),
           ),
           const SizedBox(height: 30),
@@ -116,42 +112,5 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
       //createProfileCubit.emitCreateProfileTwo();
       GoRouter.of(context).pushNamed(Routes.createProfile3.name);
     }
-  }
-
-  // Method to build the successful modal
-  Future<dynamic> _buildlModal(String description, String codeError) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        double size = MediaQuery.of(context).size.height;
-        return BaseModal(
-          isSucefull: true,
-          content: Column(
-            children: [
-              SizedBox(height: size * 0.025),
-              TextBase(
-                textAlign: TextAlign.center,
-                text: description,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-              SizedBox(height: size * 0.025),
-              TextBase(
-                textAlign: TextAlign.center,
-                text: codeError,
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-            ],
-          ),
-          onPressed: () {
-            createProfileCubit.cleanFormStatusOne();
-            Navigator.of(context).pop();
-          },
-        );
-      },
-    );
   }
 }

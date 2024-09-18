@@ -83,7 +83,7 @@
   "enterMinLengthWalletAddress": "La dirección debe tener entre 3 y 20 caracteres",
   "enterValidWalletAddress": "La dirección debe contener al menos una letra, un número y estar completamente en minúsculas",
   "enterAddress": "La dirección no puede estar vacía. Por favor, ingrese una dirección válida",
-  "enterValidAddress": "La dirección debe tener al menos 4 caracteres",
+  "enterValidAddress": "La dirección debe tener al menos 4 caracteres y ser una dirección valida",
   "enterZipCode": "El código postal no puede estar vacío. Por favor, ingrese un código postal válido",
   "enterValidZipCode": "El código postal debe tener al menos 3 dígitos",
   "selectBirthDateValidation" : "Por favor, selecciona tu fecha de nacimiento",
@@ -115,5 +115,11 @@
 "selectFromDevice": "Selecciona desde el dispositivo",
 "lockAccount": "Bloquear tu billetera",
 "lockAccountConfirmation": "¿Quieres bloquear tu billetera? Puedes desbloquearla en cualquier momento",
-"unlockAccountConfirmation": "¿Quieres desbloquear tu billetera? Puedes bloquearla en cualquier momento"
+"unlockAccountConfirmation": "¿Quieres desbloquear tu billetera? Puedes bloquearla en cualquier momento",
+"idType": "Tipo de identificación",
+"selectIdType": "Seleccione su tipo de identificación",
+"nationalId": "Cédula de identidad",
+"passport": "Pasaporte",
+"driversLicense": "Licencia de conducir",
+"pleaseSelectGenericValue": "Por favor seleccionar un valor para este campo"
 }
