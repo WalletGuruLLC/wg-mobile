@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: size.height * 0.02),
               const BalanceCard(),
               SizedBox(height: size.height * 0.02),
               const LastTransactionsList(),
@@ -80,34 +81,40 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
             return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: size.width * 0.05,
-                  child: Image.asset(
-                    Assets.iconLogo,
+                Image.asset(
+                  Assets.iconLogoLarge,
+                  scale: 1.1,
+                ),
+                Center(
+                  child: Text(
+                    "Hi ${state.user?.firstName}",
+                    style: TextStyle(
+                        color: Colors.white, fontSize: size.width * 0.045),
                   ),
                 ),
-                SizedBox(width: size.width * 0.03),
-                Text(
-                  "Hi ${state.user?.firstName}",
-                  style: TextStyle(
-                      color: Colors.white, fontSize: size.width * 0.045),
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: state.user != null
+                          ? Image.network(state.user!.picture,
+                              width: 45, height: 45)
+                          : const Icon(
+                              Icons.account_circle,
+                              size: 45,
+                              color: Colors.grey,
+                            ),
+                    ),
+                    SizedBox(
+                      width: size.width * 0.03,
+                    ),
+                    Image.asset(
+                      Assets.homeMenuIcon1,
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: state.user != null
-                      ? Image.network(state.user!.picture,
-                          width: 39, height: 39)
-                      : const Icon(
-                          Icons.account_circle,
-                          size: 45,
-                          color: Colors.grey,
-                        ),
-                ),
-                SizedBox(width: size.width * 0.03),
-                Icon(Icons.menu, color: Colors.white, size: size.width * 0.07),
               ],
             );
           },
