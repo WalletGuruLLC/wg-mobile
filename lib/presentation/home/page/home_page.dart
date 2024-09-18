@@ -112,6 +112,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     Image.asset(
                       Assets.homeMenuIcon1,
+                      scale: 0.8,
                     ),
                   ],
                 ),
