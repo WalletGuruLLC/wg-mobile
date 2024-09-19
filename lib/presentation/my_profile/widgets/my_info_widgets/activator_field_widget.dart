@@ -16,8 +16,11 @@ class ActivatorFieldWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: isIconPencil
-          ? SvgPicture.asset(Assets.editInfoIcon)
-          : const Icon(Icons.arrow_forward_ios_outlined),
+          ? Image.asset(Assets.editInfoIcon, width: 20, height: 20)
+          : const Icon(
+              Icons.arrow_forward_ios_outlined,
+              size: 1,
+            ),
     );
   }
 }

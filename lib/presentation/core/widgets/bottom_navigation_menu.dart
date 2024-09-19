@@ -24,6 +24,9 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
 
   @override
   Widget build(BuildContext context) {
+    _selectedIndex =
+        _getSelectedIndexFromRoute(GoRouterState.of(context).fullPath!);
+
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(24),
@@ -47,6 +50,21 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
         ),
       ),
     );
+  }
+
+  int _getSelectedIndexFromRoute(String location) {
+    switch (location) {
+      case '/home':
+        return 0;
+      case '/wallet':
+        return 1;
+      case '/payments':
+        return 2;
+      case '/receive':
+        return 3;
+      default:
+        return 0;
+    }
   }
 
   List<BottomNavigationBarItem> _buildBottomNavItems() {
@@ -120,16 +138,16 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
 
     switch (index) {
       case 0:
-        GoRouter.of(context).pushNamed(Routes.home.name);
+        GoRouter.of(context).go(Routes.home.path);
         break;
       case 1:
-        //   GoRouter.of(context).pushNamed(Routes.home.name);
+        // GoRouter.of(context).go(Routes.wallet.path);
         break;
       case 2:
-        GoRouter.of(context).pushNamed(Routes.payments.name);
+        GoRouter.of(context).go(Routes.payments.path);
         break;
       case 3:
-        //    GoRouter.of(context).pushNamed(Routes.myProfile.name);
+        // GoRouter.of(context).go(Routes.receive.path);
         break;
     }
   }
