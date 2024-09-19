@@ -6,6 +6,7 @@ class ReceivePaymentState extends Equatable {
   final String customMessage;
   final String customMessageEs;
   final String customCode;
+  final bool showButton;
 
   const ReceivePaymentState({
     this.receiverWalletAddress = '',
@@ -13,6 +14,7 @@ class ReceivePaymentState extends Equatable {
     this.customMessageEs = '',
     this.customCode = '',
     this.formStatus = const InitialFormStatus(),
+    this.showButton = false,
   });
 
   ReceivePaymentState copyWith({
@@ -21,6 +23,7 @@ class ReceivePaymentState extends Equatable {
     String? customMessage,
     String? customMessageEs,
     String? customCode,
+    bool? showButton,
   }) =>
       ReceivePaymentState(
         receiverWalletAddress:
@@ -29,6 +32,7 @@ class ReceivePaymentState extends Equatable {
         customMessage: customMessage ?? this.customMessage,
         customMessageEs: customMessageEs ?? this.customMessageEs,
         customCode: customCode ?? this.customCode,
+        showButton: showButton ?? this.showButton,
       );
 
   ReceivePaymentState initialState() => const ReceivePaymentState(
@@ -37,6 +41,7 @@ class ReceivePaymentState extends Equatable {
         customMessage: '',
         customMessageEs: '',
         customCode: '',
+        showButton: false,
       );
 
   @override
@@ -45,5 +50,7 @@ class ReceivePaymentState extends Equatable {
         formStatus,
         customMessage,
         customMessageEs,
+        customCode,
+        showButton,
       ];
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/application/recieve_payment/receive_payment_cubit.dart';
+import 'package:wallet_guru/application/receive_payment/receive_payment_cubit.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
@@ -66,7 +67,24 @@ class _SendPaymentsViewState extends State<SendPaymentsView> {
                 receiverWalletAddress: value);
             // Handle the change
           },
-        )
+        ),
+        SizedBox(height: size.height * 0.25),
+        BlocBuilder<ReceivePaymentCubit, ReceivePaymentState>(
+            builder: (context, state) {
+          bool showButton = state.showButton;
+          return showButton
+              ? CustomButton(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18,
+                  borderRadius: 12,
+                  color: AppColorSchema.of(context).buttonColor,
+                  border: Border.all(width: 0.75, color: Colors.transparent),
+                  text: l10n.next,
+                  height: 56,
+                  onPressed: () {},
+                )
+              : const SizedBox();
+        })
       ],
     );
   }
