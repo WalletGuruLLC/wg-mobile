@@ -7,17 +7,18 @@ class GradientButton extends StatelessWidget {
   final String imageAsset;
   final Function() onTap;
 
-  const GradientButton(
-      {super.key,
-      required this.text,
-      required this.imageAsset,
-      required this.onTap});
+  const GradientButton({
+    super.key,
+    required this.text,
+    required this.imageAsset,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     final gradient = AppColorSchema.of(context).buttonGradientColor;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -38,14 +39,17 @@ class GradientButton extends StatelessWidget {
             children: [
               Image.asset(
                 imageAsset,
+                height: 30,
               ),
-              const SizedBox(
-                width: 20,
-              ),
-              TextBase(
-                text: text,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
+              SizedBox(
+                width: 200,
+                child: Center(
+                  child: TextBase(
+                    text: text,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
             ],
           ),

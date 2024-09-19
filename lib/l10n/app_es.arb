@@ -125,5 +125,6 @@
 "payments": "Pagos",
 "receivePayment": "Recibir Pagos",
 "sendPayment": "Enviar Pago",
-"addService": "Agregar Servicio"
+"addService": "Agregar Servicio",
+"sendPayment": "Enviar Pago"
 }
