@@ -20,6 +20,7 @@ class Assets {
   static const addIcon = '${base}add_icon.png';
   static const arrowDownIcon = '${base}arrow_down.png';
   static const arrowUpIcon = '${base}arrow_up.png';
+  static const editInfoIcon = '${base}edit_info.svg';
 
   // BOTTOM MENU ICONS
   static const homeMenuIcon = '${base}home_menu_icon.svg';

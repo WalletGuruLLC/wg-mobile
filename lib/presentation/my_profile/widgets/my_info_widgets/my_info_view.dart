@@ -79,7 +79,7 @@ class _MyInfoViewState extends State<MyInfoView> {
                 onCodeChanged: (value) {
                   userCubit.updateUser(phoneCode: value);
                 },
-                fieldActivatorWidget: _buildFieldActivatorWidget(),
+                fieldActivatorWidget: _buildFieldActivatorWidget(true),
               ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.country),
@@ -130,7 +130,7 @@ class _MyInfoViewState extends State<MyInfoView> {
                 onChanged: (value) {
                   userCubit.updateUser(zipCode: value);
                 },
-                fieldActivatorWidget: _buildFieldActivatorWidget(),
+                fieldActivatorWidget: _buildFieldActivatorWidget(true),
               ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.address),
@@ -140,7 +140,7 @@ class _MyInfoViewState extends State<MyInfoView> {
                 onChanged: (value) {
                   userCubit.updateUser(address: value);
                 },
-                fieldActivatorWidget: _buildFieldActivatorWidget(),
+                fieldActivatorWidget: _buildFieldActivatorWidget(true),
               ),
               SizedBox(height: size * 0.025),
               SaveButton(
@@ -169,8 +169,9 @@ class _MyInfoViewState extends State<MyInfoView> {
     );
   }
 
-  Widget _buildFieldActivatorWidget() {
+  Widget _buildFieldActivatorWidget(bool isIconPencil) {
     return ActivatorFieldWidget(
+      isIconPencil: isIconPencil,
       onTap: () {
         if (readOnly) {
           setState(() {
