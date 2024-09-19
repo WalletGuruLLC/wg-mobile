@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/application/receive_payment/receive_payment_cubit.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
@@ -34,22 +36,26 @@ class _SendPaymentsViewByFormState extends State<SendPaymentsViewByForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: size.height * 0.25),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            TextBase(
-              text: l10n.scanQR,
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
-            const SizedBox(width: 10),
-            Image.asset(
-              Assets.scanIcon,
-              width: 20,
-              height: 20,
-              color: Colors.white,
-            ),
-          ],
+        GestureDetector(
+          onTap: () =>
+              GoRouter.of(context).pushNamed(Routes.sendPaymentsByQr.name),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              TextBase(
+                text: l10n.scanQR,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              const SizedBox(width: 10),
+              Image.asset(
+                Assets.scanIcon,
+                width: 20,
+                height: 20,
+                color: Colors.white,
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 20),
         TextBase(
