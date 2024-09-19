@@ -21,6 +21,7 @@ class Assets {
   static const arrowDownIcon = '${base}arrow_down.png';
   static const arrowUpIcon = '${base}arrow_up.png';
   static const editInfoIcon = '${base}edit_info.png';
+  static const scanIcon = '${base}scan_icon.png';
 
   // BOTTOM MENU ICONS
   static const homeMenuIcon = '${base}home_menu_icon.svg';
