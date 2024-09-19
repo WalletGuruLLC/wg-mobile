@@ -30,7 +30,7 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
   @override
   void initState() {
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
-    createProfileCubit.cleanFormStatusOne();
+    //createProfileCubit.cleanFormStatusOne();
     super.initState();
   }
 
@@ -38,6 +38,9 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     double size = MediaQuery.of(context).size.height;
+    _idType = createProfileCubit.state.identificationType.isNotEmpty
+        ? createProfileCubit.state.identificationType
+        : _idType;
     return Form(
         key: _formKey, child: _buildProfileLocationView(size, context, l10n));
   }
@@ -53,7 +56,10 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
           SizedBox(height: size * 0.030),
           FormLabel(label: l10n.socialSecurityNumber),
           SocialSecurityForm(
-            initialValue: _ssn,
+            initialValue:
+                createProfileCubit.state.socialSecurityNumber.isNotEmpty
+                    ? createProfileCubit.state.socialSecurityNumber
+                    : _ssn,
             onChanged: (value) => _onFormChanged('snn', value),
           ),
           const SizedBox(height: 30),
@@ -69,7 +75,10 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
           const SizedBox(height: 30),
           FormLabel(label: l10n.identificationNumber),
           IdentificationNumberForm(
-            initialValue: _identificationNumber,
+            initialValue:
+                createProfileCubit.state.identificationNumber.isNotEmpty
+                    ? createProfileCubit.state.identificationNumber
+                    : _identificationNumber,
             onChanged: (value) => _onFormChanged('idNumber', value),
           ),
           SizedBox(height: size * 0.12),
