@@ -7,17 +7,29 @@ import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/prof
 import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_logout.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_options.dart';
 
-class MyProfileMainView extends StatelessWidget {
+class MyProfileMainView extends StatefulWidget {
   const MyProfileMainView({super.key});
+
+  @override
+  State<MyProfileMainView> createState() => _MyProfileMainViewState();
+}
+
+class _MyProfileMainViewState extends State<MyProfileMainView> {
+  late UserCubit userCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    userCubit = BlocProvider.of<UserCubit>(context);
+    userCubit.resetInitialUser();
+    userCubit.resetFormStatus();
+    userCubit.resetFormStatusLockAccount();
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
-    final userCubit = BlocProvider.of<UserCubit>(context);
-    userCubit.resetInitialUser();
-    userCubit.resetFormStatus();
-    userCubit.resetFormStatusLockAccount();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
