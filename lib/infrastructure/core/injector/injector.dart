@@ -1,9 +1,12 @@
 import 'package:kiwi/kiwi.dart';
+import 'package:wallet_guru/domain/receive_payment/repositories/receive_payment_repository.dart';
 import 'package:wallet_guru/domain/settings/repositories/settings_repository.dart';
 
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 import 'package:wallet_guru/domain/login/repositories/login_repository.dart';
 import 'package:wallet_guru/domain/register/repositories/register_repository.dart';
+import 'package:wallet_guru/infrastructure/receive_payment/data_sources/receive_payment_data_sources.dart';
+import 'package:wallet_guru/infrastructure/receive_payment/repositories/receive_payment_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/settings/data_sources/settings_data_source.dart';
 import 'package:wallet_guru/infrastructure/settings/repositories/settings_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/user/data_sources/user_data_source.dart';
@@ -33,7 +36,7 @@ abstract class Injector {
 
   static final resolve = container.resolve;
 
-  //The repositories and their implementation, the use case and the datasource must always be registered.
+//The repositories and their implementation, the use case and the datasource must always be registered.
   //If two or more use cases depend on the same repositories and datasource, only the new use case should be registered, since the rest will already be registered.
 
   //When you finish registering the new use case, you must run the following command in the console
@@ -43,7 +46,6 @@ abstract class Injector {
   //The second command will overwrite the injector.g.dart file if necessary
 
   //A new factory configuration must be created every time there is a new repository and datasource.
-
   void _configure() {
     _configureRegisterModule();
     _configureLoginModule();
@@ -52,6 +54,7 @@ abstract class Injector {
     _configureUserModule();
     _configureTranslationsErrorModule();
     _configureSettingsrModule();
+    _configureReceivePaymentModule();
   }
 
   void _configureRegisterModule() {
@@ -77,9 +80,13 @@ abstract class Injector {
   void _configureTranslationsErrorModule() {
     _configureTranslationsErrorModuleFactories();
   }
-  
+
   void _configureSettingsrModule() {
     _configureSettingsrModuleFactories();
+  }
+
+  void _configureReceivePaymentModule() {
+    _configureReceivePaymentFactories();
   }
 
   @Register.factory(RegisterDataSource)
@@ -108,7 +115,11 @@ abstract class Injector {
   void _configureTranslationsErrorModuleFactories();
 
   @Register.factory(SettingsDataSource)
-  @Register.factory(SettingsRepository,
-      from: SettingsRepositoryImpl)
+  @Register.factory(SettingsRepository, from: SettingsRepositoryImpl)
   void _configureSettingsrModuleFactories();
+
+  @Register.factory(ReceivePaymentDataSource)
+  @Register.factory(ReceivePaymentRepository,
+      from: ReceivePaymentRepositoryImpl)
+  void _configureReceivePaymentFactories();
 }
