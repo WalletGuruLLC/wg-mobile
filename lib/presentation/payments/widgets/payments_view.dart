@@ -39,7 +39,7 @@ class PaymentsView extends StatelessWidget {
           imageAsset: Assets.arrowUpIcon,
           onTap: () {
             GoRouter.of(context).pushReplacementNamed(
-              Routes.sendPayments.name,
+              Routes.sendPaymentsByForm.name,
             );
           },
         ),

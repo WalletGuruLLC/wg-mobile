@@ -4,7 +4,8 @@ import 'package:wallet_guru/presentation/home/page/home_page.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
 import 'package:wallet_guru/presentation/payments/pages/payments_page.dart';
-import 'package:wallet_guru/presentation/payments/pages/send_payments_page.dart';
+import 'package:wallet_guru/presentation/payments/pages/send_payment_by_qr_page.dart';
+import 'package:wallet_guru/presentation/payments/pages/send_payments_by_form_page.dart';
 import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
 import 'package:wallet_guru/presentation/my_profile/pages/my_info_page.dart';
 import 'package:wallet_guru/presentation/my_profile/pages/profile_page.dart';
@@ -27,7 +28,7 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      builder: (context, state) => const SendPaymentsPage(),
+      builder: (context, state) => const SendPaymentsPageByQr(),
     ),
     GoRoute(
       name: Routes.signUp.name,
@@ -97,9 +98,14 @@ class WalletGuruRouter {
       builder: (context, state) => const PaymentsPage(),
     ),
     GoRoute(
-      name: Routes.sendPayments.name,
-      path: Routes.sendPayments.path,
-      builder: (context, state) => const SendPaymentsPage(),
-    )
+      name: Routes.sendPaymentsByForm.name,
+      path: Routes.sendPaymentsByForm.path,
+      builder: (context, state) => const SendPaymentsPageByForm(),
+    ),
+    GoRoute(
+      name: Routes.sendPaymentsByQr.name,
+      path: Routes.sendPaymentsByQr.path,
+      builder: (context, state) => const SendPaymentsPageByQr(),
+    ),
   ];
 }

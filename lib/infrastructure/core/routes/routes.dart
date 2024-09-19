@@ -23,6 +23,8 @@ class Routes {
   static final changePassword =
       Route(path: '/changePassword', name: 'changePassword');
   static final payments = Route(path: '/payments', name: 'payments');
-  static final sendPayments =
-      Route(path: '/sendPayments', name: 'sendPayments');
+  static final sendPaymentsByForm =
+      Route(path: '/sendPaymentsByForm', name: 'sendPaymentsByForm');
+  static final sendPaymentsByQr =
+      Route(path: '/sendPaymentsByQr', name: 'sendPaymentsByQr');
 }

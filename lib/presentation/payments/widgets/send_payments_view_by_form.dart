@@ -8,14 +8,14 @@ import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
-class SendPaymentsView extends StatefulWidget {
-  const SendPaymentsView({super.key});
+class SendPaymentsViewByForm extends StatefulWidget {
+  const SendPaymentsViewByForm({super.key});
 
   @override
-  State<SendPaymentsView> createState() => _SendPaymentsViewState();
+  State<SendPaymentsViewByForm> createState() => _SendPaymentsViewByFormState();
 }
 
-class _SendPaymentsViewState extends State<SendPaymentsView> {
+class _SendPaymentsViewByFormState extends State<SendPaymentsViewByForm> {
   late ReceivePaymentCubit receivePaymentCubit;
 
   @override
@@ -64,7 +64,8 @@ class _SendPaymentsViewState extends State<SendPaymentsView> {
           validation: false,
           onChanged: (value) {
             receivePaymentCubit.updateSendPaymentInformation(
-                receiverWalletAddress: value);
+              receiverWalletAddress: value,
+            );
             // Handle the change
           },
         ),
