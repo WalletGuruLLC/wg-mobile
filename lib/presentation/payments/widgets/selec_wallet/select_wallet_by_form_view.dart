@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wallet_guru/application/receive_payment/receive_payment_cubit.dart';
+import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
@@ -10,19 +10,19 @@ import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
-class SendPaymentsViewByForm extends StatefulWidget {
-  const SendPaymentsViewByForm({super.key});
+class SelectWalletByFormView extends StatefulWidget {
+  const SelectWalletByFormView({super.key});
 
   @override
-  State<SendPaymentsViewByForm> createState() => _SendPaymentsViewByFormState();
+  State<SelectWalletByFormView> createState() => _SelectWalletByFormViewState();
 }
 
-class _SendPaymentsViewByFormState extends State<SendPaymentsViewByForm> {
-  late ReceivePaymentCubit receivePaymentCubit;
+class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
+  late SendPaymentCubit sendPaymentCubit;
 
   @override
   void initState() {
-    receivePaymentCubit = BlocProvider.of<ReceivePaymentCubit>(context);
+    sendPaymentCubit = BlocProvider.of<SendPaymentCubit>(context);
     super.initState();
   }
 
@@ -38,7 +38,7 @@ class _SendPaymentsViewByFormState extends State<SendPaymentsViewByForm> {
         SizedBox(height: size.height * 0.25),
         GestureDetector(
           onTap: () =>
-              GoRouter.of(context).pushNamed(Routes.sendPaymentsByQr.name),
+              GoRouter.of(context).pushNamed(Routes.selectWalletByQr.name),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -69,14 +69,14 @@ class _SendPaymentsViewByFormState extends State<SendPaymentsViewByForm> {
           hintText: l10n.walletAddress,
           validation: false,
           onChanged: (value) {
-            receivePaymentCubit.updateSendPaymentInformation(
+            sendPaymentCubit.updateSendPaymentInformation(
               receiverWalletAddress: value,
             );
             // Handle the change
           },
         ),
         SizedBox(height: size.height * 0.25),
-        BlocBuilder<ReceivePaymentCubit, ReceivePaymentState>(
+        BlocBuilder<SendPaymentCubit, SendPaymentState>(
             builder: (context, state) {
           bool showButton = state.showButton;
           return showButton

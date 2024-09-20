@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/application/core/validations/validations.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/amount_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/base_text_form_field.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/special_decoration.dart';
 
 class WalletAddressForm extends StatelessWidget {
   final void Function(String?)? onChanged;
@@ -66,7 +68,7 @@ class WalletAddressForm extends StatelessWidget {
               hintStyle: AppTextStyles.formText,
               onChanged: onChanged,
               decoration: specialDecoration == true
-                  ? WalletInputDecoration(
+                  ? SpecialDecoration(
                       hintText: l10n.enterAddressName,
                     ).decoration
                   : null,
@@ -78,40 +80,6 @@ class WalletAddressForm extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-}
-
-class WalletInputDecoration {
-  final String hintText;
-  final Widget? suffixIcon;
-
-  WalletInputDecoration({required this.hintText, this.suffixIcon});
-
-  InputDecoration get decoration {
-    return InputDecoration(
-      suffixIcon: suffixIcon,
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: const BorderSide(
-          width: 1.0,
-          style: BorderStyle.solid,
-          color: Colors.transparent,
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: const BorderSide(
-          width: 1.0,
-          style: BorderStyle.solid,
-          color: Colors.transparent,
-        ),
-      ),
-      hintText: hintText,
-      fillColor: Colors.transparent,
-      hintStyle: AppTextStyles.specialFormText,
-      floatingLabelBehavior: FloatingLabelBehavior.never,
-      errorMaxLines: 5,
     );
   }
 }

@@ -5,8 +5,8 @@ import 'package:wallet_guru/domain/settings/repositories/settings_repository.dar
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 import 'package:wallet_guru/domain/login/repositories/login_repository.dart';
 import 'package:wallet_guru/domain/register/repositories/register_repository.dart';
-import 'package:wallet_guru/infrastructure/receive_payment/data_sources/receive_payment_data_sources.dart';
-import 'package:wallet_guru/infrastructure/receive_payment/repositories/receive_payment_repository_impl.dart';
+import 'package:wallet_guru/infrastructure/send_payment/data_sources/send_payment_data_sources.dart';
+import 'package:wallet_guru/infrastructure/send_payment/repositories/send_payment_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/settings/data_sources/settings_data_source.dart';
 import 'package:wallet_guru/infrastructure/settings/repositories/settings_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/user/data_sources/user_data_source.dart';
@@ -54,7 +54,7 @@ abstract class Injector {
     _configureUserModule();
     _configureTranslationsErrorModule();
     _configureSettingsrModule();
-    _configureReceivePaymentModule();
+    _configureSendPaymentModule();
   }
 
   void _configureRegisterModule() {
@@ -85,8 +85,8 @@ abstract class Injector {
     _configureSettingsrModuleFactories();
   }
 
-  void _configureReceivePaymentModule() {
-    _configureReceivePaymentFactories();
+  void _configureSendPaymentModule() {
+    _configureSendPaymentFactories();
   }
 
   @Register.factory(RegisterDataSource)
@@ -118,8 +118,7 @@ abstract class Injector {
   @Register.factory(SettingsRepository, from: SettingsRepositoryImpl)
   void _configureSettingsrModuleFactories();
 
-  @Register.factory(ReceivePaymentDataSource)
-  @Register.factory(ReceivePaymentRepository,
-      from: ReceivePaymentRepositoryImpl)
-  void _configureReceivePaymentFactories();
+  @Register.factory(SendPaymentDataSource)
+  @Register.factory(SendPaymentRepository, from: SendPaymentRepositoryImpl)
+  void _configureSendPaymentFactories();
 }

@@ -128,6 +128,7 @@
 "addService": "Agregar Servicio",
 "sendPayment": "Enviar Pago",
 "scanQR": "Escanear el código QR del destinatario",
-"walletAddress": "Dirección de Billetera"
+"walletAddress": "Dirección de Billetera",
+"enterAmount": "Ingrese el valor"
 
 }

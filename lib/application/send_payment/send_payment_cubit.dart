@@ -5,11 +5,11 @@ import 'package:wallet_guru/domain/receive_payment/repositories/receive_payment_
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 
-part 'receive_payment_state.dart';
+part 'send_payment_state.dart';
 
-class ReceivePaymentCubit extends Cubit<ReceivePaymentState> {
-  ReceivePaymentCubit() : super(const ReceivePaymentState());
-  final receivePaymentRepository = Injector.resolve<ReceivePaymentRepository>();
+class SendPaymentCubit extends Cubit<SendPaymentState> {
+  SendPaymentCubit() : super(const SendPaymentState());
+  final receivePaymentRepository = Injector.resolve<SendPaymentRepository>();
 
   void emitVerifyWalletExistence() async {
     emit(

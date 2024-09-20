@@ -3,10 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
-import 'package:wallet_guru/presentation/payments/widgets/send_payments_view_by_form.dart';
+import 'package:wallet_guru/presentation/payments/widgets/send_payment_to_user_view.dart';
 
-class SendPaymentsPageByForm extends StatelessWidget {
-  const SendPaymentsPageByForm({super.key});
+class SendPaymentToUserPage extends StatelessWidget {
+  const SendPaymentToUserPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class SendPaymentsPageByForm extends StatelessWidget {
           SizedBox(
             width: size.width * 0.90,
             height: size.height,
-            child: const SendPaymentsViewByForm(),
+            child: const SendPaymentToUserView(),
           ),
         ],
       ),

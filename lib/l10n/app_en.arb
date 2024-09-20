@@ -128,6 +128,7 @@
   "addService": "Add Service",
   "sendPayment": "Send Payment",
   "scanQR": "Scan Recipient's QR code",
-  "walletAddress": "Wallet Address"
+  "walletAddress": "Wallet Address",
+  "enterAmount": "Enter the amount"
 
 }
