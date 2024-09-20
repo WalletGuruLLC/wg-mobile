@@ -8,7 +8,7 @@ import 'package:wallet_guru/presentation/payments/pages/select_wallet/select_wal
 import 'package:wallet_guru/presentation/payments/pages/select_wallet/select_wallet_by_form_page.dart';
 import 'package:wallet_guru/presentation/my_profile/pages/my_info_page.dart';
 import 'package:wallet_guru/presentation/my_profile/pages/profile_page.dart';
-import 'package:wallet_guru/presentation/payments/pages/send_payment_to_user_page.dart';
+import 'package:wallet_guru/presentation/payments/pages/send_payment/send_payment_to_user_page.dart';
 import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
 import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';

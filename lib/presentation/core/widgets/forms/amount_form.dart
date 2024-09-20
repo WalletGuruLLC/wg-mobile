@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/application/core/formatter/formatter.dart';
+import 'package:wallet_guru/presentation/core/styles/input/input_border_style.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/base_text_form_field.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/special_decoration.dart';
@@ -23,32 +24,28 @@ class AmountForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: const EdgeInsets.all(1),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            border: Border.all(
-              width: 1.0,
-              color: Colors.transparent,
-            ),
-            gradient: AppColorSchema.of(context).buttonGradientColor,
+        InputBorderStyle(
+          child: BaseTextFormField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            hintText: l10n.enterAmount,
+            hintStyle: AppTextStyles.formText,
+            onChanged: (value) {
+              final formattedValue = Formatter.formatStringToUsFormat(value!);
+              controller?.value = TextEditingValue(
+                text: formattedValue,
+                selection:
+                    TextSelection.collapsed(offset: formattedValue.length),
+              );
+              if (onChanged != null) {
+                onChanged!(formattedValue);
+              }
+            },
+            decoration: SpecialDecoration(
+              hintText: l10n.enterAmount,
+            ).decoration,
           ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppColorSchema.of(context).scaffoldColor,
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: BaseTextFormField(
-                controller: controller,
-                keyboardType: TextInputType.number,
-                hintText: l10n.enterAmount,
-                hintStyle: AppTextStyles.formText,
-                onChanged: onChanged,
-                decoration: SpecialDecoration(
-                  hintText: l10n.enterAddressName,
-                ).decoration),
-          ),
-        )
+        ),
       ],
     );
   }

@@ -1,56 +1,51 @@
-part of 'receive_payment_cubit.dart';
+part of 'send_payment_cubit.dart';
 
-class ReceivePaymentState extends Equatable {
-  final String receiverWalletAddress;
+class SendPaymentState extends Equatable {
+  final SendPaymentEntity? sendPaymentEntity;
   final FormSubmissionStatus formStatus;
   final String customMessage;
   final String customMessageEs;
   final String customCode;
-  final bool showButton;
+  final bool showNextButton;
+  final bool showPaymentButton;
 
-  const ReceivePaymentState({
-    this.receiverWalletAddress = '',
+  const SendPaymentState({
+    this.sendPaymentEntity,
     this.customMessage = '',
     this.customMessageEs = '',
     this.customCode = '',
     this.formStatus = const InitialFormStatus(),
-    this.showButton = false,
+    this.showNextButton = false,
+    this.showPaymentButton = false,
   });
 
-  ReceivePaymentState copyWith({
-    String? receiverWalletAddress,
+  SendPaymentState copyWith({
     FormSubmissionStatus? formStatus,
     String? customMessage,
     String? customMessageEs,
     String? customCode,
-    bool? showButton,
+    bool? showNextButton,
+    SendPaymentEntity? sendPaymentEntity,
+    bool? showPaymentButton,
   }) =>
-      ReceivePaymentState(
-        receiverWalletAddress:
-            receiverWalletAddress ?? this.receiverWalletAddress,
+      SendPaymentState(
         formStatus: formStatus ?? this.formStatus,
         customMessage: customMessage ?? this.customMessage,
         customMessageEs: customMessageEs ?? this.customMessageEs,
         customCode: customCode ?? this.customCode,
-        showButton: showButton ?? this.showButton,
-      );
-
-  ReceivePaymentState initialState() => const ReceivePaymentState(
-        receiverWalletAddress: '',
-        formStatus: InitialFormStatus(),
-        customMessage: '',
-        customMessageEs: '',
-        customCode: '',
-        showButton: false,
+        showNextButton: showNextButton ?? this.showNextButton,
+        sendPaymentEntity: sendPaymentEntity ?? this.sendPaymentEntity,
+        showPaymentButton: showPaymentButton ?? this.showPaymentButton,
       );
 
   @override
-  List<Object> get props => [
-        receiverWalletAddress,
+  List<Object?> get props => [
         formStatus,
         customMessage,
         customMessageEs,
         customCode,
-        showButton,
+        showNextButton,
+        sendPaymentEntity,
+        showPaymentButton,
       ];
 }

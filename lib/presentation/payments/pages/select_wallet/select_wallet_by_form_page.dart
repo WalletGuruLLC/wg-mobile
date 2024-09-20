@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
-import 'package:wallet_guru/presentation/payments/widgets/selec_wallet/select_wallet_by_form_view.dart';
+import 'package:wallet_guru/presentation/payments/widgets/select_wallet/select_wallet_by_form_view.dart';
 
 class SelectWalletByFormPage extends StatelessWidget {
   const SelectWalletByFormPage({super.key});

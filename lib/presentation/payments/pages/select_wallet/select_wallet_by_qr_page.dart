@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/appbar/app_top_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/presentation/payments/widgets/selec_wallet/send_payment_by_qr_view.dart';
+import 'package:wallet_guru/presentation/payments/widgets/select_wallet/send_payment_by_qr_view.dart';
 
 class SelectWalletByQrPage extends StatelessWidget {
   const SelectWalletByQrPage({super.key});

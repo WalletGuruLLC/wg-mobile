@@ -129,6 +129,14 @@
 "sendPayment": "Enviar Pago",
 "scanQR": "Escanear el código QR del destinatario",
 "walletAddress": "Dirección de Billetera",
-"enterAmount": "Ingrese el valor"
+"enterAmount": "Ingrese el valor",
+"amount": "Valor",
+"currency": "Moneda",
+"chooseCurrency": "Elige una moneda",
+"exchangeRateUpdate": "Actualización del Tipo de Cambio",
+"convertCurrency": "Convertir COP a USD",
+"currentExchangeRate": "Tipo de Cambio Actual: 1 USD = 4,000 COP",
+"amountInUsd": "Monto en USD: 100 USD",
+"rateAvailable": "Esta tasa se actualizará en"
 
 }

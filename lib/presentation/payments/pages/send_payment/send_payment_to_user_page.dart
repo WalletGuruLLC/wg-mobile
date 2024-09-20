@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
-import 'package:wallet_guru/presentation/payments/widgets/send_payment_to_user_view.dart';
+import 'package:wallet_guru/presentation/payments/widgets/send_payment/send_payment_to_user_view.dart';
 
 class SendPaymentToUserPage extends StatelessWidget {
   const SendPaymentToUserPage({super.key});
@@ -18,7 +18,7 @@ class SendPaymentToUserPage extends StatelessWidget {
         showSafeArea: true,
         showSimpleStyle: false,
         showLoggedUserAppBar: true,
-        showBottomNavigationBar: true,
+        showBottomNavigationBar: false,
         actionAppBar: () {
           GoRouter.of(context).pushReplacementNamed(
             Routes.payments.name,

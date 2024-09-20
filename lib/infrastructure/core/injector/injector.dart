@@ -1,5 +1,5 @@
 import 'package:kiwi/kiwi.dart';
-import 'package:wallet_guru/domain/receive_payment/repositories/receive_payment_repository.dart';
+import 'package:wallet_guru/domain/send_payment/repositories/send_payment_repository.dart';
 import 'package:wallet_guru/domain/settings/repositories/settings_repository.dart';
 
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';

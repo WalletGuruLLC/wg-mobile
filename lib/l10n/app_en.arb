@@ -129,6 +129,16 @@
   "sendPayment": "Send Payment",
   "scanQR": "Scan Recipient's QR code",
   "walletAddress": "Wallet Address",
-  "enterAmount": "Enter the amount"
+  "enterAmount": "Enter the amount",
+  "amount": "Amount",
+  "currency": "Currency",
+  "chooseCurrency": "Choose a currency",
+  "exchangeRateUpdate": "Exchange Rate Update",
+  "convertCurrency": "Convert COP to USD",
+  "currentExchangeRate": "Current Exchange Rate: 1 USD = 4,000 COP",
+  "amountInUsd": "Amount in USD: 100 USD",
+  "rateAvailable": "This rate will update in"
+
+
 
 }

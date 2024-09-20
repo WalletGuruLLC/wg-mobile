@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/core/assets/assets.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/payments/widgets/select_wallet/select_wallet_next_button.dart';
+import 'package:wallet_guru/presentation/payments/widgets/select_wallet/select_wallet_scan_qr_option.dart';
 
 class SelectWalletByFormView extends StatefulWidget {
   const SelectWalletByFormView({super.key});
@@ -36,27 +33,7 @@ class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: size.height * 0.25),
-        GestureDetector(
-          onTap: () =>
-              GoRouter.of(context).pushNamed(Routes.selectWalletByQr.name),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              TextBase(
-                text: l10n.scanQR,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
-              const SizedBox(width: 10),
-              Image.asset(
-                Assets.scanIcon,
-                width: 20,
-                height: 20,
-                color: Colors.white,
-              ),
-            ],
-          ),
-        ),
+        const ScanQRButton(),
         const SizedBox(height: 20),
         TextBase(
           text: l10n.walletAddress,
@@ -76,22 +53,7 @@ class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
           },
         ),
         SizedBox(height: size.height * 0.25),
-        BlocBuilder<SendPaymentCubit, SendPaymentState>(
-            builder: (context, state) {
-          bool showButton = state.showButton;
-          return showButton
-              ? CustomButton(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18,
-                  borderRadius: 12,
-                  color: AppColorSchema.of(context).buttonColor,
-                  border: Border.all(width: 0.75, color: Colors.transparent),
-                  text: l10n.next,
-                  height: 56,
-                  onPressed: () {},
-                )
-              : const SizedBox();
-        })
+        const SelectWalletNextButton()
       ],
     );
   }
