@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/home/widgets/transaction_item.dart';
 
 class LastTransactionsList extends StatelessWidget {
@@ -10,9 +12,10 @@ class LastTransactionsList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Last transactions",
-          style: TextStyle(color: Colors.white, fontSize: size.width * 0.045),
+        TextBase(
+          text: "Last transactions",
+          fontSize: size.width * 0.04,
+          fontWeight: FontWeight.w400,
         ),
         SizedBox(height: size.height * 0.02),
         TransactionItem(
@@ -44,10 +47,10 @@ class LastTransactionsList extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: TextButton(
             onPressed: () {},
-            child: Text(
-              "See more",
-              style:
-                  TextStyle(color: Colors.blue, fontSize: size.width * 0.035),
+            child: TextBase(
+              text: "See more",
+              color: Colors.blue,
+              fontSize: size.width * 0.035,
             ),
           ),
         ),

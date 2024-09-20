@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/home/widgets/balance_card.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
@@ -43,11 +44,10 @@ class _HomePageState extends State<HomePage> {
               const BalanceCard(),
               SizedBox(height: size.height * 0.02),
               const LastTransactionsList(),
-              SizedBox(height: size.height * 0.03),
-              Text(
-                "Connecting you to a Digital Future",
-                style:
-                    TextStyle(fontSize: size.width * 0.05, color: Colors.white),
+              SizedBox(height: size.height * 0.0002),
+              TextBase(
+                text: "Connecting you to \na Digital Future",
+                fontSize: size.width * 0.045,
               ),
             ],
           ),
@@ -88,10 +88,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   scale: 1.1,
                 ),
                 Center(
-                  child: Text(
-                    "Hi ${state.user?.firstName}",
-                    style: TextStyle(
-                        color: Colors.white, fontSize: size.width * 0.045),
+                  child: TextBase(
+                    text: "Hi ${state.user?.firstName}",
+                    color: Colors.white,
+                    fontSize: size.width * 0.05,
                   ),
                 ),
                 Row(
