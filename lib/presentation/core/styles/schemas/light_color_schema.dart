@@ -118,4 +118,11 @@ class LightColorSchema implements AppCustomColors {
 
   @override
   Color get buttonTertiaryColor => const Color(0xFFF5F5F5);
+
+  @override
+  LinearGradient get buttonGradientColor => const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Color(0xFF2E3192), Color(0xFF3079B3)],
+      );
 }

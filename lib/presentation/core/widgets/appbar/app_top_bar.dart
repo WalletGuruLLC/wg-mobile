@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
@@ -68,16 +70,19 @@ class WalletGuruAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildFourDotsButton(BuildContext context) {
-    return Container(
-      width: 35,
-      height: 35,
-      decoration: BoxDecoration(
-        color: AppColorSchema.of(context).buttonColor,
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SvgPicture.asset(Assets.fourDotsIcon),
+    return GestureDetector(
+      onTap: () => GoRouter.of(context).pushNamed(Routes.myProfile.name),
+      child: Container(
+        width: 35,
+        height: 35,
+        decoration: BoxDecoration(
+          color: AppColorSchema.of(context).buttonColor,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SvgPicture.asset(Assets.fourDotsIcon),
+        ),
       ),
     );
   }
