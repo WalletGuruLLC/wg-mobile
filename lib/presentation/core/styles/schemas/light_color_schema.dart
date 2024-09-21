@@ -125,4 +125,7 @@ class LightColorSchema implements AppCustomColors {
         end: Alignment.bottomRight,
         colors: [Color(0xFF2E3192), Color(0xFF3079B3)],
       );
+
+  @override
+  Color get configurationColor => const Color(0xFFBDBDBD);
 }

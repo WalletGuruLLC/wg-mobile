@@ -127,6 +127,14 @@
   "sendPayment": "Send Payment",
   "addService": "Add Service",
   "sendPayment": "Send Payment",
-  "save": "Save"
+  "save": "Save",
+  "notificationSettings": "Notification Settings",
+  "hideNotification": "Hide Notification",
+  "inAppNotification": "In App Notifications",
+  "activeOrDeactivateNotifications": "Activate/Inactivate all notifications",
+  "hideNotificationModalText": "By setting a time, you will no longer receive notifications after that time.",
+  "thirtyMin": "30 minutes",
+  "oneHour": "1 hour",
+  "never": "Never"
 
 }

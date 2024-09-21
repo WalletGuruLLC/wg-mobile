@@ -127,5 +127,13 @@
 "sendPayment": "Enviar Pago",
 "addService": "Agregar Servicio",
 "sendPayment": "Enviar Pago",
-"save": "Save"
+"save": "Save",
+"notificationSettings": "Configuración de Notificaciones",
+"hideNotification": "Ocultar Notificación",
+"inAppNotification": "Notificaciones en la Aplicación",
+"activeOrDeactivateNotifications": "Activar/Desactivar notificaciones",
+"hideNotificationModalText": "Al establecer una hora, ya no recibirás notificaciones después de esa hora.",
+"thirtyMin": "30 minutos",
+"oneHour": "1 hora",
+"never": "Nunca"
 }
