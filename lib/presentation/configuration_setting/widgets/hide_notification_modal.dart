@@ -46,7 +46,7 @@ class _HideNotificationModalState extends State<HideNotificationModal> {
                       children: [
                         // Title and Close button
                         _buildModalTitle(l10n, context),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 20),
                         // Instruction Text
                         _buildModalInformation(l10n),
                         const SizedBox(height: 20),

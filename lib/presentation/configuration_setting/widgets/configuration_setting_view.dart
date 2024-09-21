@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/presentation/configuration_setting/widgets/configuration_option.dart';
 import 'package:wallet_guru/presentation/configuration_setting/widgets/hide_notification_modal.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_logout.dart';
 
 class ConfigurationSettingView extends StatelessWidget {
   const ConfigurationSettingView({super.key});
@@ -30,9 +29,6 @@ class ConfigurationSettingView extends StatelessWidget {
           showToggle: true,
         ),
         SizedBox(height: size.height * .065),
-        LogoutButton(
-          text: l10n.logOut,
-        ),
       ],
     );
   }

@@ -20,7 +20,7 @@ class ConfigurationSettingPage extends StatelessWidget {
         showBottomNavigationBar: true,
         actionAppBar: () {
           GoRouter.of(context).pushReplacementNamed(
-            Routes.home.name,
+            Routes.myProfile.name,
           );
         },
         pageAppBarTitle: l10n.notificationSettings,
