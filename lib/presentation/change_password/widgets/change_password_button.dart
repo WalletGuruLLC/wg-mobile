@@ -100,7 +100,7 @@ class _ChangePasswordButtonState extends State<ChangePasswordButton> {
             color: !state.isSubmittable
                 ? Colors.transparent
                 : AppColorSchema.of(context).buttonColor,
-            text: l10n.title_register,
+            text: l10n.save,
             fontSize: 20,
             fontWeight: FontWeight.w400,
             onPressed: state.isSubmittable

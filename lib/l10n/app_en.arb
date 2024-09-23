@@ -126,6 +126,7 @@
   "receivePayment": "Receive Payments",
   "sendPayment": "Send Payment",
   "addService": "Add Service",
-  "sendPayment": "Send Payment"
+  "sendPayment": "Send Payment",
+  "save": "Save"
 
 }
