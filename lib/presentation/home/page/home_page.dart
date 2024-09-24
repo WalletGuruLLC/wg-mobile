@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/home/widgets/balance_card.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     final userCubit = BlocProvider.of<UserCubit>(context);
     userCubit.emitGetUserInformation();
-    //userCubit.emitGetWalletInformation();
+    userCubit.emitGetWalletInformation();
     BlocProvider.of<CreateProfileCubit>(context).emitInitialStatus();
     super.initState();
   }
@@ -39,14 +40,14 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: size.height * 0.02),
               const BalanceCard(),
               SizedBox(height: size.height * 0.02),
               const LastTransactionsList(),
-              SizedBox(height: size.height * 0.03),
-              Text(
-                "Connecting you to a Digital Future",
-                style:
-                    TextStyle(fontSize: size.width * 0.05, color: Colors.white),
+              SizedBox(height: size.height * 0.0002),
+              TextBase(
+                text: "Connecting you to \na Digital Future",
+                fontSize: size.width * 0.045,
               ),
             ],
           ),
@@ -80,34 +81,41 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
             return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: size.width * 0.05,
-                  child: Image.asset(
-                    Assets.iconLogo,
+                Image.asset(
+                  Assets.iconLogoLarge,
+                  scale: 1.1,
+                ),
+                Center(
+                  child: TextBase(
+                    text: "Hi ${state.user?.firstName}",
+                    color: Colors.white,
+                    fontSize: size.width * 0.05,
                   ),
                 ),
-                SizedBox(width: size.width * 0.03),
-                Text(
-                  "Hi ${state.user?.firstName}",
-                  style: TextStyle(
-                      color: Colors.white, fontSize: size.width * 0.045),
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: state.user != null
+                          ? Image.network(state.user!.picture,
+                              width: 45, height: 45)
+                          : const Icon(
+                              Icons.account_circle,
+                              size: 45,
+                              color: Colors.grey,
+                            ),
+                    ),
+                    SizedBox(
+                      width: size.width * 0.03,
+                    ),
+                    Image.asset(
+                      Assets.homeMenuIcon1,
+                      scale: 0.8,
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: state.user != null
-                      ? Image.network(state.user!.picture,
-                          width: 39, height: 39)
-                      : const Icon(
-                          Icons.account_circle,
-                          size: 45,
-                          color: Colors.grey,
-                        ),
-                ),
-                SizedBox(width: size.width * 0.03),
-                Icon(Icons.menu, color: Colors.white, size: size.width * 0.07),
               ],
             );
           },

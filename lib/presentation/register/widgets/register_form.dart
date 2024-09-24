@@ -169,7 +169,9 @@ class RegisterFormState extends State<RegisterForm> {
                 return CustomButton(
                   border: Border.all(
                       color: AppColorSchema.of(context).buttonBorderColor),
-                  color: Colors.transparent,
+                  color: (acceptPrivacy && acceptTerms)
+                      ? AppColorSchema.of(context).buttonColor
+                      : Colors.transparent,
                   text: l10n.title_register,
                   fontSize: 20,
                   fontWeight: FontWeight.w400,

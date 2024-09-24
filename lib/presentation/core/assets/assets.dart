@@ -5,6 +5,7 @@ class Assets {
 // IMAGES
   static const iconLogoSplash = '${base}logo_white.png';
   static const iconLogo = '${base}logo_dark.png';
+  static const iconLogoLarge = '${base}logo_big.png';
   static const emailLogo = '${base}email_icon.png';
   static const passwordLogo = '${base}password_icon.png';
   static const viewPasswordLogo = '${base}view_password_icon.png';
@@ -25,6 +26,7 @@ class Assets {
 
   // BOTTOM MENU ICONS
   static const homeMenuIcon = '${base}home_menu_icon.svg';
+  static const homeMenuIcon1 = '${base}menu_home.png';
   static const fundingMenuIcon = '${base}funding_menu_icon.svg';
   static const transactionsMenuIcon = '${base}transactions_menu_icon.svg';
   static const verticalTransactionMenuIcon =

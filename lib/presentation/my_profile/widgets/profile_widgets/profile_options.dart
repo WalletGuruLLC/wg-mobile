@@ -72,17 +72,18 @@ class ProfileOption extends StatelessWidget {
         GoRouter.of(context).pushNamed(Routes.myInfo.name);
         break;
       case 2:
+        GoRouter.of(context).pushNamed(Routes.configurationSettings.name);
         break;
       case 3:
         GoRouter.of(context).pushNamed(Routes.changePassword.name);
         break;
       case 4:
-        /*showDialog(
+        showDialog(
           context: context,
           builder: (BuildContext context) {
             return const LockAccountModal();
           },
-        );*/
+        );
         break;
       default:
         break;

@@ -29,4 +29,8 @@ class Routes {
       Route(path: '/selectWalletByQr', name: 'selectWalletByQr');
   static final sendPaymentToUser =
       Route(path: '/sendPaymentToUser', name: 'sendPaymentToUser');
+  static final sendPayments =
+      Route(path: '/sendPayments', name: 'sendPayments');
+  static final configurationSettings =
+      Route(path: '/configurationSettings', name: 'configurationSettings');
 }

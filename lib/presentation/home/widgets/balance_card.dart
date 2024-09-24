@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class BalanceCard extends StatelessWidget {
@@ -17,32 +19,27 @@ class BalanceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Balance",
-            style: TextStyle(color: Colors.white, fontSize: size.width * 0.04),
+          TextBase(
+            text: "Balance",
+            fontSize: size.width * 0.04,
           ),
           SizedBox(height: size.height * 0.01),
-          Text(
-            "\$10,567.30",
-            style: TextStyle(
-              fontSize: size.width * 0.1,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+          TextBase(
+            text: "\$10,567.30",
+            fontSize: size.width * 0.1,
+            fontWeight: FontWeight.bold,
           ),
           SizedBox(height: size.height * 0.01),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Reserved Funds:\n\$1,500.13",
-                style: TextStyle(
-                    color: Colors.white70, fontSize: size.width * 0.035),
+              TextBase(
+                text: "Reserved Funds:\n\$1,500.13",
+                fontSize: size.width * 0.035,
               ),
-              Text(
-                "Available Funds:\n\$9,067.17",
-                style: TextStyle(
-                    color: Colors.white70, fontSize: size.width * 0.035),
+              TextBase(
+                text: "Available Funds:\n\$9,067.17",
+                fontSize: size.width * 0.035,
               ),
             ],
           ),

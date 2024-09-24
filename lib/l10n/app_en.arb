@@ -137,8 +137,15 @@
   "convertCurrency": "Convert COP to USD",
   "currentExchangeRate": "Current Exchange Rate: 1 USD = 4,000 COP",
   "amountInUsd": "Amount in USD: 100 USD",
-  "rateAvailable": "This rate will update in"
-
-
+  "rateAvailable": "This rate will update in",
+  "save": "Save",
+  "notificationSettings": "Notification Settings",
+  "hideNotification": "Hide Notification",
+  "inAppNotification": "In App Notifications",
+  "activeOrDeactivateNotifications": "Activate/Inactivate all notifications",
+  "hideNotificationModalText": "By setting a time, you will no longer receive notifications after that time.",
+  "thirtyMin": "30 minutes",
+  "oneHour": "1 hour",
+  "never": "Never"
 
 }

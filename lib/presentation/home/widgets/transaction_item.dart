@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class TransactionItem extends StatelessWidget {
@@ -31,19 +33,16 @@ class TransactionItem extends StatelessWidget {
           Icon(icon, color: Colors.white, size: size.width * 0.07),
           SizedBox(width: size.width * 0.03),
           Expanded(
-            child: Text(
-              title,
-              style:
-                  TextStyle(color: Colors.white, fontSize: size.width * 0.04),
+            child: TextBase(
+              text: title,
+              fontSize: size.width * 0.04,
+              fontWeight: FontWeight.w400,
             ),
           ),
-          Text(
-            amount,
-            style: TextStyle(
-              color: amount.startsWith('-') ? Colors.red : Colors.green,
-              fontWeight: FontWeight.bold,
-              fontSize: size.width * 0.045,
-            ),
+          TextBase(
+            text: amount,
+            fontSize: size.width * 0.04,
+            fontWeight: FontWeight.w400,
           ),
         ],
       ),

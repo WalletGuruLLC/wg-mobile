@@ -57,6 +57,7 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           BlocBuilder<CreateProfileCubit, CreateProfileState>(
             builder: (context, state) {
               return CountryForm(
+                initialValue: state.country.isNotEmpty ? state.country : null,
                 items: state.countries,
                 onChanged: (value) {
                   if (value != null) {
@@ -71,6 +72,8 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           BlocBuilder<CreateProfileCubit, CreateProfileState>(
             builder: (context, state) {
               return StateForm(
+                initialValue:
+                    state.stateLocation.isNotEmpty ? state.stateLocation : null,
                 enabled: state.country.isNotEmpty,
                 items: state.states.isNotEmpty ? state.states : [''],
                 onChanged: (value) {
@@ -86,6 +89,7 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           BlocBuilder<CreateProfileCubit, CreateProfileState>(
             builder: (context, state) {
               return CityForm(
+                initialValue: state.city.isNotEmpty ? state.city : null,
                 items: state.cities.isNotEmpty ? state.cities : [''],
                 onChanged: (value) {
                   if (value != null) {
@@ -97,10 +101,20 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           ),
           const SizedBox(height: 20),
           FormLabel(label: l10n.zipCode),
-          ZipCodeForm(onChanged: (value) => _onFormChanged('zipCode', value)),
+          ZipCodeForm(
+            initialValue: createProfileCubit.state.zipCode.isNotEmpty
+                ? createProfileCubit.state.zipCode
+                : null,
+            onChanged: (value) => _onFormChanged('zipCode', value),
+          ),
           const SizedBox(height: 20),
           FormLabel(label: l10n.address),
-          AddressForm(onChanged: (value) => _onFormChanged('address', value)),
+          AddressForm(
+            initialValue: createProfileCubit.state.address.isNotEmpty
+                ? createProfileCubit.state.address
+                : null,
+            onChanged: (value) => _onFormChanged('address', value),
+          ),
           SizedBox(height: size * 0.05),
           CreateProfileButtons(
             onPressed1: _onBackButtonPressed,
