@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
-import 'package:wallet_guru/presentation/payments/widgets/gradient_button.dart';
+import 'package:wallet_guru/presentation/core/styles/input/gradient_button.dart';
 
 class PaymentsView extends StatelessWidget {
   const PaymentsView({super.key});
@@ -39,7 +39,7 @@ class PaymentsView extends StatelessWidget {
           imageAsset: Assets.arrowUpIcon,
           onTap: () {
             GoRouter.of(context).pushReplacementNamed(
-              Routes.sendPayments.name,
+              Routes.selectWalletByForm.name,
             );
           },
         ),

@@ -73,4 +73,13 @@ class _$Injector extends Injector {
       ..registerFactory<SettingsRepository>((c) => SettingsRepositoryImpl(
           settingsDataSource: c.resolve<SettingsDataSource>()));
   }
+
+  @override
+  void _configureSendPaymentFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => SendPaymentDataSource())
+      ..registerFactory<SendPaymentRepository>((c) => SendPaymentRepositoryImpl(
+          sendPaymentDataSources: c.resolve<SendPaymentDataSource>()));
+  }
 }

@@ -69,9 +69,11 @@ class _BaseFormFieldModalState extends State<BaseFormFieldModal> {
   }
 
   InputDecoration _buildDefaultDecoration(Size size, BuildContext context) {
-    const UnderlineInputBorder defaultBorder = UnderlineInputBorder(
+    UnderlineInputBorder defaultBorder = UnderlineInputBorder(
         borderSide: BorderSide(
-      color: Color(0xFF494949),
+      color: widget.decoration != null
+          ? Colors.transparent
+          : const Color(0xFF494949),
     ));
 
     return InputDecoration(
@@ -85,9 +87,11 @@ class _BaseFormFieldModalState extends State<BaseFormFieldModal> {
       errorMaxLines: 5,
       focusedErrorBorder: defaultBorder,
       floatingLabelBehavior: FloatingLabelBehavior.never,
-      contentPadding: const EdgeInsets.symmetric(
-        vertical: 16.0,
-        horizontal: 0,
+      contentPadding: const EdgeInsets.only(
+        left: 5,
+        right: 0,
+        top: 16.0,
+        bottom: 16.0,
       ),
       suffixIcon: GestureDetector(
         child: const Icon(
@@ -140,19 +144,6 @@ class _BaseFormFieldModalState extends State<BaseFormFieldModal> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-        child: TextBase(
-          textAlign: TextAlign.center,
-          text: 'There are not available states or cities for this country',
-          color: Colors.white,
-        ),
-      ),
     );
   }
 }
