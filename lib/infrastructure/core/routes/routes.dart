@@ -25,4 +25,6 @@ class Routes {
   static final payments = Route(path: '/payments', name: 'payments');
   static final sendPayments =
       Route(path: '/sendPayments', name: 'sendPayments');
+  static final configurationSettings =
+      Route(path: '/configurationSettings', name: 'configurationSettings');
 }
