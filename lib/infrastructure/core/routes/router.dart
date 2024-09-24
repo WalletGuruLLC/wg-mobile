@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/presentation/configuration_setting/page/configuration_setting_page.dart';
 
 import 'package:wallet_guru/presentation/home/page/home_page.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
@@ -100,6 +101,11 @@ class WalletGuruRouter {
       name: Routes.sendPayments.name,
       path: Routes.sendPayments.path,
       builder: (context, state) => const SendPaymentsPage(),
-    )
+    ),
+    GoRoute(
+      name: Routes.configurationSettings.name,
+      path: Routes.configurationSettings.path,
+      builder: (context, state) => const ConfigurationSettingPage(),
+    ),
   ];
 }
