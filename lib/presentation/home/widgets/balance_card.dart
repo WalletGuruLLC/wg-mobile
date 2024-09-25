@@ -33,13 +33,33 @@ class BalanceCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextBase(
-                text: "Reserved Funds:\n\$1,500.13",
-                fontSize: size.width * 0.035,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextBase(
+                    text: "Reserved Funds:",
+                    fontSize: size.width * 0.035,
+                  ),
+                  TextBase(
+                    text: "\$1,500.13",
+                    fontSize: size.width * 0.035,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ],
               ),
-              TextBase(
-                text: "Available Funds:\n\$9,067.17",
-                fontSize: size.width * 0.035,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextBase(
+                    text: "Available Funds:",
+                    fontSize: size.width * 0.035,
+                  ),
+                  TextBase(
+                    text: "\$9,067.17",
+                    fontSize: size.width * 0.035,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ],
               ),
             ],
           ),
