@@ -75,7 +75,7 @@
   "enterValidConfirmPassword": "Las contraseñas no coinciden",
   "enterPhoneNumber": "Por favor, ingrese su número de teléfono",
   "enterValidPhoneNumber": "Por favor, ingrese un número de teléfono válido",
-  "enterSSN": "Por favor, ingrese su número de SSN",
+  "enterSSN": "Ingrese su número de SSN",
   "enterValidSSN": "Por favor, ingrese un número de SSN válido XXX-XX-XXXX",
   "enterOTP": "Por favor, ingrese su número de OTP",
   "enterValidOTP": "Por favor, ingrese un número de OTP válido",

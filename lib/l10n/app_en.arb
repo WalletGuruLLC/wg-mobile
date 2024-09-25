@@ -75,7 +75,7 @@
   "enterValidConfirmPassword": "Passwords do not match",
   "enterPhoneNumber": "Please enter your phone number",
   "enterValidPhoneNumber": "Please enter a valid phone number",
-  "enterSSN": "Please enter your SSN number",
+  "enterSSN": "Enter your SSN",
   "enterValidSSN": "Please enter a valid SSN number XXX-XX-XXXX",
   "enterOTP": "Please enter your Otp number",
   "enterValidOTP": "Please enter valid Otp number",

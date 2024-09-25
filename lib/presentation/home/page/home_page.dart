@@ -85,7 +85,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Image.asset(
                   Assets.iconLogoLarge,
-                  scale: 1.1,
+                  scale: 1.2,
                 ),
                 Center(
                   child: TextBase(
