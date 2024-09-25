@@ -28,7 +28,7 @@ class PetitionResponseModal extends StatelessWidget {
       isSucefull: isSuccessful,
       buttonWidth: locale.languageCode == 'en'
           ? MediaQuery.of(context).size.width * 0.40
-          : MediaQuery.of(context).size.width * 0.42,
+          : MediaQuery.of(context).size.width * 0.45,
       content: Column(
         children: [
           SizedBox(height: size * 0.010),

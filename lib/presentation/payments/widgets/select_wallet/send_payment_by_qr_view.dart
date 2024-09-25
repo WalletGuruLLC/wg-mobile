@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:wallet_guru/application/core/validations/validations.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 class SendPaymentByQrView extends StatefulWidget {
   const SendPaymentByQrView({super.key});
@@ -46,7 +49,16 @@ class _SendPaymentByQrViewState extends State<SendPaymentByQrView> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) {});
+    controller.scannedDataStream.listen((scanData) {
+      if (scanData.code == null) {
+        return;
+      }
+      if (Validators.regExpressionForWallet.hasMatch(scanData.code!)) {
+        GoRouter.of(context).pushNamed(
+          Routes.sendPaymentToUser.name,
+        );
+      }
+    });
   }
 
   @override
