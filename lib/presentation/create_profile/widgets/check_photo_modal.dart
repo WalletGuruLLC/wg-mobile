@@ -61,7 +61,7 @@ class CheckPhotoModal extends StatelessWidget {
                 ),
                 color: AppColorSchema.of(context).buttonColor,
                 text: l10n.allow,
-                fontSize: 18,
+                fontSize: size.width * 0.04,
                 onPressed: () {
                   File imageFile = File(imageSelected.path);
                   if (imageFile.existsSync()) {
@@ -81,7 +81,7 @@ class CheckPhotoModal extends StatelessWidget {
                 ),
                 color: AppColorSchema.of(context).clearButtonColor,
                 text: l10n.deny,
-                fontSize: 18,
+                fontSize: size.width * 0.04,
                 fontWeight: FontWeight.w400,
                 buttonTextColor: Colors.black,
                 onPressed: () => Navigator.of(context).pop(), // Close the modal

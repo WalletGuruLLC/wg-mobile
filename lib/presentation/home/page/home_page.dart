@@ -85,7 +85,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Image.asset(
                   Assets.iconLogoLarge,
-                  scale: 1.1,
+                  scale: 1.2,
                 ),
                 Center(
                   child: TextBase(
@@ -99,8 +99,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: state.user != null
-                          ? Image.network(state.user!.picture,
-                              width: 45, height: 45)
+                          ? Image.network(
+                              state.user!.picture,
+                              width: 60,
+                              height: 60,
+                            )
                           : const Icon(
                               Icons.account_circle,
                               size: 45,
