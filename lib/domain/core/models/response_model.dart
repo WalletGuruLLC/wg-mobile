@@ -238,39 +238,74 @@ class Wallet {
   final String id;
   final String name;
   final String walletType;
-  final String walletAddress;
+  final String? walletAddress;
   final bool active;
+  final DateTime? createDate;
+  final DateTime? updateDate;
+  final String userId;
+  final WalletAsset? walletAsset;
+  final double balance;
+  final double reserved;
 
   Wallet({
     required this.id,
     required this.name,
     required this.walletType,
-    required this.walletAddress,
+    this.walletAddress,
     required this.active,
+    this.createDate,
+    this.updateDate,
+    required this.userId,
+    this.walletAsset,
+    required this.balance,
+    required this.reserved,
   });
 
-  factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
+  factory Wallet.fromJson(Map<String, dynamic> json) {
+    final walletDb = json['walletDb'] ?? json;
+    return Wallet(
+      id: walletDb["id"] ?? '',
+      name: walletDb["name"] ?? '',
+      walletType: walletDb["walletType"] ?? '',
+      walletAddress: walletDb["walletAddress"],
+      active: walletDb["active"] ?? false,
+      createDate: _parseDate(walletDb["createDate"]),
+      updateDate: _parseDate(walletDb["updateDate"]),
+      userId: walletDb["userId"] ?? '',
+      walletAsset: json["walletAsset"] != null
+          ? WalletAsset.fromJson(json["walletAsset"])
+          : null,
+      balance: json["balance"]?.toDouble() ?? 0.0,
+      reserved: json["reserved"]?.toDouble() ?? 0.0,
+    );
+  }
+
+  static DateTime? _parseDate(dynamic date) {
+    if (date == null || (date is Map && date.isEmpty)) {
+      return null;
+    }
+    return DateTime.parse(date);
+  }
+}
+
+class WalletAsset {
+  final String id;
+  final String code;
+  final String liquidity;
+  final int scale;
+
+  WalletAsset({
+    required this.id,
+    required this.code,
+    required this.liquidity,
+    required this.scale,
+  });
+
+  factory WalletAsset.fromJson(Map<String, dynamic> json) => WalletAsset(
         id: json["id"] ?? '',
-        name: json["name"] ?? '',
-        walletType: json["walletType"] ?? '',
-        walletAddress: json["walletAddress"] ?? '',
-        active: json["active"] ?? false,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "walletType": walletType,
-        "walletAddress": walletAddress,
-        "active": active,
-      };
-
-  factory Wallet.initialState() => Wallet(
-        id: '',
-        name: '',
-        walletType: '',
-        walletAddress: '',
-        active: false,
+        code: json["code"] ?? '',
+        liquidity: json["liquidity"] ?? '',
+        scale: json["scale"] ?? 0,
       );
 }
 

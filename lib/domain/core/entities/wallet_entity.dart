@@ -33,7 +33,7 @@ class WalletEntity {
   factory WalletEntity.fromWallet(Wallet wallet) {
     return WalletEntity(
       id: wallet.id,
-      walletAddress: wallet.walletAddress,
+      walletAddress: wallet.walletAddress ?? '',
       active: wallet.active,
     );
   }
