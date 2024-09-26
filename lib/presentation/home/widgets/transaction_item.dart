@@ -7,18 +7,17 @@ class TransactionItem extends StatelessWidget {
   final String title;
   final String amount;
   final IconData icon;
-  final Size size;
 
   const TransactionItem({
     super.key,
     required this.title,
     required this.amount,
     required this.icon,
-    required this.size,
   });
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(vertical: size.height * 0.01),
       padding: EdgeInsets.all(size.width * 0.03),

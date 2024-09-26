@@ -224,8 +224,8 @@ class UserCubit extends Cubit<UserState> {
           state.copyWith(
               formStatusWallet: SubmissionSuccess(),
               wallet: WalletEntity.fromWallet(updatedUser.data!.wallet!),
-              availableFunds: updatedUser.data!.wallet!.reserved -
-                  updatedUser.data!.wallet!.balance),
+              availableFunds: updatedUser.data!.wallet!.reserved! -
+                  updatedUser.data!.wallet!.balance!),
         );
       },
     );
