@@ -1,6 +1,7 @@
 import 'package:kiwi/kiwi.dart';
 import 'package:wallet_guru/domain/send_payment/repositories/send_payment_repository.dart';
 import 'package:wallet_guru/domain/settings/repositories/settings_repository.dart';
+import 'package:wallet_guru/domain/transactions/repositories/transaction_repository.dart';
 
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 import 'package:wallet_guru/domain/login/repositories/login_repository.dart';
@@ -9,6 +10,8 @@ import 'package:wallet_guru/infrastructure/send_payment/data_sources/send_paymen
 import 'package:wallet_guru/infrastructure/send_payment/repositories/send_payment_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/settings/data_sources/settings_data_source.dart';
 import 'package:wallet_guru/infrastructure/settings/repositories/settings_repository_impl.dart';
+import 'package:wallet_guru/infrastructure/transactions/data_sources/transaction_data_source.dart';
+import 'package:wallet_guru/infrastructure/transactions/repositories/transaction_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/user/data_sources/user_data_source.dart';
 import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 import 'package:wallet_guru/infrastructure/user/repositories/user_repository_impl.dart';
@@ -55,6 +58,7 @@ abstract class Injector {
     _configureTranslationsErrorModule();
     _configureSettingsrModule();
     _configureSendPaymentModule();
+    _configureTransactionsModule();
   }
 
   void _configureRegisterModule() {
@@ -87,6 +91,10 @@ abstract class Injector {
 
   void _configureSendPaymentModule() {
     _configureSendPaymentFactories();
+  }
+  
+  void _configureTransactionsModule() {
+    _configureTransactionsFactories();
   }
 
   @Register.factory(RegisterDataSource)
@@ -121,4 +129,8 @@ abstract class Injector {
   @Register.factory(SendPaymentDataSource)
   @Register.factory(SendPaymentRepository, from: SendPaymentRepositoryImpl)
   void _configureSendPaymentFactories();
+  
+  @Register.factory(TransactionDataSource)
+  @Register.factory(TransactionRepository, from: TransactionRepositoryImpl)
+  void _configureTransactionsFactories();
 }

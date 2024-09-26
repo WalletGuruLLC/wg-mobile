@@ -1,3 +1,5 @@
+import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
+
 class ResponseModel {
   final int statusCode;
   final String customCode;
@@ -34,6 +36,7 @@ class ResponseModel {
 class Data {
   final User? user;
   final Wallet? wallet;
+  final TransactionsModel? transactionsModel;
   final List<RafikiAssets>? rafikiAssets;
   final String token;
   final bool success;
@@ -42,6 +45,7 @@ class Data {
   Data({
     required this.user,
     required this.wallet,
+    required this.transactionsModel,
     required this.rafikiAssets,
     required this.token,
     required this.success,
@@ -58,6 +62,9 @@ class Data {
 
     return Data(
       user: user,
+      transactionsModel: json["transactions"] == null
+          ? null
+          : TransactionsModel.fromJson(json["transactions"]),
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
           : null,
@@ -75,6 +82,7 @@ class Data {
   factory Data.initialState() => Data(
         user: null,
         wallet: null,
+        transactionsModel: null,
         rafikiAssets: null,
         token: '',
         success: false,
@@ -236,9 +244,9 @@ class User {
 
 class Wallet {
   final WalletDb walletDb;
-  final WalletAsset walletAsset;
-  final double balance;
-  final double reserved;
+  final WalletAsset? walletAsset;
+  final double? balance;
+  final double? reserved;
 
   Wallet({
     required this.walletDb,
@@ -249,17 +257,16 @@ class Wallet {
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
         walletDb: WalletDb.fromJson(json["walletDb"]),
-        walletAsset: WalletAsset.fromJson(json["walletAsset"]),
-        balance: double.parse(json["balance"].toString()),
-        reserved: double.parse(json["reserved"].toString()),
+        walletAsset: json["walletAsset"] == null
+            ? null
+            : WalletAsset.fromJson(json["walletAsset"]),
+        balance: json["balance"] == null
+            ? 0.0
+            : double.parse(json["balance"].toString()),
+        reserved: json["reserved"] == null
+            ? 0.0
+            : double.parse(json["reserved"].toString()),
       );
-
-  Map<String, dynamic> toJson() => {
-        "walletDb": walletDb.toJson(),
-        "walletAsset": walletAsset.toJson(),
-        "balance": balance,
-        "reserved": reserved,
-      };
 
   factory Wallet.initialState() => Wallet(
         walletDb: WalletDb.initialState(),
