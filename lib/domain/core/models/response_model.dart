@@ -244,9 +244,9 @@ class User {
 
 class Wallet {
   final WalletDb walletDb;
-  final WalletAsset walletAsset;
-  final double balance;
-  final double reserved;
+  final WalletAsset? walletAsset;
+  final double? balance;
+  final double? reserved;
 
   Wallet({
     required this.walletDb,
@@ -257,17 +257,16 @@ class Wallet {
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
         walletDb: WalletDb.fromJson(json["walletDb"]),
-        walletAsset: WalletAsset.fromJson(json["walletAsset"]),
-        balance: double.parse(json["balance"].toString()),
-        reserved: double.parse(json["reserved"].toString()),
+        walletAsset: json["walletAsset"] == null
+            ? null
+            : WalletAsset.fromJson(json["walletAsset"]),
+        balance: json["balance"] == null
+            ? 0.0
+            : double.parse(json["balance"].toString()),
+        reserved: json["reserved"] == null
+            ? 0.0
+            : double.parse(json["reserved"].toString()),
       );
-
-  Map<String, dynamic> toJson() => {
-        "walletDb": walletDb.toJson(),
-        "walletAsset": walletAsset.toJson(),
-        "balance": balance,
-        "reserved": reserved,
-      };
 
   factory Wallet.initialState() => Wallet(
         walletDb: WalletDb.initialState(),

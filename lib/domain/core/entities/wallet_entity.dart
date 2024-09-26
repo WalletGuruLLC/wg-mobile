@@ -29,9 +29,9 @@ class WalletEntity {
   factory WalletEntity.fromWallet(Wallet wallet) {
     return WalletEntity(
       walletDb: wallet.walletDb,
-      walletAsset: wallet.walletAsset,
-      balance: wallet.balance,
-      reserved: wallet.reserved,
+      walletAsset: wallet.walletAsset ?? WalletAsset.initialState(),
+      balance: wallet.balance ?? 0.0,
+      reserved: wallet.reserved ?? 0.0,
     );
   }
 }
