@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
@@ -48,13 +49,21 @@ class ChangePasswordFormState extends State<ChangePasswordForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            children: [
+              Image.asset(
+                Assets.iconLogo,
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
           const AuthLoginDivider(),
           TextBase(
             text: l10n.changePassword,
             fontSize: 20,
             fontWeight: FontWeight.w400,
           ),
-          SizedBox(height: size * 0.1),
+          SizedBox(height: size * 0.08),
           FormLabel(label: l10n.currentPassword),
           CurrentPasswordForm(
             initialValue: _currentPassword,
