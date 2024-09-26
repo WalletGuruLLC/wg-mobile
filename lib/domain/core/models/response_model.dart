@@ -1,3 +1,5 @@
+import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
+
 class ResponseModel {
   final int statusCode;
   final String customCode;
@@ -34,6 +36,7 @@ class ResponseModel {
 class Data {
   final User? user;
   final Wallet? wallet;
+  final TransactionsModel? transactionsModel;
   final List<RafikiAssets>? rafikiAssets;
   final String token;
   final bool success;
@@ -42,6 +45,7 @@ class Data {
   Data({
     required this.user,
     required this.wallet,
+    required this.transactionsModel,
     required this.rafikiAssets,
     required this.token,
     required this.success,
@@ -58,6 +62,9 @@ class Data {
 
     return Data(
       user: user,
+      transactionsModel: json["transactions"] == null
+          ? null
+          : TransactionsModel.fromJson(json["transactions"]),
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
           : null,
@@ -75,6 +82,7 @@ class Data {
   factory Data.initialState() => Data(
         user: null,
         wallet: null,
+        transactionsModel: null,
         rafikiAssets: null,
         token: '',
         success: false,
