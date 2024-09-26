@@ -203,6 +203,11 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void emitGetWalletInformation() async {
+    emit(
+      state.copyWith(
+        formStatusWallet: FormSubmitting(),
+      ),
+    );
     final updatedUser = await userRepository.getWalletInformation();
     updatedUser.fold(
       (error) {
@@ -210,11 +215,18 @@ class UserCubit extends Cubit<UserState> {
           customCode: error.code,
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
+          formStatusWallet:
+              SubmissionFailed(exception: Exception(error.messageEn)),
         ));
       },
       (updatedUser) {
-        emit(state.copyWith(
-            wallet: WalletEntity.fromWallet(updatedUser.wallet!)));
+        emit(
+          state.copyWith(
+              formStatusWallet: SubmissionSuccess(),
+              wallet: WalletEntity.fromWallet(updatedUser.data!.wallet!),
+              availableFunds: updatedUser.data!.wallet!.reserved -
+                  updatedUser.data!.wallet!.balance),
+        );
       },
     );
   }
@@ -223,7 +235,8 @@ class UserCubit extends Cubit<UserState> {
     emit(
       state.copyWith(formStatusLockAccount: FormSubmitting()),
     );
-    final updatedUser = await userRepository.lockAccount(state.wallet!.id);
+    final updatedUser =
+        await userRepository.lockAccount(state.wallet!.walletDb.id);
     updatedUser.fold(
       (error) {
         emit(state.copyWith(

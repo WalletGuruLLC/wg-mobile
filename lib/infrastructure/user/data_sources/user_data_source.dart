@@ -76,8 +76,8 @@ class UserDataSource {
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      ResponseModel registerModel = ResponseModel.fromJson(result);
-      return registerModel;
+      ResponseModel walletInfo = ResponseModel.fromJson(result);
+      return walletInfo;
     } else {
       final errorModel = ResponseModel.fromJson(result);
       throw InvalidData(errorModel.customCode, errorModel.customMessage,
