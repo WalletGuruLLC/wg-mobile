@@ -235,77 +235,117 @@ class User {
 }
 
 class Wallet {
-  final String id;
-  final String name;
-  final String walletType;
-  final String? walletAddress;
-  final bool active;
-  final DateTime? createDate;
-  final DateTime? updateDate;
-  final String userId;
-  final WalletAsset? walletAsset;
+  final WalletDb walletDb;
+  final WalletAsset walletAsset;
   final double balance;
   final double reserved;
 
   Wallet({
-    required this.id,
-    required this.name,
-    required this.walletType,
-    this.walletAddress,
-    required this.active,
-    this.createDate,
-    this.updateDate,
-    required this.userId,
-    this.walletAsset,
+    required this.walletDb,
+    required this.walletAsset,
     required this.balance,
     required this.reserved,
   });
 
-  factory Wallet.fromJson(Map<String, dynamic> json) {
-    final walletDb = json['walletDb'] ?? json;
-    return Wallet(
-      id: walletDb["id"] ?? '',
-      name: walletDb["name"] ?? '',
-      walletType: walletDb["walletType"] ?? '',
-      walletAddress: walletDb["walletAddress"],
-      active: walletDb["active"] ?? false,
-      createDate: _parseDate(walletDb["createDate"]),
-      updateDate: _parseDate(walletDb["updateDate"]),
-      userId: walletDb["userId"] ?? '',
-      walletAsset: json["walletAsset"] != null
-          ? WalletAsset.fromJson(json["walletAsset"])
-          : null,
-      balance: json["balance"]?.toDouble() ?? 0.0,
-      reserved: json["reserved"]?.toDouble() ?? 0.0,
-    );
-  }
+  factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
+        walletDb: WalletDb.fromJson(json["walletDb"]),
+        walletAsset: WalletAsset.fromJson(json["walletAsset"]),
+        balance: double.parse(json["balance"].toString()),
+        reserved: double.parse(json["reserved"].toString()),
+      );
 
-  static DateTime? _parseDate(dynamic date) {
-    if (date == null || (date is Map && date.isEmpty)) {
-      return null;
-    }
-    return DateTime.parse(date);
-  }
+  Map<String, dynamic> toJson() => {
+        "walletDb": walletDb.toJson(),
+        "walletAsset": walletAsset.toJson(),
+        "balance": balance,
+        "reserved": reserved,
+      };
+
+  factory Wallet.initialState() => Wallet(
+        walletDb: WalletDb.initialState(),
+        walletAsset: WalletAsset.initialState(),
+        balance: 0.0,
+        reserved: 0.0,
+      );
 }
 
 class WalletAsset {
-  final String id;
+  final String typename;
   final String code;
+  final String id;
   final String liquidity;
   final int scale;
 
   WalletAsset({
-    required this.id,
+    required this.typename,
     required this.code,
+    required this.id,
     required this.liquidity,
     required this.scale,
   });
 
   factory WalletAsset.fromJson(Map<String, dynamic> json) => WalletAsset(
-        id: json["id"] ?? '',
-        code: json["code"] ?? '',
-        liquidity: json["liquidity"] ?? '',
-        scale: json["scale"] ?? 0,
+        typename: json["_Typename"],
+        code: json["code"],
+        id: json["id"],
+        liquidity: json["liquidity"],
+        scale: json["scale"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_Typename": typename,
+        "code": code,
+        "id": id,
+        "liquidity": liquidity,
+        "scale": scale,
+      };
+
+  factory WalletAsset.initialState() => WalletAsset(
+        typename: '',
+        code: '',
+        id: '',
+        liquidity: '',
+        scale: 0,
+      );
+}
+
+class WalletDb {
+  final String userId;
+  final String walletType;
+  final String id;
+  final bool active;
+  final String name;
+
+  WalletDb({
+    required this.userId,
+    required this.walletType,
+    required this.id,
+    required this.active,
+    required this.name,
+  });
+
+  factory WalletDb.fromJson(Map<String, dynamic> json) => WalletDb(
+        userId: json["userId"],
+        walletType: json["walletType"],
+        id: json["id"],
+        active: json["active"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "userId": userId,
+        "walletType": walletType,
+        "id": id,
+        "active": active,
+        "name": name,
+      };
+
+  factory WalletDb.initialState() => WalletDb(
+        userId: '',
+        walletType: '',
+        id: '',
+        active: false,
+        name: '',
       );
 }
 
