@@ -5,6 +5,7 @@ class UserState extends Equatable {
   final String customCode;
   final String customMessage;
   final FormSubmissionStatus formStatus;
+  final FormSubmissionStatus formStatusWallet;
   final String customMessageEs;
   final String userId;
   final bool userHasChanged;
@@ -15,12 +16,14 @@ class UserState extends Equatable {
   final bool isSubmittable;
   final FormSubmissionStatus formStatusLockAccount;
   final WalletEntity? wallet;
+  final double availableFunds;
 
   const UserState({
     this.user,
     this.customCode = '',
     this.customMessage = '',
     this.formStatus = const InitialFormStatus(),
+    this.formStatusWallet = const InitialFormStatus(),
     this.customMessageEs = '',
     this.userId = '',
     this.userHasChanged = false,
@@ -31,12 +34,14 @@ class UserState extends Equatable {
     this.isSubmittable = false,
     this.formStatusLockAccount = const InitialFormStatus(),
     this.wallet,
+    this.availableFunds = 0.0,
   });
 
   UserState copyWith({
     String? customCode,
     String? customMessage,
     FormSubmissionStatus? formStatus,
+    FormSubmissionStatus? formStatusWallet,
     String? customMessageEs,
     UserEntity? user,
     String? userId,
@@ -48,12 +53,14 @@ class UserState extends Equatable {
     bool? isSubmittable,
     FormSubmissionStatus? formStatusLockAccount,
     WalletEntity? wallet,
+    double? availableFunds,
   }) =>
       UserState(
         user: user ?? this.user,
         customCode: customCode ?? this.customCode,
         customMessage: customMessage ?? this.customMessage,
         formStatus: formStatus ?? this.formStatus,
+        formStatusWallet: formStatusWallet ?? this.formStatusWallet,
         customMessageEs: customMessageEs ?? this.customMessageEs,
         userId: userId ?? this.userId,
         userHasChanged: userHasChanged ?? this.userHasChanged,
@@ -65,6 +72,7 @@ class UserState extends Equatable {
         formStatusLockAccount:
             formStatusLockAccount ?? this.formStatusLockAccount,
         wallet: wallet ?? this.wallet,
+        availableFunds: availableFunds ?? this.availableFunds,
       );
 
   @override
@@ -72,6 +80,7 @@ class UserState extends Equatable {
         customCode,
         customMessage,
         formStatus,
+        formStatusWallet,
         customMessageEs,
         user,
         userId,
@@ -83,5 +92,6 @@ class UserState extends Equatable {
         isSubmittable,
         formStatusLockAccount,
         wallet,
+        availableFunds,
       ];
 }

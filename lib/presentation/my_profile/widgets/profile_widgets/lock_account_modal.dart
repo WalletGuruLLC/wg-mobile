@@ -19,7 +19,7 @@ class LockAccountModal extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     final bool isWalletAvailable =
-        BlocProvider.of<UserCubit>(context).state.wallet!.active;
+        BlocProvider.of<UserCubit>(context).state.wallet!.walletDb.active;
 
     return BaseModal(
       showCloseIcon: true,
