@@ -22,25 +22,21 @@ class LastTransactionsList extends StatelessWidget {
           title: "Coffee Shop",
           amount: "-\$3.68",
           icon: Icons.local_cafe,
-          size: size,
         ),
         TransactionItem(
           title: "Streaming PPV",
           amount: "-\$3.50",
           icon: Icons.tv,
-          size: size,
         ),
         TransactionItem(
           title: "Daily Phone Usage",
           amount: "-\$0.20",
           icon: Icons.phone,
-          size: size,
         ),
         TransactionItem(
           title: "Incoming Funds",
           amount: "+\$53.22",
           icon: Icons.arrow_downward,
-          size: size,
         ),
         SizedBox(height: size.height * 0.01),
         Align(
