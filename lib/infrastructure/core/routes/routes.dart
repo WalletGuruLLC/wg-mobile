@@ -35,4 +35,8 @@ class Routes {
       Route(path: '/configurationSettings', name: 'configurationSettings');
   static final withdrawPage =
       Route(path: '/withdrawPage', name: 'withdrawPage');
+  static final fundingScreen =
+      Route(path: '/fundingScreen', name: 'fundingScreen');
+  static final addFunding =
+      Route(path: '/addFunding', name: 'addFunding');
 }
