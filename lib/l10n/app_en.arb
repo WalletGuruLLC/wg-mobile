@@ -152,6 +152,7 @@
   "selectTheValueWithdraw": "Select the value",
   "allFundsWithdraw" : "All funds",
   "otherAmountWithdraw" : "Other amount",
-  "uploadQr": "Upload Qr Code"
+  "uploadQr": "Upload Qr Code",
+  "receivePayment": "Receive Payments"
 
 }
