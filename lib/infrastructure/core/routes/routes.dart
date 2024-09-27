@@ -37,4 +37,7 @@ class Routes {
       Route(path: '/withdrawPage', name: 'withdrawPage');
   static final receivePayment =
       Route(path: '/receivePayment', name: 'receivePayment');
+  static final fundingScreen =
+      Route(path: '/fundingScreen', name: 'fundingScreen');
+  static final addFunding = Route(path: '/addFunding', name: 'addFunding');
 }

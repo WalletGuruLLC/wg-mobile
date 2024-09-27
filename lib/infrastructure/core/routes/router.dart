@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/presentation/configuration_setting/page/configuration_setting_page.dart';
+import 'package:wallet_guru/presentation/funding/page/add_funding_page.dart';
+import 'package:wallet_guru/presentation/funding/page/funding_screen_page.dart';
 
 import 'package:wallet_guru/presentation/home/page/home_page.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
@@ -130,6 +132,16 @@ class WalletGuruRouter {
       name: Routes.receivePayment.name,
       path: Routes.receivePayment.path,
       builder: (context, state) => const ReceivePaymentPage(),
+    ),
+    GoRoute(
+      name: Routes.fundingScreen.name,
+      path: Routes.fundingScreen.path,
+      builder: (context, state) => const FundingScreenPage(),
+    ),
+    GoRoute(
+      name: Routes.addFunding.name,
+      path: Routes.addFunding.path,
+      builder: (context, state) => const AddFundingPage(),
     ),
   ];
 }
