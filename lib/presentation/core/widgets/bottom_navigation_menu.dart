@@ -145,7 +145,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
         GoRouter.of(context).go(Routes.home.path);
         break;
       case 1:
-        // GoRouter.of(context).go(Routes.wallet.path);
+        GoRouter.of(context).go(Routes.withdrawPage.path);
         break;
       case 2:
         GoRouter.of(context).go(Routes.payments.path);

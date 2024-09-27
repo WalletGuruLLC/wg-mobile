@@ -33,4 +33,6 @@ class Routes {
       Route(path: '/sendPayments', name: 'sendPayments');
   static final configurationSettings =
       Route(path: '/configurationSettings', name: 'configurationSettings');
+  static final withdrawPage =
+      Route(path: '/withdrawPage', name: 'withdrawPage');
 }

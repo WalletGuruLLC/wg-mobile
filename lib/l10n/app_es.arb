@@ -146,6 +146,11 @@
 "hideNotificationModalText": "Al establecer una hora, ya no recibirás notificaciones después de esa hora.",
 "thirtyMin": "30 minutos",
 "oneHour": "1 hora",
-"never": "Nunca", 
+"never": "Nunca",
+"butonWithdraw": "Retirar fondos",
+"availableAmountWithdraw": "Monto disponible",
+"selectTheValueWithdraw": "Seleccione el valor",
+"allFundsWithdraw" : "Todos los fondos",
+"otherAmountWithdraw" : "Otro valor",
 "uploadQr": "Cargar Código Qr"
 }
