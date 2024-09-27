@@ -146,6 +146,10 @@
   "hideNotificationModalText": "By setting a time, you will no longer receive notifications after that time.",
   "thirtyMin": "30 minutes",
   "oneHour": "1 hour",
-  "never": "Never"
-
+  "never": "Never",
+  "butonWithdraw": "Withdraw Funds",
+  "availableAmountWithdraw": "Available amount",
+  "selectTheValueWithdraw": "Select the value",
+  "allFundsWithdraw" : "All funds",
+  "otherAmountWithdraw" : "Other amount"
 }

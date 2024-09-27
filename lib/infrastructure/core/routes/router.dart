@@ -10,6 +10,7 @@ import 'package:wallet_guru/presentation/payments/pages/select_wallet/select_wal
 import 'package:wallet_guru/presentation/my_profile/pages/my_info_page.dart';
 import 'package:wallet_guru/presentation/my_profile/pages/profile_page.dart';
 import 'package:wallet_guru/presentation/payments/pages/send_payment/send_payment_to_user_page.dart';
+import 'package:wallet_guru/presentation/payments/pages/withdraw/withdraw_page.dart';
 import 'package:wallet_guru/presentation/register/pages/register_pages.dart';
 import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
@@ -118,6 +119,11 @@ class WalletGuruRouter {
       name: Routes.configurationSettings.name,
       path: Routes.configurationSettings.path,
       builder: (context, state) => const ConfigurationSettingPage(),
+    ),
+    GoRoute(
+      name: Routes.withdrawPage.name,
+      path: Routes.withdrawPage.path,
+      builder: (context, state) => const WithdrawPage(),
     ),
   ];
 }
