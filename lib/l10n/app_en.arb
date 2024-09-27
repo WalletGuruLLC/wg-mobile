@@ -124,9 +124,9 @@
   "pleaseSelectGenericValue": "Please select a value for this field",
   "payments": "Payments",
   "receivePayment": "Receive Payments",
-  "sendPayment": "Send Payment",
+  "sendPayment": "Send Payments",
   "addService": "Add Service",
-  "sendPayment": "Send Payment",
+  "sendPayment": "Send Payments",
   "scanQR": "Scan Recipient's QR code",
   "walletAddress": "Wallet Address",
   "enterAmount": "Enter the amount",
@@ -152,4 +152,6 @@
   "selectTheValueWithdraw": "Select the value",
   "allFundsWithdraw" : "All funds",
   "otherAmountWithdraw" : "Other amount"
+  "uploadQr": "Upload Qr Code"
+
 }

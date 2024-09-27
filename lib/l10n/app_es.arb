@@ -124,10 +124,10 @@
 "pleaseSelectGenericValue": "Por favor seleccionar un valor para este campo",
 "payments": "Pagos",
 "receivePayment": "Recibir Pagos",
-"sendPayment": "Enviar Pago",
-"addService": "Agregar Servicio",
-"sendPayment": "Enviar Pago",
-"scanQR": "Escanear el código QR del destinatario",
+"sendPayment": "Enviar Pagos",
+"addService": "Agregar Servicios",
+"sendPayment": "Enviar Pagos",
+"scanQR": "Escanear código QR del destinatario",
 "walletAddress": "Dirección de Billetera",
 "enterAmount": "Ingrese el valor",
 "amount": "Valor",
@@ -151,5 +151,6 @@
 "availableAmountWithdraw": "Monto disponible",
 "selectTheValueWithdraw": "Seleccione el valor",
 "allFundsWithdraw" : "Todos los fondos",
-"otherAmountWithdraw" : "Otro valor"
+"otherAmountWithdraw" : "Otro valor",
+"uploadQr": "Cargar Código Qr"
 }

@@ -59,6 +59,10 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
       case '/wallet':
         return 1;
       case '/payments':
+      case '/selectWalletByForm':
+      case '/selectWalletByQr':
+      case '/sendPaymentToUser':
+      case '/sendPayments':
         return 2;
       case '/receive':
         return 3;
