@@ -15,6 +15,10 @@ class ConfigurationOption extends StatelessWidget {
     this.onTap,
   });
 
+  double _getFontSize(double width) {
+    return width < 380 ? 14.0 : width * 0.045;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -27,7 +31,7 @@ class ConfigurationOption extends StatelessWidget {
             children: [
               TextBase(
                 text: optionTitle,
-                fontSize: 16,
+                fontSize: _getFontSize(size.width),
                 color: AppColorSchema.of(context).configurationColor,
               ),
               if (showToggle == true)

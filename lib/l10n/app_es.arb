@@ -124,10 +124,10 @@
 "pleaseSelectGenericValue": "Por favor seleccionar un valor para este campo",
 "payments": "Pagos",
 "receivePayment": "Recibir Pagos",
-"sendPayment": "Enviar Pago",
-"addService": "Agregar Servicio",
-"sendPayment": "Enviar Pago",
-"scanQR": "Escanear el código QR del destinatario",
+"sendPayment": "Enviar Pagos",
+"addService": "Agregar Servicios",
+"sendPayment": "Enviar Pagos",
+"scanQR": "Escanear código QR del destinatario",
 "walletAddress": "Dirección de Billetera",
 "enterAmount": "Ingrese el valor",
 "amount": "Valor",
@@ -146,5 +146,11 @@
 "hideNotificationModalText": "Al establecer una hora, ya no recibirás notificaciones después de esa hora.",
 "thirtyMin": "30 minutos",
 "oneHour": "1 hora",
-"never": "Nunca"
+"never": "Nunca",
+"butonWithdraw": "Retirar fondos",
+"availableAmountWithdraw": "Monto disponible",
+"selectTheValueWithdraw": "Seleccione el valor",
+"allFundsWithdraw" : "Todos los fondos",
+"otherAmountWithdraw" : "Otro valor",
+"uploadQr": "Cargar Código Qr"
 }
