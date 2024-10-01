@@ -29,13 +29,20 @@ class LockAccountModal extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 10),
+          Icon(
+            Icons.warning_amber_sharp,
+            color: AppColorSchema.of(context).buttonColor,
+          ),
+          const SizedBox(height: 10),
           TextBase(
-            text: l10n.lockAccount,
+            textAlign: TextAlign.center,
+            text: isWalletAvailable
+                ? l10n.lockAccountModalTitle
+                : l10n.unLockWalletModalTitle,
             fontSize: 20,
             color: AppColorSchema.of(context).secondaryText,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w400,
           ),
-          const SizedBox(height: 20),
           TextBase(
             text: isWalletAvailable
                 ? l10n.lockAccountConfirmation
@@ -45,7 +52,16 @@ class LockAccountModal extends StatelessWidget {
             fontWeight: FontWeight.w400,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 20),
+          TextBase(
+            textAlign: TextAlign.center,
+            text: isWalletAvailable
+                ? l10n.lockAccountConfirmationText
+                : l10n.unlockAccountConfirmationText,
+            fontSize: 14,
+            color: AppColorSchema.of(context).secondaryText,
+            fontWeight: FontWeight.w400,
+          ),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
