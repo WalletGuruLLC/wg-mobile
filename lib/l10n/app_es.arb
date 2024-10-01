@@ -152,5 +152,6 @@
 "selectTheValueWithdraw": "Seleccione el valor",
 "allFundsWithdraw" : "Todos los fondos",
 "otherAmountWithdraw" : "Otro valor",
-"uploadQr": "Cargar Código Qr"
+"uploadQr": "Cargar Código Qr",
+"receivePayment": "Receive Payments"
 }

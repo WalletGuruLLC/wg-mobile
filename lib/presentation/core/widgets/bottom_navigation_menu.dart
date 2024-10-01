@@ -63,6 +63,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
       case '/selectWalletByQr':
       case '/sendPaymentToUser':
       case '/sendPayments':
+      case '/receivePayment':
         return 2;
       case '/receive':
         return 3;
@@ -145,7 +146,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
         GoRouter.of(context).go(Routes.home.path);
         break;
       case 1:
-        GoRouter.of(context).go(Routes.withdrawPage.path);
+        GoRouter.of(context).go(Routes.fundingScreen.path);
         break;
       case 2:
         GoRouter.of(context).go(Routes.payments.path);
