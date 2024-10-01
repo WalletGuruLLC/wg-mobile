@@ -31,32 +31,38 @@ class _MyProfileMainViewState extends State<MyProfileMainView> {
     final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const ProfileHeaderWidget(),
-        SizedBox(height: size.height * .1),
-        ProfileOption(
-          optionTitle: l10n.myInfo,
-          profileOrder: 1,
-        ),
-        ProfileOption(
-          optionTitle: l10n.notificationSettings,
-          profileOrder: 2,
-        ),
-        ProfileOption(
-          optionTitle: l10n.changePassword,
-          profileOrder: 3,
-        ),
-        ProfileOption(
-          optionTitle: l10n.lockAccount,
-          profileOrder: 4,
-        ),
-        SizedBox(height: size.height * .065),
-        LogoutButton(
-          text: l10n.logOut,
-        )
-      ],
+    return BlocBuilder<UserCubit, UserState>(
+      builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const ProfileHeaderWidget(),
+            SizedBox(height: size.height * .1),
+            ProfileOption(
+              optionTitle: l10n.myInfo,
+              profileOrder: 1,
+            ),
+            ProfileOption(
+              optionTitle: l10n.notificationSettings,
+              profileOrder: 2,
+            ),
+            ProfileOption(
+              optionTitle: l10n.changePassword,
+              profileOrder: 3,
+            ),
+            ProfileOption(
+              optionTitle: state.wallet!.walletDb.active
+                  ? l10n.lockWallet
+                  : l10n.unLockWallet,
+              profileOrder: 4,
+            ),
+            SizedBox(height: size.height * .065),
+            LogoutButton(
+              text: l10n.logOut,
+            ),
+          ],
+        );
+      },
     );
   }
 }
