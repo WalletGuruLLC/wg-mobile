@@ -91,7 +91,6 @@
   "myInfo": "My Info",
   "notificationSettings": "Notification Settings",
   "changePassword": "changePassword",
-  "lockAccount": "Lock Account",
   "logOut": "Log Out",
   "myProfile": "My Profile",
   "changePassword": "Change Password",
@@ -113,9 +112,9 @@
   "changesMayNotBeSaved": "Changes may not be saved",
   "selectFromCamera": "Select From Camera",
   "selectFromDevice": "Select From Device",
-  "lockAccount": "Lock your wallet",
-  "lockAccountConfirmation": "Do you want to lock your wallet? You can unlock it at any time",
-  "unlockAccountConfirmation": "Do you want to unlock your wallet? You can lock it at any time",
+  "lockAccountModalTitle": "Lock Your Wallet",
+  "lockAccountConfirmation": "Do you want to lock your wallet?",
+  "unlockAccountConfirmation": "Do you want to unlock your wallet?",
   "idType": "Identification type",
   "selectIdType": "Select your ID type",
   "nationalId": "National ID",
@@ -153,6 +152,11 @@
   "allFundsWithdraw" : "All funds",
   "otherAmountWithdraw" : "Other amount",
   "uploadQr": "Upload Qr Code",
-  "receivePayment": "Receive Payments"
+  "receivePayment": "Receive Payments",
+  "unLockWallet": "Unlock Wallet",
+  "unLockWalletModalTitle": "Unlock Your Wallet",
+  "lockWallet": "Lock Wallet",
+  "lockAccountConfirmationText": "You can unlock it at any time",
+  "unlockAccountConfirmationText": " You can lock it at any time"
 
 }
