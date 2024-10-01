@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/application/login/login_cubit.dart';
+import 'package:wallet_guru/application/settings/settings_cubit.dart';
+import 'package:wallet_guru/application/settings/settings_state.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -29,12 +31,14 @@ class CreateWalletFormState extends State<CreateWalletForm> {
   bool _isVisible = true;
   late CreateWalletCubit createWalletCubit;
   late TextEditingController _addressController; // Nuevo controlador
+  String walletUrl = '';
 
   @override
   void initState() {
     super.initState();
     createWalletCubit = BlocProvider.of<CreateWalletCubit>(context);
     final loginCubit = BlocProvider.of<LoginCubit>(context);
+
     loginCubit.cleanFormStatus();
     loginCubit.cleanFormStatusOtp();
     _addressController =
@@ -93,14 +97,23 @@ class CreateWalletFormState extends State<CreateWalletForm> {
             fontWeight: FontWeight.w400,
           ),
           SizedBox(height: size * 0.015),
-          Visibility(
-            visible: _isVisible,
-            child: const TextBase(
-              text: 'wwww.walletguru.me/',
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey,
-            ),
+          BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, state) {
+              if (state is SettingsLoaded) {
+                final walletUrlSetting =
+                    state.settings.firstWhere((s) => s.key == 'url-wallet');
+                walletUrl = walletUrlSetting.value;
+              }
+              return Visibility(
+                visible: _isVisible,
+                child: TextBase(
+                  text: walletUrl,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey,
+                ),
+              );
+            },
           ),
           SizedBox(height: size * 0.015),
           WalletAddressForm(
@@ -112,7 +125,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
           Visibility(
             visible: !_isVisible,
             child: TextBase(
-              text: 'wwww.walletguru.me/$_address',
+              text: '$walletUrl/$_address',
               fontSize: 16,
               fontWeight: FontWeight.w400,
               color: Colors.grey,
