@@ -56,9 +56,14 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           FormLabel(label: l10n.country),
           BlocBuilder<CreateProfileCubit, CreateProfileState>(
             builder: (context, state) {
+              List<String> countries = List.from(state.countries);
+              if (countries.contains('United States')) {
+                countries.remove('United States');
+                countries.insert(0, 'United States');
+              }
               return CountryForm(
                 initialValue: state.country.isNotEmpty ? state.country : null,
-                items: state.countries,
+                items: countries,
                 onChanged: (value) {
                   if (value != null) {
                     createProfileCubit.selectCountry(value);
