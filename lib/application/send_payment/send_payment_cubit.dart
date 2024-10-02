@@ -85,4 +85,14 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
       ),
     );
   }
+
+  void resetSendPaymentInformation() {
+    emit(
+      state.copyWith(
+        showNextButton: false,
+        showPaymentButton: false,
+        sendPaymentEntity: null,
+      ),
+    );
+  }
 }
