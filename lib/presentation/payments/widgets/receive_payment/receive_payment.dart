@@ -36,7 +36,6 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 150),
             Container(
               width: 250,
               height: 250,
