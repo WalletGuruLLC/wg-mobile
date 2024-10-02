@@ -27,7 +27,7 @@ class ConfigurationSettingPage extends StatelessWidget {
         children: [
           SizedBox(
             width: size.width * 0.90,
-            height: size.height,
+            height: size.height * 0.7,
             child: const ConfigurationSettingView(),
           ),
         ],
