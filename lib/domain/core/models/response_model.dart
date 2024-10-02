@@ -277,14 +277,14 @@ class Wallet {
 }
 
 class WalletAsset {
-  final String typename;
+  //final String typename;
   final String code;
   final String id;
   final String liquidity;
   final int scale;
 
   WalletAsset({
-    required this.typename,
+    //required this.typename,
     required this.code,
     required this.id,
     required this.liquidity,
@@ -292,7 +292,7 @@ class WalletAsset {
   });
 
   factory WalletAsset.fromJson(Map<String, dynamic> json) => WalletAsset(
-        typename: json["_Typename"],
+        //typename: json["__typename"],
         code: json["code"],
         id: json["id"],
         liquidity: json["liquidity"],
@@ -300,7 +300,7 @@ class WalletAsset {
       );
 
   Map<String, dynamic> toJson() => {
-        "_Typename": typename,
+        //"_Typename": typename,
         "code": code,
         "id": id,
         "liquidity": liquidity,
@@ -308,7 +308,7 @@ class WalletAsset {
       };
 
   factory WalletAsset.initialState() => WalletAsset(
-        typename: '',
+        //typename: '',
         code: '',
         id: '',
         liquidity: '',
