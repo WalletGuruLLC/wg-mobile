@@ -27,6 +27,7 @@ class SendPaymentToUserPage extends StatelessWidget {
           );
           BlocProvider.of<SendPaymentCubit>(context)
               .resetSendPaymentInformation();
+          BlocProvider.of<SendPaymentCubit>(context).resetPaymentEntity();
         },
         pageAppBarTitle: l10n.sendPayment,
         children: [

@@ -23,6 +23,11 @@ class SendPaymentEntity {
     );
   }
 
+  SendPaymentEntity.empty()
+      : receiverWalletAddress = '',
+        receiverAmount = '',
+        currency = '';
+
   Map<String, dynamic> toMap() {
     return {
       "receiverWalletAddress": receiverWalletAddress,

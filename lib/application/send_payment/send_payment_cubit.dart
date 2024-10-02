@@ -66,8 +66,10 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
   }
 
   void showButton() {
-    bool shouldShowButton = Validators.regExpressionForWallet
-        .hasMatch(state.sendPaymentEntity!.receiverWalletAddress);
+    String address = state.sendPaymentEntity!.receiverWalletAddress;
+    bool shouldShowButton = Validators.regExpressionForWallet.hasMatch(address);
+    print('Address: $address');
+    print('Matches: $shouldShowButton');
     emit(
       state.copyWith(
         showNextButton: shouldShowButton,
@@ -86,12 +88,19 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
     );
   }
 
+  void resetPaymentEntity() {
+    emit(
+      state.copyWith(
+        sendPaymentEntity: SendPaymentEntity.empty(),
+      ),
+    );
+  }
+
   void resetSendPaymentInformation() {
     emit(
       state.copyWith(
         showNextButton: false,
         showPaymentButton: false,
-        sendPaymentEntity: null,
       ),
     );
   }
