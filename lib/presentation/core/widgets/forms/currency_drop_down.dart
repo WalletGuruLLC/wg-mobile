@@ -9,12 +9,13 @@ class CurrencyDropDown extends StatelessWidget {
   final String? initialValue;
   final List<String> items;
   final Function(String?) onChanged;
-  const CurrencyDropDown(
-      {super.key,
-      this.hintText,
-      this.initialValue,
-      required this.items,
-      required this.onChanged});
+  const CurrencyDropDown({
+    super.key,
+    this.hintText,
+    this.initialValue,
+    required this.items,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class CurrencyDropDown extends StatelessWidget {
       child: BaseFormFieldModal(
         hintText: hintText,
         initialValue: initialValue,
+        readOnly: true,
         items: items,
         onChanged: onChanged,
         decoration: CustomInputDecoration(hintText: hintText!).decoration,

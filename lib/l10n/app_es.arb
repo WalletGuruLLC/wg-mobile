@@ -152,7 +152,6 @@
 "allFundsWithdraw" : "Todos los fondos",
 "otherAmountWithdraw" : "Otro valor",
 "uploadQr": "Cargar Código Qr",
-"receivePayment": "Receive Payments",
 "unLockWallet": "Desbloquear billetera",
 "unLockWalletModalTitle": "Desbloquear tu billetera",
 "lockWallet": "Bloquear billetera",

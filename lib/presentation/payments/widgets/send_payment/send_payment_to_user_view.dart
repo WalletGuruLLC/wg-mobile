@@ -20,7 +20,7 @@ class SendPaymentToUserView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: size.height * 0.1),
+        SizedBox(height: size.height * 0.05),
         // Wallet Address Display
         TextBase(
           text: l10n.walletAddress,

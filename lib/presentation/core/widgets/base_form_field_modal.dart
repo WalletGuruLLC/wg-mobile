@@ -15,6 +15,7 @@ class BaseFormFieldModal extends StatefulWidget {
   final TextEditingController? controller;
   final bool enabled;
   final bool readOnly;
+  final bool? disabled;
 
   const BaseFormFieldModal(
       {super.key,
@@ -27,7 +28,8 @@ class BaseFormFieldModal extends StatefulWidget {
       this.hintText,
       this.enabled = true,
       this.readOnly = false,
-      this.validator});
+      this.validator,
+      this.disabled});
 
   @override
   State<BaseFormFieldModal> createState() => _BaseFormFieldModalState();
