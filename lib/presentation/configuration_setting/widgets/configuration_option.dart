@@ -16,7 +16,7 @@ class ConfigurationOption extends StatelessWidget {
   });
 
   double _getFontSize(double width) {
-    return width < 430 ? 14 : 16;
+    return width < 430 ? 14.5 : 16;
   }
 
   @override
