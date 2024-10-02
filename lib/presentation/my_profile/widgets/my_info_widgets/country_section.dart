@@ -18,9 +18,14 @@ class CountryFormSection extends StatelessWidget {
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
         final createProfileCubit = context.read<CreateProfileCubit>();
+        List<String> countries = List.from(state.countries);
+        if (countries.contains('United States')) {
+          countries.remove('United States');
+          countries.insert(0, 'United States');
+        }
         return CountryForm(
           initialValue: initialValue,
-          items: state.countries,
+          items: countries,
           onChanged: (value) {
             if (value != null) {
               onChanged(value);
