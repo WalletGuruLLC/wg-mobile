@@ -91,7 +91,6 @@
   "myInfo": "Mi Info",
   "notificationSettings": "Configuración de Notificaciones",
   "changePassword": "Cambiar Contraseña",
-  "lockAccount": "Bloquear Cuenta",
   "logOut": "Cerrar sesión",
   "myProfile": "Mi Perfil",
   "changePassword": "Cambiar Contraseña",
@@ -113,7 +112,7 @@
 "changesMayNotBeSaved": "Los cambios pueden no ser guardados",
 "selectFromCamera": "Selecciona desde la cámara",
 "selectFromDevice": "Selecciona desde el dispositivo",
-"lockAccount": "Bloquear tu billetera",
+"lockAccountModalTitle": "Bloquear tu billetera",
 "lockAccountConfirmation": "¿Quieres bloquear tu billetera? Puedes desbloquearla en cualquier momento",
 "unlockAccountConfirmation": "¿Quieres desbloquear tu billetera? Puedes bloquearla en cualquier momento",
 "idType": "Tipo de identificación",
@@ -153,5 +152,10 @@
 "allFundsWithdraw" : "Todos los fondos",
 "otherAmountWithdraw" : "Otro valor",
 "uploadQr": "Cargar Código Qr",
-"receivePayment": "Receive Payments"
+"receivePayment": "Receive Payments",
+"unLockWallet": "Desbloquear billetera",
+"unLockWalletModalTitle": "Desbloquear tu billetera",
+"lockWallet": "Bloquear billetera",
+"lockAccountConfirmationText": "Puedes desbloquearlo en cualquier momento",
+"unlockAccountConfirmationText": "Puedes bloquearlo en cualquier momento"
 }
