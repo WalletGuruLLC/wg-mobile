@@ -124,10 +124,14 @@ class WalletGuruRouter {
       builder: (context, state) => const ConfigurationSettingPage(),
     ),
     GoRoute(
-      name: Routes.withdrawPage.name,
-      path: Routes.withdrawPage.path,
-      builder: (context, state) => const WithdrawPage(),
-    ),
+        name: Routes.withdrawPage.name,
+        path: Routes.withdrawPage.path,
+        builder: (context, state) {
+          final params =
+              (state.extra ?? <String, dynamic>{}) as Map<String, dynamic>;
+          final title = params['title'] as String;
+          return WithdrawPage(title: title);
+        }),
     GoRoute(
       name: Routes.receivePayment.name,
       path: Routes.receivePayment.path,

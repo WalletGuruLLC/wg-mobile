@@ -11,7 +11,12 @@ import 'package:wallet_guru/presentation/core/widgets/forms/amount_form.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class WithdrawPage extends StatefulWidget {
-  const WithdrawPage({super.key});
+  const WithdrawPage({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
 
   @override
   State<WithdrawPage> createState() => _WithdrawPageState();
@@ -40,7 +45,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
             Routes.payments.name,
           );
         },
-        pageAppBarTitle: l10n.sendPayment,
+        pageAppBarTitle: widget.title + l10n.withdrawTitelPage,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

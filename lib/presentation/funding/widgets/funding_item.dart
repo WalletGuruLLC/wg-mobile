@@ -68,7 +68,12 @@ class FundingItem extends StatelessWidget {
                               color: Colors.black,
                             ),
                             onTap: () {
-                              GoRouter.of(context).go(Routes.withdrawPage.path);
+                              GoRouter.of(context).go(
+                                Routes.withdrawPage.path,
+                                extra: {
+                                  "title": "Sabbatical ",
+                                },
+                              );
                             },
                           ),
                           const Divider(),
