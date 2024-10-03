@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wallet_guru/application/user/user_cubit.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class BalanceCard extends StatelessWidget {
@@ -11,6 +12,7 @@ class BalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     return Container(
       width: size.width * 0.9,
@@ -26,7 +28,7 @@ class BalanceCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextBase(
-                  text: "Balance",
+                  text: l10n.homeBalance,
                   fontSize: size.width * 0.04,
                 ),
                 SizedBox(height: size.height * 0.01),
@@ -43,7 +45,7 @@ class BalanceCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextBase(
-                          text: "Reserved Funds:",
+                          text: l10n.homeReservedFunds,
                           fontSize: size.width * 0.035,
                         ),
                         TextBase(
@@ -58,7 +60,7 @@ class BalanceCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextBase(
-                          text: "Available Funds:",
+                          text: l10n.homeAvailableFunds,
                           fontSize: size.width * 0.035,
                         ),
                         TextBase(

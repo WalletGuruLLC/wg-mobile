@@ -21,7 +21,7 @@ class ScanQRButton extends StatelessWidget {
         children: [
           TextBase(
             text: l10n.scanQR,
-            fontSize: 16,
+            fontSize: 15,
             fontWeight: FontWeight.w400,
           ),
           const SizedBox(width: 10),

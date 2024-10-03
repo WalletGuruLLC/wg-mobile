@@ -17,9 +17,6 @@ class PaymentsView extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(
-          height: size.height * 0.10,
-        ),
         Image.asset(
           Assets.mainLogoWithLetter,
         ),
@@ -29,7 +26,11 @@ class PaymentsView extends StatelessWidget {
         GradientButton(
           text: l10n.receivePayment,
           imageAsset: Assets.arrowDownIcon,
-          onTap: () {},
+          onTap: () {
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.receivePayment.name,
+            );
+          },
         ),
         const SizedBox(
           height: 20,

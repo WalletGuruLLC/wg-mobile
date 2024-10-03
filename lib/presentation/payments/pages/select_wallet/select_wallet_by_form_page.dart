@@ -28,7 +28,6 @@ class SelectWalletByFormPage extends StatelessWidget {
         children: [
           SizedBox(
             width: size.width * 0.90,
-            height: size.height,
             child: const SelectWalletByFormView(),
           ),
         ],

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
-import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
 class ReceivePaymentView extends StatefulWidget {
@@ -36,7 +36,6 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 150),
             Container(
               width: 250,
               height: 250,
