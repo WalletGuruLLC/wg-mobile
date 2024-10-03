@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
@@ -11,6 +13,7 @@ class FundingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     return ListTile(
       title: TextBase(
@@ -47,7 +50,20 @@ class FundingItem extends StatelessWidget {
                             trailing: const Icon(Icons.add_circle_outline,
                                 color: Colors.black),
                             title: TextBase(
-                              text: 'Add Funds',
+                              text: l10n.addFundsFundingItem,
+                              fontSize: size.width * 0.03,
+                              color: Colors.black,
+                            ),
+                            onTap: () {
+                              //GoRouter.of(context).go(Routes.withdrawPage.path);
+                            },
+                          ),
+                          const Divider(),
+                          ListTile(
+                            trailing:
+                                const Icon(Icons.remove, color: Colors.black),
+                            title: TextBase(
+                              text: l10n.withdrawFundingItem,
                               fontSize: size.width * 0.03,
                               color: Colors.black,
                             ),
@@ -57,24 +73,10 @@ class FundingItem extends StatelessWidget {
                           ),
                           const Divider(),
                           ListTile(
-                            trailing:
-                                const Icon(Icons.remove, color: Colors.black),
-                            title: TextBase(
-                              text: 'Remove funds',
-                              fontSize: size.width * 0.03,
-                              color: Colors.black,
-                            ),
-                            onTap: () {
-                              Navigator.pop(context);
-                              // Lógica para remover fondos
-                            },
-                          ),
-                          const Divider(),
-                          ListTile(
                             trailing: const Icon(Icons.info_outline,
                                 color: Colors.black),
                             title: TextBase(
-                              text: 'Details',
+                              text: l10n.detailsFundingItem,
                               fontSize: size.width * 0.03,
                               color: Colors.black,
                             ),

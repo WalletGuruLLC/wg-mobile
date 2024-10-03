@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class AddFundingPage extends StatefulWidget {
   const AddFundingPage({super.key});
@@ -18,6 +20,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
       showSafeArea: true,
@@ -25,7 +28,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
       showLoggedUserAppBar: true,
       showBottomNavigationBar: false,
       actionAppBar: () => Navigator.pop(context),
-      pageAppBarTitle: "Funding",
+      pageAppBarTitle: l10n.fundingTitelPage,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
@@ -60,7 +63,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
                   color: isChecked
                       ? AppColorSchema.of(context).buttonColor
                       : Colors.transparent,
-                  text: 'Funding',
+                  text: l10n.fundingTitelPage,
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
                   onPressed: () =>

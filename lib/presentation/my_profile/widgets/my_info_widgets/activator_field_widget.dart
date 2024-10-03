@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 
 class ActivatorFieldWidget extends StatelessWidget {
