@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
@@ -108,14 +109,16 @@ class _WithdrawPageState extends State<WithdrawPage> {
                   CustomButton(
                     border: Border.all(
                         color: AppColorSchema.of(context).buttonBorderColor),
-                    color: amountController.text.isNotEmpty
+                    color: (isAllFunds || amountController.text.isNotEmpty)
                         ? AppColorSchema.of(context).buttonColor
                         : Colors.transparent,
                     text: l10n.butonWithdraw,
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
                     onPressed: () =>
-                        isButtonEnabled() ? () => showConfirmDialog() : null,
+                        (isAllFunds || amountController.text.isNotEmpty)
+                            ? _buildErrorModal()
+                            : null,
                   )
                 ],
               ),
@@ -127,52 +130,42 @@ class _WithdrawPageState extends State<WithdrawPage> {
   }
 
   bool isButtonEnabled() {
-    if (isAllFunds) return true;
+    if (isAllFunds || amountController.text.isNotEmpty) return true;
     double? amount = double.tryParse(amountController.text);
     return amount != null && amount > 0;
   }
 
-  void showConfirmDialog() {
-    showDialog(
+  // Method to build the successful modal
+  Future<dynamic> _buildErrorModal() {
+    return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirm Empty Funds'),
-          content: Text('Are you sure to empty this amount?'),
-          actions: [
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            ElevatedButton(
-              child: Text('Empty'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                performEmptyFunds();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void performEmptyFunds() {
-    // Aquí iría la lógica para vaciar los fondos
-    // Por ahora, simplemente mostraremos un diálogo de error
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Empty Funds Error'),
-          content: Text(
-              'There was an error processing your empty funds. Please try again.'),
-          actions: [
-            ElevatedButton(
-              child: Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text:
+                    "There was an error processing your fund. Please try again.",
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: "Error Code:XXXX",
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         );
       },
     );
