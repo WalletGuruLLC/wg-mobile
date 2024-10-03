@@ -157,6 +157,15 @@
   "unLockWalletModalTitle": "Unlock Your Wallet",
   "lockWallet": "Lock Wallet",
   "lockAccountConfirmationText": "You can unlock it at any time",
-  "unlockAccountConfirmationText": " You can lock it at any time"
-
+  "unlockAccountConfirmationText": " You can lock it at any time",
+  "fundingTitelPage": "Funding",
+  "addFundsFundingItem": "Add Funds",
+  "withdrawFundingItem": "Withdraw",
+  "detailsFundingItem": "Details",
+  "withdrawTitelPage": "Withdraw Funds",
+  "homeBalance": "Balance",
+  "homeReservedFunds": "Reserved Funds:",
+  "homeAvailableFunds": "Available Funds:",
+  "homeLastTransactions": "Last transactions",
+  "homeSeeMore": "See more"
 }
