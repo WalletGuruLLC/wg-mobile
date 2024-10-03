@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class AddFundingPage extends StatefulWidget {
   const AddFundingPage({super.key});
@@ -18,6 +21,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
       showSafeArea: true,
@@ -25,7 +29,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
       showLoggedUserAppBar: true,
       showBottomNavigationBar: false,
       actionAppBar: () => Navigator.pop(context),
-      pageAppBarTitle: "Funding",
+      pageAppBarTitle: l10n.fundingTitelPage,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
@@ -60,11 +64,10 @@ class _AddFundingPageState extends State<AddFundingPage> {
                   color: isChecked
                       ? AppColorSchema.of(context).buttonColor
                       : Colors.transparent,
-                  text: 'Funding',
+                  text: l10n.fundingTitelPage,
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
-                  onPressed: () =>
-                      isChecked ? () => showConfirmDialog(context) : null,
+                  onPressed: () => isChecked ? _buildErrorModal() : null,
                 ),
               ],
             ),
@@ -74,47 +77,37 @@ class _AddFundingPageState extends State<AddFundingPage> {
     );
   }
 
-  void showConfirmDialog(BuildContext context) {
-    showDialog(
+  // Method to build the successful modal
+  Future<dynamic> _buildErrorModal() {
+    return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Add Fund'),
-          content: Text('Are you sure to fund this amount?'),
-          actions: [
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            ElevatedButton(
-              child: Text('Add'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Aquí iría la lógica para añadir fondos
-                // Por ahora, mostraremos un diálogo de error
-                showErrorDialog(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void showErrorDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Fund Error'),
-          content: Text(
-              'There was an error processing your fund. Please try again.'),
-          actions: [
-            ElevatedButton(
-              child: Text('Ok'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text:
+                    "There was an error processing your fund. Please try again.",
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.025),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: "Error Code:XXXX",
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         );
       },
     );

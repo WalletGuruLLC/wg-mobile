@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
@@ -12,12 +13,13 @@ class LastTransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextBase(
-          text: "Last transactions",
+          text: l10n.homeLastTransactions,
           fontSize: size.width * 0.04,
           fontWeight: FontWeight.w400,
         ),
@@ -56,7 +58,7 @@ class LastTransactionsList extends StatelessWidget {
           child: TextButton(
             onPressed: () {},
             child: TextBase(
-              text: "See more",
+              text: l10n.homeSeeMore,
               color: Colors.blue,
               fontSize: size.width * 0.035,
             ),
