@@ -7,6 +7,9 @@ class CreateWalletState extends Equatable {
   final String customMessage;
   final String customMessageEs;
   final String customCode;
+  final List<RafikiAssets>? rafikiAssets;
+  final bool fetchWalletAsset;
+  final bool activateButton;
 
   const CreateWalletState({
     this.addressName = '',
@@ -15,6 +18,9 @@ class CreateWalletState extends Equatable {
     this.formStatus = const InitialFormStatus(),
     this.assetId = '',
     this.customCode = '',
+    this.rafikiAssets,
+    this.fetchWalletAsset = false,
+    this.activateButton = false,
   });
 
   CreateWalletState copyWith({
@@ -25,6 +31,9 @@ class CreateWalletState extends Equatable {
     String? walletType,
     String? assetId,
     String? customCode,
+    List<RafikiAssets>? rafikiAssets,
+    bool? fetchWalletAsset,
+    bool? activateButton,
   }) =>
       CreateWalletState(
         addressName: addressName ?? this.addressName,
@@ -33,6 +42,9 @@ class CreateWalletState extends Equatable {
         customMessageEs: customMessageEs ?? this.customMessageEs,
         assetId: assetId ?? this.assetId,
         customCode: customCode ?? this.customCode,
+        rafikiAssets: rafikiAssets ?? this.rafikiAssets,
+        fetchWalletAsset: fetchWalletAsset ?? this.fetchWalletAsset,
+        activateButton: activateButton ?? this.activateButton,
       );
 
   CreateWalletState initialState() => const CreateWalletState(
@@ -42,6 +54,9 @@ class CreateWalletState extends Equatable {
         customMessageEs: '',
         assetId: '',
         customCode: '',
+        rafikiAssets: null,
+        fetchWalletAsset: false,
+        activateButton: false,
       );
 
   @override
@@ -52,5 +67,8 @@ class CreateWalletState extends Equatable {
         customMessageEs,
         assetId,
         customCode,
+        rafikiAssets ?? [],
+        fetchWalletAsset,
+        activateButton,
       ];
 }

@@ -167,5 +167,8 @@
   "homeReservedFunds": "Reserved Funds:",
   "homeAvailableFunds": "Available Funds:",
   "homeLastTransactions": "Last transactions",
-  "homeSeeMore": "See more"
+  "homeSeeMore": "See more",
+  "asset": "Asset",
+  "selectAsset": "Select Asset",
+  "random": "Random"
 }

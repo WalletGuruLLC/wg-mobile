@@ -90,9 +90,9 @@ class _BaseFormFieldModalState extends State<BaseFormFieldModal> {
       focusedErrorBorder: defaultBorder,
       floatingLabelBehavior: FloatingLabelBehavior.never,
       contentPadding: const EdgeInsets.only(
-        left: 5,
+        left: 16,
         right: 0,
-        top: 16.0,
+        top: 20.0,
         bottom: 16.0,
       ),
       suffixIcon: GestureDetector(
