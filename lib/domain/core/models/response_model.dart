@@ -245,14 +245,10 @@ class User {
 class Wallet {
   final WalletDb walletDb;
   final WalletAsset? walletAsset;
-  final double? balance;
-  final double? reserved;
 
   Wallet({
     required this.walletDb,
     required this.walletAsset,
-    required this.balance,
-    required this.reserved,
   });
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
@@ -260,19 +256,11 @@ class Wallet {
         walletAsset: json["walletAsset"] == null
             ? null
             : WalletAsset.fromJson(json["walletAsset"]),
-        balance: json["balance"] == null
-            ? 0.0
-            : double.parse(json["balance"].toString()),
-        reserved: json["reserved"] == null
-            ? 0.0
-            : double.parse(json["reserved"].toString()),
       );
 
   factory Wallet.initialState() => Wallet(
         walletDb: WalletDb.initialState(),
         walletAsset: WalletAsset.initialState(),
-        balance: 0.0,
-        reserved: 0.0,
       );
 }
 
@@ -318,14 +306,26 @@ class WalletAsset {
 
 class WalletDb {
   final String userId;
+  final String rafikiId;
   final String walletType;
+
+  final int postedDebits;
+  final int pendingCredits;
+  final int pendingDebits;
+  final int postedCredits;
+
   final String id;
   final bool active;
   final String name;
 
   WalletDb({
     required this.userId,
+    required this.rafikiId,
     required this.walletType,
+    required this.postedDebits,
+    required this.pendingCredits,
+    required this.pendingDebits,
+    required this.postedCredits,
     required this.id,
     required this.active,
     required this.name,
@@ -333,7 +333,12 @@ class WalletDb {
 
   factory WalletDb.fromJson(Map<String, dynamic> json) => WalletDb(
         userId: json["userId"],
+        rafikiId: json["rafikiId"],
         walletType: json["walletType"],
+        postedDebits: json["postedDebits"] ?? 0,
+        pendingCredits: json["pendingCredits"] ?? 0,
+        pendingDebits: json["pendingDebits"] ?? 0,
+        postedCredits: json["postedCredits"] ?? 0,
         id: json["id"],
         active: json["active"],
         name: json["name"],
@@ -341,7 +346,12 @@ class WalletDb {
 
   Map<String, dynamic> toJson() => {
         "userId": userId,
+        "rafikiId": rafikiId,
         "walletType": walletType,
+        "postedDebits": postedDebits,
+        "pendingCredits": pendingCredits,
+        "pendingDebits": pendingDebits,
+        "postedCredits": postedCredits,
         "id": id,
         "active": active,
         "name": name,
@@ -349,7 +359,12 @@ class WalletDb {
 
   factory WalletDb.initialState() => WalletDb(
         userId: '',
+        rafikiId: '',
         walletType: '',
+        postedDebits: 0,
+        pendingCredits: 0,
+        pendingDebits: 0,
+        postedCredits: 0,
         id: '',
         active: false,
         name: '',
@@ -366,7 +381,6 @@ class RafikiAssets {
   });
 
   factory RafikiAssets.fromJson(Map<String, dynamic> json) {
-    print(json);
     return RafikiAssets(
       id: json["id"] ?? '',
       code: json["code"] ?? '',
