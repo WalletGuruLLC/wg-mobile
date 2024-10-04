@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
@@ -33,7 +34,8 @@ class BalanceCard extends StatelessWidget {
                 ),
                 SizedBox(height: size.height * 0.01),
                 TextBase(
-                  text: "\$${state.wallet?.balance.toStringAsFixed(2)}",
+                  text: toCurrencyString(state.balance.toString(),
+                      leadingSymbol: '\$'),
                   fontSize: size.width * 0.1,
                   fontWeight: FontWeight.bold,
                 ),
@@ -49,8 +51,7 @@ class BalanceCard extends StatelessWidget {
                           fontSize: size.width * 0.035,
                         ),
                         TextBase(
-                          text:
-                              "\$${state.wallet?.reserved.toStringAsFixed(2)}",
+                          text: "\$0.00",
                           fontSize: size.width * 0.035,
                           fontWeight: FontWeight.bold,
                         ),
@@ -64,7 +65,9 @@ class BalanceCard extends StatelessWidget {
                           fontSize: size.width * 0.035,
                         ),
                         TextBase(
-                          text: "\$${state.availableFunds.toStringAsFixed(2)}",
+                          text: toCurrencyString(
+                              state.availableFunds.toString(),
+                              leadingSymbol: '\$'),
                           fontSize: size.width * 0.035,
                           fontWeight: FontWeight.bold,
                         ),
