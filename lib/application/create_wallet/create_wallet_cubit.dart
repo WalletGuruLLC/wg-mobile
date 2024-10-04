@@ -45,7 +45,6 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
   }
 
   void emitFetchWalletAssetId() async {
-    emit(state.copyWith(formStatus: FormSubmitting()));
     final assetId = await createWalletRepository.fetchWalletAssetId();
     assetId.fold(
       (error) {
@@ -55,21 +54,26 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
         ));
       },
       (assetId) {
-        final String usdAssetId = setAssetId(assetId.data!.rafikiAssets!);
         emit(state.copyWith(
-          assetId: usdAssetId,
-        ));
-        emitCreateWallet();
+            rafikiAssets: assetId.data!.rafikiAssets!, fetchWalletAsset: true));
       },
     );
   }
 
   void emitInitialStatus() async {
-    emit(state.initialState());
+    emit(state.copyWith(
+      formStatus: const InitialFormStatus(),
+      customMessage: '',
+      customMessageEs: '',
+      customCode: '',
+      assetId: '',
+      addressName: '',
+    ));
   }
 
-  String setAssetId(List<RafikiAssets> rafikiAsset) {
-    final usdAsset = rafikiAsset.firstWhere((element) => element.code == 'USD');
-    return usdAsset.id;
+  void setAssetId(String rafikiAsset) {
+    final usdAsset = state.rafikiAssets!
+        .firstWhere((element) => element.code == rafikiAsset);
+    emit(state.copyWith(assetId: usdAsset.id, activateButton: true));
   }
 }
