@@ -123,9 +123,8 @@
   "pleaseSelectGenericValue": "Por favor seleccionar un valor para este campo",
   "payments": "Pagos",
   "receivePayment": "Recibir Pagos",
-  "sendPayment": "Enviar Pagos",
+  "sendPayment": "Enviar Pago",
   "addService": "Agregar Servicios",
-  "sendPayment": "Enviar Pagos",
   "scanQR": "Escanear código QR del destinatario",
   "walletAddress": "Dirección de Billetera",
   "enterAmount": "Ingrese el valor",
@@ -166,5 +165,10 @@
   "homeReservedFunds": "Fondos reservados:",
   "homeAvailableFunds": "Fondos disponibles:",
   "homeLastTransactions": "Últimas transacciones",
-  "homeSeeMore": "Más información"
+  "homeSeeMore": "Más información",
+  "confirmPaymentTitle": "Confirmar Pago",
+  "confirmPaymentText1": "Estás a punto de enviar un pago",
+  "confirmPaymentText2": "¿Deseas proceder?",
+  "yes": "Si"
+
 }

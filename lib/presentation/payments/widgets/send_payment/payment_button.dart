@@ -7,6 +7,7 @@ import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/payments/widgets/send_payment/send_payment_modal_confirmation.dart';
 
 class PaymentButtonWithTimer extends StatefulWidget {
   const PaymentButtonWithTimer({super.key});
@@ -78,7 +79,16 @@ class _PaymentButtonWithTimerState extends State<PaymentButtonWithTimer> {
                     border: Border.all(width: 0.75, color: Colors.transparent),
                     text: l10n.sendPayment,
                     height: 56,
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        barrierColor:
+                            AppColorSchema.of(context).modalBarrierColor,
+                        builder: (_) {
+                          return const SendPaymentModalConfirmation();
+                        },
+                      );
+                    },
                   ),
                 ],
               )
