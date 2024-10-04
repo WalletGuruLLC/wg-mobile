@@ -170,5 +170,6 @@
   "homeSeeMore": "See more",
   "asset": "Asset",
   "selectAsset": "Select Asset",
-  "random": "Random"
+  "random": "Random",
+  "successfullyCreated": "Successfully Created! Your wallet address is ready. You can easily share it from your profile."
 }

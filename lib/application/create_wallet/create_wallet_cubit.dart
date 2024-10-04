@@ -61,7 +61,14 @@ class CreateWalletCubit extends Cubit<CreateWalletState> {
   }
 
   void emitInitialStatus() async {
-    emit(state.initialState());
+    emit(state.copyWith(
+      formStatus: const InitialFormStatus(),
+      customMessage: '',
+      customMessageEs: '',
+      customCode: '',
+      assetId: '',
+      addressName: '',
+    ));
   }
 
   void setAssetId(String rafikiAsset) {

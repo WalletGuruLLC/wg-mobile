@@ -253,7 +253,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
               SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: description,
+                text: l10n.successfullyCreated,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
@@ -309,11 +309,22 @@ class CreateWalletFormState extends State<CreateWalletForm> {
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: 'Error Code: $codeError',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
             ],
           ),
           onPressed: () {
             createWalletCubit.emitInitialStatus();
             Navigator.of(context).pop();
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.createWallet.name,
+            );
           },
         );
       },

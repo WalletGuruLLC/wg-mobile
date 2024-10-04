@@ -169,5 +169,6 @@
   "homeSeeMore": "Más información",
   "asset": "Activo",
   "selectAsset": "Seleccionar Activo",
-  "random": "Aleatorio"
+  "random": "Aleatorio",
+  "successfullyCreated": "¡Creación Exitosa! Tu dirección de billetera está lista. Puedes compartirla fácilmente desde tu perfil"
 }
