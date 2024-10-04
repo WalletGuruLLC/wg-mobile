@@ -123,9 +123,8 @@
   "pleaseSelectGenericValue": "Please select a value for this field",
   "payments": "Payments",
   "receivePayment": "Receive Payments",
-  "sendPayment": "Send Payments",
+  "sendPayment": "Send Payment",
   "addService": "Add Service",
-  "sendPayment": "Send Payments",
   "scanQR": "Scan Recipient's QR code",
   "walletAddress": "Wallet Address",
   "enterAmount": "Enter the amount",
@@ -167,5 +166,9 @@
   "homeReservedFunds": "Reserved Funds:",
   "homeAvailableFunds": "Available Funds:",
   "homeLastTransactions": "Last transactions",
-  "homeSeeMore": "See more"
+  "homeSeeMore": "See more",
+  "confirmPaymentTitle": "Confirm Payment",
+  "confirmPaymentText1": "You are about to send a payment",
+  "confirmPaymentText2": "Do you want to proceed?",
+  "yes": "Yes"
 }
