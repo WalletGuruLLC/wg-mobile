@@ -8,6 +8,7 @@ import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/application/settings/settings_cubit.dart';
 import 'package:wallet_guru/application/settings/settings_state.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/wallet_asset_dropdown.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
@@ -37,6 +38,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
   void initState() {
     super.initState();
     createWalletCubit = BlocProvider.of<CreateWalletCubit>(context);
+    createWalletCubit.emitFetchWalletAssetId();
     final loginCubit = BlocProvider.of<LoginCubit>(context);
 
     loginCubit.cleanFormStatus();
@@ -68,117 +70,133 @@ class CreateWalletFormState extends State<CreateWalletForm> {
     AppLocalizations l10n,
     Locale locale,
   ) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const AuthLoginDivider(),
-          TextBase(
-            text: l10n.createWalletAddress,
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-          ),
-          SizedBox(height: size * 0.005),
-          TextBase(
-            text: l10n.generateUniqueWallet,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-          SizedBox(height: size * 0.030),
-          TextBase(
-            text: l10n.enterDesiredName,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-          SizedBox(height: size * 0.030),
-          TextBase(
-            text: l10n.addressName,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-          SizedBox(height: size * 0.015),
-          BlocBuilder<SettingsCubit, SettingsState>(
-            builder: (context, state) {
-              if (state is SettingsLoaded) {
-                final walletUrlSetting =
-                    state.settings.firstWhere((s) => s.key == 'url-wallet');
-                walletUrl = walletUrlSetting.value;
-              }
-              return Visibility(
-                visible: _isVisible,
+    return BlocConsumer<CreateWalletCubit, CreateWalletState>(
+      listener: (context, state) {
+        if (state.formStatus is SubmissionSuccess) {
+          _buildSuccessfulModal(
+              state.customMessage, state.customMessageEs, locale);
+        } else if (state.formStatus is SubmissionFailed) {
+          _buildErrorModal(state.customMessage, state.customMessageEs,
+              state.customCode, locale, l10n);
+        }
+      },
+      builder: (context, state) {
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const AuthLoginDivider(),
+              TextBase(
+                text: l10n.createWalletAddress,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+              ),
+              SizedBox(height: size * 0.005),
+              TextBase(
+                text: l10n.generateUniqueWallet,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              SizedBox(height: size * 0.030),
+              TextBase(
+                text: l10n.enterDesiredName,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              SizedBox(height: size * 0.030),
+              TextBase(
+                text: l10n.addressName,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              SizedBox(height: size * 0.015),
+              BlocBuilder<SettingsCubit, SettingsState>(
+                builder: (context, state) {
+                  if (state is SettingsLoaded) {
+                    final walletUrlSetting =
+                        state.settings.firstWhere((s) => s.key == 'url-wallet');
+                    walletUrl = walletUrlSetting.value;
+                  }
+                  return Visibility(
+                    visible: _isVisible,
+                    child: TextBase(
+                      text: walletUrl,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.grey,
+                    ),
+                  );
+                },
+              ),
+              SizedBox(height: size * 0.015),
+              WalletAddressForm(
+                controller: _addressController,
+                onChanged: _onFormChanged,
+              ),
+              SizedBox(height: size * 0.015),
+              Visibility(
+                visible: !_isVisible,
                 child: TextBase(
-                  text: walletUrl,
+                  text: '$walletUrl/$_address',
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey,
                 ),
-              );
-            },
-          ),
-          SizedBox(height: size * 0.015),
-          WalletAddressForm(
-            controller:
-                _addressController, // Asignar el controlador al formulario
-            onChanged: _onFormChanged,
-          ),
-          SizedBox(height: size * 0.015),
-          Visibility(
-            visible: !_isVisible,
-            child: TextBase(
-              text: '$walletUrl/$_address',
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey,
-            ),
-          ),
-          !_isVisible ? SizedBox(height: size * 0.015) : const SizedBox(),
-          GestureDetector(
-            onTap: () {
-              String randomAddress = _generateRandomAddress();
-              _onFormChanged(randomAddress);
-            },
-            child: TextBase(
-              color: AppColorSchema.of(context).tertiaryText,
-              text: 'Random',
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(height: size * 0.20),
-          BlocConsumer<CreateWalletCubit, CreateWalletState>(
-            listener: (context, state) {
-              if (state.formStatus is SubmissionSuccess) {
-                _buildSuccessfulModal(
-                    state.customMessage, state.customMessageEs, locale);
-              } else if (state.formStatus is SubmissionFailed) {
-                _buildErrorModal(state.customMessage, state.customMessageEs,
-                    state.customCode, locale, l10n);
-              }
-            },
-            builder: (context, state) {
-              if (state.formStatus is FormSubmitting) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                return CustomButton(
+              ),
+              !_isVisible ? SizedBox(height: size * 0.015) : const SizedBox(),
+              GestureDetector(
+                onTap: () {
+                  String randomAddress = _generateRandomAddress();
+                  _onFormChanged(randomAddress);
+                },
+                child: TextBase(
+                  color: AppColorSchema.of(context).tertiaryText,
+                  text: l10n.random,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              SizedBox(height: size * 0.025),
+              TextBase(
+                text: l10n.asset,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              SizedBox(height: size * 0.028),
+              if (state.fetchWalletAsset)
+                WalletAssetDropdown(
+                  hintText: l10n.selectAsset,
+                  initialValue: null,
+                  items: state.rafikiAssets!.map((e) => e.code).toList(),
+                  onChanged: (value) {
+                    createWalletCubit.setAssetId(value!);
+                  },
+                )
+              else
+                const SizedBox(),
+              SizedBox(height: size * 0.20),
+              if (state.formStatus is FormSubmitting)
+                const Center(child: CircularProgressIndicator())
+              else
+                CustomButton(
                   border: Border.all(
-                    color: !_addressMinLength
+                    color: !_addressMinLength || !state.activateButton
                         ? AppColorSchema.of(context).secondaryButtonBorderColor
                         : Colors.transparent,
                   ),
-                  color: !_addressMinLength
+                  color: !_addressMinLength || !state.activateButton
                       ? Colors.transparent
                       : AppColorSchema.of(context).buttonColor,
                   text: l10n.create,
                   fontSize: 20,
                   fontWeight: FontWeight.w400,
                   onPressed: _onButtonPressed,
-                );
-              }
-            },
+                ),
+              SizedBox(height: size * 0.025),
+            ],
           ),
-          SizedBox(height: size * 0.025),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -196,10 +214,10 @@ class CreateWalletFormState extends State<CreateWalletForm> {
   // Método para manejar el botón
   void _onButtonPressed() {
     if (_formKey.currentState!.validate() && _addressMinLength) {
+      createWalletCubit.emitCreateWallet();
       _formKey.currentState!.reset();
       setState(() {
         _addressMinLength = false;
-        createWalletCubit.emitFetchWalletAssetId();
       });
     }
   }
@@ -235,7 +253,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
               SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: description,
+                text: l10n.successfullyCreated,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
@@ -291,11 +309,22 @@ class CreateWalletFormState extends State<CreateWalletForm> {
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: 'Error Code: $codeError',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
             ],
           ),
           onPressed: () {
             createWalletCubit.emitInitialStatus();
             Navigator.of(context).pop();
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.createWallet.name,
+            );
           },
         );
       },
