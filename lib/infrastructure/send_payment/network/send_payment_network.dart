@@ -7,4 +7,6 @@ class SendPaymentNetwork {
       '${Env.baseUrlWallet}/api/v1/wallets/wallet/token';
   static final String createTransaction =
       '${Env.baseUrl}/api/v1/wallets-rafiki/transaction';
+  static final getRafikiAssets =
+      '${Env.baseUrlWallet}/api/v1/wallets-rafiki/assets';
 }

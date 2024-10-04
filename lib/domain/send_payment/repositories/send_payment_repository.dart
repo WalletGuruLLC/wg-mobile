@@ -9,4 +9,5 @@ abstract class SendPaymentRepository {
   Future<Either<InvalidData, ResponseModel>> getWalletInformation();
   Future createTransaction(
       WalletForPaymentEntity walletEntity, SendPaymentEntity sendPaymentEntity);
+  Future<Either<InvalidData, ResponseModel>> fetchWalletAsset();
 }

@@ -9,6 +9,8 @@ class SendPaymentState extends Equatable {
   final bool showNextButton;
   final bool showPaymentButton;
   final WalletForPaymentEntity? walletForPaymentEntity;
+  final List<RafikiAssets>? rafikiAssets;
+  final bool fetchWalletAsset;
 
   const SendPaymentState({
     this.sendPaymentEntity,
@@ -19,6 +21,8 @@ class SendPaymentState extends Equatable {
     this.showNextButton = false,
     this.showPaymentButton = false,
     this.walletForPaymentEntity,
+    this.rafikiAssets,
+    this.fetchWalletAsset = false,
   });
 
   SendPaymentState copyWith({
@@ -30,6 +34,8 @@ class SendPaymentState extends Equatable {
     SendPaymentEntity? sendPaymentEntity,
     bool? showPaymentButton,
     WalletForPaymentEntity? walletForPaymentEntity,
+    List<RafikiAssets>? rafikiAssets,
+    bool? fetchWalletAsset,
   }) =>
       SendPaymentState(
         formStatus: formStatus ?? this.formStatus,
@@ -41,6 +47,8 @@ class SendPaymentState extends Equatable {
         showPaymentButton: showPaymentButton ?? this.showPaymentButton,
         walletForPaymentEntity:
             walletForPaymentEntity ?? this.walletForPaymentEntity,
+        rafikiAssets: rafikiAssets ?? this.rafikiAssets,
+        fetchWalletAsset: fetchWalletAsset ?? this.fetchWalletAsset,
       );
 
   @override
@@ -53,5 +61,7 @@ class SendPaymentState extends Equatable {
         sendPaymentEntity,
         showPaymentButton,
         walletForPaymentEntity,
+        rafikiAssets,
+        fetchWalletAsset,
       ];
 }

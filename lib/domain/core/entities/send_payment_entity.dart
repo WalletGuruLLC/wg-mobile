@@ -46,7 +46,7 @@ class SendPaymentEntity {
   }
 
   double calculateAmountWithScale() {
-    double x = double.tryParse(receiverAmount) ?? 0.0;
+    double x = double.tryParse(receiverAmount.replaceAll(',', '.')) ?? 0.0;
     return pow(x, assetScale).toDouble();
   }
 }

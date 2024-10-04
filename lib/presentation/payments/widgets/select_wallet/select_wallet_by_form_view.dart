@@ -21,6 +21,7 @@ class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
   void initState() {
     sendPaymentCubit = BlocProvider.of<SendPaymentCubit>(context);
     sendPaymentCubit.emitGetWalletInformation();
+    sendPaymentCubit.emitFetchWalletAsset();
     super.initState();
   }
 

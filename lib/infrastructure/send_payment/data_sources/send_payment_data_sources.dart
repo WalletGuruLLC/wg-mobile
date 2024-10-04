@@ -63,4 +63,17 @@ class SendPaymentDataSource {
           errorModel.customMessageEs);
     }
   }
+
+  Future<ResponseModel> fetchWalletAsset() async {
+    var response = await HttpDataSource.get(SendPaymentNetwork.getRafikiAssets);
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel signInSignInResponseModel = ResponseModel.fromJson(result);
+      return signInSignInResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
 }
