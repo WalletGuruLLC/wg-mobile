@@ -29,11 +29,21 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
         ));
       },
       (singInUser) {
-        emit(state.copyWith(
-          customMessage: singInUser.customCode,
-          customMessageEs: singInUser.customMessageEs,
-          formStatus: SubmissionSuccess(),
-        ));
+        if (singInUser.data!.message == "don’t found") {
+          emit(state.copyWith(
+            formStatus: SubmissionFailed(
+                exception: Exception(singInUser.data!.message)),
+            customCode: singInUser.customCode,
+            customMessage: singInUser.customMessageEs,
+            customMessageEs: singInUser.customMessageEs,
+          ));
+        } else {
+          emit(state.copyWith(
+            customMessage: singInUser.customCode,
+            customMessageEs: singInUser.customMessageEs,
+            formStatus: SubmissionSuccess(),
+          ));
+        }
       },
     );
   }
