@@ -10,4 +10,5 @@ abstract class SendPaymentRepository {
   Future createTransaction(
       WalletForPaymentEntity walletEntity, SendPaymentEntity sendPaymentEntity);
   Future<Either<InvalidData, ResponseModel>> fetchWalletAsset();
+  Future<Either<InvalidData, ResponseModel>> getExchangeRate(String currency);
 }

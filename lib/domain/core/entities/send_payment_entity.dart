@@ -45,9 +45,10 @@ class SendPaymentEntity {
     };
   }
 
-  double calculateAmountWithScale() {
-    double x = double.tryParse(receiverAmount.replaceAll(',', '.')) ?? 0.0;
-    return pow(x, assetScale).toDouble();
+  double calculateAmountWithScale(int assetScaleFromWallet) {
+    String cleanedAmount = receiverAmount.replaceAll(RegExp(r'[^\d.]'), '');
+    double x = double.tryParse(cleanedAmount) ?? 0.0;
+    return pow(x, assetScaleFromWallet).toDouble();
   }
 }
 

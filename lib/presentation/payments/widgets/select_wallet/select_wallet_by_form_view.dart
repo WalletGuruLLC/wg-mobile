@@ -51,6 +51,8 @@ class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
             sendPaymentCubit.updateSendPaymentInformation(
               receiverWalletAddress: value,
             );
+            sendPaymentCubit.emitGetExchangeRate();
+
             // Handle the change
           },
         ),

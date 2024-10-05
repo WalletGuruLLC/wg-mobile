@@ -57,4 +57,16 @@ class SendPaymentRepositoryImpl extends SendPaymentRepository {
       return Left(invalidData);
     }
   }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> getExchangeRate(
+      String currency) async {
+    try {
+      final ResponseModel response =
+          await sendPaymentDataSources.getExchangeRate(currency);
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
 }

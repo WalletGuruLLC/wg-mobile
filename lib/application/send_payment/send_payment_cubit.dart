@@ -147,6 +147,49 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
     );
   }
 
+  void emitGetExchangeRate() async {
+    final asset = await receivePaymentRepository
+        .getExchangeRate(state.walletForPaymentEntity!.walletAsset.code);
+    asset.fold(
+      (error) {
+        emit(state.copyWith(
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (asset) {
+        emit(state.copyWith(
+          eurExchangeRate: asset.rates!.eur == 0.0 ? 1.0 : asset.rates!.eur,
+          usdExchangeRate: asset.rates!.usd == 0.0 ? 1.0 : asset.rates!.usd,
+          mxnExchangeRate: asset.rates!.mxn == 0.0 ? 1.0 : asset.rates!.mxn,
+          jpyExchangeRate: asset.rates!.jpy == 0.0 ? 1.0 : asset.rates!.jpy,
+        ));
+      },
+    );
+  }
+
+  double getExchangeRate(String currency) {
+    switch (currency) {
+      case 'EUR':
+        return state.eurExchangeRate!;
+      case 'USD':
+        return state.usdExchangeRate!;
+      case 'MXN':
+        return state.mxnExchangeRate!;
+      case 'JPY':
+        return state.jpyExchangeRate!;
+      default:
+        return 1.0;
+    }
+  }
+
+  double getAmountInCurrency(String currency) {
+    String cleanedAmount = state.sendPaymentEntity!.receiverAmount
+        .replaceAll(RegExp(r'[^\d.]'), '');
+    double amount = double.tryParse(cleanedAmount) ?? 0.0;
+    return amount * getExchangeRate(currency).toDouble();
+  }
+
   void createTransaction() async {
     emit(
       state.copyWith(formStatus: FormSubmitting()),

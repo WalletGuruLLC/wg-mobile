@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wallet_guru/application/user/user_cubit.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -69,7 +68,8 @@ class SendPaymentModalConfirmation extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.w400,
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  BlocProvider.of<SendPaymentCubit>(context)
+                      .createTransaction();
                 },
               ),
               CustomButton(

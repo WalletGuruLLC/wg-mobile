@@ -133,8 +133,8 @@
   "chooseCurrency": "Choose a currency",
   "exchangeRateUpdate": "Exchange Rate Update",
   "convertCurrency": "Convert COP to USD",
-  "currentExchangeRate": "Current Exchange Rate: 1 USD = 4,000 COP",
-  "amountInUsd": "Amount in USD: 100 USD",
+  "currentExchangeRate": "Current Exchange Rate: 1",
+  "amountInUsd": "Amount in ",
   "rateAvailable": "This rate will update in",
   "save": "Save",
   "notificationSettings": "Notification Settings",
@@ -174,5 +174,6 @@
   "confirmPaymentTitle": "Confirm Payment",
   "confirmPaymentText1": "You are about to send a payment",
   "confirmPaymentText2": "Do you want to proceed?",
-  "yes": "Yes"
+  "yes": "Yes",
+  "convert": "Convert"
 }

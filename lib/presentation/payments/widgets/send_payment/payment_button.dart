@@ -26,73 +26,65 @@ class _PaymentButtonWithTimerState extends State<PaymentButtonWithTimer> {
 
     return BlocBuilder<SendPaymentCubit, SendPaymentState>(
       builder: (context, state) {
-        bool showButton = state.showPaymentButton;
+        if (state.showPaymentButton) {
+          if (_timer == null) {
+            _startTimer();
+          }
 
-        if (showButton && _timer == null) {
-          _startTimer();
-        }
-
-        return showButton
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextBase(
-                    text: l10n.exchangeRateUpdate,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  const SizedBox(height: 10),
-                  TextBase(
-                    text: l10n.convertCurrency,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  TextBase(
-                    text: l10n.convertCurrency,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  TextBase(
-                    text: l10n.currentExchangeRate,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  TextBase(
-                    text: l10n.amountInUsd,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  const SizedBox(height: 10),
-                  TextBase(
-                    color: AppColorSchema.of(context).tertiaryText,
-                    text:
-                        '${l10n.rateAvailable} ${_formatTime(_remainingSeconds)}',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  const SizedBox(height: 20),
-                  CustomButton(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18,
-                    borderRadius: 14,
-                    color: AppColorSchema.of(context).buttonColor,
-                    border: Border.all(width: 0.75, color: Colors.transparent),
-                    text: l10n.sendPayment,
-                    height: 56,
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        barrierColor:
-                            AppColorSchema.of(context).modalBarrierColor,
-                        builder: (_) {
-                          return const SendPaymentModalConfirmation();
-                        },
-                      );
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextBase(
+                text:
+                    '${l10n.convert} ${state.walletForPaymentEntity!.walletAsset.code} to ${state.sendPaymentEntity!.currency}',
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              const SizedBox(height: 10),
+              TextBase(
+                text:
+                    '${l10n.currentExchangeRate} ${state.walletForPaymentEntity!.walletAsset.code} = ${context.read<SendPaymentCubit>().getExchangeRate(state.sendPaymentEntity!.currency)}',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              TextBase(
+                text:
+                    '${l10n.amountInUsd} ${state.sendPaymentEntity!.currency}: ${context.read<SendPaymentCubit>().getAmountInCurrency(state.sendPaymentEntity!.currency)}',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              const SizedBox(height: 10),
+              TextBase(
+                color: AppColorSchema.of(context).tertiaryText,
+                text: '${l10n.rateAvailable} ${_formatTime(_remainingSeconds)}',
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+              const SizedBox(height: 20),
+              CustomButton(
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+                borderRadius: 14,
+                color: AppColorSchema.of(context).buttonColor,
+                border: Border.all(width: 0.75, color: Colors.transparent),
+                text: l10n.sendPayment,
+                height: 56,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierColor: AppColorSchema.of(context).modalBarrierColor,
+                    builder: (_) {
+                      return const SendPaymentModalConfirmation();
                     },
-                  ),
-                ],
-              )
-            : const SizedBox();
+                  );
+                },
+              ),
+            ],
+          );
+        } else {
+          // No se construye nada si showPaymentButton es false
+          return const SizedBox();
+        }
       },
     );
   }

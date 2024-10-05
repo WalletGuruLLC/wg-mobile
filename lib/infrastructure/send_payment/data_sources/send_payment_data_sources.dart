@@ -42,17 +42,22 @@ class SendPaymentDataSource {
 
   Future<ResponseModel> createTransaction(WalletForPaymentEntity walletEntity,
       SendPaymentEntity sendPaymentEntity) async {
-    var response =
-        await HttpDataSource.post(SendPaymentNetwork.createTransaction, {
+    var body = {
       "metadata": {"description": "Payment for the service"},
       "incomingAmount": {
         "assetCode": sendPaymentEntity.currency,
         "assetScale": walletEntity.walletAsset.scale,
-        "value": sendPaymentEntity.calculateAmountWithScale()
+        "value": sendPaymentEntity
+            .calculateAmountWithScale(walletEntity.walletAsset.scale)
       },
       "walletAddressUrl": sendPaymentEntity.receiverWalletAddress,
       "walletAddressId": walletEntity.walletDb.rafikiId,
-    });
+    };
+
+    print(body);
+
+    var response =
+        await HttpDataSource.post(SendPaymentNetwork.createTransaction, body);
     final result = jsonDecode(response.body);
     if (response.statusCode == 201) {
       ResponseModel transactionResponseModel = ResponseModel.fromJson(result);
@@ -66,6 +71,21 @@ class SendPaymentDataSource {
 
   Future<ResponseModel> fetchWalletAsset() async {
     var response = await HttpDataSource.get(SendPaymentNetwork.getRafikiAssets);
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel signInSignInResponseModel = ResponseModel.fromJson(result);
+      return signInSignInResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
+
+  Future<ResponseModel> getExchangeRate(String currency) async {
+    var response = await HttpDataSource.get(
+      '${SendPaymentNetwork.getExchangeRate}?base=$currency',
+    );
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       ResponseModel signInSignInResponseModel = ResponseModel.fromJson(result);

@@ -11,6 +11,10 @@ class SendPaymentState extends Equatable {
   final WalletForPaymentEntity? walletForPaymentEntity;
   final List<RafikiAssets>? rafikiAssets;
   final bool fetchWalletAsset;
+  final double? eurExchangeRate;
+  final double? usdExchangeRate;
+  final double? mxnExchangeRate;
+  final double? jpyExchangeRate;
 
   const SendPaymentState({
     this.sendPaymentEntity,
@@ -23,6 +27,10 @@ class SendPaymentState extends Equatable {
     this.walletForPaymentEntity,
     this.rafikiAssets,
     this.fetchWalletAsset = false,
+    this.eurExchangeRate,
+    this.usdExchangeRate,
+    this.mxnExchangeRate,
+    this.jpyExchangeRate,
   });
 
   SendPaymentState copyWith({
@@ -36,6 +44,10 @@ class SendPaymentState extends Equatable {
     WalletForPaymentEntity? walletForPaymentEntity,
     List<RafikiAssets>? rafikiAssets,
     bool? fetchWalletAsset,
+    double? eurExchangeRate,
+    double? usdExchangeRate,
+    double? mxnExchangeRate,
+    double? jpyExchangeRate,
   }) =>
       SendPaymentState(
         formStatus: formStatus ?? this.formStatus,
@@ -49,6 +61,10 @@ class SendPaymentState extends Equatable {
             walletForPaymentEntity ?? this.walletForPaymentEntity,
         rafikiAssets: rafikiAssets ?? this.rafikiAssets,
         fetchWalletAsset: fetchWalletAsset ?? this.fetchWalletAsset,
+        eurExchangeRate: eurExchangeRate ?? this.eurExchangeRate,
+        usdExchangeRate: usdExchangeRate ?? this.usdExchangeRate,
+        mxnExchangeRate: mxnExchangeRate ?? this.mxnExchangeRate,
+        jpyExchangeRate: jpyExchangeRate ?? this.jpyExchangeRate,
       );
 
   @override
@@ -63,5 +79,9 @@ class SendPaymentState extends Equatable {
         walletForPaymentEntity,
         rafikiAssets,
         fetchWalletAsset,
+        eurExchangeRate,
+        usdExchangeRate,
+        mxnExchangeRate,
+        jpyExchangeRate,
       ];
 }

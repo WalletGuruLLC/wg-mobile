@@ -7,6 +7,7 @@ class ResponseModel {
   final String customMessageEs;
   final Data? data;
   final Wallet? wallet;
+  final Rate? rates;
 
   ResponseModel({
     required this.statusCode,
@@ -15,6 +16,7 @@ class ResponseModel {
     required this.customMessageEs,
     required this.data,
     required this.wallet,
+    required this.rates,
   });
 
   factory ResponseModel.fromJson(Map<String, dynamic> json) => ResponseModel(
@@ -30,6 +32,7 @@ class ResponseModel {
         data: json["data"] != null
             ? Data.fromJson(json["data"])
             : Data.initialState(),
+        rates: json["rates"] != null ? Rate.fromJson(json["rates"]) : null,
       );
 }
 
@@ -386,5 +389,26 @@ class RafikiAssets {
   factory RafikiAssets.initialState() => RafikiAssets(
         id: '',
         code: '',
+      );
+}
+
+class Rate {
+  final double mxn;
+  final double jpy;
+  final double eur;
+  final double usd;
+
+  Rate({
+    required this.mxn,
+    required this.jpy,
+    required this.eur,
+    required this.usd,
+  });
+
+  factory Rate.fromJson(Map<String, dynamic> json) => Rate(
+        mxn: json["MXN"]?.toDouble() ?? 0.0,
+        jpy: json["JPY"]?.toDouble() ?? 0.0,
+        eur: json["EUR"]?.toDouble() ?? 0.0,
+        usd: json["USD"]?.toDouble() ?? 0.0,
       );
 }
