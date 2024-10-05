@@ -132,7 +132,6 @@
   "currency": "Currency",
   "chooseCurrency": "Choose a currency",
   "exchangeRateUpdate": "Exchange Rate Update",
-  "convertCurrency": "Convert COP to USD",
   "currentExchangeRate": "Current Exchange Rate: 1",
   "amountInUsd": "Amount in ",
   "rateAvailable": "This rate will update in",
@@ -179,6 +178,8 @@
   "paymentSent": "Payment Sent",
   "paymentSentMessage": "Your payment has been sent successfully",
   "paymentError": "Payment Error",
-  "paymentErrorMessage": "There was an error processing your payment. Please try again."
+  "paymentErrorMessage": "There was an error processing your payment. Please try again.",
+  "walletNotFoundTitle": "Wallet not found",
+  "walletNotFoundText": "Please check the wallet address and try again"
 
 }
