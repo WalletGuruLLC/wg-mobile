@@ -2,7 +2,7 @@ import 'package:wallet_guru/infrastructure/core/env/env.dart';
 
 class SendPaymentNetwork {
   static final String verifyWalletExistence =
-      '${Env.baseUrl}/api/v1/wallet/verifyWalletExistence';
+      '${Env.baseUrlWallet}/api/v1/wallets/exist';
   static final String getWalletInformation =
       '${Env.baseUrlWallet}/api/v1/wallets/wallet/token';
   static final String createTransaction =

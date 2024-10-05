@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/core/validations/validations.dart';
 import 'package:wallet_guru/domain/core/entities/send_payment_entity.dart';
@@ -13,27 +14,76 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
   SendPaymentCubit() : super(const SendPaymentState());
   final receivePaymentRepository = Injector.resolve<SendPaymentRepository>();
 
-  void emitVerifyWalletExistence() async {
-    emit(
-      state.copyWith(formStatus: FormSubmitting()),
-    );
+  void emitVerifyWalletExistence(String value) async {
+    if (value == 'qr') {
+      emit(
+        state.copyWith(isWalletExistQr: FormSubmitting()),
+      );
+    } else {
+      emit(
+        state.copyWith(isWalletExistForm: FormSubmitting()),
+      );
+    }
     final verifyEmailOtp = await receivePaymentRepository
         .verifyWalletExistence(state.sendPaymentEntity!.receiverWalletAddress);
     verifyEmailOtp.fold(
       (error) {
-        emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
-          customCode: error.code,
-          customMessage: error.messageEn,
-          customMessageEs: error.messageEs,
-        ));
+        if (value == 'qr') {
+          emit(state.copyWith(
+            isWalletExistQr: SubmissionFailed(
+              exception: Exception(error.messageEn),
+            ),
+            customCode: error.code,
+            customMessage: error.messageEn,
+            customMessageEs: error.messageEs,
+          ));
+        } else {
+          emit(state.copyWith(
+            isWalletExistForm: SubmissionFailed(
+              exception: Exception(error.messageEn),
+            ),
+            customCode: error.code,
+            customMessage: error.messageEn,
+            customMessageEs: error.messageEs,
+          ));
+        }
       },
       (singInUser) {
-        emit(state.copyWith(
-          customMessage: singInUser.customCode,
-          customMessageEs: singInUser.customMessageEs,
-          formStatus: SubmissionSuccess(),
-        ));
+        if (value == 'qr') {
+          if (singInUser.data!.message == "don’t found") {
+            emit(state.copyWith(
+              isWalletExistQr: SubmissionFailed(
+                exception: Exception(singInUser.data!.message),
+              ),
+              customCode: singInUser.customCode,
+              customMessage: singInUser.customMessageEs,
+              customMessageEs: singInUser.customMessageEs,
+            ));
+          } else {
+            emit(state.copyWith(
+              customMessage: singInUser.customCode,
+              customMessageEs: singInUser.customMessageEs,
+              isWalletExistQr: SubmissionSuccess(),
+            ));
+          }
+        } else {
+          if (singInUser.data!.message == "don’t found") {
+            emit(state.copyWith(
+              isWalletExistForm: SubmissionFailed(
+                exception: Exception(singInUser.data!.message),
+              ),
+              customCode: singInUser.customCode,
+              customMessage: singInUser.customMessageEs,
+              customMessageEs: singInUser.customMessageEs,
+            ));
+          } else {
+            emit(state.copyWith(
+              customMessage: singInUser.customCode,
+              customMessageEs: singInUser.customMessageEs,
+              isWalletExistForm: SubmissionSuccess(),
+            ));
+          }
+        }
       },
     );
   }
@@ -101,6 +151,8 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
       state.copyWith(
         showNextButton: false,
         showPaymentButton: false,
+        isWalletExistQr: const InitialFormStatus(),
+        isWalletExistForm: const InitialFormStatus(),
       ),
     );
   }

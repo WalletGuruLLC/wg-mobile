@@ -132,7 +132,6 @@
   "currency": "Moneda",
   "chooseCurrency": "Elige una moneda",
   "exchangeRateUpdate": "Actualización del Tipo de Cambio",
-  "convertCurrency": "Convertir COP a USD",
   "currentExchangeRate": "Tipo de Cambio Actual: 1",
   "amountInUsd": "Monto en ",
   "rateAvailable": "Esta tasa se actualizará en",
@@ -178,5 +177,7 @@
   "paymentSent": "Pago enviado",
   "paymentSentMessage": "Tu pago ha sido enviado exitosamente",
   "paymentError":"Error en el pago",
-  "paymentErrorMessage": "Ha habido un error para procesar su pago. Intente de nuevo, por favor"
+  "paymentErrorMessage": "Ha habido un error para procesar su pago. Intente de nuevo, por favor",
+  "walletNotFoundTitle": "Billetera no encontrada",
+  "walletNotFoundText": "Por favor, verifique la dirección de la Billetera e intente nuevamente"
 }

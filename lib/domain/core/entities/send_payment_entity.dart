@@ -45,10 +45,13 @@ class SendPaymentEntity {
     };
   }
 
-  double calculateAmountWithScale(int assetScaleFromWallet) {
+  dynamic calculateAmountWithScale(int assetScaleFromWallet) {
     String cleanedAmount = receiverAmount.replaceAll(RegExp(r'[^\d.]'), '');
     double x = double.tryParse(cleanedAmount) ?? 0.0;
-    return pow(x, assetScaleFromWallet).toDouble();
+    double result = x * pow(10, assetScaleFromWallet).toDouble();
+
+    // Verifica si el resultado es un número entero y devuelve como int si es posible
+    return result == result.roundToDouble() ? result.toInt() : result;
   }
 }
 
