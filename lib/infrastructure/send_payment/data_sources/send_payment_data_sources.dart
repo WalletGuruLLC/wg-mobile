@@ -8,12 +8,10 @@ import 'package:wallet_guru/infrastructure/send_payment/network/send_payment_net
 
 class SendPaymentDataSource {
   Future<ResponseModel> verifyWalletExistence(String walletAddress) async {
-    var response = await HttpDataSource.post(
-      SendPaymentNetwork.verifyWalletExistence,
-      {
-        "walletAddress": walletAddress,
-      },
-    );
+    var url =
+        '${SendPaymentNetwork.verifyWalletExistence}?address=$walletAddress';
+
+    var response = await HttpDataSource.get(url);
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       ResponseModel signInSignInResponseModel = ResponseModel.fromJson(result);

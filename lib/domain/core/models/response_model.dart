@@ -29,9 +29,11 @@ class ResponseModel {
                 ? Wallet.fromJson(json["wallet"]["wallet"])
                 : Wallet.fromJson(json["wallet"]))
             : null,
-        data: json["data"] != null
+        data: json["data"] != null && json["data"] is Map<String, dynamic>
             ? Data.fromJson(json["data"])
-            : Data.initialState(),
+            : (json["data"] == "exist"
+                ? Data.withMessage("exist")
+                : Data.withMessage("don’t found")),
         rates: json["rates"] != null ? Rate.fromJson(json["rates"]) : null,
       );
 }
@@ -99,6 +101,17 @@ class Data {
         success: false,
         message: '',
         outgoingPaymentResponse: null,
+      );
+
+  factory Data.withMessage(String message) => Data(
+        user: null,
+        wallet: null,
+        rafikiAssets: null,
+        token: '',
+        success: false,
+        message: message,
+        outgoingPaymentResponse: null,
+        transactionsModel: null,
       );
 
   bool hasUser() => user != null;

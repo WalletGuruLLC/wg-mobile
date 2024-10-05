@@ -15,6 +15,8 @@ class SendPaymentState extends Equatable {
   final double? usdExchangeRate;
   final double? mxnExchangeRate;
   final double? jpyExchangeRate;
+  final FormSubmissionStatus? isWalletExistForm;
+  final FormSubmissionStatus? isWalletExistQr;
 
   const SendPaymentState({
     this.sendPaymentEntity,
@@ -31,6 +33,8 @@ class SendPaymentState extends Equatable {
     this.usdExchangeRate,
     this.mxnExchangeRate,
     this.jpyExchangeRate,
+    this.isWalletExistForm = const InitialFormStatus(),
+    this.isWalletExistQr = const InitialFormStatus(),
   });
 
   SendPaymentState copyWith({
@@ -48,6 +52,8 @@ class SendPaymentState extends Equatable {
     double? usdExchangeRate,
     double? mxnExchangeRate,
     double? jpyExchangeRate,
+    FormSubmissionStatus? isWalletExistForm,
+    FormSubmissionStatus? isWalletExistQr,
   }) =>
       SendPaymentState(
         formStatus: formStatus ?? this.formStatus,
@@ -65,6 +71,8 @@ class SendPaymentState extends Equatable {
         usdExchangeRate: usdExchangeRate ?? this.usdExchangeRate,
         mxnExchangeRate: mxnExchangeRate ?? this.mxnExchangeRate,
         jpyExchangeRate: jpyExchangeRate ?? this.jpyExchangeRate,
+        isWalletExistForm: isWalletExistForm ?? this.isWalletExistForm,
+        isWalletExistQr: isWalletExistQr ?? this.isWalletExistQr,
       );
 
   @override
@@ -83,5 +91,7 @@ class SendPaymentState extends Equatable {
         usdExchangeRate,
         mxnExchangeRate,
         jpyExchangeRate,
+        isWalletExistForm,
+        isWalletExistQr,
       ];
 }
