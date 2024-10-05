@@ -8,6 +8,13 @@ class SendPaymentState extends Equatable {
   final String customCode;
   final bool showNextButton;
   final bool showPaymentButton;
+  final WalletForPaymentEntity? walletForPaymentEntity;
+  final List<RafikiAssets>? rafikiAssets;
+  final bool fetchWalletAsset;
+  final double? eurExchangeRate;
+  final double? usdExchangeRate;
+  final double? mxnExchangeRate;
+  final double? jpyExchangeRate;
 
   const SendPaymentState({
     this.sendPaymentEntity,
@@ -17,6 +24,13 @@ class SendPaymentState extends Equatable {
     this.formStatus = const InitialFormStatus(),
     this.showNextButton = false,
     this.showPaymentButton = false,
+    this.walletForPaymentEntity,
+    this.rafikiAssets,
+    this.fetchWalletAsset = false,
+    this.eurExchangeRate,
+    this.usdExchangeRate,
+    this.mxnExchangeRate,
+    this.jpyExchangeRate,
   });
 
   SendPaymentState copyWith({
@@ -27,6 +41,13 @@ class SendPaymentState extends Equatable {
     bool? showNextButton,
     SendPaymentEntity? sendPaymentEntity,
     bool? showPaymentButton,
+    WalletForPaymentEntity? walletForPaymentEntity,
+    List<RafikiAssets>? rafikiAssets,
+    bool? fetchWalletAsset,
+    double? eurExchangeRate,
+    double? usdExchangeRate,
+    double? mxnExchangeRate,
+    double? jpyExchangeRate,
   }) =>
       SendPaymentState(
         formStatus: formStatus ?? this.formStatus,
@@ -36,6 +57,14 @@ class SendPaymentState extends Equatable {
         showNextButton: showNextButton ?? this.showNextButton,
         sendPaymentEntity: sendPaymentEntity ?? this.sendPaymentEntity,
         showPaymentButton: showPaymentButton ?? this.showPaymentButton,
+        walletForPaymentEntity:
+            walletForPaymentEntity ?? this.walletForPaymentEntity,
+        rafikiAssets: rafikiAssets ?? this.rafikiAssets,
+        fetchWalletAsset: fetchWalletAsset ?? this.fetchWalletAsset,
+        eurExchangeRate: eurExchangeRate ?? this.eurExchangeRate,
+        usdExchangeRate: usdExchangeRate ?? this.usdExchangeRate,
+        mxnExchangeRate: mxnExchangeRate ?? this.mxnExchangeRate,
+        jpyExchangeRate: jpyExchangeRate ?? this.jpyExchangeRate,
       );
 
   @override
@@ -47,5 +76,12 @@ class SendPaymentState extends Equatable {
         showNextButton,
         sendPaymentEntity,
         showPaymentButton,
+        walletForPaymentEntity,
+        rafikiAssets,
+        fetchWalletAsset,
+        eurExchangeRate,
+        usdExchangeRate,
+        mxnExchangeRate,
+        jpyExchangeRate,
       ];
 }

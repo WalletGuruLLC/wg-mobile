@@ -16,63 +16,71 @@ class SendPaymentToUserView extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     final sendPaymentCubit = BlocProvider.of<SendPaymentCubit>(context);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: size.height * 0.05),
-        // Wallet Address Display
-        TextBase(
-          text: l10n.walletAddress,
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 5, top: 5),
-          child: TextBase(
-            text:
-                sendPaymentCubit.state.sendPaymentEntity!.receiverWalletAddress,
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        // Amount label
-        SizedBox(height: size.height * 0.04),
-        TextBase(
-          text: l10n.amount,
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-        ),
-        const SizedBox(height: 10),
-        AmountForm(
-          controller: TextEditingController(),
-          onChanged: (value) {
-            sendPaymentCubit.updateSendPaymentInformation(
-              receiverAmount: value,
-            );
-          },
-        ),
-        // Select Currency
-        SizedBox(height: size.height * 0.04),
-        TextBase(
-          text: l10n.currency,
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-        ),
-        const SizedBox(height: 10),
-        CurrencyDropDown(
-          initialValue: null,
-          hintText: l10n.chooseCurrency,
-          items: const ['USD', 'EUR', 'GBP'],
-          onChanged: (value) {
-            sendPaymentCubit.updateSendPaymentInformation(
-              currency: value,
-            );
-          },
-        ),
-        SizedBox(height: size.height * 0.12),
-        const PaymentButtonWithTimer(),
-      ],
+    return BlocConsumer<SendPaymentCubit, SendPaymentState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: size.height * 0.05),
+            // Wallet Address Display
+            TextBase(
+              text: l10n.walletAddress,
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 5, top: 5),
+              child: TextBase(
+                text: sendPaymentCubit
+                    .state.sendPaymentEntity!.receiverWalletAddress,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            // Amount label
+            SizedBox(height: size.height * 0.04),
+            TextBase(
+              text: l10n.amount,
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+            const SizedBox(height: 10),
+            AmountForm(
+              controller: TextEditingController(),
+              onChanged: (value) {
+                sendPaymentCubit.updateSendPaymentInformation(
+                  receiverAmount: value,
+                );
+              },
+            ),
+            // Select Currency
+            SizedBox(height: size.height * 0.04),
+            TextBase(
+              text: l10n.currency,
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+            const SizedBox(height: 10),
+            if (state.fetchWalletAsset == true)
+              CurrencyDropDown(
+                initialValue: null,
+                hintText: l10n.chooseCurrency,
+                items: sendPaymentCubit.state.rafikiAssets!
+                    .map((e) => e.code)
+                    .toList(),
+                onChanged: (value) {
+                  sendPaymentCubit.updateSendPaymentInformation(
+                    currency: value,
+                  );
+                },
+              ),
+            SizedBox(height: size.height * 0.12),
+            const PaymentButtonWithTimer(),
+          ],
+        );
+      },
     );
   }
 }

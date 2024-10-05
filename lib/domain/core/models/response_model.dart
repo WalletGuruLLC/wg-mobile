@@ -7,6 +7,7 @@ class ResponseModel {
   final String customMessageEs;
   final Data? data;
   final Wallet? wallet;
+  final Rate? rates;
 
   ResponseModel({
     required this.statusCode,
@@ -15,10 +16,11 @@ class ResponseModel {
     required this.customMessageEs,
     required this.data,
     required this.wallet,
+    required this.rates,
   });
 
   factory ResponseModel.fromJson(Map<String, dynamic> json) => ResponseModel(
-        statusCode: json["statusCode"] ?? "",
+        statusCode: json["statusCode"] ?? 0,
         customCode: json["customCode"] ?? "",
         customMessage: json["customMessage"] ?? "",
         customMessageEs: json["customMessageEs"] ?? "",
@@ -30,6 +32,7 @@ class ResponseModel {
         data: json["data"] != null
             ? Data.fromJson(json["data"])
             : Data.initialState(),
+        rates: json["rates"] != null ? Rate.fromJson(json["rates"]) : null,
       );
 }
 
@@ -41,6 +44,7 @@ class Data {
   final String token;
   final bool success;
   final String message;
+  final OutgoingPaymentResponse? outgoingPaymentResponse;
 
   Data({
     required this.user,
@@ -50,13 +54,16 @@ class Data {
     required this.token,
     required this.success,
     required this.message,
+    required this.outgoingPaymentResponse,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
     User? user;
     if (json.containsKey("user") && json["user"] != null) {
       user = User.fromJson(json["user"]);
-    } else if (!json.containsKey("user") && json.isNotEmpty) {
+    } else if (!json.containsKey("user") &&
+        json.isNotEmpty &&
+        !json.containsKey("createOutgoingPayment")) {
       user = User.fromJson(json);
     }
 
@@ -76,6 +83,10 @@ class Data {
       token: json["token"] ?? '',
       success: json["success"] ?? false,
       message: json["message"] ?? '',
+      outgoingPaymentResponse: json.containsKey("createOutgoingPayment") &&
+              json["createOutgoingPayment"] != null
+          ? OutgoingPaymentResponse.fromJson(json["createOutgoingPayment"])
+          : null,
     );
   }
 
@@ -87,6 +98,7 @@ class Data {
         token: '',
         success: false,
         message: '',
+        outgoingPaymentResponse: null,
       );
 
   bool hasUser() => user != null;
@@ -317,6 +329,7 @@ class WalletDb {
   final String id;
   final bool active;
   final String name;
+  final String rafikiId;
 
   WalletDb({
     required this.userId,
@@ -329,6 +342,7 @@ class WalletDb {
     required this.id,
     required this.active,
     required this.name,
+    required this.rafikiId,
   });
 
   factory WalletDb.fromJson(Map<String, dynamic> json) => WalletDb(
@@ -342,6 +356,7 @@ class WalletDb {
         id: json["id"],
         active: json["active"],
         name: json["name"],
+        rafikiId: json["rafikiId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -355,6 +370,7 @@ class WalletDb {
         "id": id,
         "active": active,
         "name": name,
+        "rafikiId": rafikiId,
       };
 
   factory WalletDb.initialState() => WalletDb(
@@ -368,6 +384,7 @@ class WalletDb {
         id: '',
         active: false,
         name: '',
+        rafikiId: '',
       );
 }
 
@@ -396,4 +413,103 @@ class RafikiAssets {
         id: '',
         code: '',
       );
+}
+
+class Rate {
+  final double mxn;
+  final double jpy;
+  final double eur;
+  final double usd;
+
+  Rate({
+    required this.mxn,
+    required this.jpy,
+    required this.eur,
+    required this.usd,
+  });
+
+  factory Rate.fromJson(Map<String, dynamic> json) => Rate(
+        mxn: json["MXN"]?.toDouble() ?? 0.0,
+        jpy: json["JPY"]?.toDouble() ?? 0.0,
+        eur: json["EUR"]?.toDouble() ?? 0.0,
+        usd: json["USD"]?.toDouble() ?? 0.0,
+      );
+}
+
+class OutgoingPaymentResponse {
+  final OutgoingPayment payment;
+
+  OutgoingPaymentResponse({
+    required this.payment,
+  });
+
+  factory OutgoingPaymentResponse.fromJson(Map<String, dynamic> json) {
+    return OutgoingPaymentResponse(
+      payment: OutgoingPayment.fromJson(json['payment']),
+    );
+  }
+}
+
+class OutgoingPayment {
+  final String createdAt;
+  final String? error;
+  final String? metadata;
+  final String id;
+  final String walletAddressId;
+  final Amount receiveAmount;
+  final String receiver;
+  final Amount debitAmount;
+  final Amount sentAmount;
+  final String state;
+  final int stateAttempts;
+
+  OutgoingPayment({
+    required this.createdAt,
+    this.error,
+    this.metadata,
+    required this.id,
+    required this.walletAddressId,
+    required this.receiveAmount,
+    required this.receiver,
+    required this.debitAmount,
+    required this.sentAmount,
+    required this.state,
+    required this.stateAttempts,
+  });
+
+  factory OutgoingPayment.fromJson(Map<String, dynamic> json) {
+    return OutgoingPayment(
+      createdAt: json['createdAt'],
+      error: json['error'],
+      metadata: json['metadata'],
+      id: json['id'],
+      walletAddressId: json['walletAddressId'],
+      receiveAmount: Amount.fromJson(json['receiveAmount']),
+      receiver: json['receiver'],
+      debitAmount: Amount.fromJson(json['debitAmount']),
+      sentAmount: Amount.fromJson(json['sentAmount']),
+      state: json['state'],
+      stateAttempts: json['stateAttempts'],
+    );
+  }
+}
+
+class Amount {
+  final String assetCode;
+  final int assetScale;
+  final String value;
+
+  Amount({
+    required this.assetCode,
+    required this.assetScale,
+    required this.value,
+  });
+
+  factory Amount.fromJson(Map<String, dynamic> json) {
+    return Amount(
+      assetCode: json['assetCode'],
+      assetScale: json['assetScale'],
+      value: json['value'],
+    );
+  }
 }
