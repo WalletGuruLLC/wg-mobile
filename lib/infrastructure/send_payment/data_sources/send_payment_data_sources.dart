@@ -45,7 +45,7 @@ class SendPaymentDataSource {
     var body = {
       "metadata": {"description": "Payment for the service"},
       "incomingAmount": {
-        "assetCode": sendPaymentEntity.currency,
+        "assetCode": walletEntity.walletAsset.code,
         "assetScale": walletEntity.walletAsset.scale,
         "value": sendPaymentEntity
             .calculateAmountWithScale(walletEntity.walletAsset.scale)
@@ -59,7 +59,7 @@ class SendPaymentDataSource {
     var response =
         await HttpDataSource.post(SendPaymentNetwork.createTransaction, body);
     final result = jsonDecode(response.body);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       ResponseModel transactionResponseModel = ResponseModel.fromJson(result);
       return transactionResponseModel;
     } else {

@@ -175,5 +175,10 @@
   "confirmPaymentText1": "You are about to send a payment",
   "confirmPaymentText2": "Do you want to proceed?",
   "yes": "Yes",
-  "convert": "Convert"
+  "convert": "Convert",
+  "paymentSent": "Payment Sent",
+  "paymentSentMessage": "Your payment has been sent successfully",
+  "paymentError": "Payment Error",
+  "paymentErrorMessage": "There was an error processing your payment. Please try again."
+
 }
