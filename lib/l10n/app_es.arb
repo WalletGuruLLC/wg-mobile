@@ -133,8 +133,8 @@
   "chooseCurrency": "Elige una moneda",
   "exchangeRateUpdate": "Actualización del Tipo de Cambio",
   "convertCurrency": "Convertir COP a USD",
-  "currentExchangeRate": "Tipo de Cambio Actual: 1 USD = 4,000 COP",
-  "amountInUsd": "Monto en USD: 100 USD",
+  "currentExchangeRate": "Tipo de Cambio Actual: 1",
+  "amountInUsd": "Monto en ",
   "rateAvailable": "Esta tasa se actualizará en",
   "save": "Guardar",
   "notificationSettings": "Configuración de Notificaciones",
@@ -173,6 +173,10 @@
   "confirmPaymentTitle": "Confirmar Pago",
   "confirmPaymentText1": "Estás a punto de enviar un pago",
   "confirmPaymentText2": "¿Deseas proceder?",
-  "yes": "Si"
-
+  "yes": "Si",
+  "convert": "Convertir",
+  "paymentSent": "Pago enviado",
+  "paymentSentMessage": "Tu pago ha sido enviado exitosamente",
+  "paymentError":"Error en el pago",
+  "paymentErrorMessage": "Ha habido un error para procesar su pago. Intente de nuevo, por favor"
 }

@@ -17,6 +17,7 @@ class UserState extends Equatable {
   final FormSubmissionStatus formStatusLockAccount;
   final WalletEntity? wallet;
   final double availableFunds;
+  final double balance;
 
   const UserState({
     this.user,
@@ -35,6 +36,7 @@ class UserState extends Equatable {
     this.formStatusLockAccount = const InitialFormStatus(),
     this.wallet,
     this.availableFunds = 0.0,
+    this.balance = 0.0,
   });
 
   UserState copyWith({
@@ -54,6 +56,7 @@ class UserState extends Equatable {
     FormSubmissionStatus? formStatusLockAccount,
     WalletEntity? wallet,
     double? availableFunds,
+    double? balance,
   }) =>
       UserState(
         user: user ?? this.user,
@@ -73,6 +76,7 @@ class UserState extends Equatable {
             formStatusLockAccount ?? this.formStatusLockAccount,
         wallet: wallet ?? this.wallet,
         availableFunds: availableFunds ?? this.availableFunds,
+        balance: balance ?? this.balance,
       );
 
   @override
@@ -93,5 +97,6 @@ class UserState extends Equatable {
         formStatusLockAccount,
         wallet,
         availableFunds,
+        balance,
       ];
 }

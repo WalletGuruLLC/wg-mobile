@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wallet_guru/application/user/user_cubit.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -57,19 +59,37 @@ class SendPaymentModalConfirmation extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomButton(
-                isModal: true,
-                borderRadius: 12,
-                width: size.width * 0.33,
-                border: Border.all(
-                  color: AppColorSchema.of(context).secondaryButtonBorderColor,
-                ),
-                color: AppColorSchema.of(context).buttonColor,
-                text: l10n.yes,
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-                onPressed: () {
-                  Navigator.of(context).pop();
+              BlocConsumer<SendPaymentCubit, SendPaymentState>(
+                listener: (context, state) {
+                  if (state.formStatus is SubmissionSuccess) {
+                    Navigator.of(context).pop();
+                    _buildSuccessfulModal(context);
+                  } else if (state.formStatus is SubmissionFailed) {
+                    _buildErrorModal(context);
+                  }
+                },
+                builder: (context, state) {
+                  if (state.formStatus is FormSubmitting) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return CustomButton(
+                      isModal: true,
+                      borderRadius: 12,
+                      width: size.width * 0.33,
+                      border: Border.all(
+                        color: AppColorSchema.of(context)
+                            .secondaryButtonBorderColor,
+                      ),
+                      color: AppColorSchema.of(context).buttonColor,
+                      text: l10n.yes,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      onPressed: () {
+                        BlocProvider.of<SendPaymentCubit>(context)
+                            .createTransaction();
+                      },
+                    );
+                  }
                 },
               ),
               CustomButton(
@@ -90,6 +110,105 @@ class SendPaymentModalConfirmation extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  // Método para construir el modal exitoso
+  Future<dynamic> _buildSuccessfulModal(
+    BuildContext context,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final locale = Localizations.localeOf(context);
+        final l10n = AppLocalizations.of(context)!;
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          isSucefull: true,
+          buttonWidth: locale.languageCode == 'en'
+              ? MediaQuery.of(context).size.width * 0.40
+              : MediaQuery.of(context).size.width * 0.42,
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.paymentSent,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.paymentSentMessage,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () {
+            BlocProvider.of<SendPaymentCubit>(context).resetPaymentEntity();
+            BlocProvider.of<SendPaymentCubit>(context)
+                .resetSendPaymentInformation();
+            Navigator.of(context).pop();
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.home.name,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // Placeholder para el método del modal de error
+  void _buildErrorModal(
+    BuildContext context,
+  ) {
+    final locale = Localizations.localeOf(context);
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          buttonWidth: locale.languageCode == 'en'
+              ? MediaQuery.of(context).size.width * 0.40
+              : MediaQuery.of(context).size.width * 0.42,
+          isSucefull: false,
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.paymentError,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.paymentErrorMessage,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+            ],
+          ),
+          onPressed: () {
+            BlocProvider.of<SendPaymentCubit>(context).resetPaymentEntity();
+            BlocProvider.of<SendPaymentCubit>(context)
+                .resetSendPaymentInformation();
+            Navigator.of(context).pop();
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.home.name,
+            );
+          },
+        );
+      },
     );
   }
 }

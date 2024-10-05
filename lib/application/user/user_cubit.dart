@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -220,12 +221,18 @@ class UserCubit extends Cubit<UserState> {
         ));
       },
       (updatedUser) {
+        final walletDB = updatedUser.data!.wallet!.walletDb;
+        final scale = updatedUser.data!.wallet!.walletAsset!.scale;
         emit(
           state.copyWith(
-              formStatusWallet: SubmissionSuccess(),
-              wallet: WalletEntity.fromWallet(updatedUser.data!.wallet!),
-              availableFunds: updatedUser.data!.wallet!.reserved! -
-                  updatedUser.data!.wallet!.balance!),
+            formStatusWallet: SubmissionSuccess(),
+            wallet: WalletEntity.fromWallet(updatedUser.data!.wallet!),
+            availableFunds: (walletDB.postedCredits - walletDB.postedDebits) /
+                (pow(10, scale)),
+            balance: (walletDB.postedCredits -
+                    (walletDB.pendingDebits + walletDB.postedDebits)) /
+                (pow(10, scale)),
+          ),
         );
       },
     );

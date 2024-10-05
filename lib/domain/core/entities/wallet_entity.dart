@@ -3,35 +3,25 @@ import 'package:wallet_guru/domain/core/models/response_model.dart';
 class WalletEntity {
   final WalletDb walletDb;
   final WalletAsset walletAsset;
-  final double balance;
-  final double reserved;
 
   WalletEntity({
     required this.walletDb,
     required this.walletAsset,
-    required this.balance,
-    required this.reserved,
   });
 
   Wallet copyWith({
     WalletDb? walletDb,
     WalletAsset? walletAsset,
-    double? balance,
-    double? reserved,
   }) =>
       Wallet(
         walletDb: walletDb ?? this.walletDb,
         walletAsset: walletAsset ?? this.walletAsset,
-        balance: balance ?? this.balance,
-        reserved: reserved ?? this.reserved,
       );
 
   factory WalletEntity.fromWallet(Wallet wallet) {
     return WalletEntity(
       walletDb: wallet.walletDb,
       walletAsset: wallet.walletAsset ?? WalletAsset.initialState(),
-      balance: wallet.balance ?? 0.0,
-      reserved: wallet.reserved ?? 0.0,
     );
   }
 }
