@@ -18,6 +18,7 @@ class UserState extends Equatable {
   final WalletEntity? wallet;
   final double availableFunds;
   final double balance;
+  final String walletAddress;
 
   const UserState({
     this.user,
@@ -37,6 +38,7 @@ class UserState extends Equatable {
     this.wallet,
     this.availableFunds = 0.0,
     this.balance = 0.0,
+    this.walletAddress = '',
   });
 
   UserState copyWith({
@@ -57,6 +59,7 @@ class UserState extends Equatable {
     WalletEntity? wallet,
     double? availableFunds,
     double? balance,
+    String? walletAddress,
   }) =>
       UserState(
         user: user ?? this.user,
@@ -77,6 +80,7 @@ class UserState extends Equatable {
         wallet: wallet ?? this.wallet,
         availableFunds: availableFunds ?? this.availableFunds,
         balance: balance ?? this.balance,
+        walletAddress: walletAddress ?? this.walletAddress,
       );
 
   @override
@@ -98,5 +102,6 @@ class UserState extends Equatable {
         wallet,
         availableFunds,
         balance,
+        walletAddress,
       ];
 }

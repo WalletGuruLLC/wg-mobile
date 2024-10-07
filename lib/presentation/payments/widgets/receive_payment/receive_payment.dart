@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
@@ -18,6 +17,7 @@ class ReceivePaymentView extends StatefulWidget {
 class _ReceivePaymentViewState extends State<ReceivePaymentView> {
   late SendPaymentCubit sendPaymentCubit;
   late UserCubit userCubit;
+  late String qrUrl;
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, userState) {
-        const String qrUrl = 'https://walletguru.me/account/johndoe';
+        qrUrl = userState.walletAddress;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -48,7 +48,7 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
                     top: 25, left: 40, right: 40, bottom: 15),
                 child: Column(
                   children: [
-                    const PrettyQr(
+                    PrettyQr(
                       data: qrUrl,
                       size: 150,
                       elementColor: Colors.white,
@@ -94,7 +94,7 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const TextBase(
+                TextBase(
                   text: qrUrl,
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -104,7 +104,7 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
                 IconButton(
                   icon: const Icon(Icons.copy, color: Colors.white),
                   onPressed: () {
-                    Clipboard.setData(const ClipboardData(text: qrUrl));
+                    Clipboard.setData(ClipboardData(text: qrUrl));
                   },
                 ),
               ],
