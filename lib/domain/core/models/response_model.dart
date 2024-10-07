@@ -42,7 +42,6 @@ class Data {
   final User? user;
   final Wallet? wallet;
   final List<TransactionsModel>? transactions;
-  //final TransactionsModel? transactionsModel;
   final List<RafikiAssets>? rafikiAssets;
   final String token;
   final bool success;
@@ -53,7 +52,6 @@ class Data {
     required this.user,
     required this.wallet,
     required this.transactions,
-    //required this.transactionsModel,
     required this.rafikiAssets,
     required this.token,
     required this.success,
@@ -78,9 +76,6 @@ class Data {
           ? List<TransactionsModel>.from(
               json["transactions"].map((x) => TransactionsModel.fromJson(x)))
           : null,
-      /*transactionsModel: json["transactions"] == null
-          ? null
-          : TransactionsModel.fromJson(json["transactions"]),*/
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
           : null,
@@ -103,7 +98,6 @@ class Data {
         user: null,
         transactions: [],
         wallet: null,
-        //transactionsModel: null,
         rafikiAssets: null,
         token: '',
         success: false,
@@ -299,14 +293,12 @@ class Wallet {
 }
 
 class WalletAsset {
-  //final String typename;
   final String code;
   final String id;
   final String liquidity;
   final int scale;
 
   WalletAsset({
-    //required this.typename,
     required this.code,
     required this.id,
     required this.liquidity,
@@ -314,7 +306,6 @@ class WalletAsset {
   });
 
   factory WalletAsset.fromJson(Map<String, dynamic> json) => WalletAsset(
-        //typename: json["__typename"],
         code: json["code"],
         id: json["id"],
         liquidity: json["liquidity"],
@@ -322,7 +313,6 @@ class WalletAsset {
       );
 
   Map<String, dynamic> toJson() => {
-        //"_Typename": typename,
         "code": code,
         "id": id,
         "liquidity": liquidity,
@@ -330,7 +320,6 @@ class WalletAsset {
       };
 
   factory WalletAsset.initialState() => WalletAsset(
-        //typename: '',
         code: '',
         id: '',
         liquidity: '',
