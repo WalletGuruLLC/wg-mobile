@@ -51,7 +51,8 @@ class BalanceCard extends StatelessWidget {
                           fontSize: size.width * 0.035,
                         ),
                         TextBase(
-                          text: "\$0.00",
+                          text: toCurrencyString(state.reservedFunds.toString(),
+                              leadingSymbol: '\$'),
                           fontSize: size.width * 0.035,
                           fontWeight: FontWeight.bold,
                         ),

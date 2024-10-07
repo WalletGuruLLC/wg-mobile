@@ -232,6 +232,7 @@ class UserCubit extends Cubit<UserState> {
             balance: (walletDB.postedCredits -
                     (walletDB.pendingDebits + walletDB.postedDebits)) /
                 (pow(10, scale)),
+            reservedFunds: walletDB.pendingDebits / (pow(10, scale)),
             walletAddress: walletDB.walletAddress,
           ),
         );
