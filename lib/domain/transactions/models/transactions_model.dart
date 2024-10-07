@@ -17,15 +17,20 @@ class TransactionsModel {
         //completedOutgoingPayments: completedOutgoingPayments ?? this.completedOutgoingPayments,
       );
 
-  factory TransactionsModel.fromJson(Map<String, dynamic> json) =>
-      TransactionsModel(
-        completedIncomingPayments: json["completedIncomingPayments"] == null
-            ? []
-            : List<CompletedIncomingPayment>.from(
-                json["completedIncomingPayments"]!
-                    .map((x) => CompletedIncomingPayment.fromJson(x))),
-        //completedOutgoingPayments: json["completedOutgoingPayments"] == null ? [] : List<dynamic>.from(json["completedOutgoingPayments"]!.map((x) => x)),
-      );
+  factory TransactionsModel.fromJson(Map<String, dynamic> json) {
+    List<CompletedIncomingPayment> payments = json["completedIncomingPayments"] == null
+        ? []
+        : List<CompletedIncomingPayment>.from(
+            json["completedIncomingPayments"]!
+                .map((x) => CompletedIncomingPayment.fromJson(x)));
+    
+    // Ordenar la lista de pagos de más reciente a más antiguo
+    payments.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
+    return TransactionsModel(
+      completedIncomingPayments: payments,
+    );
+  }
 
   factory TransactionsModel.initialState() => TransactionsModel(
         completedIncomingPayments: [],

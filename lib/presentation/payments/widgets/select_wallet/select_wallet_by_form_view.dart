@@ -34,7 +34,7 @@ class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: size.height * 0.25),
+        SizedBox(height: size.height * 0.02),
         const ScanQRButton(),
         const SizedBox(height: 20),
         TextBase(
@@ -55,6 +55,12 @@ class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
 
             // Handle the change
           },
+        ),
+        const SizedBox(height: 5),
+        TextBase(
+          text: l10n.exampleWalletAddress,
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
         ),
         SizedBox(height: size.height * 0.25),
         const SelectWalletNextButton()

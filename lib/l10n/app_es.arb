@@ -127,6 +127,7 @@
   "addService": "Agregar Servicios",
   "scanQR": "Escanear código QR del destinatario",
   "walletAddress": "Dirección de Billetera",
+  "exampleWalletAddress": "Wallet de ejemplo: https://walletguru.me/johnDoe",
   "enterAmount": "Ingrese el valor",
   "amount": "Valor",
   "currency": "Moneda",
