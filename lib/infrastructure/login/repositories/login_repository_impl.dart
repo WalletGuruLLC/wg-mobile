@@ -52,4 +52,28 @@ class LoginRepositoryImpl extends LoginRepository {
       return Left(invalidData);
     }
   }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> forgotPassword(
+      String email) async {
+    try {
+      final ResponseModel response =
+          await loginDataSource.forgotPassword(email);
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> changePassword(
+      String email, String otp, String newPassword) async {
+    try {
+      final ResponseModel response =
+          await loginDataSource.changePassword(email, otp, newPassword);
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
 }

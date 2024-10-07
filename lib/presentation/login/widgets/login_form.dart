@@ -30,6 +30,7 @@ class LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     loginCubit = BlocProvider.of<LoginCubit>(context);
+    loginCubit.cleanFormStatusForgotPassword();
     super.initState();
   }
 
@@ -75,11 +76,15 @@ class LoginFormState extends State<LoginForm> {
                 fontWeight: FontWeight.w400),
           ),
           SizedBox(height: size * 0.025),
-          TextBase(
-              color: AppColorSchema.of(context).tertiaryText,
-              text: l10n.forgot_password,
-              fontSize: 16,
-              fontWeight: FontWeight.w400),
+          GestureDetector(
+            onTap: () =>
+                GoRouter.of(context).pushNamed(Routes.forgotPassword.name),
+            child: TextBase(
+                color: AppColorSchema.of(context).tertiaryText,
+                text: l10n.forgot_password,
+                fontSize: 16,
+                fontWeight: FontWeight.w400),
+          ),
           SizedBox(height: size * 0.2),
           BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {

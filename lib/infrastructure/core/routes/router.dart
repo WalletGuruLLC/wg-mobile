@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/presentation/configuration_setting/page/configuration_setting_page.dart';
+import 'package:wallet_guru/presentation/forgot_password/page/forgot_password_view.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_page.dart';
 import 'package:wallet_guru/presentation/funding/page/funding_screen_page.dart';
 

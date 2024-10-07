@@ -82,4 +82,45 @@ class LoginDataSource {
           errorModel.customMessageEs);
     }
   }
+
+  Future<ResponseModel> forgotPassword(String email) async {
+    var response = await HttpDataSource.post(
+      LoginNetwork.forgotPassword,
+      {
+        "email": email,
+      },
+    );
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel forgotPasswordResponseModel =
+          ResponseModel.fromJson(result);
+      return forgotPasswordResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
+
+  Future<ResponseModel> changePassword(
+      String email, String otp, String newPassword) async {
+    var response = await HttpDataSource.post(
+      LoginNetwork.changePassword,
+      {
+        "email": email,
+        "confirmationCode": otp,
+        "newPassword": newPassword,
+      },
+    );
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel changePasswordResponseModel =
+          ResponseModel.fromJson(result);
+      return changePasswordResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
 }
