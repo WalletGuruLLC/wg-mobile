@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,26 +34,17 @@ class LastTransactionsList extends StatelessWidget {
                 ],
               );
             } else if (state is TransactionLoaded) {
-              final transactions = state.payments
-                  .take(4)
-                  .toList(); // Toma solo las primeras 4 transacciones
+              final transactions = state.payments.take(4).toList();
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ...transactions.map((payment) {
                     return TransactionItem(
-                      title: payment.type == 'OutgoingPayment'
-                          ? 'Debit'
-                          : 'Credit',
+                      title: payment.type,
                       amount: payment.incomingAmount != null
-                          ? ((int.parse(payment.incomingAmount!.value) /
-                                  pow(10, 2))
-                              .toString())
-                          : (int.parse(payment.receiveAmount!.value) /
-                                  pow(10, 2))
-                              .toString(),
-                      icon: Icons.arrow_circle_up,
+                          ? (payment.incomingAmount!.value).toString()
+                          : (payment.receiveAmount!.value).toString(),
                     );
                   }),
                   SizedBox(height: size.height * 0.01),
