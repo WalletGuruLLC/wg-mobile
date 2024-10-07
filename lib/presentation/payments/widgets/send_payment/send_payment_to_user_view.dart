@@ -68,6 +68,9 @@ class SendPaymentToUserView extends StatelessWidget {
                 initialValue: null,
                 hintText: l10n.chooseCurrency,
                 items: sendPaymentCubit.state.rafikiAssets!
+                    .where((e) =>
+                        e.code ==
+                        'USD') // Filtrar solo los que tengan el código 'USD'
                     .map((e) => e.code)
                     .toList(),
                 onChanged: (value) {
