@@ -18,6 +18,7 @@ class UserState extends Equatable {
   final WalletEntity? wallet;
   final double availableFunds;
   final double balance;
+  final double reservedFunds;
   final String walletAddress;
 
   const UserState({
@@ -38,6 +39,7 @@ class UserState extends Equatable {
     this.wallet,
     this.availableFunds = 0.0,
     this.balance = 0.0,
+    this.reservedFunds = 0.0,
     this.walletAddress = '',
   });
 
@@ -59,6 +61,7 @@ class UserState extends Equatable {
     WalletEntity? wallet,
     double? availableFunds,
     double? balance,
+    double? reservedFunds,
     String? walletAddress,
   }) =>
       UserState(
@@ -80,6 +83,7 @@ class UserState extends Equatable {
         wallet: wallet ?? this.wallet,
         availableFunds: availableFunds ?? this.availableFunds,
         balance: balance ?? this.balance,
+        reservedFunds: reservedFunds ?? this.reservedFunds,
         walletAddress: walletAddress ?? this.walletAddress,
       );
 
@@ -102,6 +106,7 @@ class UserState extends Equatable {
         wallet,
         availableFunds,
         balance,
+        reservedFunds,
         walletAddress,
       ];
 }

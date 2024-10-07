@@ -73,8 +73,11 @@ class Data {
 
     return Data(
       user: user,
-      transactions: json.containsKey("transactions") && json["transactions"] != null ?
-      List<TransactionsModel>.from(json["transactions"].map((x) => TransactionsModel.fromJson(x))) : null,
+      transactions: json.containsKey("transactions") &&
+              json["transactions"] != null
+          ? List<TransactionsModel>.from(
+              json["transactions"].map((x) => TransactionsModel.fromJson(x)))
+          : null,
       /*transactionsModel: json["transactions"] == null
           ? null
           : TransactionsModel.fromJson(json["transactions"]),*/
@@ -366,7 +369,7 @@ class WalletDb {
 
   factory WalletDb.fromJson(Map<String, dynamic> json) => WalletDb(
         userId: json["userId"],
-        rafikiId: json["rafikiId"],
+        rafikiId: json["rafikiId"] ?? '',
         walletType: json["walletType"],
         postedDebits: json["postedDebits"] ?? 0,
         pendingCredits: json["pendingCredits"] ?? 0,
