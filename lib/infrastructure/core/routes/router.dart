@@ -147,5 +147,10 @@ class WalletGuruRouter {
       path: Routes.addFunding.path,
       builder: (context, state) => const AddFundingPage(),
     ),
+    GoRoute(
+      name: Routes.forgotPassword.name,
+      path: Routes.forgotPassword.path,
+      builder: (context, state) => const ForgotPasswordPage(),
+    ),
   ];
 }
