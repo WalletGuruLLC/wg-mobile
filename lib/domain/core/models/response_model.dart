@@ -341,6 +341,7 @@ class WalletDb {
 
   final String id;
   final bool active;
+  final String walletAddress;
   final String name;
 
   WalletDb({
@@ -354,6 +355,7 @@ class WalletDb {
     required this.id,
     required this.active,
     required this.name,
+    required this.walletAddress,
   });
 
   factory WalletDb.fromJson(Map<String, dynamic> json) => WalletDb(
@@ -366,6 +368,7 @@ class WalletDb {
         postedCredits: json["postedCredits"] ?? 0,
         id: json["id"],
         active: json["active"],
+        walletAddress: json["walletAddress"],
         name: json["name"],
       );
 
@@ -379,6 +382,7 @@ class WalletDb {
         "postedCredits": postedCredits,
         "id": id,
         "active": active,
+        "walletAddress": walletAddress,
         "name": name,
       };
 
@@ -392,6 +396,7 @@ class WalletDb {
         postedCredits: 0,
         id: '',
         active: false,
+        walletAddress: '',
         name: '',
       );
 }

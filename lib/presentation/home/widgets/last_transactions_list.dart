@@ -34,7 +34,10 @@ class LastTransactionsList extends StatelessWidget {
                 ],
               );
             } else if (state is TransactionLoaded) {
-              final transactions = state.payments;
+              final transactions = state.payments
+                  .take(4)
+                  .toList(); // Toma solo las primeras 4 transacciones
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

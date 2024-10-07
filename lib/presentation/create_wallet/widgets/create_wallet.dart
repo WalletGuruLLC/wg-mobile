@@ -57,19 +57,31 @@ class CreateWalletFormState extends State<CreateWalletForm> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context);
-    double size = MediaQuery.of(context).size.height;
-    return Form(
-      key: _formKey,
-      child: _buildEmailAndPasswordView(size, context, l10n, locale),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
+            child: IntrinsicHeight(
+              child: Form(
+                key: _formKey,
+                child: _buildEmailAndPasswordView(context, l10n, locale),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildEmailAndPasswordView(
-    double size,
     BuildContext context,
     AppLocalizations l10n,
     Locale locale,
   ) {
+    double size = MediaQuery.of(context).size.height;
     return BlocConsumer<CreateWalletCubit, CreateWalletState>(
       listener: (context, state) {
         if (state.formStatus is SubmissionSuccess) {
@@ -81,120 +93,123 @@ class CreateWalletFormState extends State<CreateWalletForm> {
         }
       },
       builder: (context, state) {
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const AuthLoginDivider(),
-              TextBase(
-                text: l10n.createWalletAddress,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const AuthLoginDivider(),
+            TextBase(
+              text: l10n.createWalletAddress,
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+            ),
+            SizedBox(height: size * 0.005),
+            TextBase(
+              text: l10n.generateUniqueWallet,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+            SizedBox(height: size * 0.030),
+            TextBase(
+              text: l10n.enterDesiredName,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+            SizedBox(height: size * 0.030),
+            TextBase(
+              text: l10n.addressName,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+            SizedBox(height: size * 0.015),
+            BlocBuilder<SettingsCubit, SettingsState>(
+              builder: (context, state) {
+                if (state is SettingsLoaded) {
+                  final walletUrlSetting =
+                      state.settings.firstWhere((s) => s.key == 'url-wallet');
+                  walletUrl = walletUrlSetting.value;
+                }
+                return Visibility(
+                  visible: _isVisible,
+                  child: TextBase(
+                    text: walletUrl,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey,
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: size * 0.015),
+            WalletAddressForm(
+              controller: _addressController,
+              onChanged: _onFormChanged,
+            ),
+            SizedBox(height: size * 0.015),
+            Visibility(
+              visible: !_isVisible,
+              child: TextBase(
+                text: '$walletUrl/$_address',
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+              ),
+            ),
+            !_isVisible ? SizedBox(height: size * 0.015) : const SizedBox(),
+            GestureDetector(
+              onTap: () {
+                String randomAddress = _generateRandomAddress();
+                _onFormChanged(randomAddress);
+              },
+              child: TextBase(
+                color: AppColorSchema.of(context).tertiaryText,
+                text: l10n.random,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            SizedBox(height: size * 0.025),
+            TextBase(
+              text: l10n.asset,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+            SizedBox(height: size * 0.028),
+            if (state.fetchWalletAsset)
+              WalletAssetDropdown(
+                hintText: l10n.selectAsset,
+                initialValue: null,
+                items: state.rafikiAssets!
+                    .where((e) => e.code == 'USD')
+                    .map((e) => e.code)
+                    .toList(),
+                onChanged: (value) {
+                  createWalletCubit.setAssetId(value!);
+                },
+              )
+            else
+              const SizedBox(),
+            const SizedBox(
+              height: 130,
+            ), // Asegura que el botón esté siempre al final
+            if (state.formStatus is FormSubmitting)
+              const Center(child: CircularProgressIndicator())
+            else
+              CustomButton(
+                border: Border.all(
+                  color: !_addressMinLength || !state.activateButton
+                      ? AppColorSchema.of(context).secondaryButtonBorderColor
+                      : Colors.transparent,
+                ),
+                color: !_addressMinLength || !state.activateButton
+                    ? Colors.transparent
+                    : AppColorSchema.of(context).buttonColor,
+                text: l10n.create,
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
+                onPressed: _onButtonPressed,
               ),
-              SizedBox(height: size * 0.005),
-              TextBase(
-                text: l10n.generateUniqueWallet,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
-              SizedBox(height: size * 0.030),
-              TextBase(
-                text: l10n.enterDesiredName,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
-              SizedBox(height: size * 0.030),
-              TextBase(
-                text: l10n.addressName,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
-              SizedBox(height: size * 0.015),
-              BlocBuilder<SettingsCubit, SettingsState>(
-                builder: (context, state) {
-                  if (state is SettingsLoaded) {
-                    final walletUrlSetting =
-                        state.settings.firstWhere((s) => s.key == 'url-wallet');
-                    walletUrl = walletUrlSetting.value;
-                  }
-                  return Visibility(
-                    visible: _isVisible,
-                    child: TextBase(
-                      text: walletUrl,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.grey,
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: size * 0.015),
-              WalletAddressForm(
-                controller: _addressController,
-                onChanged: _onFormChanged,
-              ),
-              SizedBox(height: size * 0.015),
-              Visibility(
-                visible: !_isVisible,
-                child: TextBase(
-                  text: '$walletUrl/$_address',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey,
-                ),
-              ),
-              !_isVisible ? SizedBox(height: size * 0.015) : const SizedBox(),
-              GestureDetector(
-                onTap: () {
-                  String randomAddress = _generateRandomAddress();
-                  _onFormChanged(randomAddress);
-                },
-                child: TextBase(
-                  color: AppColorSchema.of(context).tertiaryText,
-                  text: l10n.random,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              SizedBox(height: size * 0.025),
-              TextBase(
-                text: l10n.asset,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
-              SizedBox(height: size * 0.028),
-              if (state.fetchWalletAsset)
-                WalletAssetDropdown(
-                  hintText: l10n.selectAsset,
-                  initialValue: null,
-                  items: state.rafikiAssets!.map((e) => e.code).toList(),
-                  onChanged: (value) {
-                    createWalletCubit.setAssetId(value!);
-                  },
-                )
-              else
-                const SizedBox(),
-              SizedBox(height: size * 0.20),
-              if (state.formStatus is FormSubmitting)
-                const Center(child: CircularProgressIndicator())
-              else
-                CustomButton(
-                  border: Border.all(
-                    color: !_addressMinLength || !state.activateButton
-                        ? AppColorSchema.of(context).secondaryButtonBorderColor
-                        : Colors.transparent,
-                  ),
-                  color: !_addressMinLength || !state.activateButton
-                      ? Colors.transparent
-                      : AppColorSchema.of(context).buttonColor,
-                  text: l10n.create,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  onPressed: _onButtonPressed,
-                ),
-              SizedBox(height: size * 0.025),
-            ],
-          ),
+            SizedBox(height: size * 0.025),
+          ],
         );
       },
     );
