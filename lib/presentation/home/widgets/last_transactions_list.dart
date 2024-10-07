@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -43,8 +45,16 @@ class LastTransactionsList extends StatelessWidget {
                 children: [
                   ...transactions.map((payment) {
                     return TransactionItem(
-                      title: payment.description,
-                      amount: "\$${payment.value}",
+                      title: payment.type == 'OutgoingPayment'
+                          ? 'Debit'
+                          : 'Credit',
+                      amount: payment.incomingAmount != null
+                          ? ((int.parse(payment.incomingAmount!.value) /
+                                  pow(10, 2))
+                              .toString())
+                          : (int.parse(payment.receiveAmount!.value) /
+                                  pow(10, 2))
+                              .toString(),
                       icon: Icons.arrow_circle_up,
                     );
                   }),

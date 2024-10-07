@@ -15,7 +15,7 @@ class TransactionCubit extends Cubit<TransactionState> {
       (exception) => emit(TransactionError(message: exception.toString())),
       (response) {
         final payments =
-            response.data!.transactionsModel!.completedIncomingPayments;
+            response.data!.transactions!;
         emit(TransactionLoaded(payments: payments));
       },
     );
