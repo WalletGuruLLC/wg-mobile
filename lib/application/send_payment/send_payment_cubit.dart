@@ -157,6 +157,16 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
     );
   }
 
+  void resetSendPaymentInformationForForm() {
+    emit(
+      state.copyWith(
+        showPaymentButton: false,
+        isWalletExistQr: const InitialFormStatus(),
+        isWalletExistForm: const InitialFormStatus(),
+      ),
+    );
+  }
+
   void emitGetWalletInformation() async {
     emit(
       state.copyWith(),

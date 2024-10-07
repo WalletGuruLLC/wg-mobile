@@ -84,6 +84,8 @@ class SelectWalletNextButton extends StatelessWidget {
           ),
           onPressed: () {
             Navigator.of(context).pop();
+            BlocProvider.of<SendPaymentCubit>(context)
+                .resetSendPaymentInformationForForm();
           },
         );
       },
