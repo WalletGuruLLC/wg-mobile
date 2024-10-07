@@ -41,7 +41,8 @@ class ResponseModel {
 class Data {
   final User? user;
   final Wallet? wallet;
-  final TransactionsModel? transactionsModel;
+  final List<TransactionsModel>? transactions;
+  //final TransactionsModel? transactionsModel;
   final List<RafikiAssets>? rafikiAssets;
   final String token;
   final bool success;
@@ -51,7 +52,8 @@ class Data {
   Data({
     required this.user,
     required this.wallet,
-    required this.transactionsModel,
+    required this.transactions,
+    //required this.transactionsModel,
     required this.rafikiAssets,
     required this.token,
     required this.success,
@@ -71,9 +73,11 @@ class Data {
 
     return Data(
       user: user,
-      transactionsModel: json["transactions"] == null
+      transactions: json.containsKey("transactions") && json["transactions"] != null ?
+      List<TransactionsModel>.from(json["transactions"].map((x) => TransactionsModel.fromJson(x))) : null,
+      /*transactionsModel: json["transactions"] == null
           ? null
-          : TransactionsModel.fromJson(json["transactions"]),
+          : TransactionsModel.fromJson(json["transactions"]),*/
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
           : null,
@@ -94,8 +98,9 @@ class Data {
 
   factory Data.initialState() => Data(
         user: null,
+        transactions: [],
         wallet: null,
-        transactionsModel: null,
+        //transactionsModel: null,
         rafikiAssets: null,
         token: '',
         success: false,
@@ -105,13 +110,14 @@ class Data {
 
   factory Data.withMessage(String message) => Data(
         user: null,
+        transactions: [],
         wallet: null,
         rafikiAssets: null,
         token: '',
         success: false,
         message: message,
         outgoingPaymentResponse: null,
-        transactionsModel: null,
+        //transactionsModel: null,
       );
 
   bool hasUser() => user != null;

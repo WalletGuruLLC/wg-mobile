@@ -15,7 +15,7 @@ class TransactionInitial extends TransactionState {}
 class TransactionLoading extends TransactionState {}
 
 class TransactionLoaded extends TransactionState {
-  final List<CompletedIncomingPayment> payments;
+  final List<TransactionsModel> payments;
 
   const TransactionLoaded({required this.payments});
 
