@@ -127,6 +127,7 @@
   "addService": "Add Service",
   "scanQR": "Scan Recipient's QR code",
   "walletAddress": "Wallet Address",
+  "exampleWalletAddress": "Example Wallet: https://walletguru.me/johnDoe",
   "enterAmount": "Enter the amount",
   "amount": "Amount",
   "currency": "Currency",
