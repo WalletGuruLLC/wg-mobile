@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
@@ -6,13 +7,11 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 class TransactionItem extends StatelessWidget {
   final String title;
   final String amount;
-  final IconData icon;
 
   const TransactionItem({
     super.key,
     required this.title,
     required this.amount,
-    required this.icon,
   });
 
   @override
@@ -29,17 +28,23 @@ class TransactionItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.white, size: size.width * 0.07),
+          Icon(
+            title == 'OutgoingPayment'
+                ? Icons.arrow_circle_up
+                : Icons.arrow_circle_down,
+            color: Colors.white,
+            size: size.width * 0.07,
+          ),
           SizedBox(width: size.width * 0.03),
           Expanded(
             child: TextBase(
-              text: title,
+              text: title == 'OutgoingPayment' ? 'Outgoing' : 'Incoming',
               fontSize: size.width * 0.04,
               fontWeight: FontWeight.w400,
             ),
           ),
           TextBase(
-            text: amount,
+            text: toCurrencyString(amount, leadingSymbol: '\$'),
             fontSize: size.width * 0.04,
             fontWeight: FontWeight.w400,
           ),
