@@ -46,7 +46,14 @@ class SendPaymentEntity {
   }
 
   dynamic calculateAmountWithScale(int assetScaleFromWallet) {
-    String cleanedAmount = receiverAmount.replaceAll(RegExp(r'[^\d.]'), '');
+    // Eliminar signos de dólar y convertir comas en puntos solo si no hay puntos en la cadena
+    String cleanedAmount = receiverAmount.replaceAll('\$', '');
+    if (!cleanedAmount.contains('.')) {
+      cleanedAmount = cleanedAmount.replaceAll(',', '.');
+    } else {
+      cleanedAmount = cleanedAmount.replaceAll(',', '');
+    }
+
     double x = double.tryParse(cleanedAmount) ?? 0.0;
     double result = x * pow(10, assetScaleFromWallet).toDouble();
 

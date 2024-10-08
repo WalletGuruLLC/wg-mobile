@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/core/validations/validations.dart';
 import 'package:wallet_guru/domain/core/entities/send_payment_entity.dart';
@@ -246,8 +245,12 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
   }
 
   double getAmountInCurrency(String currency) {
+    // Eliminar signos de dólar y convertir comas en puntos
     String cleanedAmount = state.sendPaymentEntity!.receiverAmount
+        .replaceAll('\$', '')
+        .replaceAll(',', '.')
         .replaceAll(RegExp(r'[^\d.]'), '');
+
     double amount = double.tryParse(cleanedAmount) ?? 0.0;
     return amount * getExchangeRate(currency).toDouble();
   }
