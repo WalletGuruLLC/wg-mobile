@@ -4,11 +4,20 @@ import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles
 class SpecialDecoration {
   final String hintText;
   final Widget? suffixIcon;
+  final String? prefixText;
+  final TextStyle? prefixStyle;
+  final EdgeInsets? contentPadding;
 
-  SpecialDecoration({required this.hintText, this.suffixIcon});
+  SpecialDecoration(
+      {required this.hintText,
+      this.suffixIcon,
+      this.prefixText,
+      this.prefixStyle,
+      this.contentPadding});
 
   InputDecoration get decoration {
     return InputDecoration(
+      prefixText: prefixText,
       suffixIcon: suffixIcon,
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),
