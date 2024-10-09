@@ -79,7 +79,7 @@ class SendPaymentToUserView extends StatelessWidget {
                   );
                 },
               ),
-            SizedBox(height: size.height * 0.12),
+            SizedBox(height: size.height * 0.10),
             const PaymentButtonWithTimer(),
           ],
         );
