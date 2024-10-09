@@ -48,23 +48,26 @@ class LastTransactionsList extends StatelessWidget {
                     );
                   }),
                   SizedBox(height: size.height * 0.01),
+                  Visibility(
+                    visible: transactions.isNotEmpty,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: TextBase(
+                          text: l10n.homeSeeMore,
+                          color: Colors.blue,
+                          fontSize: size.width * 0.035,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               );
             } else {
               return const SizedBox();
             }
           },
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            onPressed: () {},
-            child: TextBase(
-              text: l10n.homeSeeMore,
-              color: Colors.blue,
-              fontSize: size.width * 0.035,
-            ),
-          ),
         ),
       ],
     );
