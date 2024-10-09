@@ -60,7 +60,7 @@ class _AddFundsProviderState extends State<AddFundsProvider> {
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
           child: SizedBox(
             width: size.width * 0.90,
-            height: size.height,
+            height: size.height * 0.80,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
