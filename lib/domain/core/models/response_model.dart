@@ -41,7 +41,7 @@ class ResponseModel {
 class Data {
   final User? user;
   final Wallet? wallet;
-  final TransactionsModel? transactionsModel;
+  final List<TransactionsModel>? transactions;
   final List<RafikiAssets>? rafikiAssets;
   final String token;
   final bool success;
@@ -51,7 +51,7 @@ class Data {
   Data({
     required this.user,
     required this.wallet,
-    required this.transactionsModel,
+    required this.transactions,
     required this.rafikiAssets,
     required this.token,
     required this.success,
@@ -71,9 +71,11 @@ class Data {
 
     return Data(
       user: user,
-      transactionsModel: json["transactions"] == null
-          ? null
-          : TransactionsModel.fromJson(json["transactions"]),
+      transactions: json.containsKey("transactions") &&
+              json["transactions"] != null
+          ? List<TransactionsModel>.from(
+              json["transactions"].map((x) => TransactionsModel.fromJson(x)))
+          : null,
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
           : null,
@@ -94,8 +96,8 @@ class Data {
 
   factory Data.initialState() => Data(
         user: null,
+        transactions: [],
         wallet: null,
-        transactionsModel: null,
         rafikiAssets: null,
         token: '',
         success: false,
@@ -105,13 +107,14 @@ class Data {
 
   factory Data.withMessage(String message) => Data(
         user: null,
+        transactions: [],
         wallet: null,
         rafikiAssets: null,
         token: '',
         success: false,
         message: message,
         outgoingPaymentResponse: null,
-        transactionsModel: null,
+        //transactionsModel: null,
       );
 
   bool hasUser() => user != null;
@@ -290,14 +293,12 @@ class Wallet {
 }
 
 class WalletAsset {
-  //final String typename;
   final String code;
   final String id;
   final String liquidity;
   final int scale;
 
   WalletAsset({
-    //required this.typename,
     required this.code,
     required this.id,
     required this.liquidity,
@@ -305,7 +306,6 @@ class WalletAsset {
   });
 
   factory WalletAsset.fromJson(Map<String, dynamic> json) => WalletAsset(
-        //typename: json["__typename"],
         code: json["code"],
         id: json["id"],
         liquidity: json["liquidity"],
@@ -313,7 +313,6 @@ class WalletAsset {
       );
 
   Map<String, dynamic> toJson() => {
-        //"_Typename": typename,
         "code": code,
         "id": id,
         "liquidity": liquidity,
@@ -321,7 +320,6 @@ class WalletAsset {
       };
 
   factory WalletAsset.initialState() => WalletAsset(
-        //typename: '',
         code: '',
         id: '',
         liquidity: '',
@@ -360,7 +358,7 @@ class WalletDb {
 
   factory WalletDb.fromJson(Map<String, dynamic> json) => WalletDb(
         userId: json["userId"],
-        rafikiId: json["rafikiId"],
+        rafikiId: json["rafikiId"] ?? '',
         walletType: json["walletType"],
         postedDebits: json["postedDebits"] ?? 0,
         pendingCredits: json["pendingCredits"] ?? 0,

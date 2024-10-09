@@ -34,18 +34,17 @@ class LastTransactionsList extends StatelessWidget {
                 ],
               );
             } else if (state is TransactionLoaded) {
-              final transactions = state.payments
-                  .take(4)
-                  .toList(); // Toma solo las primeras 4 transacciones
+              final transactions = state.payments.take(4).toList();
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ...transactions.map((payment) {
                     return TransactionItem(
-                      title: payment.description,
-                      amount: "\$${payment.value}",
-                      icon: Icons.arrow_circle_up,
+                      title: payment.type,
+                      amount: payment.incomingAmount != null
+                          ? (payment.incomingAmount!.value).toString()
+                          : (payment.receiveAmount!.value).toString(),
                     );
                   }),
                   SizedBox(height: size.height * 0.01),
