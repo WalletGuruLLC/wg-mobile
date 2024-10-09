@@ -36,23 +36,37 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: const CustomAppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: size.height * 0.02),
-              const BalanceCard(),
-              SizedBox(height: size.height * 0.02),
-              const LastTransactionsList(),
-              SizedBox(height: size.height * 0.0002),
-              TextBase(
+      body: SizedBox(
+        height: size.height,
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: size.height * 0.02),
+                    const BalanceCard(),
+                    SizedBox(height: size.height * 0.02),
+                    const LastTransactionsList(),
+                    SizedBox(height: size.height * 0.02),
+                    // Espacio adicional para que el contenido no quede oculto detrás del TextBase
+                    SizedBox(height: size.height * 0.1),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: kBottomNavigationBarHeight * 0.30,
+              left: size.width * 0.05,
+              right: size.width * 0.05,
+              child: TextBase(
                 text: "Connecting you to \na Digital Future",
                 fontSize: size.width * 0.045,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: const BottomNavigationMenu(
