@@ -133,7 +133,7 @@ class SendPaymentModalConfirmation extends StatelessWidget {
               SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.paymentSent,
+                text: 'Ok',
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
