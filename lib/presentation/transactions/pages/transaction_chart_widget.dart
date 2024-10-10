@@ -1,10 +1,15 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:intl/intl.dart';
-import 'package:skeletonizer/skeletonizer.dart';
-import 'dart:convert';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
+import 'package:wallet_guru/application/transactions/transaction_state.dart';
+import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
 
 class TransactionChartWidget extends StatefulWidget {
   const TransactionChartWidget({super.key});
@@ -14,54 +19,57 @@ class TransactionChartWidget extends StatefulWidget {
 }
 
 class _TransactionChartWidgetState extends State<TransactionChartWidget> {
-  late List<Transaction> _transactions;
   late DateTime _startDate;
   late DateTime _endDate;
   String _selectedTransactionType = 'All';
-  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _loadTransactions();
-    _initializeDates();
+    context.read<TransactionCubit>().loadTransactions();
   }
 
-  void _loadTransactions() {
-    final jsonData = jsonDecode(mockJsonData);
-    _transactions = (jsonData['transactions'] as List)
-        .map((json) => Transaction.fromJson(json))
-        .toList();
-    _transactions.sort((a, b) => a.createDate.compareTo(b.createDate));
+  void _initializeDates(List<TransactionsModel> transactions) {
+    if (transactions.isNotEmpty) {
+      _startDate = transactions.first.createdAt;
+      _endDate = transactions.last.createdAt;
+    } else {
+      _startDate = DateTime.now().subtract(const Duration(days: 30));
+      _endDate = DateTime.now();
+    }
   }
 
-  void _initializeDates() {
-    _startDate = _transactions.first.createDate;
-    _endDate = _transactions.last.createDate;
-  }
-
-  List<Transaction> _getFilteredTransactions() {
-    return _transactions.where((t) {
+  List<TransactionsModel> _getFilteredTransactions(List<TransactionsModel> transactions) {
+    return transactions.where((t) {
       final isInDateRange =
-          t.createDate.isAfter(_startDate.subtract(const Duration(days: 1))) &&
-              t.createDate.isBefore(_endDate.add(const Duration(days: 1)));
+          t.createdAt.isAfter(_startDate.subtract(const Duration(days: 1))) &&
+              t.createdAt.isBefore(_endDate.add(const Duration(days: 1)));
       final matchesType = _selectedTransactionType == 'All' ||
-          t.typeOfTransaction == _selectedTransactionType;
+          (_selectedTransactionType == 'Credits' && t.type == 'IncomingPayment') ||
+          (_selectedTransactionType == 'Debits' && t.type == 'OutgoingPayment');
       return isInDateRange && matchesType;
     }).toList();
   }
 
-  double _calculateTotal(List<Transaction> transactions) {
-    return transactions.fold(0, (sum, t) => sum + t.value);
+  double _calculateTotal(List<TransactionsModel> transactions) {
+    return transactions.fold(0, (sum, t) {
+      final amount = t.type == 'IncomingPayment'
+          ? t.incomingAmount?.value ?? 0
+          : t.receiveAmount?.value ?? 0;
+      return sum + (t.type == 'IncomingPayment' ? amount : -amount);
+    });
   }
 
-  List<FlSpot> _createSpots(List<Transaction> transactions) {
+  List<FlSpot> _createSpots(List<TransactionsModel> transactions) {
     if (transactions.isEmpty) return [const FlSpot(0, 0)];
 
     final Map<int, double> monthlyTotals = {};
     for (var t in transactions) {
-      final month = t.createDate.month - 1; // 0-based month
-      monthlyTotals[month] = (monthlyTotals[month] ?? 0) + t.value;
+      final month = t.createdAt.month - 1; // 0-based month
+      final amount = t.type == 'IncomingPayment'
+          ? t.incomingAmount?.value ?? 0
+          : -(t.receiveAmount?.value ?? 0);
+      monthlyTotals[month] = (monthlyTotals[month] ?? 0) + amount;
     }
 
     double cumulativeTotal = 0;
@@ -74,271 +82,217 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredTransactions = _getFilteredTransactions();
-    final total = _calculateTotal(filteredTransactions);
-    final spots = _createSpots(filteredTransactions);
+    return BlocBuilder<TransactionCubit, TransactionState>(
+      builder: (context, state) {
+        if (state is TransactionLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is TransactionLoaded) {
+          _initializeDates(state.payments);
+          final filteredTransactions = _getFilteredTransactions(state.payments);
+          final total = _calculateTotal(filteredTransactions);
+          final spots = _createSpots(filteredTransactions);
 
-    return WalletGuruLayout(
-      showBackButton: false,
-      showBottomNavigationBar: false,
-      showNotLoggedAppBar: true,
-      children: [
-        Container(
-          width: 350,
-          height: 211,
-          decoration: BoxDecoration(
-            color: const Color(0xFF212139),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '\$${total.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    _buildDateRangePicker(),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                _buildTransactionTypeDropdown(),
-                const SizedBox(height: 8),
-                SizedBox(
-                  width: 331,
-                  height: 115,
-                  child: Skeletonizer(
-                    enabled: _isLoading,
-                    child: LineChart(
-                      LineChartData(
-                        gridData: const FlGridData(show: false),
-                        titlesData: FlTitlesData(
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: (value, meta) {
-                                const months = [
-                                  'J',
-                                  'F',
-                                  'M',
-                                  'A',
-                                  'M',
-                                  'J',
-                                  'J',
-                                  'A',
-                                  'S',
-                                  'O',
-                                  'N',
-                                  'D'
-                                ];
-                                final monthIndex = value.toInt() % 12;
-                                return Text(months[monthIndex],
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 10));
-                              },
-                              interval: 1,
-                            ),
-                          ),
-                          leftTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
-                          topTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
-                          rightTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
-                        ),
-                        borderData: FlBorderData(show: false),
-                        minX: 0,
-                        maxX: 11,
-                        minY: spots
-                            .map((s) => s.y)
-                            .reduce((a, b) => a < b ? a : b),
-                        maxY: spots
-                            .map((s) => s.y)
-                            .reduce((a, b) => a > b ? a : b),
-                        lineBarsData: [
-                          LineChartBarData(
-                            spots: spots,
-                            isCurved: true,
-                            gradient: const LinearGradient(
-                              colors: [Colors.blue, Colors.purple],
-                            ),
-                            barWidth: 4,
-                            isStrokeCapRound: true,
-                            dotData: const FlDotData(show: false),
-                            belowBarData: BarAreaData(
-                              show: true,
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.blue.withOpacity(0.3),
-                                  Colors.purple.withOpacity(0.3),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+          return WalletGuruLayout(
+            showBackButton: true,
+            showBottomNavigationBar: true,
+            showLoggedUserAppBar: true,
+            pageAppBarTitle: 'Transactions',
+            mainAxisAlignment: MainAxisAlignment.start,
+            actionAppBar: () {},
+            children: [
+              _buildChartCard(context, total, spots),
+              _buildTransactionsList(filteredTransactions),
+            ],
+          );
+        } else if (state is TransactionError) {
+          return Center(child: Text('Error: ${state.message}'));
+        } else {
+          return const Center(child: Text('No data available'));
+        }
+      },
     );
   }
 
-  Widget _buildDateRangePicker() {
-    return GestureDetector(
-      onTap: () async {
-        final DateTimeRange? picked = await showDateRangePicker(
-          context: context,
-          firstDate: _transactions.first.createDate,
-          lastDate: _transactions.last.createDate,
-          initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
-        );
-        if (picked != null) {
-          setState(() {
-            _isLoading = true;
-            _startDate = picked.start;
-            _endDate = picked.end;
-          });
-          await Future.delayed(
-              const Duration(milliseconds: 500)); // Simular carga
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          '${DateFormat('MMM d').format(_startDate)} - ${DateFormat('MMM d').format(_endDate)}',
-          style: const TextStyle(color: Colors.white, fontSize: 12),
+  Widget _buildChartCard(BuildContext context, double total, List<FlSpot> spots) {
+    return Container(
+      width: 350,
+      height: 211,
+      decoration: BoxDecoration(
+        color: AppColorSchema.of(context).cardColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextBase(
+                  text: '\$${total.abs().toStringAsFixed(2)}',
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColorSchema.of(context).primaryText,
+                ),
+                _buildDateRangePicker(),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _buildTransactionTypeDropdown(),
+            const SizedBox(height: 8),
+            SizedBox(
+              width: 331,
+              height: 115,
+              child: LineChart(
+                LineChartData(
+                  gridData: const FlGridData(show: false),
+                  titlesData: FlTitlesData(
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (value, meta) {
+                          const months = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+                          final monthIndex = value.toInt() % 12;
+                          return TextBase(
+                            text: months[monthIndex],
+                            fontSize: 10,
+                            color: AppColorSchema.of(context).secondaryText,
+                          );
+                        },
+                        interval: 1,
+                      ),
+                    ),
+                    leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  ),
+                  borderData: FlBorderData(show: false),
+                  minX: 0,
+                  maxX: 11,
+                  minY: spots.map((s) => s.y).reduce((a, b) => a < b ? a : b),
+                  maxY: spots.map((s) => s.y).reduce((a, b) => a > b ? a : b),
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: spots,
+                      isCurved: true,
+                      gradient: LinearGradient(
+                        colors: [AppColorSchema.of(context).primary, AppColorSchema.of(context).secondary],
+                      ),
+                      barWidth: 4,
+                      isStrokeCapRound: true,
+                      dotData: const FlDotData(show: false),
+                      belowBarData: BarAreaData(
+                        show: true,
+                        gradient: LinearGradient(
+                          colors: [
+                            AppColorSchema.of(context).primary.withOpacity(0.3),
+                            AppColorSchema.of(context).secondary.withOpacity(0.3),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildTransactionTypeDropdown() {
-    return DropdownButton<String>(
-      value: _selectedTransactionType,
-      dropdownColor: const Color(0xFF212139),
-      style: const TextStyle(color: Colors.white, fontSize: 12),
-      onChanged: (String? newValue) {
-        setState(() {
-          _selectedTransactionType = newValue!;
-        });
-      },
-      items: <String>['All', 'Debits', 'Credits']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
+  Widget _buildDateRangePicker() {
+    return CustomButton(
+      onPressed: () async {
+        final DateTimeRange? picked = await showDateRangePicker(
+          context: context,
+          firstDate: _startDate,
+          lastDate: _endDate,
+          initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
         );
-      }).toList(),
+        if (picked != null) {
+          setState(() {
+            _startDate = picked.start;
+            _endDate = picked.end;
+          });
+          context.read<TransactionCubit>().loadTransactions();
+        }
+      },
+      text: '${DateFormat('MMM d').format(_startDate)} - ${DateFormat('MMM d').format(_endDate)}',
+      fontSize: 12,
+      height: 30,
+      width: 150,
+      color: AppColorSchema.of(context).secondary,
+    );
+  }
+
+  Widget _buildTransactionTypeDropdown() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColorSchema.of(context).secondary,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: DropdownButton<String>(
+        value: _selectedTransactionType,
+        dropdownColor: AppColorSchema.of(context).cardColor,
+        style: TextStyle(color: AppColorSchema.of(context).primaryText, fontSize: 12),
+        underline: Container(),
+        icon: Icon(Icons.arrow_drop_down, color: AppColorSchema.of(context).primaryText),
+        onChanged: (String? newValue) {
+          setState(() {
+            _selectedTransactionType = newValue!;
+          });
+          context.read<TransactionCubit>().loadTransactions();
+        },
+        items: <String>['All', 'Credits', 'Debits']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: TextBase(
+              text: value,
+              fontSize: 12,
+              color: AppColorSchema.of(context).primaryText,
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildTransactionsList(List<TransactionsModel> transactions) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: transactions.length,
+      itemBuilder: (context, index) {
+        final transaction = transactions[index];
+        return Column(
+          children: [
+            ListTile(
+              title: TextBase(
+                text: transaction.type == 'IncomingPayment' ? 'Credit' : 'Debit',
+                fontSize: 16,
+                color: AppColorSchema.of(context).primaryText,
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextBase(
+                    text: '${transaction.type == 'IncomingPayment' ? '+' : '-'}\$${(transaction.type == 'IncomingPayment' ? transaction.incomingAmount?.value : transaction.receiveAmount?.value)?.toStringAsFixed(2) ?? '0.00'}',
+                    fontSize: 16,
+                    color: AppColorSchema.of(context).primaryText,
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(Icons.info_outline, color: AppColorSchema.of(context).primaryText),
+                ],
+              ),
+            ),
+            Divider(color: AppColorSchema.of(context).secondaryText.withOpacity(0.5)),
+          ],
+        );
+      },
     );
   }
 }
-
-class Transaction {
-  final String typeOfTransaction;
-  final DateTime createDate;
-  final double value;
-
-  Transaction({
-    required this.typeOfTransaction,
-    required this.createDate,
-    required this.value,
-  });
-
-  factory Transaction.fromJson(Map<String, dynamic> json) {
-    return Transaction(
-      typeOfTransaction: json['typeOfTransaction'],
-      createDate: DateTime.parse(json['createDate']),
-      value: json['value'].toDouble(),
-    );
-  }
-}
-
-const String mockJsonData = '''
-{
-  "statusCode": 200,
-  "customCode": "WGE0077",
-  "customMessage": "The wallet was successfully retrieved.",
-  "customMessageEs": "La billetera se obtuvo con éxito.",
-  "transactions": [
-    {
-      "typeOfTransaction" : "Debits",
-      "createDate": "2024-11-25",
-      "value": 200.00
-    },
-    {
-      "typeOfTransaction" : "Credits",
-      "createDate": "2024-10-13",
-      "value": 50.00
-    },
-    {
-      "typeOfTransaction" : "Debits",
-      "createDate": "2024-01-05",
-      "value": 1.00
-    },
-    {
-      "typeOfTransaction" : "Credits",
-      "createDate": "2024-02-25",
-      "value": 7.00
-    },
-    {
-      "typeOfTransaction" : "Debits",
-      "createDate": "2024-02-13",
-      "value": 1.75
-    },
-    {
-      "typeOfTransaction" : "Credits",
-      "createDate": "2024-01-10",
-      "value": 30.0
-    },
-    {
-      "typeOfTransaction" : "Credits",
-      "createDate": "2024-06-06",
-      "value": 1.5
-    },
-    {
-      "typeOfTransaction" : "Credits",
-      "createDate": "2024-07-11",
-      "value": 0.10
-    },
-    {
-      "typeOfTransaction" : "Credits",
-      "createDate": "2024-03-18",
-      "value": 8.0
-    },
-    {
-      "typeOfTransaction" : "Debits",
-      "createDate": "2024-09-01",
-      "value": 500.00
-    },
-    {
-      "typeOfTransaction" : "Debits",
-      "createDate": "2024-03-01",
-      "value": 53.00
-    },
-    {
-      "typeOfTransaction" : "Debits",
-      "createDate": "2024-09-31",
-      "value": 53.00
-    }
-  ]
-}
-''';
