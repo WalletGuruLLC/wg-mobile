@@ -24,6 +24,7 @@ import 'package:wallet_guru/presentation/create_profile/page/create_profile_thir
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_fourth_page.dart';
 import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
+import 'package:wallet_guru/presentation/transactions/pages/transaction_chart_widget.dart';
 
 class WalletGuruRouter {
   static List<GoRoute> routes = [
@@ -147,6 +148,11 @@ class WalletGuruRouter {
       name: Routes.addFunding.name,
       path: Routes.addFunding.path,
       builder: (context, state) => const AddFundingPage(),
+    ),
+    GoRoute(
+      name: Routes.transactionChart.name,
+      path: Routes.transactionChart.path,
+      builder: (context, state) => const TransactionChartWidget(),
     ),
     GoRoute(
         name: Routes.addFundsProvider.name,

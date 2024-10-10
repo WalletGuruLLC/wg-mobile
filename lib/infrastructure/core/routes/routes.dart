@@ -42,4 +42,6 @@ class Routes {
   static final addFunding = Route(path: '/addFunding', name: 'addFunding');
   static final addFundsProvider =
       Route(path: '/addFundsProvider', name: 'addFundsProvider');
+  static final transactionChart =
+      Route(path: '/transactionChart', name: 'transactionChart');
 }
