@@ -27,6 +27,7 @@ class BaseModal extends StatelessWidget {
   final bool hasCloseAction;
   final bool hasDoubleButton;
   final Widget? doubleButton;
+  final String? buttonText;
 
   const BaseModal({
     super.key,
@@ -47,6 +48,7 @@ class BaseModal extends StatelessWidget {
     this.hasCloseAction = false,
     this.hasDoubleButton = false,
     this.doubleButton,
+    this.buttonText,
   });
 
   @override
@@ -93,18 +95,30 @@ class BaseModal extends StatelessWidget {
                               Column(
                                 children: [
                                   const SizedBox(height: 20),
-                                  CustomButton(
-                                    width: buttonWidth,
-                                    border: Border.all(
-                                        color: AppColorSchema.of(context)
-                                            .buttonBorderColor),
-                                    text: isSucefull!
-                                        ? l10n.button_pop_up_sucefull
-                                        : l10n.button_pop_up_fail,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                    onPressed: onPressed,
-                                  ),
+                                  if (buttonText == null)
+                                    CustomButton(
+                                      width: buttonWidth,
+                                      border: Border.all(
+                                          color: AppColorSchema.of(context)
+                                              .buttonBorderColor),
+                                      text: isSucefull!
+                                          ? l10n.button_pop_up_sucefull
+                                          : l10n.button_pop_up_fail,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
+                                      onPressed: onPressed,
+                                    ),
+                                  if (buttonText != null)
+                                    CustomButton(
+                                      width: buttonWidth,
+                                      border: Border.all(
+                                          color: AppColorSchema.of(context)
+                                              .buttonBorderColor),
+                                      text: buttonText!,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
+                                      onPressed: onPressed,
+                                    ),
                                 ],
                               )
                             else if (hasActions && hasDoubleButton)
