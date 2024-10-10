@@ -80,6 +80,56 @@ class BalanceCard extends StatelessWidget {
             );
           } else if (state.formStatusWallet is FormSubmitting) {
             return const Center(child: CircularProgressIndicator());
+          } else if (state.formStatusWallet is SubmissionFailed) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextBase(
+                  text: l10n.homeBalance,
+                  fontSize: size.width * 0.04,
+                ),
+                SizedBox(height: size.height * 0.01),
+                TextBase(
+                  text: "---/---",
+                  fontSize: size.width * 0.1,
+                  fontWeight: FontWeight.bold,
+                ),
+                SizedBox(height: size.height * 0.01),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextBase(
+                          text: l10n.homeReservedFunds,
+                          fontSize: size.width * 0.035,
+                        ),
+                        TextBase(
+                          text: "---/---",
+                          fontSize: size.width * 0.035,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextBase(
+                          text: l10n.homeAvailableFunds,
+                          fontSize: size.width * 0.035,
+                        ),
+                        TextBase(
+                          text: "---/---",
+                          fontSize: size.width * 0.035,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

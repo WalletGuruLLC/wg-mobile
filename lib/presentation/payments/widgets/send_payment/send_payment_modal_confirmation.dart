@@ -211,4 +211,5 @@ class SendPaymentModalConfirmation extends StatelessWidget {
       },
     );
   }
+
 }
