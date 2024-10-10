@@ -35,15 +35,20 @@ class _PaymentButtonWithTimerState extends State<PaymentButtonWithTimer> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextBase(
-                text:
-                    '${l10n.convert} ${state.walletForPaymentEntity!.walletAsset.code} to ${state.sendPaymentEntity!.currency}',
+                text: l10n.exchangeRateUpdate,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
               const SizedBox(height: 10),
               TextBase(
                 text:
-                    '${l10n.currentExchangeRate} ${state.walletForPaymentEntity!.walletAsset.code} = ${context.read<SendPaymentCubit>().getExchangeRate(state.sendPaymentEntity!.currency)}',
+                    '${l10n.convert} ${state.walletForPaymentEntity!.walletAsset.code} to ${state.sendPaymentEntity!.currency}',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              TextBase(
+                text:
+                    '${l10n.currentExchangeRate} ${state.walletForPaymentEntity!.walletAsset.code} = ${context.read<SendPaymentCubit>().getExchangeRate(state.sendPaymentEntity!.currency)} ${state.sendPaymentEntity!.currency} ',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
