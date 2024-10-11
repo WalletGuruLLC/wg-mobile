@@ -46,6 +46,8 @@ class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
         const SizedBox(height: 5),
         WalletAddressForm(
           specialDecoration: true,
+          initialValue:
+              sendPaymentCubit.state.sendPaymentEntity?.receiverWalletAddress,
           hintText: l10n.walletAddress,
           validation: false,
           onChanged: (value) {
