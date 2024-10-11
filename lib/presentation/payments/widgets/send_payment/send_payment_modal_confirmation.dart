@@ -125,15 +125,14 @@ class SendPaymentModalConfirmation extends StatelessWidget {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
           isSucefull: true,
-          buttonWidth: locale.languageCode == 'en'
-              ? MediaQuery.of(context).size.width * 0.40
-              : MediaQuery.of(context).size.width * 0.42,
+          buttonText: 'Ok',
+          buttonWidth: MediaQuery.of(context).size.width * 0.35,
           content: Column(
             children: [
               SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: 'Ok',
+                text: l10n.paymentSent,
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,

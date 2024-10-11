@@ -68,8 +68,10 @@ flutter packages pub run build_runner build --delete-conflicting-outputs
 
 for create a new build run this command
 ```bash
+flutter clean
 flutter pub get
 flutter gen-l10n
+flutter packages pub run build_runner build --delete-conflicting-outputs
 flutter build apk
 flutter build ios
 ```

@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/presentation/configuration_setting/page/configuration_setting_page.dart';
+import 'package:wallet_guru/presentation/core/widgets/error/error_screen.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_page.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_provider.dart';
 import 'package:wallet_guru/presentation/funding/page/funding_screen_page.dart';
@@ -153,6 +154,11 @@ class WalletGuruRouter {
       name: Routes.transactionChart.name,
       path: Routes.transactionChart.path,
       builder: (context, state) => const TransactionChartWidget(),
+    ),
+    GoRoute(
+      name: Routes.errorScreen.name,
+      path: Routes.errorScreen.path,
+      builder: (context, state) => const ErrorScreen(),
     ),
     GoRoute(
         name: Routes.addFundsProvider.name,
