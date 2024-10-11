@@ -39,13 +39,15 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
     }
   }
 
-  List<TransactionsModel> _getFilteredTransactions(List<TransactionsModel> transactions) {
+  List<TransactionsModel> _getFilteredTransactions(
+      List<TransactionsModel> transactions) {
     return transactions.where((t) {
       final isInDateRange =
           t.createdAt.isAfter(_startDate.subtract(const Duration(days: 1))) &&
               t.createdAt.isBefore(_endDate.add(const Duration(days: 1)));
       final matchesType = _selectedTransactionType == 'All' ||
-          (_selectedTransactionType == 'Credits' && t.type == 'IncomingPayment') ||
+          (_selectedTransactionType == 'Credits' &&
+              t.type == 'IncomingPayment') ||
           (_selectedTransactionType == 'Debits' && t.type == 'OutgoingPayment');
       return isInDateRange && matchesType;
     }).toList();
@@ -113,7 +115,8 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
     );
   }
 
-  Widget _buildChartCard(BuildContext context, double total, List<FlSpot> spots) {
+  Widget _buildChartCard(
+      BuildContext context, double total, List<FlSpot> spots) {
     return Container(
       width: 350,
       height: 211,
@@ -141,58 +144,83 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
             const SizedBox(height: 8),
             _buildTransactionTypeDropdown(),
             const SizedBox(height: 8),
-            SizedBox(
-              width: 331,
-              height: 115,
-              child: LineChart(
-                LineChartData(
-                  gridData: const FlGridData(show: false),
-                  titlesData: FlTitlesData(
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, meta) {
-                          const months = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
-                          final monthIndex = value.toInt() % 12;
-                          return TextBase(
-                            text: months[monthIndex],
-                            fontSize: 10,
-                            color: AppColorSchema.of(context).secondaryText,
-                          );
-                        },
-                        interval: 1,
-                      ),
-                    ),
-                    leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  ),
-                  borderData: FlBorderData(show: false),
-                  minX: 0,
-                  maxX: 11,
-                  minY: spots.map((s) => s.y).reduce((a, b) => a < b ? a : b),
-                  maxY: spots.map((s) => s.y).reduce((a, b) => a > b ? a : b),
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: spots,
-                      isCurved: true,
-                      gradient: LinearGradient(
-                        colors: [AppColorSchema.of(context).primary, AppColorSchema.of(context).secondary],
-                      ),
-                      barWidth: 4,
-                      isStrokeCapRound: true,
-                      dotData: const FlDotData(show: false),
-                      belowBarData: BarAreaData(
-                        show: true,
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColorSchema.of(context).primary.withOpacity(0.3),
-                            AppColorSchema.of(context).secondary.withOpacity(0.3),
-                          ],
+            Expanded(
+              child: SizedBox(
+                width: 331,
+                height: 115,
+                child: LineChart(
+                  LineChartData(
+                    gridData: const FlGridData(show: false),
+                    titlesData: FlTitlesData(
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          getTitlesWidget: (value, meta) {
+                            const months = [
+                              'J',
+                              'F',
+                              'M',
+                              'A',
+                              'M',
+                              'J',
+                              'J',
+                              'A',
+                              'S',
+                              'O',
+                              'N',
+                              'D'
+                            ];
+                            final monthIndex = value.toInt() % 12;
+                            return TextBase(
+                              text: months[monthIndex],
+                              fontSize: 10,
+                              color: AppColorSchema.of(context).accentText,
+                            );
+                          },
+                          interval: 1,
                         ),
                       ),
+                      leftTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
+                      topTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
+                      rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
                     ),
-                  ],
+                    borderData: FlBorderData(show: false),
+                    minX: 0,
+                    maxX: 11,
+                    minY: spots.map((s) => s.y).reduce((a, b) => a < b ? a : b),
+                    maxY: spots.map((s) => s.y).reduce((a, b) => a > b ? a : b),
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: spots,
+                        isCurved: true,
+                        gradient: LinearGradient(
+                          colors: [
+                            AppColorSchema.of(context).primary,
+                            AppColorSchema.of(context).secondary
+                          ],
+                        ),
+                        barWidth: 4,
+                        isStrokeCapRound: true,
+                        dotData: const FlDotData(show: false),
+                        belowBarData: BarAreaData(
+                          show: true,
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColorSchema.of(context)
+                                  .primary
+                                  .withOpacity(0.3),
+                              AppColorSchema.of(context)
+                                  .secondary
+                                  .withOpacity(0.3),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -219,7 +247,8 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
           context.read<TransactionCubit>().loadTransactions();
         }
       },
-      text: '${DateFormat('MMM d').format(_startDate)} - ${DateFormat('MMM d').format(_endDate)}',
+      text:
+          '${DateFormat('MMM d').format(_startDate)} - ${DateFormat('MMM d').format(_endDate)}',
       fontSize: 12,
       height: 30,
       width: 150,
@@ -229,6 +258,7 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
 
   Widget _buildTransactionTypeDropdown() {
     return Container(
+      height: 40,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: AppColorSchema.of(context).secondary,
@@ -237,9 +267,11 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
       child: DropdownButton<String>(
         value: _selectedTransactionType,
         dropdownColor: AppColorSchema.of(context).cardColor,
-        style: TextStyle(color: AppColorSchema.of(context).primaryText, fontSize: 12),
+        style: TextStyle(
+            color: AppColorSchema.of(context).primaryText, fontSize: 12),
         underline: Container(),
-        icon: Icon(Icons.arrow_drop_down, color: AppColorSchema.of(context).primaryText),
+        icon: Icon(Icons.arrow_drop_down,
+            color: AppColorSchema.of(context).primaryText),
         onChanged: (String? newValue) {
           setState(() {
             _selectedTransactionType = newValue!;
@@ -272,7 +304,8 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
           children: [
             ListTile(
               title: TextBase(
-                text: transaction.type == 'IncomingPayment' ? 'Credit' : 'Debit',
+                text:
+                    transaction.type == 'IncomingPayment' ? 'Credit' : 'Debit',
                 fontSize: 16,
                 color: AppColorSchema.of(context).primaryText,
               ),
@@ -280,16 +313,20 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextBase(
-                    text: '${transaction.type == 'IncomingPayment' ? '+' : '-'}\$${(transaction.type == 'IncomingPayment' ? transaction.incomingAmount?.value : transaction.receiveAmount?.value)?.toStringAsFixed(2) ?? '0.00'}',
+                    text:
+                        '${transaction.type == 'IncomingPayment' ? '+' : '-'}\$${(transaction.type == 'IncomingPayment' ? transaction.incomingAmount?.value : transaction.receiveAmount?.value)?.toStringAsFixed(2) ?? '0.00'}',
                     fontSize: 16,
                     color: AppColorSchema.of(context).primaryText,
                   ),
                   const SizedBox(width: 8),
-                  Icon(Icons.info_outline, color: AppColorSchema.of(context).primaryText),
+                  Icon(Icons.info_outline,
+                      color: AppColorSchema.of(context).primaryText),
                 ],
               ),
             ),
-            Divider(color: AppColorSchema.of(context).secondaryText.withOpacity(0.5)),
+            Divider(
+                color:
+                    AppColorSchema.of(context).secondaryText.withOpacity(0.5)),
           ],
         );
       },
