@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/wallet_address_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/payments/widgets/select_wallet/select_wallet_next_button.dart';
 import 'package:wallet_guru/presentation/payments/widgets/select_wallet/select_wallet_scan_qr_option.dart';
 
@@ -45,6 +46,8 @@ class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
         const SizedBox(height: 5),
         WalletAddressForm(
           specialDecoration: true,
+          initialValue:
+              sendPaymentCubit.state.sendPaymentEntity?.receiverWalletAddress,
           hintText: l10n.walletAddress,
           validation: false,
           onChanged: (value) {
