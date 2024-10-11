@@ -102,8 +102,18 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             actionAppBar: () {},
             children: [
-              _buildChartCard(context, total, spots),
-              _buildTransactionsList(filteredTransactions),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.72,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    _buildChartCard(context, total, spots),
+                    _buildTransactionsList(filteredTransactions),
+                  ],
+                ),
+              ),
+              // _buildChartCard(context, total, spots),
+              // _buildTransactionsList(filteredTransactions),
             ],
           );
         } else if (state is TransactionError) {
