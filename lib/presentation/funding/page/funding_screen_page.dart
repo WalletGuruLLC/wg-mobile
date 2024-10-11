@@ -28,7 +28,7 @@ class FundingScreenPage extends StatelessWidget {
         showBottomNavigationBar: false,
         actionAppBar: () {
           GoRouter.of(context).pushReplacementNamed(
-            Routes.payments.name,
+            Routes.home.name,
           );
         },
         pageAppBarTitle: l10n.fundingTitelPage,
