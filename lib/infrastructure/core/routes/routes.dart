@@ -40,6 +40,7 @@ class Routes {
   static final fundingScreen =
       Route(path: '/fundingScreen', name: 'fundingScreen');
   static final addFunding = Route(path: '/addFunding', name: 'addFunding');
+  static final errorScreen = Route(path: '/errorScreen', name: 'errorScreen');
   static final addFundsProvider =
       Route(path: '/addFundsProvider', name: 'addFundsProvider');
 }

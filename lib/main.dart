@@ -5,10 +5,13 @@ import 'package:wallet_guru/application/core/state_provider.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/infrastructure/dynamic_links/data_sources/dynamic_links_data_sources.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Injector.setup();
+  DynamicLinksDataSources.initDynamicLink();
+  DynamicLinksDataSources.listenDynamicLinks();
   runApp(const MyApp());
 }
 
