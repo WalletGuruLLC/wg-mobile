@@ -43,4 +43,6 @@ class Routes {
   static final errorScreen = Route(path: '/errorScreen', name: 'errorScreen');
   static final addFundsProvider =
       Route(path: '/addFundsProvider', name: 'addFundsProvider');
+  static final transactionChart =
+      Route(path: '/transactionChart', name: 'transactionChart');
 }
