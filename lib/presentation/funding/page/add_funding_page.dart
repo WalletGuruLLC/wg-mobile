@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
+import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
@@ -17,8 +20,13 @@ class AddFundingPage extends StatefulWidget {
 
 class _AddFundingPageState extends State<AddFundingPage> {
   bool isChecked = false;
+  late DepositCubit depositCubit;
 
-  TextEditingController amountController = TextEditingController();
+  @override
+  void initState() {
+    depositCubit = BlocProvider.of<DepositCubit>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,16 +68,42 @@ class _AddFundingPageState extends State<AddFundingPage> {
                   ],
                 ),
                 SizedBox(height: size.height * 0.6),
-                CustomButton(
-                  border: Border.all(
-                      color: AppColorSchema.of(context).buttonBorderColor),
-                  color: isChecked
-                      ? AppColorSchema.of(context).buttonColor
-                      : Colors.transparent,
-                  text: l10n.fundingTitelPage,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  onPressed: () => isChecked ? _buildErrorModal() : null,
+                BlocConsumer<DepositCubit, DepositState>(
+                  listener: (context, state) {
+                    if (state.formStatus is SubmissionSuccess) {
+                      _buildModal(
+                          //state.customMessage,
+                          //state.customMessageEs,
+                          //state.customCode,
+                          //locale,
+                          );
+                    } else if (state.formStatus is SubmissionFailed) {
+                      _buildModal(
+                          //state.customMessage,
+                          //state.customMessageEs,
+                          //state.customCode,
+                          //locale,
+                          );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state.formStatus is FormSubmitting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      return CustomButton(
+                        border: Border.all(
+                            color:
+                                AppColorSchema.of(context).buttonBorderColor),
+                        color: isChecked
+                            ? AppColorSchema.of(context).buttonColor
+                            : Colors.transparent,
+                        text: l10n.fundingTitelPage,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        onPressed: () => _onButtonPressed(),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
@@ -79,8 +113,17 @@ class _AddFundingPageState extends State<AddFundingPage> {
     );
   }
 
+  // Method to handle button actions
+  void _onButtonPressed() {
+    if (isChecked) {
+      setState(() {
+        depositCubit.emitCreateDepositWallet();
+      });
+    }
+  }
+
   // Method to build the successful modal
-  Future<dynamic> _buildErrorModal() {
+  Future<dynamic> _buildModal() {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
