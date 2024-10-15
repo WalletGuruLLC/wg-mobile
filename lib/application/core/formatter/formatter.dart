@@ -14,4 +14,11 @@ class Formatter {
     final formatter = NumberFormat('#,##0', 'en_US');
     return '\$${formatter.format(number)}';
   }
+
+  static double parseDoubleWithComma(String value) {
+  // Reemplaza la coma por un punto
+  String sanitizedValue = value.replaceAll(',', '.');
+  // Intenta parsear el valor
+  return double.parse(sanitizedValue);
+}
 }
