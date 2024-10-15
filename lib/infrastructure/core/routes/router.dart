@@ -8,6 +8,7 @@ import 'package:wallet_guru/presentation/funding/page/funding_screen_page.dart';
 import 'package:wallet_guru/presentation/home/page/home_page.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
+import 'package:wallet_guru/presentation/payments/pages/add_provider/add_provider_page.dart';
 import 'package:wallet_guru/presentation/payments/pages/payments_page.dart';
 import 'package:wallet_guru/presentation/payments/pages/receive_payment/receive_payment.dart';
 import 'package:wallet_guru/presentation/payments/pages/select_wallet/select_wallet_by_qr_page.dart';
@@ -169,5 +170,10 @@ class WalletGuruRouter {
           final title = params['title'] as String;
           return AddFundsProvider(title: title);
         }),
+    GoRoute(
+      name: Routes.addProvider.name,
+      path: Routes.addProvider.path,
+      builder: (context, state) => const AddProviderPage(),
+    ),
   ];
 }

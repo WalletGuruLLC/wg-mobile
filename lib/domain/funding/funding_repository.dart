@@ -5,4 +5,6 @@ import 'package:wallet_guru/domain/core/models/response_model.dart';
 
 abstract class FundingRepository {
   Future<Either<InvalidData, ResponseModel>> getListOfIncomingPayments();
+  Future<Either<InvalidData, ResponseModel>> linkServerProvider(
+      String walletAddressUrl, String walletAddressId);
 }
