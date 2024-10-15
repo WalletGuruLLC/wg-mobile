@@ -42,4 +42,8 @@ class DepositCubit extends Cubit<DepositState> {
   void emitwalletId(String walletAddress) async {
     emit(state.copyWith(walletAddressId: walletAddress));
   }
+  
+  void emitResetDeposit() async {
+    emit(state.initialState());
+  }
 }

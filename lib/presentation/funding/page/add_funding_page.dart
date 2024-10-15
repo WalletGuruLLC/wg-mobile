@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
@@ -71,12 +73,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
                 BlocConsumer<DepositCubit, DepositState>(
                   listener: (context, state) {
                     if (state.formStatus is SubmissionSuccess) {
-                      _buildModal(
-                          //state.customMessage,
-                          //state.customMessageEs,
-                          //state.customCode,
-                          //locale,
-                          );
+                      _buildSuccessfulModal(context);
                     } else if (state.formStatus is SubmissionFailed) {
                       _buildModal(
                           //state.customMessage,
@@ -120,6 +117,52 @@ class _AddFundingPageState extends State<AddFundingPage> {
         depositCubit.emitCreateDepositWallet();
       });
     }
+  }
+
+  // Método para construir el modal exitoso
+  Future<dynamic> _buildSuccessfulModal(
+    BuildContext context,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final l10n = AppLocalizations.of(context)!;
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          isSucefull: true,
+          buttonText: 'Ok',
+          buttonWidth: MediaQuery.of(context).size.width * 0.35,
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.fundsAddedSuccessfully,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.fundsAddedSuccessfullyDescription,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () {
+            BlocProvider.of<DepositCubit>(context).emitResetDeposit();
+
+            Navigator.of(context).pop();
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.home.name,
+            );
+          },
+        );
+      },
+    );
   }
 
   // Method to build the successful modal
