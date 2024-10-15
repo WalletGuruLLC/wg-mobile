@@ -65,7 +65,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
       case '/sendPayments':
       case '/receivePayment':
         return 2;
-      case '/receive':
+      case '/transactionChart':
         return 3;
       default:
         return 0;
@@ -91,7 +91,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
       ),
       _buildNavItem(
         icon: Assets.verticalTransactionMenuIcon,
-        label: 'Receive',
+        label: 'Transactions',
         index: 3,
       ),
     ];
@@ -152,7 +152,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
         GoRouter.of(context).go(Routes.payments.path);
         break;
       case 3:
-        // GoRouter.of(context).go(Routes.receive.path);
+        GoRouter.of(context).go(Routes.transactionChart.path);
         break;
     }
   }

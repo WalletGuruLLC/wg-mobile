@@ -61,6 +61,7 @@ dependencies:
   pretty_qr_code: ^3.3.0
   app_links: ^6.3.2
   flutter_multi_formatter: ^2.13.0
+  fl_chart: ^0.69.0
   
 
   
