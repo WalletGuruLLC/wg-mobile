@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
+import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/funding/widgets/funding_item.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_page.dart';
 
@@ -61,7 +61,14 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
                       color: Colors.grey[900],
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: BlocBuilder<UserCubit, UserState>(
+                    child: BlocConsumer<UserCubit, UserState>(
+                      listener: (context, state) {
+                        if (state.formStatusWallet is SubmissionFailed) {
+                          GoRouter.of(context).pushReplacementNamed(
+                            Routes.errorScreen.name,
+                          );
+                        }
+                      },
                       builder: (context, state) {
                         if (state.formStatusWallet is SubmissionSuccess) {
                           return Row(
