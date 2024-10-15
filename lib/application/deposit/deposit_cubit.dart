@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +17,7 @@ class DepositCubit extends Cubit<DepositState> {
     );
     final verifyEmailOtp = await depositRepository.createDepositWallet(
       state.walletAddressId,
-      10 * pow(10, 2).toInt(),
+      10,
     );
     verifyEmailOtp.fold(
       (error) {
