@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
@@ -41,7 +42,8 @@ class _AddFundingPageState extends State<AddFundingPage> {
                 Row(
                   children: [
                     TextBase(
-                      text: '100 USD',
+                      text:
+                          "${toCurrencyString("10", leadingSymbol: '\$')} USD",
                       fontSize: size.width * 0.05,
                     ),
                     Checkbox(
