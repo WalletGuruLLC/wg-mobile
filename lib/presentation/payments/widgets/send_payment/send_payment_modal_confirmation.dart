@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
-import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class SendPaymentModalConfirmation extends StatelessWidget {
   const SendPaymentModalConfirmation({
@@ -70,7 +70,7 @@ class SendPaymentModalConfirmation extends StatelessWidget {
                 },
                 builder: (context, state) {
                   if (state.formStatus is FormSubmitting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   } else {
                     return CustomButton(
                       isModal: true,
@@ -120,7 +120,6 @@ class SendPaymentModalConfirmation extends StatelessWidget {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        final locale = Localizations.localeOf(context);
         final l10n = AppLocalizations.of(context)!;
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
