@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+<<<<<<< HEAD
+=======
+import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
+import 'package:wallet_guru/application/user/user_cubit.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+
+>>>>>>> qa
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/funding/widget/funding_screen_view.dart';
 
-class FundingScreenPage extends StatelessWidget {
+class FundingScreenPage extends StatefulWidget {
   const FundingScreenPage({super.key});
+
+  @override
+  State<FundingScreenPage> createState() => _FundingScreenPageState();
+}
+
+class _FundingScreenPageState extends State<FundingScreenPage> {
+  @override
+  void initState() {
+    super.initState();
+    String walletAddress =
+        BlocProvider.of<UserCubit>(context).state.wallet!.walletDb.rafikiId;
+    BlocProvider.of<DepositCubit>(context).emitwalletId(walletAddress);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +41,7 @@ class FundingScreenPage extends StatelessWidget {
         showBottomNavigationBar: false,
         actionAppBar: () {
           GoRouter.of(context).pushReplacementNamed(
-            Routes.payments.name,
+            Routes.home.name,
           );
         },
         pageAppBarTitle: l10n.fundingTitelPage,
