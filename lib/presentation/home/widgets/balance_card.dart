@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import 'package:wallet_guru/application/user/user_cubit.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
@@ -22,7 +24,14 @@ class BalanceCard extends StatelessWidget {
         color: AppColorSchema.of(context).tertiaryText,
         borderRadius: BorderRadius.circular(size.width * 0.05),
       ),
-      child: BlocBuilder<UserCubit, UserState>(
+      child: BlocConsumer<UserCubit, UserState>(
+        listener: (context, state) {
+          if (state.formStatusWallet is SubmissionFailed) {
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.errorScreen.name,
+            );
+          }
+        },
         builder: (context, state) {
           if (state.formStatusWallet is SubmissionSuccess) {
             return Column(
@@ -80,7 +89,7 @@ class BalanceCard extends StatelessWidget {
             );
           } else if (state.formStatusWallet is FormSubmitting) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state.formStatusWallet is SubmissionFailed) {
+          } else {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -130,8 +139,6 @@ class BalanceCard extends StatelessWidget {
                 ),
               ],
             );
-          } else {
-            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
