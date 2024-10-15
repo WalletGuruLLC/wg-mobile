@@ -1,4 +1,5 @@
 import 'package:kiwi/kiwi.dart';
+import 'package:wallet_guru/domain/deposit/repositories/deposit_repository.dart';
 import 'package:wallet_guru/domain/send_payment/repositories/send_payment_repository.dart';
 import 'package:wallet_guru/domain/settings/repositories/settings_repository.dart';
 import 'package:wallet_guru/domain/transactions/repositories/transaction_repository.dart';
@@ -6,6 +7,8 @@ import 'package:wallet_guru/domain/transactions/repositories/transaction_reposit
 import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 import 'package:wallet_guru/domain/login/repositories/login_repository.dart';
 import 'package:wallet_guru/domain/register/repositories/register_repository.dart';
+import 'package:wallet_guru/infrastructure/deposit/data_sources/deposit_data_sources.dart';
+import 'package:wallet_guru/infrastructure/deposit/repositories/deposit_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/send_payment/data_sources/send_payment_data_sources.dart';
 import 'package:wallet_guru/infrastructure/send_payment/repositories/send_payment_repository_impl.dart';
 import 'package:wallet_guru/infrastructure/settings/data_sources/settings_data_source.dart';
@@ -59,6 +62,7 @@ abstract class Injector {
     _configureSettingsrModule();
     _configureSendPaymentModule();
     _configureTransactionsModule();
+    _configureDepositModule();
   }
 
   void _configureRegisterModule() {
@@ -95,6 +99,9 @@ abstract class Injector {
   
   void _configureTransactionsModule() {
     _configureTransactionsFactories();
+  }
+  void _configureDepositModule() {
+    _configureDepositFactories();
   }
 
   @Register.factory(RegisterDataSource)
@@ -133,4 +140,8 @@ abstract class Injector {
   @Register.factory(TransactionDataSource)
   @Register.factory(TransactionRepository, from: TransactionRepositoryImpl)
   void _configureTransactionsFactories();
+  
+  @Register.factory(DepositDataSource)
+  @Register.factory(DepositRepository, from: DepositRepositoryImpl)
+  void _configureDepositFactories();
 }
