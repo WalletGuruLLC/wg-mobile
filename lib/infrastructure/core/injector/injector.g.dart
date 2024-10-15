@@ -91,4 +91,13 @@ class _$Injector extends Injector {
       ..registerFactory<TransactionRepository>((c) => TransactionRepositoryImpl(
           transactionDataSource: c.resolve<TransactionDataSource>()));
   }
+
+  @override
+  void _configureDepositFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => DepositDataSource())
+      ..registerFactory<DepositRepository>((c) => DepositRepositoryImpl(
+          depositDataSource: c.resolve<DepositDataSource>()));
+  }
 }

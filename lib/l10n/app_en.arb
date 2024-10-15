@@ -158,6 +158,8 @@
   "lockAccountConfirmationText": "You can unlock it at any time",
   "unlockAccountConfirmationText": " You can lock it at any time",
   "fundingTitelPage": "Funding",
+  "fundsAddedSuccessfully": "Funds Added Successfully",
+  "fundsAddedSuccessfullyDescription": "You have succesfully added $10.0",
   "addFundsFundingItem": "Add Funds",
   "withdrawFundingItem": "Withdraw",
   "detailsFundingItem": "Details",
