@@ -157,6 +157,8 @@
   "lockAccountConfirmationText": "Puedes desbloquearla en cualquier momento",
   "unlockAccountConfirmationText": "Puedes bloquearla en cualquier momento",
   "fundingTitelPage": "Financiación",
+  "fundsAddedSuccessfully": "Fondos añadidos con éxito",
+  "fundsAddedSuccessfullyDescription": "Has añadido con éxito $10,0",
   "addFundsFundingItem": "Añadir fondos",
   "withdrawFundingItem": "Retirar",
   "detailsFundingItem": "Detalles",
