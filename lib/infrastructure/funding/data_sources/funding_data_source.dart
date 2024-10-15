@@ -25,14 +25,15 @@ class FundingDataSource {
 
   Future<ResponseModel> linkServerProvider(
       String walletAddressUrl, String walletAddressId) async {
-    var response = await HttpDataSource.post(
-      FundingNetwork.linkServerProvider,
-      {
-        "walletAddressUrl": walletAddressUrl,
-        "walletAddressId": walletAddressId,
-        "amount": 0.10 + Random().nextDouble() * (0.20 - 0.10),
-      },
-    );
+    var body = {
+      "walletAddressUrl": walletAddressUrl,
+      "walletAddressId": walletAddressId,
+      "amount": 0.10 + Random().nextDouble() * (0.20 - 0.10),
+    };
+    var response =
+        await HttpDataSource.post(FundingNetwork.linkServerProvider, body);
+
+    print(body);
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 201) {

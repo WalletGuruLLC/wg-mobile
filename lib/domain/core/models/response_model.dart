@@ -47,6 +47,7 @@ class Data {
   final bool success;
   final String message;
   final OutgoingPaymentResponse? outgoingPaymentResponse;
+  final List<IncomingPayment>? incomingPayments;
 
   Data({
     required this.user,
@@ -57,6 +58,7 @@ class Data {
     required this.success,
     required this.message,
     required this.outgoingPaymentResponse,
+    required this.incomingPayments,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -91,31 +93,36 @@ class Data {
               json["createOutgoingPayment"] != null
           ? OutgoingPaymentResponse.fromJson(json["createOutgoingPayment"])
           : null,
+      incomingPayments: json.containsKey("incomingPayments") &&
+              json["incomingPayments"] != null
+          ? List<IncomingPayment>.from(
+              json["incomingPayments"].map((x) => IncomingPayment.fromJson(x)))
+          : null,
     );
   }
 
   factory Data.initialState() => Data(
-        user: null,
-        transactions: [],
-        wallet: null,
-        rafikiAssets: null,
-        token: '',
-        success: false,
-        message: '',
-        outgoingPaymentResponse: null,
-      );
+      user: null,
+      transactions: [],
+      wallet: null,
+      rafikiAssets: null,
+      token: '',
+      success: false,
+      message: '',
+      outgoingPaymentResponse: null,
+      incomingPayments: null);
 
   factory Data.withMessage(String message) => Data(
-        user: null,
-        transactions: [],
-        wallet: null,
-        rafikiAssets: null,
-        token: '',
-        success: false,
-        message: message,
-        outgoingPaymentResponse: null,
-        //transactionsModel: null,
-      );
+      user: null,
+      transactions: [],
+      wallet: null,
+      rafikiAssets: null,
+      token: '',
+      success: false,
+      message: message,
+      outgoingPaymentResponse: null,
+      //transactionsModel: null,
+      incomingPayments: null);
 
   bool hasUser() => user != null;
 
@@ -522,5 +529,69 @@ class Amount {
       assetScale: json['assetScale'],
       value: json['value'],
     );
+  }
+}
+
+class IncomingPayment {
+  final String type;
+  final String id;
+  final String walletAddressId;
+  final String state;
+  final IncomingAmount incomingAmount;
+  final DateTime createdAt;
+  final DateTime expiresAt;
+
+  IncomingPayment({
+    required this.type,
+    required this.id,
+    required this.walletAddressId,
+    required this.state,
+    required this.incomingAmount,
+    required this.createdAt,
+    required this.expiresAt,
+  });
+
+  factory IncomingPayment.fromJson(Map<String, dynamic> json) {
+    return IncomingPayment(
+      type: json['type'] ?? '',
+      id: json['id'] ?? '',
+      walletAddressId: json['walletAddressId'] ?? '',
+      state: json['state'] ?? '',
+      incomingAmount: IncomingAmount.fromJson(json['incomingAmount']),
+      createdAt: DateTime.parse(json['createdAt']),
+      expiresAt: DateTime.parse(json['expiresAt']),
+    );
+  }
+}
+
+class IncomingAmount {
+  final String typeName;
+  final int assetScale;
+  final String assetCode;
+  final String value;
+
+  IncomingAmount({
+    required this.typeName,
+    required this.assetScale,
+    required this.assetCode,
+    required this.value,
+  });
+
+  factory IncomingAmount.fromJson(Map<String, dynamic> json) {
+    return IncomingAmount(
+      typeName: json['_typename'] ?? '',
+      assetScale: json['assetScale'] ?? 0,
+      assetCode: json['assetCode'] ?? '',
+      value: json['value'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_typename': typeName,
+      'assetScale': assetScale,
+      'assetCode': assetCode,
+      'value': value,
+    };
   }
 }

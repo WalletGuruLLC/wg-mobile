@@ -41,11 +41,11 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
         ? 300.0
         : 300.0;
 
-    return BlocListener<SendPaymentCubit, SendPaymentState>(
+    return BlocListener<FundingCubit, FundingState>(
       listener: (context, state) {
-        if (state.isWalletExistQr is SubmissionSuccess) {
-          GoRouter.of(context).goNamed(Routes.sendPaymentToUser.name);
-        } else if (state.isWalletExistQr is SubmissionFailed) {
+        if (state.scannedQrStatus is SubmissionSuccess) {
+          GoRouter.of(context).goNamed(Routes.home.name);
+        } else if (state.scannedQrStatus is SubmissionFailed) {
           controller!.resumeCamera();
           setState(() {
             isProcessing = false;
@@ -90,7 +90,7 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
           isProcessing = true;
         });
         fundingCubit.emitLinkServerProvider(scanData.code!,
-            sendPaymentCubit.state.walletForPaymentEntity!.walletDb.id);
+            sendPaymentCubit.state.walletForPaymentEntity!.walletAsset.id);
       }
     });
   }

@@ -34,13 +34,14 @@ class FundingCubit extends Cubit<FundingState> {
 
   void emitLinkServerProvider(
       String walletAddressUrl, String walletAddressId) async {
-    emit(state.copyWith(formStatus: FormSubmitting()));
+    emit(state.copyWith(scannedQrStatus: FormSubmitting()));
     final registerResponse = await fundingRepository.linkServerProvider(
         walletAddressUrl, walletAddressId);
     registerResponse.fold(
       (error) {
         emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+          scannedQrStatus:
+              SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
@@ -48,7 +49,7 @@ class FundingCubit extends Cubit<FundingState> {
       },
       (createUser) {
         emit(state.copyWith(
-          formStatus: SubmissionSuccess(),
+          scannedQrStatus: SubmissionSuccess(),
         ));
       },
     );
