@@ -56,16 +56,20 @@ class _AddFundingPageState extends State<AddFundingPage> {
                           "${toCurrencyString("10", leadingSymbol: '\$')} USD",
                       fontSize: size.width * 0.05,
                     ),
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (value) {
+                    Radio(
+                      value: true,
+                      groupValue: isChecked,
+                      onChanged: (bool? value) {
                         setState(() {
-                          isChecked = value!;
+                          isChecked = value ?? false;
                         });
                       },
-                      fillColor: MaterialStateProperty.resolveWith(
-                          (states) => Colors.white),
-                      checkColor: Colors.black,
+                      activeColor: AppColorSchema.of(context).tertiaryText,
+                      fillColor: WidgetStateProperty.resolveWith(
+                        (states) => states.contains(WidgetState.selected)
+                            ? AppColorSchema.of(context).tertiaryText
+                            : AppColorSchema.of(context).primaryText,
+                      ),
                     ),
                   ],
                 ),
