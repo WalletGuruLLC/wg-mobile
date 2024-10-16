@@ -1,4 +1,5 @@
 import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
+import 'package:wallet_guru/domain/send_payment/models/incoming_payment_model.dart';
 
 class ResponseModel {
   final int statusCode;
@@ -42,23 +43,23 @@ class Data {
   final User? user;
   final Wallet? wallet;
   final List<TransactionsModel>? transactions;
+  final List<IncomingPaymentModel>? incomingPayments;
   final List<RafikiAssets>? rafikiAssets;
   final String token;
   final bool success;
   final String message;
   final OutgoingPaymentResponse? outgoingPaymentResponse;
-  final List<IncomingPayment>? incomingPayments;
 
   Data({
     required this.user,
     required this.wallet,
     required this.transactions,
+    required this.incomingPayments,
     required this.rafikiAssets,
     required this.token,
     required this.success,
     required this.message,
     required this.outgoingPaymentResponse,
-    required this.incomingPayments,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -78,6 +79,11 @@ class Data {
           ? List<TransactionsModel>.from(
               json["transactions"].map((x) => TransactionsModel.fromJson(x)))
           : null,
+      incomingPayments: json.containsKey("incomingPayments") &&
+              json["incomingPayments"] != null
+          ? List<IncomingPaymentModel>.from(json["incomingPayments"]
+              .map((x) => IncomingPaymentModel.fromJson(x)))
+          : null,
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
           : null,
@@ -93,36 +99,33 @@ class Data {
               json["createOutgoingPayment"] != null
           ? OutgoingPaymentResponse.fromJson(json["createOutgoingPayment"])
           : null,
-      incomingPayments: json.containsKey("incomingPayments") &&
-              json["incomingPayments"] != null
-          ? List<IncomingPayment>.from(
-              json["incomingPayments"].map((x) => IncomingPayment.fromJson(x)))
-          : null,
     );
   }
 
   factory Data.initialState() => Data(
-      user: null,
-      transactions: [],
-      wallet: null,
-      rafikiAssets: null,
-      token: '',
-      success: false,
-      message: '',
-      outgoingPaymentResponse: null,
-      incomingPayments: null);
+        user: null,
+        transactions: [],
+        incomingPayments: [],
+        wallet: null,
+        rafikiAssets: null,
+        token: '',
+        success: false,
+        message: '',
+        outgoingPaymentResponse: null,
+      );
 
   factory Data.withMessage(String message) => Data(
-      user: null,
-      transactions: [],
-      wallet: null,
-      rafikiAssets: null,
-      token: '',
-      success: false,
-      message: message,
-      outgoingPaymentResponse: null,
-      //transactionsModel: null,
-      incomingPayments: null);
+        user: null,
+        transactions: [],
+        incomingPayments: [],
+        wallet: null,
+        rafikiAssets: null,
+        token: '',
+        success: false,
+        message: message,
+        outgoingPaymentResponse: null,
+        //transactionsModel: null,
+      );
 
   bool hasUser() => user != null;
 

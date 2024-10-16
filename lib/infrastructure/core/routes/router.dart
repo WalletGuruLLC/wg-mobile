@@ -134,8 +134,9 @@ class WalletGuruRouter {
         builder: (context, state) {
           final params =
               (state.extra ?? <String, dynamic>{}) as Map<String, dynamic>;
-          final title = params['title'] as String;
-          return WithdrawPage(title: title);
+          final totalAmount = params['totalAmount'] as String;
+          final listProvider = params['listProvider'] as List<String>;
+          return WithdrawPage(totalAmount: totalAmount, listProvider: listProvider);
         }),
     GoRoute(
       name: Routes.receivePayment.name,
