@@ -13,6 +13,7 @@ import 'package:wallet_guru/presentation/core/widgets/forms/zip_code_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/petition_response_modal.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/activator_field_widget.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/city_section.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/countryFormAutoComplete.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/country_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/phone_number_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/save_button.dart';
@@ -83,6 +84,13 @@ class _MyInfoViewState extends State<MyInfoView> {
               ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.country),
+              CountryFormAutocomplete(
+                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                  initialValue: user?.country,
+                  onChanged: (value) {
+                    userCubit.updateUser(
+                        country: value, stateLocation: '', city: '');
+                  }),
               CountryFormSection(
                 initialValue: user?.country ?? '',
                 onChanged: (value) {
