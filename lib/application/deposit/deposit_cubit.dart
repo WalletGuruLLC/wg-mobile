@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
@@ -41,6 +42,12 @@ class DepositCubit extends Cubit<DepositState> {
 
   void emitwalletId(String walletAddress) async {
     emit(state.copyWith(walletAddressId: walletAddress));
+  }
+
+  void emitAddFirstFunding() async {
+    final storage = await SharedPreferences.getInstance();
+    final bool? firstFunding = storage.getBool('firstFunding');
+    emit(state.copyWith(firstFunding: firstFunding));
   }
   
   void emitResetDeposit() async {

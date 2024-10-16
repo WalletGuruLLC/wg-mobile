@@ -27,6 +27,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
   @override
   void initState() {
     depositCubit = BlocProvider.of<DepositCubit>(context);
+    depositCubit.emitAddFirstFunding();
     super.initState();
   }
 
@@ -101,7 +102,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
                         text: l10n.fundingTitelPage,
                         fontSize: 20,
                         fontWeight: FontWeight.w400,
-                        onPressed: () => _onButtonPressed(),
+                        onPressed: () => _onButtonPressed(state),
                       );
                     }
                   },
@@ -115,11 +116,13 @@ class _AddFundingPageState extends State<AddFundingPage> {
   }
 
   // Method to handle button actions
-  void _onButtonPressed() {
-    if (isChecked) {
+  void _onButtonPressed(DepositState state) {
+    if (isChecked && state.firstFunding) {
       setState(() {
         depositCubit.emitCreateDepositWallet();
       });
+    } else {
+      _buildModal(descripcion: "Ya supero el limite de deposito.");
     }
   }
 
@@ -170,7 +173,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
   }
 
   // Method to build the successful modal
-  Future<dynamic> _buildModal() {
+  Future<dynamic> _buildModal({String? descripcion}) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -181,7 +184,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
               SizedBox(height: size * 0.025),
               TextBase(
                 textAlign: TextAlign.center,
-                text:
+                text: descripcion ??
                     "There was an error processing your fund. Please try again.",
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
