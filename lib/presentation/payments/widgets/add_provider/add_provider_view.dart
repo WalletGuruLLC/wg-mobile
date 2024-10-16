@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/application/funding/funding_cubit.dart';
 import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
@@ -44,7 +44,7 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
     return BlocListener<FundingCubit, FundingState>(
       listener: (context, state) {
         if (state.scannedQrStatus is SubmissionSuccess) {
-          GoRouter.of(context).goNamed(Routes.home.name);
+          GoRouter.of(context).pushReplacementNamed(Routes.fundingScreen.name);
         } else if (state.scannedQrStatus is SubmissionFailed) {
           controller!.resumeCamera();
           setState(() {
@@ -88,9 +88,12 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
         controller.pauseCamera();
         setState(() {
           isProcessing = true;
+          fundingCubit.updateFundingEntity(
+              walletAddressUrl: scanData.code,
+              rafikiWalletAddress: sendPaymentCubit
+                  .state.walletForPaymentEntity!.walletDb.rafikiId);
         });
-        fundingCubit.emitLinkServerProvider(scanData.code!,
-            sendPaymentCubit.state.walletForPaymentEntity!.walletAsset.id);
+        fundingCubit.emitLinkServerProvider();
       }
     });
   }
@@ -137,11 +140,10 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
             ],
           ),
           onPressed: () {
-            BlocProvider.of<SendPaymentCubit>(context)
-                .resetSendPaymentInformation();
-            BlocProvider.of<SendPaymentCubit>(context).resetPaymentEntity();
+            fundingCubit.resetFundingEntity();
+            fundingCubit.resetFundingQrStatus();
             Navigator.of(context).pop();
-            GoRouter.of(context).goNamed(Routes.selectWalletByQr.name);
+            GoRouter.of(context).goNamed(Routes.addProvider.name);
           },
         );
       },

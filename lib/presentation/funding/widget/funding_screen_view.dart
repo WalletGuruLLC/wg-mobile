@@ -20,7 +20,8 @@ class _FundingScreenViewState extends State<FundingScreenView> {
   @override
   void initState() {
     super.initState();
-
+    BlocProvider.of<FundingCubit>(context).resetFundingQrStatus();
+    BlocProvider.of<FundingCubit>(context).resetFundingEntity();
     BlocProvider.of<FundingCubit>(context).emitGetListIncomingPayment();
   }
 

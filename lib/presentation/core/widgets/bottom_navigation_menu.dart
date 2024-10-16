@@ -64,6 +64,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
       case '/sendPaymentToUser':
       case '/sendPayments':
       case '/receivePayment':
+      case '/addProvider':
         return 2;
       case '/transactionChart':
         return 3;

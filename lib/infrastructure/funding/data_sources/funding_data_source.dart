@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:math';
 
+import 'package:wallet_guru/domain/core/entities/funding_entity.dart';
 import 'package:wallet_guru/domain/core/models/invalid_data.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
@@ -23,20 +23,16 @@ class FundingDataSource {
     }
   }
 
-  Future<ResponseModel> linkServerProvider(
-      String walletAddressUrl, String walletAddressId) async {
+  Future<ResponseModel> linkServerProvider(FundingEntity fundingEntity) async {
     var body = {
-      "walletAddressUrl": walletAddressUrl,
-      "walletAddressId": walletAddressId,
-      "amount": 0.10 + Random().nextDouble() * (0.20 - 0.10),
+      "walletAddressUrl": fundingEntity.getWalletAddressWithoutQueryParams(),
+      "sessionId": fundingEntity.sessionId,
+      "walletAddressId": fundingEntity.rafikiWalletAddress,
     };
     var response =
         await HttpDataSource.post(FundingNetwork.linkServerProvider, body);
-
-    print(body);
-
     final result = jsonDecode(response.body);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       ResponseModel registerModel = ResponseModel.fromJson(result);
       return registerModel;
     } else {
