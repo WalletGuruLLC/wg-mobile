@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/application/funding/funding_cubit.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
@@ -31,55 +34,64 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final l10n = AppLocalizations.of(context)!;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: size.height * 0.05),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: AmountForm(
-                  controller: _amountController,
-                  onChanged: (value) {
-                    fundingCubit.updateFundingEntity(
-                      amountToAddFund: value,
-                    );
-                  },
+    return BlocListener<FundingCubit, FundingState>(
+      listener: (context, state) {
+        if (state.createIncomingPayment is SubmissionFailed) {
+          _buildErrorModal();
+        } else if (state.createIncomingPayment is SubmissionSuccess) {
+          GoRouter.of(context).pushReplacementNamed(Routes.home.name);
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: size.height * 0.05),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: AmountForm(
+                    controller: _amountController,
+                    onChanged: (value) {
+                      fundingCubit.updateFundingEntity(
+                        amountToAddFund: value,
+                      );
+                    },
+                  ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(right: 16),
-                child: TextBase(
-                  text: 'USD',
-                  fontSize: 16,
+                const Padding(
+                  padding: EdgeInsets.only(right: 16),
+                  child: TextBase(
+                    text: 'USD',
+                    fontSize: 16,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: size.height * 0.6),
-        BlocBuilder<FundingCubit, FundingState>(
-          builder: (context, state) {
-            bool isButtonEnabled = state.isFundingButtonVisible;
-            return CustomButton(
-              border: Border.all(
-                  color: AppColorSchema.of(context).buttonBorderColor),
-              color: isButtonEnabled
-                  ? AppColorSchema.of(context).buttonColor
-                  : Colors.transparent,
-              text: l10n.addFundsFundingItem,
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-              onPressed: () => isButtonEnabled ? _callCreateFunding() : null,
-            );
-          },
-        ),
-      ],
+          SizedBox(height: size.height * 0.6),
+          BlocBuilder<FundingCubit, FundingState>(
+            builder: (context, state) {
+              bool isButtonEnabled = state.isFundingButtonVisible;
+              return CustomButton(
+                border: Border.all(
+                    color: AppColorSchema.of(context).buttonBorderColor),
+                color: isButtonEnabled
+                    ? AppColorSchema.of(context).buttonColor
+                    : Colors.transparent,
+                text: l10n.addFundsFundingItem,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                onPressed: () => isButtonEnabled ? _callCreateFunding() : null,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 

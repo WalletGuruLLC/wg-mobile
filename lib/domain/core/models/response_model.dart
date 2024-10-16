@@ -50,6 +50,7 @@ class Data {
   final String message;
   final OutgoingPaymentResponse? outgoingPaymentResponse;
   final LinkedProvider? linkedProvider;
+  final IncomingPaymentResponse? incomingPaymentResponse;
 
   Data({
     required this.user,
@@ -62,6 +63,7 @@ class Data {
     required this.message,
     required this.outgoingPaymentResponse,
     required this.linkedProvider,
+    required this.incomingPaymentResponse,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -104,34 +106,39 @@ class Data {
       linkedProvider: json['linkedProvider'] != null
           ? LinkedProvider.fromJson(json['linkedProvider'])
           : null,
+      incomingPaymentResponse: json.containsKey("incomingPaymentResponse") &&
+              json["incomingPaymentResponse"] != null
+          ? IncomingPaymentResponse.fromJson(json["incomingPaymentResponse"])
+          : null,
     );
   }
 
   factory Data.initialState() => Data(
-        user: null,
-        transactions: [],
-        incomingPayments: [],
-        wallet: null,
-        rafikiAssets: null,
-        token: '',
-        success: false,
-        message: '',
-        outgoingPaymentResponse: null,
-        linkedProvider: null,
-      );
+      user: null,
+      transactions: [],
+      incomingPayments: [],
+      wallet: null,
+      rafikiAssets: null,
+      token: '',
+      success: false,
+      message: '',
+      outgoingPaymentResponse: null,
+      linkedProvider: null,
+      incomingPaymentResponse: null);
 
   factory Data.withMessage(String message) => Data(
-        user: null,
-        transactions: [],
-        incomingPayments: [],
-        wallet: null,
-        rafikiAssets: null,
-        token: '',
-        success: false,
-        message: message,
-        outgoingPaymentResponse: null,
-        linkedProvider: null,
-        //transactionsModel: null,
+      user: null,
+      transactions: [],
+      incomingPayments: [],
+      wallet: null,
+      rafikiAssets: null,
+      token: '',
+      success: false,
+      message: message,
+      outgoingPaymentResponse: null,
+      linkedProvider: null,
+      incomingPaymentResponse: null
+      //transactionsModel: null,
       );
 
   bool hasUser() => user != null;
@@ -639,5 +646,40 @@ class LinkedProvider {
       'walletUrl': walletUrl,
       'serviceProviderName': serviceProviderName,
     };
+  }
+}
+
+class IncomingPaymentResponse {
+  final String serviceProviderId;
+  final String userId;
+  final String incomingPaymentId;
+  final String receiverId;
+  final int createdAt;
+  final int updatedAt;
+  final String id;
+  final bool status;
+
+  IncomingPaymentResponse({
+    required this.serviceProviderId,
+    required this.userId,
+    required this.incomingPaymentId,
+    required this.receiverId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.id,
+    required this.status,
+  });
+
+  factory IncomingPaymentResponse.fromJson(Map<String, dynamic> json) {
+    return IncomingPaymentResponse(
+      serviceProviderId: json["serviceProviderId"],
+      userId: json["userId"],
+      incomingPaymentId: json["incomingPaymentId"],
+      receiverId: json["receiverId"],
+      createdAt: json["createdAt"],
+      updatedAt: json["updatedAt"],
+      id: json["id"],
+      status: json["status"],
+    );
   }
 }

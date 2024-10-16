@@ -55,7 +55,7 @@ class FundingDataSource {
     var response =
         await HttpDataSource.post(FundingNetwork.createIncomingPayment, body);
     final result = jsonDecode(response.body);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       ResponseModel registerModel = ResponseModel.fromJson(result);
       return registerModel;
     } else {

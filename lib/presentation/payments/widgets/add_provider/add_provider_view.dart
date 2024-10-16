@@ -44,6 +44,8 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
     return BlocListener<FundingCubit, FundingState>(
       listener: (context, state) {
         if (state.scannedQrStatus is SubmissionSuccess) {
+          fundingCubit.resetFundingEntity();
+          fundingCubit.resetFundingQrStatus();
           GoRouter.of(context)
               .pushReplacementNamed(Routes.addValidateFunds.name);
         } else if (state.scannedQrStatus is SubmissionFailed) {
