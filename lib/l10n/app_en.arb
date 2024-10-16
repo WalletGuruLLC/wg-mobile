@@ -183,6 +183,13 @@
   "paymentError": "Payment Error",
   "paymentErrorMessage": "There was an error processing your payment. Please try again.",
   "walletNotFoundTitle": "Wallet not found",
-  "walletNotFoundText": "Please check the wallet address and try again"
-
+  "walletNotFoundText": "Please check the wallet address and try again",
+  "transactionsTitlePage": "Transactions",
+  "transactionsDetails": "Transaction Details",
+  "transactionsDetailsPayedTo": "Payed to:",
+  "transactionsDetailsWalletAddress": "Wallet Address:",
+  "transactionsDetailsDate": "Date:",
+  "transactionsDetailsTime": "Time:",
+  "transactionsDetailsAmount": "Amount:",
+  "transactionsDetailsStatus": "Status:"
 }

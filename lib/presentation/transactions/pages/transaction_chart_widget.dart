@@ -1,15 +1,19 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
 import 'package:wallet_guru/application/transactions/transaction_state.dart';
 import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/transactions/widgets/transaction_details_popup.dart';
 
 class TransactionChartWidget extends StatefulWidget {
   const TransactionChartWidget({super.key});
@@ -31,8 +35,12 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
 
   void _initializeDates(List<TransactionsModel> transactions) {
     if (transactions.isNotEmpty) {
-      _startDate = transactions.first.createdAt;
-      _endDate = transactions.last.createdAt;
+      _startDate = transactions
+          .map((t) => t.createdAt)
+          .reduce((a, b) => a.isBefore(b) ? a : b);
+      _endDate = transactions
+          .map((t) => t.createdAt)
+          .reduce((a, b) => a.isAfter(b) ? a : b);
     } else {
       _startDate = DateTime.now().subtract(const Duration(days: 30));
       _endDate = DateTime.now();
@@ -54,10 +62,10 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
   }
 
   double _calculateTotal(List<TransactionsModel> transactions) {
-    return transactions.fold(0, (sum, t) {
+    return transactions.fold(0.0, (sum, t) {
       final amount = t.type == 'IncomingPayment'
-          ? t.incomingAmount?.value ?? 0
-          : t.receiveAmount?.value ?? 0;
+          ? (t.incomingAmount?.value ?? 0)
+          : (t.receiveAmount?.value ?? 0);
       return sum + (t.type == 'IncomingPayment' ? amount : -amount);
     });
   }
@@ -65,26 +73,36 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
   List<FlSpot> _createSpots(List<TransactionsModel> transactions) {
     if (transactions.isEmpty) return [const FlSpot(0, 0)];
 
-    final Map<int, double> monthlyTotals = {};
+    final Map<DateTime, double> dailyTotals = {};
     for (var t in transactions) {
-      final month = t.createdAt.month - 1; // 0-based month
+      final date =
+          DateTime(t.createdAt.year, t.createdAt.month, t.createdAt.day);
       final amount = t.type == 'IncomingPayment'
-          ? t.incomingAmount?.value ?? 0
+          ? (t.incomingAmount?.value ?? 0)
           : -(t.receiveAmount?.value ?? 0);
-      monthlyTotals[month] = (monthlyTotals[month] ?? 0) + amount;
+      dailyTotals[date] = (dailyTotals[date] ?? 0) + amount;
     }
 
+    final sortedDates = dailyTotals.keys.toList()..sort();
     double cumulativeTotal = 0;
-    return monthlyTotals.entries.map((e) {
-      cumulativeTotal += e.value;
-      return FlSpot(e.key.toDouble(), cumulativeTotal);
-    }).toList()
-      ..sort((a, b) => a.x.compareTo(b.x));
+    return sortedDates.asMap().entries.map((entry) {
+      final index = entry.key;
+      final date = entry.value;
+      cumulativeTotal += dailyTotals[date]!;
+      return FlSpot(index.toDouble(), cumulativeTotal);
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TransactionCubit, TransactionState>(
+    return BlocConsumer<TransactionCubit, TransactionState>(
+      listener: (context, state) {
+        if (state is TransactionError) {
+          GoRouter.of(context).pushReplacementNamed(
+            Routes.errorScreen.name,
+          );
+        }
+      },
       builder: (context, state) {
         if (state is TransactionLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -93,12 +111,12 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
           final filteredTransactions = _getFilteredTransactions(state.payments);
           final total = _calculateTotal(filteredTransactions);
           final spots = _createSpots(filteredTransactions);
-
+          final l10n = AppLocalizations.of(context)!;
           return WalletGuruLayout(
             showBackButton: true,
             showBottomNavigationBar: true,
             showLoggedUserAppBar: true,
-            pageAppBarTitle: 'Transactions',
+            pageAppBarTitle: l10n.transactionsTitlePage,
             mainAxisAlignment: MainAxisAlignment.start,
             actionAppBar: () {},
             children: [
@@ -108,16 +126,14 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     _buildChartCard(context, total, spots),
-                    _buildTransactionsList(filteredTransactions),
+                    Expanded(
+                      child: _buildTransactionsList(filteredTransactions),
+                    ),
                   ],
                 ),
               ),
-              // _buildChartCard(context, total, spots),
-              // _buildTransactionsList(filteredTransactions),
             ],
           );
-        } else if (state is TransactionError) {
-          return Center(child: Text('Error: ${state.message}'));
         } else {
           return const Center(child: Text('No data available'));
         }
@@ -243,11 +259,35 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
   Widget _buildDateRangePicker() {
     return CustomButton(
       onPressed: () async {
+        final ThemeData theme = Theme.of(context);
+        final newTheme = theme.copyWith(
+          colorScheme: theme.colorScheme.copyWith(
+            primary: Colors.purple, // Color del encabezado
+            onPrimary: Colors.white, // Color del texto en el encabezado
+            surface: Colors.grey[500], // Fondo del calendario oscuro
+            onSurface: Colors.white, // Color del texto en el calendario
+            secondary: Colors.purple[800], // Color para fechas seleccionadas
+            onSecondary: Colors.white, // Texto en fechas seleccionadas
+          ),
+          textTheme: theme.textTheme.apply(
+            bodyColor: Colors.purple,
+            displayColor: Colors.purple,
+          ),
+        );
+
         final DateTimeRange? picked = await showDateRangePicker(
           context: context,
-          firstDate: _startDate,
-          lastDate: _endDate,
+          firstDate: DateTime(2020),
+          lastDate: DateTime(2025),
           initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
+          builder: (BuildContext context, Widget? child) {
+            return Theme(
+              data: newTheme,
+              child: Container(
+                child: child,
+              ),
+            );
+          },
         );
         if (picked != null) {
           setState(() {
@@ -306,10 +346,13 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
   Widget _buildTransactionsList(List<TransactionsModel> transactions) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(),
       itemCount: transactions.length,
       itemBuilder: (context, index) {
         final transaction = transactions[index];
+        final amount = transaction.type == 'IncomingPayment'
+            ? (transaction.incomingAmount?.value ?? 0)
+            : (transaction.receiveAmount?.value ?? 0);
         return Column(
           children: [
             ListTile(
@@ -324,19 +367,33 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
                 children: [
                   TextBase(
                     text:
-                        '${transaction.type == 'IncomingPayment' ? '+' : '-'}\$${(transaction.type == 'IncomingPayment' ? transaction.incomingAmount?.value : transaction.receiveAmount?.value)?.toStringAsFixed(2) ?? '0.00'}',
+                        '${transaction.type == 'IncomingPayment' ? '+' : '-'}\$${amount.toStringAsFixed(2)}',
                     fontSize: 16,
                     color: AppColorSchema.of(context).primaryText,
                   ),
                   const SizedBox(width: 8),
-                  Icon(Icons.info_outline,
-                      color: AppColorSchema.of(context).primaryText),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return TransactionDetailsPopup(
+                              transaction: transaction);
+                        },
+                      );
+                    },
+                    child: Icon(Icons.info_outline,
+                        color: AppColorSchema.of(context).primaryText),
+                  ),
                 ],
               ),
             ),
-            Divider(
-                color:
-                    AppColorSchema.of(context).secondaryText.withOpacity(0.5)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Divider(
+                  color:
+                      AppColorSchema.of(context).primaryText.withOpacity(0.5)),
+            ),
           ],
         );
       },
