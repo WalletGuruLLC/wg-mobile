@@ -4,6 +4,7 @@ import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/infrastructure/create_wallet/network/create_wallet_network.dart';
 
 import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
+import 'package:wallet_guru/presentation/core/utils/global_error_translations.dart';
 
 class CreateWalletDataSource {
   Future<ResponseModel> createWallet(String addressName, String assetId) async {
@@ -20,8 +21,11 @@ class CreateWalletDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -34,8 +38,11 @@ class CreateWalletDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:wallet_guru/domain/core/models/invalid_data.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
 import 'package:wallet_guru/infrastructure/user/network/user_network.dart';
+import 'package:wallet_guru/presentation/core/utils/global_error_translations.dart';
 
 class UserDataSource {
   Future<ResponseModel> getCurrentUserInformation() async {
@@ -16,8 +17,11 @@ class UserDataSource {
       return registerModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -32,8 +36,11 @@ class UserDataSource {
       return registerModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -51,8 +58,11 @@ class UserDataSource {
       return registerModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -66,8 +76,11 @@ class UserDataSource {
       return lockAccountModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -80,8 +93,11 @@ class UserDataSource {
       return walletInfo;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -95,8 +111,11 @@ class UserDataSource {
       return registerModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 }
