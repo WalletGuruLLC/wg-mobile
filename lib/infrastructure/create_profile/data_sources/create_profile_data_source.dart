@@ -7,6 +7,7 @@ import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
 import 'package:wallet_guru/domain/create_profile/entities/base_profile_entity.dart';
 import 'package:wallet_guru/infrastructure/create_profile/network/create_profile_network.dart';
 import 'package:wallet_guru/infrastructure/user/network/user_network.dart';
+import 'package:wallet_guru/presentation/core/utils/global_error_translations.dart';
 
 class CreateProfileDataSource {
   Future<ResponseModel> updateUser<T extends BaseProfileEntity>(
@@ -24,8 +25,8 @@ class CreateProfileDataSource {
       final errorModel = ResponseModel.fromJson(result);
       throw InvalidData(
         errorModel.customCode,
-        errorModel.customMessage,
-        errorModel.customMessageEs,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
       );
     }
   }
@@ -40,8 +41,11 @@ class CreateProfileDataSource {
       return registerModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 }
