@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/application/funding/funding_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/funding/widget/add_funding_validate_view.dart';
@@ -14,6 +16,10 @@ class AddFundingValidatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
+    String providerName = BlocProvider.of<FundingCubit>(context)
+        .state
+        .fundingEntity!
+        .serviceProviderName;
 
     return WalletGuruLayout(
       showSafeArea: true,
@@ -22,10 +28,10 @@ class AddFundingValidatePage extends StatelessWidget {
       showBottomNavigationBar: false,
       actionAppBar: () {
         GoRouter.of(context).pushReplacementNamed(
-          Routes.fundingScreen.name,
+          Routes.home.name,
         );
       },
-      pageAppBarTitle: l10n.addFundsFundingItem,
+      pageAppBarTitle: providerName,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

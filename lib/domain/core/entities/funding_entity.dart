@@ -3,11 +3,13 @@ class FundingEntity {
   final String rafikiWalletAddress;
   final String walletAddressUrl;
   String? sessionId;
+  final String serviceProviderName;
 
   FundingEntity({
     required this.amountToAddFund,
     required this.rafikiWalletAddress,
     required this.walletAddressUrl,
+    required this.serviceProviderName,
     this.sessionId,
   }) {
     sessionId ??= extractSessionIdFromUrl(walletAddressUrl);
@@ -18,11 +20,13 @@ class FundingEntity {
     String? rafikiWalletAddress,
     String? walletAddressUrl,
     String? sessionId,
+    String? serviceProviderName,
   }) {
     return FundingEntity(
       amountToAddFund: amountToAddFund ?? this.amountToAddFund,
       rafikiWalletAddress: rafikiWalletAddress ?? this.rafikiWalletAddress,
       walletAddressUrl: walletAddressUrl ?? this.walletAddressUrl,
+      serviceProviderName: serviceProviderName ?? this.serviceProviderName,
       sessionId: sessionId ??
           extractSessionIdFromUrl(walletAddressUrl ?? this.walletAddressUrl),
     );
@@ -32,13 +36,15 @@ class FundingEntity {
       : amountToAddFund = '',
         rafikiWalletAddress = '',
         walletAddressUrl = '',
-        sessionId = '';
+        sessionId = '',
+        serviceProviderName = '';
 
   Map<String, dynamic> toMap() => {
         "amountToAddFund": amountToAddFund,
         "rafikiWalletAddress": rafikiWalletAddress,
         "walletAddressUrl": walletAddressUrl,
         "sessionId": sessionId,
+        "serviceProviderName": serviceProviderName,
       };
 
   // Método para extraer el sessionId de la URL (ahora es público)

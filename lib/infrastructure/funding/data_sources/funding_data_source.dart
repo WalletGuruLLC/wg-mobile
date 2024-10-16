@@ -49,6 +49,9 @@ class FundingDataSource {
       "incomingAmount": fundingEntity.convertAmountToNumber(),
       "walletAddressId": fundingEntity.rafikiWalletAddress,
     };
+
+    print(body);
+    print(body);
     var response =
         await HttpDataSource.post(FundingNetwork.createIncomingPayment, body);
     final result = jsonDecode(response.body);

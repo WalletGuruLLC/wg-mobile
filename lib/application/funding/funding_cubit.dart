@@ -13,30 +13,30 @@ class FundingCubit extends Cubit<FundingState> {
   FundingCubit() : super(const FundingState());
   final fundingRepository = Injector.resolve<FundingRepository>();
 
-  void emitGetListIncomingPayment() async {
-    emit(state.copyWith(formStatus: FormSubmitting()));
-    final incomingPaymentsResponse =
-        await fundingRepository.getListOfIncomingPayments();
-    incomingPaymentsResponse.fold(
-      (error) {
-        emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
-          customCode: error.code,
-          customMessage: error.messageEn,
-          customMessageEs: error.messageEs,
-        ));
-      },
-      (success) {
-        emit(state.copyWith(
-          formStatus: SubmissionSuccess(),
-          incomingPayments: success.data!.incomingPayments!
-              .map((incomingPayment) =>
-                  IncomingPaymentEntity.fromIncomingPayment(incomingPayment))
-              .toList(),
-        ));
-      },
-    );
-  }
+  // void emitGetListIncomingPayment() async {
+  //   emit(state.copyWith(formStatus: FormSubmitting()));
+  //   final incomingPaymentsResponse =
+  //       await fundingRepository.getListOfIncomingPayments();
+  //   incomingPaymentsResponse.fold(
+  //     (error) {
+  //       emit(state.copyWith(
+  //         formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+  //         customCode: error.code,
+  //         customMessage: error.messageEn,
+  //         customMessageEs: error.messageEs,
+  //       ));
+  //     },
+  //     (success) {
+  //       emit(state.copyWith(
+  //         formStatus: SubmissionSuccess(),
+  //         incomingPayments: success.data!.incomingPayments!
+  //             .map((incomingPayment) =>
+  //                 IncomingPaymentEntity.fromIncomingPayment(incomingPayment))
+  //             .toList(),
+  //       ));
+  //     },
+  //   );
+  // }
 
   void emitLinkServerProvider() async {
     emit(state.copyWith(scannedQrStatus: FormSubmitting()));
@@ -55,6 +55,10 @@ class FundingCubit extends Cubit<FundingState> {
       (success) {
         emit(state.copyWith(
           scannedQrStatus: SubmissionSuccess(),
+          fundingEntity: state.fundingEntity!.copyWith(
+            serviceProviderName:
+                success.data!.linkedProvider!.serviceProviderName,
+          ),
         ));
       },
     );
@@ -131,6 +135,7 @@ class FundingCubit extends Cubit<FundingState> {
           walletAddressUrl: '',
           rafikiWalletAddress: '',
           amountToAddFund: '',
+          serviceProviderName: '',
         );
   }
 

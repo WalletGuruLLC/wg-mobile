@@ -2,24 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-<<<<<<< HEAD
-=======
-
->>>>>>> PWG-867-app-integrate-remove-quotes
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-<<<<<<< HEAD
-import 'package:wallet_guru/presentation/funding/widget/funding_screen_view.dart';
-=======
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/funding/widgets/funding_item.dart';
 import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/presentation/funding/widgets/card_funding_widget.dart';
 import 'package:wallet_guru/domain/send_payment/models/incoming_payment_model.dart';
 import 'package:wallet_guru/presentation/core/widgets/stripe_separators_widget.dart';
->>>>>>> PWG-867-app-integrate-remove-quotes
 
 class FundingScreenPage extends StatefulWidget {
   const FundingScreenPage({super.key});
@@ -106,6 +98,20 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
                             _groupAndSumPayments(state.incomingPayments!);
                         return Column(
                           children: groupedPayments.entries.map((entry) {
+                            print('groupedPayments');
+                            print('---------------------------------');
+                            print('---------------------------------');
+                            print('---------------------------------');
+                            print('---------------------------------');
+                            print(groupedPayments);
+                            print(groupedPayments);
+                            print(groupedPayments);
+                            print(groupedPayments);
+                            print('---------------------------------');
+                            print('---------------------------------');
+                            print('---------------------------------');
+                            print('---------------------------------');
+                            print('---------------------------------');
                             return Column(
                               children: [
                                 FundingItem(

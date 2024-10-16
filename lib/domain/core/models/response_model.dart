@@ -49,6 +49,7 @@ class Data {
   final bool success;
   final String message;
   final OutgoingPaymentResponse? outgoingPaymentResponse;
+  final LinkedProvider? linkedProvider;
 
   Data({
     required this.user,
@@ -60,6 +61,7 @@ class Data {
     required this.success,
     required this.message,
     required this.outgoingPaymentResponse,
+    required this.linkedProvider,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -99,6 +101,9 @@ class Data {
               json["createOutgoingPayment"] != null
           ? OutgoingPaymentResponse.fromJson(json["createOutgoingPayment"])
           : null,
+      linkedProvider: json['linkedProvider'] != null
+          ? LinkedProvider.fromJson(json['linkedProvider'])
+          : null,
     );
   }
 
@@ -112,6 +117,7 @@ class Data {
         success: false,
         message: '',
         outgoingPaymentResponse: null,
+        linkedProvider: null,
       );
 
   factory Data.withMessage(String message) => Data(
@@ -124,6 +130,7 @@ class Data {
         success: false,
         message: message,
         outgoingPaymentResponse: null,
+        linkedProvider: null,
         //transactionsModel: null,
       );
 
@@ -595,6 +602,42 @@ class IncomingAmount {
       'assetScale': assetScale,
       'assetCode': assetCode,
       'value': value,
+    };
+  }
+}
+
+class LinkedProvider {
+  final String serviceProviderId;
+  final String sessionId;
+  final DateTime vinculationDate;
+  final String walletUrl;
+  final String serviceProviderName;
+
+  LinkedProvider({
+    required this.serviceProviderId,
+    required this.sessionId,
+    required this.vinculationDate,
+    required this.walletUrl,
+    required this.serviceProviderName,
+  });
+
+  factory LinkedProvider.fromJson(Map<String, dynamic> json) {
+    return LinkedProvider(
+      serviceProviderId: json['serviceProviderId'] as String,
+      sessionId: json['sessionId'] as String,
+      vinculationDate: DateTime.parse(json['vinculationDate'] as String),
+      walletUrl: json['walletUrl'] as String,
+      serviceProviderName: json['serviceProviderName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'serviceProviderId': serviceProviderId,
+      'sessionId': sessionId,
+      'vinculationDate': vinculationDate.toIso8601String(),
+      'walletUrl': walletUrl,
+      'serviceProviderName': serviceProviderName,
     };
   }
 }

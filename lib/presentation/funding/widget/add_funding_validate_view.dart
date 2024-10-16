@@ -18,7 +18,6 @@ class AddFundingValidateView extends StatefulWidget {
 class _AddFundingValidateViewState extends State<AddFundingValidateView> {
   final TextEditingController _amountController = TextEditingController();
   late FundingCubit fundingCubit;
-  bool _isButtonEnabled = false;
   bool isChecked = false;
 
   @override
@@ -26,13 +25,6 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
     super.initState();
     fundingCubit = BlocProvider.of<FundingCubit>(context);
     _amountController.addListener(_validateAmount);
-  }
-
-  void _validateAmount() {
-    final amount = double.tryParse(_amountController.text);
-    setState(() {
-      _isButtonEnabled = amount != null && amount > 0;
-    });
   }
 
   @override
@@ -99,6 +91,13 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
 
   void _callCreateFunding() {
     fundingCubit.emitCreateIncomingPayment();
+  }
+
+  void _validateAmount() {
+    final amount = double.tryParse(_amountController.text);
+    setState(() {
+      amount != null && amount > 0;
+    });
   }
 
   // Method to build the successful modal
