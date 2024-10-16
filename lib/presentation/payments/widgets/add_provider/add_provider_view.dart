@@ -44,8 +44,7 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
     return BlocListener<FundingCubit, FundingState>(
       listener: (context, state) {
         if (state.scannedQrStatus is SubmissionSuccess) {
-          fundingCubit.resetFundingEntity();
-          fundingCubit.resetFundingQrStatus();
+          _buildSuccessModal(context);
           GoRouter.of(context)
               .pushReplacementNamed(Routes.addValidateFunds.name);
         } else if (state.scannedQrStatus is SubmissionFailed) {
@@ -110,23 +109,21 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
   void _buildErrorModal(
     BuildContext context,
   ) {
-    final locale = Localizations.localeOf(context);
     final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
-          buttonWidth: locale.languageCode == 'en'
-              ? MediaQuery.of(context).size.width * 0.40
-              : MediaQuery.of(context).size.width * 0.42,
+          buttonText: 'OK',
+          buttonWidth: MediaQuery.of(context).size.width * 0.40,
           isSucefull: false,
           content: Column(
             children: [
               SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.walletNotFoundTitle,
+                text: 'Error',
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
@@ -134,7 +131,7 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
               SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.walletNotFoundText,
+                text: 'An error has ocurred, please try again.',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
@@ -147,6 +144,51 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
             fundingCubit.resetFundingQrStatus();
             Navigator.of(context).pop();
             GoRouter.of(context).goNamed(Routes.addProvider.name);
+          },
+        );
+      },
+    );
+  }
+
+  void _buildSuccessModal(
+    BuildContext context,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          buttonText: 'OK',
+          buttonWidth: MediaQuery.of(context).size.width * 0.40,
+          isSucefull: true,
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: 'New Service Added',
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text:
+                    'You have successfully added a new Provider to your wallet ',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+            ],
+          ),
+          onPressed: () {
+            fundingCubit.resetFundingEntity();
+            fundingCubit.resetFundingQrStatus();
+            Navigator.of(context).pop();
+            GoRouter.of(context).goNamed(Routes.home.name);
           },
         );
       },

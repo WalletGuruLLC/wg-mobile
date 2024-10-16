@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/application/funding/funding_cubit.dart';
+import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/amount_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/presentation/funding/widgets/modals_response.dart';
 
 class AddFundingValidateView extends StatefulWidget {
   const AddFundingValidateView({super.key});
@@ -21,12 +20,15 @@ class AddFundingValidateView extends StatefulWidget {
 class _AddFundingValidateViewState extends State<AddFundingValidateView> {
   final TextEditingController _amountController = TextEditingController();
   late FundingCubit fundingCubit;
+  late ModalHelper modalHelper; // Instancia de ModalHelper
   bool isChecked = false;
 
   @override
   void initState() {
     super.initState();
     fundingCubit = BlocProvider.of<FundingCubit>(context);
+    modalHelper =
+        ModalHelper(context, fundingCubit); // Inicialización de ModalHelper
     _amountController.addListener(_validateAmount);
   }
 
@@ -37,9 +39,12 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
     return BlocListener<FundingCubit, FundingState>(
       listener: (context, state) {
         if (state.createIncomingPayment is SubmissionFailed) {
-          _buildErrorModal();
+          modalHelper.buildErrorModal(); // Llamada al modal de error
         } else if (state.createIncomingPayment is SubmissionSuccess) {
-          GoRouter.of(context).pushReplacementNamed(Routes.home.name);
+          modalHelper.buildSuccessfulModal(
+              _amountController.text,
+              fundingCubit.state.fundingEntity!
+                  .serviceProviderName); // Llamada al modal de éxito
         }
       },
       child: Column(
@@ -102,7 +107,14 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
   }
 
   void _callCreateFunding() {
-    fundingCubit.emitCreateIncomingPayment();
+    double balance = BlocProvider.of<UserCubit>(context).state.balance;
+    if (balance < double.parse(_amountController.text)) {
+      modalHelper
+          .buildInsufficientBalanceModal(); // Llamada al modal de saldo insuficiente
+    } else if (balance >= double.parse(_amountController.text)) {
+      modalHelper.buildConfirmModal(
+          _amountController.text); // Llamada al modal de confirmación
+    }
   }
 
   void _validateAmount() {
@@ -110,41 +122,5 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
     setState(() {
       amount != null && amount > 0;
     });
-  }
-
-  // Method to build the successful modal
-  Future<dynamic> _buildErrorModal() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        double size = MediaQuery.of(context).size.height;
-        return BaseModal(
-          content: Column(
-            children: [
-              SizedBox(height: size * 0.025),
-              TextBase(
-                textAlign: TextAlign.center,
-                text:
-                    "There was an error processing your fund. Please try again.",
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-              SizedBox(height: size * 0.025),
-              TextBase(
-                textAlign: TextAlign.center,
-                text: "Error Code:XXXX",
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-            ],
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        );
-      },
-    );
   }
 }

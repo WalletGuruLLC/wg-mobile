@@ -196,5 +196,14 @@
   "transactionsDetailsDate": "Fecha:",
   "transactionsDetailsTime": "Tiempo:",
   "transactionsDetailsAmount": "Valor:",
-  "transactionsDetailsStatus": "Estado:"
+  "transactionsDetailsStatus": "Estado:",
+  "insufficientFundsTitle": "Fondos Insuficientes",
+  "insufficientFundsText": "Parece que tu saldo es demasiado bajo para completar esta transacción. Por favor, añade fondos a tu cuenta",
+  "confirmFundsTitle": "Confirmar Transferencia de Fondos",
+  "confirmFundsText": "¿Estás seguro de que quieres añadir $",
+  "errorFundsTitle": "Error al Añadir Fondos",
+  "errorFundsText": "Hubo un error al procesar tu solicitud para añadir fondos. Por favor, inténtalo de nuevo",
+  "successFundsTitle": "Fondos Añadidos Exitosamente",
+  "successFundsText": "Has añadido $",
+  "successFundsTextAccount": "exitosamente a"
 }

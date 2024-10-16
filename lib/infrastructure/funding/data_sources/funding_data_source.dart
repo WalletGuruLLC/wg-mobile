@@ -31,6 +31,7 @@ class FundingDataSource {
     };
     var response =
         await HttpDataSource.post(FundingNetwork.linkServerProvider, body);
+    print(body);
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       ResponseModel registerModel = ResponseModel.fromJson(result);

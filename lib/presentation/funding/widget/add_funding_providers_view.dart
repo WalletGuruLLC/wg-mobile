@@ -1,19 +1,23 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/application/funding/funding_cubit.dart';
+import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/amount_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/presentation/funding/widgets/modals_response.dart';
 
 class AddFundingProviderView extends StatefulWidget {
-  const AddFundingProviderView({super.key});
+  String title;
+  AddFundingProviderView({
+    super.key,
+    required this.title,
+  });
 
   @override
   State<AddFundingProviderView> createState() => _AddFundingProviderViewState();
@@ -22,12 +26,17 @@ class AddFundingProviderView extends StatefulWidget {
 class _AddFundingProviderViewState extends State<AddFundingProviderView> {
   final TextEditingController _amountController = TextEditingController();
   late FundingCubit fundingCubit;
+  late SendPaymentCubit sendPaymentCubit;
+  late ModalHelper modalHelper; // Instancia de ModalHelper
   bool isChecked = false;
 
   @override
   void initState() {
     super.initState();
     fundingCubit = BlocProvider.of<FundingCubit>(context);
+    sendPaymentCubit = BlocProvider.of<SendPaymentCubit>(context);
+    modalHelper =
+        ModalHelper(context, fundingCubit); // Inicialización de ModalHelper
     _amountController.addListener(_validateAmount);
   }
 
@@ -45,9 +54,12 @@ class _AddFundingProviderViewState extends State<AddFundingProviderView> {
     return BlocListener<FundingCubit, FundingState>(
       listener: (context, state) {
         if (state.createIncomingPayment is SubmissionFailed) {
-          _buildInsufficientBalanceModal();
+          modalHelper.buildErrorModal(); // Llamada al modal de error
         } else if (state.createIncomingPayment is SubmissionSuccess) {
-          GoRouter.of(context).pushReplacementNamed(Routes.home.name);
+          modalHelper.buildSuccessfulModal(
+            _amountController.text,
+            widget.title,
+          ); // Llamada al modal de éxito
         }
       },
       child: Column(
@@ -67,7 +79,8 @@ class _AddFundingProviderViewState extends State<AddFundingProviderView> {
                     onChanged: (value) {
                       fundingCubit.updateFundingEntity(
                         amountToAddFund: value,
-                        walletAddressUrl: 'https://www.walletaddress.com',
+                        walletAddressUrl:
+                            sendPaymentCubit.state.selectedWalletUrl,
                       );
                     },
                   ),
@@ -113,47 +126,11 @@ class _AddFundingProviderViewState extends State<AddFundingProviderView> {
   void _callCreateFunding() {
     double balance = BlocProvider.of<UserCubit>(context).state.balance;
     if (balance < double.parse(_amountController.text)) {
-      _buildInsufficientBalanceModal();
+      modalHelper
+          .buildInsufficientBalanceModal(); // Llamada al modal de saldo insuficiente
     } else if (balance >= double.parse(_amountController.text)) {
-      fundingCubit.emitCreateIncomingPayment();
+      modalHelper.buildConfirmModal(
+          _amountController.text); // Llamada al modal de confirmación
     }
-  }
-
-  // Method to build the successful modal
-  Future<dynamic> _buildInsufficientBalanceModal() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Size size = MediaQuery.of(context).size;
-        return BaseModal(
-          buttonText: "OK",
-          buttonWidth: size.width * 0.4,
-          content: Column(
-            children: [
-              SizedBox(height: size.height * 0.01),
-              TextBase(
-                textAlign: TextAlign.center,
-                text: "Insufficient Funds",
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-              SizedBox(height: size.height * 0.01),
-              TextBase(
-                textAlign: TextAlign.center,
-                text:
-                    "It looks like your balance is too low to complete this transaction. Please add funds to your account",
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-            ],
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        );
-      },
-    );
   }
 }

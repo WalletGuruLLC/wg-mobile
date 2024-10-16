@@ -51,6 +51,7 @@ class Data {
   final String message;
   final OutgoingPaymentResponse? outgoingPaymentResponse;
   final LinkedProvider? linkedProvider;
+  final List<LinkedProvider>? linkedProviders;
   final IncomingPaymentResponse? incomingPaymentResponse;
   final CancelIncomingPaymentModel? cancelIncomingPayment;
 
@@ -67,6 +68,7 @@ class Data {
     required this.linkedProvider,
     required this.incomingPaymentResponse,
     required this.cancelIncomingPayment,
+    required this.linkedProviders,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -90,6 +92,11 @@ class Data {
               json["incomingPayments"] != null
           ? List<IncomingPaymentModel>.from(json["incomingPayments"]
               .map((x) => IncomingPaymentModel.fromJson(x)))
+          : null,
+      linkedProviders: json.containsKey("linkedProviders") &&
+              json["linkedProviders"] != null
+          ? List<LinkedProvider>.from(json["linkedProviders"]
+              .map((linkedProvider) => LinkedProvider.fromJson(linkedProvider)))
           : null,
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
@@ -133,6 +140,7 @@ class Data {
         outgoingPaymentResponse: null,
         linkedProvider: null,
         incomingPaymentResponse: null,
+        linkedProviders: null,
       );
 
   factory Data.withMessage(String message) => Data(
@@ -149,6 +157,7 @@ class Data {
         linkedProvider: null,
         incomingPaymentResponse: null,
         //transactionsModel: null,
+        linkedProviders: null,
       );
 
   bool hasUser() => user != null;

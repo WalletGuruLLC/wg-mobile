@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
@@ -17,6 +19,7 @@ class AddFundsProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    BlocProvider.of<SendPaymentCubit>(context).selectWalletUrlByTitle(title);
 
     return WalletGuruLayout(
       showSafeArea: true,
@@ -35,7 +38,9 @@ class AddFundsProvider extends StatelessWidget {
           child: SizedBox(
             width: size.width * 0.90,
             height: size.height * 0.80,
-            child: const AddFundingProviderView(),
+            child: AddFundingProviderView(
+              title: title,
+            ),
           ),
         ),
       ],

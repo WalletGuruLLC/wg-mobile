@@ -29,6 +29,8 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
         BlocProvider.of<UserCubit>(context).state.wallet!.walletDb.rafikiId;
     BlocProvider.of<DepositCubit>(context).emitwalletId(walletAddress);
     BlocProvider.of<SendPaymentCubit>(context).emitGetListIncomingPayment();
+    BlocProvider.of<SendPaymentCubit>(context).emitGetListLinkedProviders();
+    BlocProvider.of<SendPaymentCubit>(context).resetSelectedWalletUrl();
     BlocProvider.of<FundingCubit>(context)
         .updateFundingEntity(rafikiWalletAddress: walletAddress);
   }
@@ -101,20 +103,6 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
                             _groupAndSumPayments(state.incomingPayments!);
                         return Column(
                           children: groupedPayments.entries.map((entry) {
-                            print('groupedPayments');
-                            print('---------------------------------');
-                            print('---------------------------------');
-                            print('---------------------------------');
-                            print('---------------------------------');
-                            print(groupedPayments);
-                            print(groupedPayments);
-                            print(groupedPayments);
-                            print(groupedPayments);
-                            print('---------------------------------');
-                            print('---------------------------------');
-                            print('---------------------------------');
-                            print('---------------------------------');
-                            print('---------------------------------');
                             return Column(
                               children: [
                                 FundingItem(
