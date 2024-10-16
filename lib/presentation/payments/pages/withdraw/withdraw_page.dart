@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
+import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/amount_form.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class WithdrawPage extends StatefulWidget {
   const WithdrawPage({
     super.key,
-    required this.title,
+    required this.totalAmount,
+    required this.listProvider,
   });
 
-  final String title;
+  final String totalAmount;
+  final List<String> listProvider;
 
   @override
   State<WithdrawPage> createState() => _WithdrawPageState();
@@ -24,8 +26,6 @@ class WithdrawPage extends StatefulWidget {
 
 class _WithdrawPageState extends State<WithdrawPage> {
   bool isAllFunds = true;
-
-  TextEditingController amountController = TextEditingController();
 
   double availableAmount = 30.0;
 
@@ -42,10 +42,10 @@ class _WithdrawPageState extends State<WithdrawPage> {
         showBottomNavigationBar: false,
         actionAppBar: () {
           GoRouter.of(context).pushReplacementNamed(
-            Routes.payments.name,
+            Routes.fundingScreen.name,
           );
         },
-        pageAppBarTitle: widget.title + l10n.withdrawTitelPage,
+        pageAppBarTitle: l10n.withdrawTitelPage,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
@@ -60,7 +60,8 @@ class _WithdrawPageState extends State<WithdrawPage> {
                     fontSize: size.width * 0.03,
                   ),
                   TextBase(
-                    text: '${availableAmount.toStringAsFixed(2)} USD',
+                    text:
+                        "${toCurrencyString(widget.totalAmount, leadingSymbol: '\$')} USD",
                     fontSize: size.width * 0.07,
                   ),
                   const SizedBox(height: 20),
@@ -83,47 +84,21 @@ class _WithdrawPageState extends State<WithdrawPage> {
                         text: l10n.allFundsWithdraw,
                         fontSize: size.width * 0.035,
                       ),
-                      Radio(
-                        value: false,
-                        groupValue: isAllFunds,
-                        onChanged: (value) {
-                          setState(() {
-                            isAllFunds = value!;
-                          });
-                        },
-                      ),
-                      TextBase(
-                        text: l10n.otherAmountWithdraw,
-                        fontSize: size.width * 0.035,
-                      ),
                     ],
                   ),
-                  if (!isAllFunds)
-                    AmountForm(
-                      controller: amountController,
-                      onChanged: (value) {},
-                    ),
-                  if (isAllFunds)
-                    TextBase(
-                      text: '${availableAmount.toStringAsFixed(2)} USD',
-                      fontSize: size.width * 0.07,
-                    ),
                   SizedBox(
                     height: size.height * 0.4,
                   ),
                   CustomButton(
                     border: Border.all(
                         color: AppColorSchema.of(context).buttonBorderColor),
-                    color: (isAllFunds || amountController.text.isNotEmpty)
+                    color: (isAllFunds)
                         ? AppColorSchema.of(context).buttonColor
                         : Colors.transparent,
                     text: l10n.butonWithdraw,
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
-                    onPressed: () =>
-                        (isAllFunds || amountController.text.isNotEmpty)
-                            ? _buildErrorModal()
-                            : null,
+                    onPressed: () => (isAllFunds) ? _buildErrorModal() : null,
                   )
                 ],
               ),
@@ -132,12 +107,6 @@ class _WithdrawPageState extends State<WithdrawPage> {
         ],
       ),
     );
-  }
-
-  bool isButtonEnabled() {
-    if (isAllFunds || amountController.text.isNotEmpty) return true;
-    double? amount = double.tryParse(amountController.text);
-    return amount != null && amount > 0;
   }
 
   // Method to build the successful modal

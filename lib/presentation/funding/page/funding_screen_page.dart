@@ -31,15 +31,19 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
     BlocProvider.of<SendPaymentCubit>(context).emitGetListIncomingPayment();
   }
 
-  Map<String, double> _groupAndSumPayments(
+  Map<String, ({double totalAmount, List<String> ids})> _groupAndSumPayments(
       List<IncomingPaymentModel> payments) {
-    Map<String, double> groupedPayments = {};
+    Map<String, ({double totalAmount, List<String> ids})> groupedPayments = {};
     for (var payment in payments) {
       if (groupedPayments.containsKey(payment.provider)) {
-        groupedPayments[payment.provider] =
-            groupedPayments[payment.provider]! + payment.incomingAmount.value;
+        var existing = groupedPayments[payment.provider]!;
+        groupedPayments[payment.provider] = (
+          totalAmount: existing.totalAmount + payment.incomingAmount.value,
+          ids: [...existing.ids, payment.id]
+        );
       } else {
-        groupedPayments[payment.provider] = payment.incomingAmount.value;
+        groupedPayments[payment.provider] =
+            (totalAmount: payment.incomingAmount.value, ids: [payment.id]);
       }
     }
     return groupedPayments;
@@ -76,7 +80,9 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
                     listener: (context, state) {
                       if (state.formStatusincomingPayments
                           is SubmissionFailed) {
-                        Text('Error: ${state.customMessage}');
+                        GoRouter.of(context).pushReplacementNamed(
+                          Routes.errorScreen.name,
+                        );
                       }
                     },
                     builder: (context, state) {
@@ -97,7 +103,8 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
                               children: [
                                 FundingItem(
                                   title: entry.key,
-                                  amount: entry.value.toString(),
+                                  amount: entry.value.totalAmount.toString(),
+                                  incomingPaymentIds: entry.value.ids,
                                 ),
                                 const StripeSeparatorsWidget(),
                               ],
