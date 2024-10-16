@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/funding/widget/add_funding_providers_view.dart';
+import 'package:wallet_guru/presentation/funding/widget/add_funding_validate_view.dart';
 
-class AddFundsProvider extends StatelessWidget {
-  const AddFundsProvider({
+class AddFundingValidatePage extends StatelessWidget {
+  const AddFundingValidatePage({
     super.key,
-    required this.title,
   });
-
-  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +25,14 @@ class AddFundsProvider extends StatelessWidget {
           Routes.fundingScreen.name,
         );
       },
-      pageAppBarTitle: title + l10n.addFundsFundingItem,
+      pageAppBarTitle: l10n.addFundsFundingItem,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
           child: SizedBox(
             width: size.width * 0.90,
             height: size.height * 0.80,
-            child: const AddFundingProviderView(),
+            child: const AddFundingValidateView(),
           ),
         ),
       ],

@@ -41,4 +41,24 @@ class FundingDataSource {
           errorModel.customMessageEs);
     }
   }
+
+  Future<ResponseModel> createIncomingPayment(
+      FundingEntity fundingEntity) async {
+    var body = {
+      "walletAddressUrl": fundingEntity.getWalletAddressWithoutQueryParams(),
+      "incomingAmount": fundingEntity.convertAmountToNumber(),
+      "walletAddressId": fundingEntity.rafikiWalletAddress,
+    };
+    var response =
+        await HttpDataSource.post(FundingNetwork.createIncomingPayment, body);
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 201) {
+      ResponseModel registerModel = ResponseModel.fromJson(result);
+      return registerModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
 }

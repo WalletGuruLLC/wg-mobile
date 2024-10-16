@@ -8,4 +8,6 @@ abstract class FundingRepository {
   Future<Either<InvalidData, ResponseModel>> getListOfIncomingPayments();
   Future<Either<InvalidData, ResponseModel>> linkServerProvider(
       FundingEntity fundingEntity);
+  Future<Either<InvalidData, ResponseModel>> createIncomingPayment(
+      FundingEntity fundingEntity);
 }

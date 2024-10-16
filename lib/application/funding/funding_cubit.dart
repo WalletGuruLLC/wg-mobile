@@ -60,6 +60,28 @@ class FundingCubit extends Cubit<FundingState> {
     );
   }
 
+  void emitCreateIncomingPayment() async {
+    emit(state.copyWith(createIncomingPayment: FormSubmitting()));
+    final createIncomingPaymentResponse =
+        await fundingRepository.createIncomingPayment(state.fundingEntity!);
+    createIncomingPaymentResponse.fold(
+      (error) {
+        emit(state.copyWith(
+          createIncomingPayment:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (success) {
+        emit(state.copyWith(
+          createIncomingPayment: SubmissionSuccess(),
+        ));
+      },
+    );
+  }
+
   void resetFundingEntity() {
     emit(
       state.copyWith(
@@ -77,7 +99,7 @@ class FundingCubit extends Cubit<FundingState> {
   void updateFundingEntity({
     String? walletAddressUrl,
     String? rafikiWalletAddress,
-    double? amountToAddFund,
+    String? amountToAddFund,
   }) {
     final updatedFundingEntity = _getOrCreateFundingEntity().copyWith(
       walletAddressUrl: walletAddressUrl,
@@ -88,6 +110,19 @@ class FundingCubit extends Cubit<FundingState> {
           : null,
     );
     emit(state.copyWith(fundingEntity: updatedFundingEntity));
+    _updateFundingButtonVisibility();
+  }
+
+  void _updateFundingButtonVisibility() {
+    final fundingEntity = state.fundingEntity;
+    if (fundingEntity != null &&
+        fundingEntity.walletAddressUrl.isNotEmpty == true &&
+        fundingEntity.rafikiWalletAddress.isNotEmpty == true &&
+        fundingEntity.amountToAddFund.isNotEmpty == true) {
+      emit(state.copyWith(isFundingButtonVisible: true));
+    } else {
+      emit(state.copyWith(isFundingButtonVisible: false));
+    }
   }
 
   FundingEntity _getOrCreateFundingEntity() {
@@ -95,7 +130,7 @@ class FundingCubit extends Cubit<FundingState> {
         FundingEntity(
           walletAddressUrl: '',
           rafikiWalletAddress: '',
-          amountToAddFund: 0,
+          amountToAddFund: '',
         );
   }
 

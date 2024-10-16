@@ -44,7 +44,8 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
     return BlocListener<FundingCubit, FundingState>(
       listener: (context, state) {
         if (state.scannedQrStatus is SubmissionSuccess) {
-          GoRouter.of(context).pushReplacementNamed(Routes.fundingScreen.name);
+          GoRouter.of(context)
+              .pushReplacementNamed(Routes.addValidateFunds.name);
         } else if (state.scannedQrStatus is SubmissionFailed) {
           controller!.resumeCamera();
           setState(() {

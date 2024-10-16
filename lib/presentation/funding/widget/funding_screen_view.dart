@@ -13,7 +13,7 @@ class FundingScreenView extends StatefulWidget {
   const FundingScreenView({super.key});
 
   @override
-  _FundingScreenViewState createState() => _FundingScreenViewState();
+  State<FundingScreenView> createState() => _FundingScreenViewState();
 }
 
 class _FundingScreenViewState extends State<FundingScreenView> {

@@ -3,6 +3,7 @@ import 'package:wallet_guru/presentation/configuration_setting/page/configuratio
 import 'package:wallet_guru/presentation/core/widgets/error/error_screen.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_page.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_provider.dart';
+import 'package:wallet_guru/presentation/funding/page/add_funding_validate_page.dart';
 import 'package:wallet_guru/presentation/funding/page/funding_screen_page.dart';
 
 import 'package:wallet_guru/presentation/home/page/home_page.dart';
@@ -175,5 +176,9 @@ class WalletGuruRouter {
       path: Routes.addProvider.path,
       builder: (context, state) => const AddProviderPage(),
     ),
+    GoRoute(
+        name: Routes.addValidateFunds.name,
+        path: Routes.addValidateFunds.path,
+        builder: (context, state) => const AddFundingValidatePage())
   ];
 }

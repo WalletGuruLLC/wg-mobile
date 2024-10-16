@@ -5,4 +5,6 @@ class FundingNetwork {
       '${Env.baseUrlWallet}/api/v1/wallets-rafiki/list-incoming-payments';
   static final String linkServerProvider =
       '${Env.baseUrlWallet}/api/v1/wallets-rafiki/service-provider-link';
+  static final String createIncomingPayment =
+      '${Env.baseUrlWallet}/api/v1/wallets-rafiki/create/incoming-payment';
 }

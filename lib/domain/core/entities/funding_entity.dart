@@ -1,5 +1,5 @@
 class FundingEntity {
-  final double amountToAddFund;
+  final String amountToAddFund;
   final String rafikiWalletAddress;
   final String walletAddressUrl;
   String? sessionId;
@@ -14,7 +14,7 @@ class FundingEntity {
   }
 
   FundingEntity copyWith({
-    double? amountToAddFund,
+    String? amountToAddFund,
     String? rafikiWalletAddress,
     String? walletAddressUrl,
     String? sessionId,
@@ -29,7 +29,7 @@ class FundingEntity {
   }
 
   FundingEntity.empty()
-      : amountToAddFund = 0,
+      : amountToAddFund = '',
         rafikiWalletAddress = '',
         walletAddressUrl = '',
         sessionId = '';
@@ -50,5 +50,18 @@ class FundingEntity {
   String getWalletAddressWithoutQueryParams() {
     Uri uri = Uri.parse(walletAddressUrl);
     return uri.origin + uri.path;
+  }
+
+  dynamic convertAmountToNumber() {
+    // Eliminar signos de dólar y convertir comas en puntos solo si no hay puntos en la cadena
+    String cleanedAmount = amountToAddFund.replaceAll('\$', '');
+    if (!cleanedAmount.contains('.')) {
+      cleanedAmount = cleanedAmount.replaceAll(',', '.');
+    } else {
+      cleanedAmount = cleanedAmount.replaceAll(',', '');
+    }
+    double result = double.tryParse(cleanedAmount) ?? 0.0;
+    // Verifica si el resultado es un número entero y devuelve como int si es posible
+    return result == result.roundToDouble() ? result.toInt() : result;
   }
 }

@@ -33,4 +33,16 @@ class FundingRepositoryImpl extends FundingRepository {
       return Left(invalidData);
     }
   }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> createIncomingPayment(
+      FundingEntity fundingEntity) async {
+    try {
+      final ResponseModel response =
+          await fundingDataSource.createIncomingPayment(fundingEntity);
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
 }

@@ -8,6 +8,8 @@ class FundingState extends Equatable {
   final FormSubmissionStatus formStatus;
   final String customMessageEs;
   final FundingEntity? fundingEntity;
+  final FormSubmissionStatus createIncomingPayment;
+  final bool isFundingButtonVisible;
 
   const FundingState({
     this.incomingPayments,
@@ -17,6 +19,8 @@ class FundingState extends Equatable {
     this.customMessageEs = '',
     this.scannedQrStatus = const InitialFormStatus(),
     this.fundingEntity,
+    this.createIncomingPayment = const InitialFormStatus(),
+    this.isFundingButtonVisible = false,
   });
 
   FundingState copyWith({
@@ -27,6 +31,8 @@ class FundingState extends Equatable {
     final String? customMessageEs,
     final FormSubmissionStatus? scannedQrStatus,
     final FundingEntity? fundingEntity,
+    FormSubmissionStatus? createIncomingPayment,
+    bool? isFundingButtonVisible,
   }) =>
       FundingState(
         customCode: customCode ?? this.customCode,
@@ -36,6 +42,10 @@ class FundingState extends Equatable {
         scannedQrStatus: scannedQrStatus ?? this.scannedQrStatus,
         incomingPayments: incomingPayments ?? this.incomingPayments,
         fundingEntity: fundingEntity ?? this.fundingEntity,
+        createIncomingPayment:
+            createIncomingPayment ?? this.createIncomingPayment,
+        isFundingButtonVisible:
+            isFundingButtonVisible ?? this.isFundingButtonVisible,
       );
 
   FundingState initialState() => const FundingState(
@@ -46,6 +56,8 @@ class FundingState extends Equatable {
         scannedQrStatus: InitialFormStatus(),
         incomingPayments: null,
         fundingEntity: null,
+        createIncomingPayment: InitialFormStatus(),
+        isFundingButtonVisible: false,
       );
 
   @override
@@ -57,5 +69,7 @@ class FundingState extends Equatable {
         scannedQrStatus,
         incomingPayments,
         fundingEntity,
+        createIncomingPayment,
+        isFundingButtonVisible,
       ];
 }
