@@ -1,3 +1,4 @@
+import 'package:wallet_guru/domain/send_payment/models/cancel_incoming_payment_model.dart';
 import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
 import 'package:wallet_guru/domain/send_payment/models/incoming_payment_model.dart';
 
@@ -51,6 +52,7 @@ class Data {
   final OutgoingPaymentResponse? outgoingPaymentResponse;
   final LinkedProvider? linkedProvider;
   final IncomingPaymentResponse? incomingPaymentResponse;
+  final CancelIncomingPaymentModel? cancelIncomingPayment;
 
   Data({
     required this.user,
@@ -64,6 +66,7 @@ class Data {
     required this.outgoingPaymentResponse,
     required this.linkedProvider,
     required this.incomingPaymentResponse,
+    required this.cancelIncomingPayment,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -99,6 +102,10 @@ class Data {
       token: json["token"] ?? '',
       success: json["success"] ?? false,
       message: json["message"] ?? '',
+      cancelIncomingPayment: json.containsKey("cancelIncomingPayment") &&
+              json["cancelIncomingPayment"] != null
+          ? CancelIncomingPaymentModel.fromJson(json["cancelIncomingPayment"])
+          : null,
       outgoingPaymentResponse: json.containsKey("createOutgoingPayment") &&
               json["createOutgoingPayment"] != null
           ? OutgoingPaymentResponse.fromJson(json["createOutgoingPayment"])
@@ -114,31 +121,34 @@ class Data {
   }
 
   factory Data.initialState() => Data(
-      user: null,
-      transactions: [],
-      incomingPayments: [],
-      wallet: null,
-      rafikiAssets: null,
-      token: '',
-      success: false,
-      message: '',
-      outgoingPaymentResponse: null,
-      linkedProvider: null,
-      incomingPaymentResponse: null);
+        user: null,
+        transactions: [],
+        incomingPayments: [],
+        wallet: null,
+        rafikiAssets: null,
+        token: '',
+        success: false,
+        message: '',
+        cancelIncomingPayment: null,
+        outgoingPaymentResponse: null,
+        linkedProvider: null,
+        incomingPaymentResponse: null,
+      );
 
   factory Data.withMessage(String message) => Data(
-      user: null,
-      transactions: [],
-      incomingPayments: [],
-      wallet: null,
-      rafikiAssets: null,
-      token: '',
-      success: false,
-      message: message,
-      outgoingPaymentResponse: null,
-      linkedProvider: null,
-      incomingPaymentResponse: null
-      //transactionsModel: null,
+        user: null,
+        transactions: [],
+        incomingPayments: [],
+        wallet: null,
+        rafikiAssets: null,
+        token: '',
+        success: false,
+        message: message,
+        cancelIncomingPayment: null,
+        outgoingPaymentResponse: null,
+        linkedProvider: null,
+        incomingPaymentResponse: null,
+        //transactionsModel: null,
       );
 
   bool hasUser() => user != null;
@@ -169,6 +179,7 @@ class User {
   final String stateLocation;
   final String lastName;
   final String firstName;
+  final bool firstFunding;
   final String id;
   final bool active;
   final List<String> createDate;
@@ -194,6 +205,7 @@ class User {
     required this.zipCode,
     required this.lastName,
     required this.firstName,
+    required this.firstFunding,
     required this.id,
     required this.active,
     required this.phone,
@@ -223,6 +235,7 @@ class User {
         zipCode: json["zipCode"] ?? '',
         lastName: json["lastName"] ?? '',
         firstName: json["firstName"] ?? '',
+        firstFunding: json["firstFunding"] ?? false,
         id: json["id"] ?? '',
         active: json["active"] ?? false,
         phone: json["phone"] ?? '',
@@ -255,6 +268,7 @@ class User {
         "zipCode": zipCode,
         "lastName": lastName,
         "firstName": firstName,
+        "firstFunding": firstFunding,
         "id": id,
         "Active": active,
         "Phone": phone,
@@ -284,6 +298,7 @@ class User {
         zipCode: '',
         lastName: '',
         firstName: '',
+        firstFunding: false,
         id: '',
         active: false,
         phone: '',
