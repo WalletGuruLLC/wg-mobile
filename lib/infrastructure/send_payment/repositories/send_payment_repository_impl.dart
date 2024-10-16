@@ -91,8 +91,8 @@ class SendPaymentRepositoryImpl extends SendPaymentRepository {
     }));
 
     return lastResult ??
-        Left(InvalidData('No se procesaron transacciones',
-            'No transactions were processed', ''));
+        Left(InvalidData('','No se procesaron transacciones',
+            'No transactions were processed'));
   }
 
   Future<Either<InvalidData, ResponseModel>> _processSingleCancelIncoming(

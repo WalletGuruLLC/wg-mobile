@@ -147,6 +147,10 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
     );
   }
 
+  void resetFormStatusWithdraw() {
+    emit(state.copyWith(formStatusincomingCancel: const InitialFormStatus()));
+  }
+
   void resetSendPaymentInformation() {
     emit(
       state.copyWith(
@@ -259,6 +263,7 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
     getIncomingPayments.fold(
       (error) {
         emit(state.copyWith(
+          customCode: error.code,
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
           formStatusincomingCancel:
