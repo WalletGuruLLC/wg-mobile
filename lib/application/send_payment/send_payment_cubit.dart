@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:wallet_guru/domain/core/models/response_model.dart';
+import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/application/core/validations/validations.dart';
 import 'package:wallet_guru/domain/core/entities/send_payment_entity.dart';
-import 'package:wallet_guru/domain/core/models/response_model.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/domain/send_payment/models/incoming_payment_model.dart';
 import 'package:wallet_guru/domain/send_payment/repositories/send_payment_repository.dart';
-import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 
 part 'send_payment_state.dart';
 
@@ -249,6 +250,31 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
             formStatusincomingPayments: SubmissionSuccess()));
       },
     );
+  }
+
+  void emitGetListCancelIncoming() async {
+    emit(state.copyWith(formStatusincomingCancel: FormSubmitting()));
+    final getIncomingPayments = await receivePaymentRepository
+        .getListCancelIncoming(state.incomingIds!);
+    getIncomingPayments.fold(
+      (error) {
+        emit(state.copyWith(
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+          formStatusincomingCancel:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+        ));
+      },
+      (incomingCancelList) {
+        emit(state.copyWith(
+            incomingPayments: incomingCancelList.data!.incomingPayments!,
+            formStatusincomingCancel: SubmissionSuccess()));
+      },
+    );
+  }
+
+  void emitAddCancelIncoming(List<String> incomingIds) async {
+    emit(state.copyWith(incomingIds: incomingIds));
   }
 
   double getExchangeRate(String currency) {

@@ -103,4 +103,19 @@ class SendPaymentDataSource {
           errorModel.customMessageEs);
     }
   }
+
+  Future<ResponseModel> getCancelIncoming(String incomingId) async {
+    var response = await HttpDataSource.patch(
+        '${SendPaymentNetwork.baseRafiki}$incomingId/cancel-incoming', {});
+
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel cancelIncomingId = ResponseModel.fromJson(result);
+      return cancelIncomingId;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(errorModel.customCode, errorModel.customMessage,
+          errorModel.customMessageEs);
+    }
+  }
 }

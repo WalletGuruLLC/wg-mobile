@@ -1,6 +1,8 @@
 import 'package:wallet_guru/infrastructure/core/env/env.dart';
 
 class SendPaymentNetwork {
+  static final String baseRafiki =
+      '${Env.baseUrlWallet}/api/v1/wallets-rafiki/';
   static final String verifyWalletExistence =
       '${Env.baseUrlWallet}/api/v1/wallets/exist';
   static final String getWalletInformation =
