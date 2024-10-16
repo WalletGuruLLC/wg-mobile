@@ -6,6 +6,7 @@ import 'package:wallet_guru/application/core/formatter/formatter.dart';
 import 'package:wallet_guru/domain/core/entities/send_payment_entity.dart';
 import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
 import 'package:wallet_guru/infrastructure/send_payment/network/send_payment_network.dart';
+import 'package:wallet_guru/presentation/core/utils/global_error_translations.dart';
 
 class SendPaymentDataSource {
   Future<ResponseModel> verifyWalletExistence(String walletAddress) async {
@@ -19,8 +20,11 @@ class SendPaymentDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -34,8 +38,11 @@ class SendPaymentDataSource {
       return walletInfo;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -56,8 +63,11 @@ class SendPaymentDataSource {
       return transactionResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -69,8 +79,11 @@ class SendPaymentDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -84,8 +97,11 @@ class SendPaymentDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -99,8 +115,11 @@ class SendPaymentDataSource {
       return getListIncomingPayment;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -114,8 +133,11 @@ class SendPaymentDataSource {
       return cancelIncomingId;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 }
