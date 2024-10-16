@@ -164,6 +164,12 @@
   "withdrawFundingItem": "Withdraw",
   "detailsFundingItem": "Details",
   "withdrawTitelPage": "Withdraw Funds",
+  "withdrawTitelPopUp": "Confirm Withdrawal",
+  "withdrawDescriptionPopUp": "Are you sure you want to withdraw?",
+  "withdrawTitelPopUpSuccessful": "Withdrawal Successful",
+  "withdrawDescriptionPopUpSuccessful": "You have successfully withdrawn your funds.",
+  "withdrawTitelPopUpError": "Withdraw Funds Error",
+  "withdrawDescriptionPopUpError": "There was an error processing your withdrawal. Please try again.",
   "homeBalance": "Balance",
   "homeReservedFunds": "Reserved Funds:",
   "homeAvailableFunds": "Available Funds:",
@@ -183,6 +189,13 @@
   "paymentError": "Payment Error",
   "paymentErrorMessage": "There was an error processing your payment. Please try again.",
   "walletNotFoundTitle": "Wallet not found",
-  "walletNotFoundText": "Please check the wallet address and try again"
-
+  "walletNotFoundText": "Please check the wallet address and try again",
+  "transactionsTitlePage": "Transactions",
+  "transactionsDetails": "Transaction Details",
+  "transactionsDetailsPayedTo": "Payed to:",
+  "transactionsDetailsWalletAddress": "Wallet Address:",
+  "transactionsDetailsDate": "Date:",
+  "transactionsDetailsTime": "Time:",
+  "transactionsDetailsAmount": "Amount:",
+  "transactionsDetailsStatus": "Status:"
 }

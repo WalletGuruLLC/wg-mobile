@@ -33,6 +33,7 @@ class ErrorScreen extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             CustomButton(
+              width: size.width * 0.35,
               border: Border.all(
                   color: AppColorSchema.of(context).buttonBorderColor),
               onPressed: () => GoRouter.of(context).go(

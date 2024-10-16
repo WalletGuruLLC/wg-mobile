@@ -163,6 +163,12 @@
   "withdrawFundingItem": "Retirar",
   "detailsFundingItem": "Detalles",
   "withdrawTitelPage": "Retirar fondos",
+  "withdrawTitelPopUp": "Confirmar la retirada",
+  "withdrawDescriptionPopUp": "¿Seguro que quieres retirarte?",
+  "withdrawTitelPopUpSuccessful": "Retirada con éxito",
+  "withdrawDescriptionPopUpSuccessful": "Ha retirado correctamente sus fondos.",
+  "withdrawTitelPopUpError": "Error al retirar fondos",
+  "withdrawDescriptionPopUpError": "Se ha producido un error al procesar su retirada. Por favor, inténtelo de nuevo.",
   "homeBalance": "Balance",
   "homeReservedFunds": "Fondos reservados:",
   "homeAvailableFunds": "Fondos disponibles:",
@@ -182,5 +188,13 @@
   "paymentError":"Error en el pago",
   "paymentErrorMessage": "Ha habido un error para procesar su pago. Intente de nuevo, por favor",
   "walletNotFoundTitle": "Billetera no encontrada",
-  "walletNotFoundText": "Por favor, verifique la dirección de la Billetera e intente nuevamente"
+  "walletNotFoundText": "Por favor, verifique la dirección de la Billetera e intente nuevamente",
+  "transactionsTitlePage": "Transacciones",
+  "transactionsDetails": "Detalles de la transacción",
+  "transactionsDetailsPayedTo": "Pagado a:",
+  "transactionsDetailsWalletAddress": "Dirección de la wallet:",
+  "transactionsDetailsDate": "Fecha:",
+  "transactionsDetailsTime": "Tiempo:",
+  "transactionsDetailsAmount": "Valor:",
+  "transactionsDetailsStatus": "Estado:"
 }

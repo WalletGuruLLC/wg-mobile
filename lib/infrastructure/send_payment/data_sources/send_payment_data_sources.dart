@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:wallet_guru/application/core/formatter/formatter.dart';
-import 'package:wallet_guru/domain/core/entities/send_payment_entity.dart';
 import 'package:wallet_guru/domain/core/models/invalid_data.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
+import 'package:wallet_guru/application/core/formatter/formatter.dart';
+import 'package:wallet_guru/domain/core/entities/send_payment_entity.dart';
 import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
 import 'package:wallet_guru/infrastructure/send_payment/network/send_payment_network.dart';
+import 'package:wallet_guru/presentation/core/utils/global_error_translations.dart';
 
 class SendPaymentDataSource {
   Future<ResponseModel> verifyWalletExistence(String walletAddress) async {
@@ -19,8 +20,11 @@ class SendPaymentDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -34,8 +38,11 @@ class SendPaymentDataSource {
       return walletInfo;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -56,8 +63,11 @@ class SendPaymentDataSource {
       return transactionResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -69,8 +79,11 @@ class SendPaymentDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -84,8 +97,47 @@ class SendPaymentDataSource {
       return signInSignInResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
+    }
+  }
+
+  Future<ResponseModel> getListIncomingPayment() async {
+    var response = await HttpDataSource.get(
+      SendPaymentNetwork.getListIncomingPayment,
+    );
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel getListIncomingPayment = ResponseModel.fromJson(result);
+      return getListIncomingPayment;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
+    }
+  }
+
+  Future<ResponseModel> getCancelIncoming(String incomingId) async {
+    var response = await HttpDataSource.patch(
+        '${SendPaymentNetwork.baseRafiki}$incomingId/cancel-incoming', {});
+
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel cancelIncomingId = ResponseModel.fromJson(result);
+      return cancelIncomingId;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 }
