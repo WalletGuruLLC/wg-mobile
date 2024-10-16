@@ -227,11 +227,12 @@ class UserCubit extends Cubit<UserState> {
           state.copyWith(
             formStatusWallet: SubmissionSuccess(),
             wallet: WalletEntity.fromWallet(updatedUser.data!.wallet!),
-            availableFunds: (walletDB.postedCredits - walletDB.postedDebits) /
-                (pow(10, scale)),
-            balance: (walletDB.postedCredits -
+            availableFunds: (walletDB.postedCredits -
                     (walletDB.pendingDebits + walletDB.postedDebits)) /
                 (pow(10, scale)),
+            balance: (walletDB.postedCredits - walletDB.postedDebits) /
+                (pow(10, scale)),
+            reservedFunds: walletDB.pendingDebits / (pow(10, scale)),
             walletAddress: walletDB.walletAddress,
           ),
         );

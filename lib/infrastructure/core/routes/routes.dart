@@ -42,4 +42,12 @@ class Routes {
   static final addFunding = Route(path: '/addFunding', name: 'addFunding');
   static final forgotPassword =
       Route(path: '/forgotPassword', name: 'forgotPassword');
+  static final errorScreen = Route(path: '/errorScreen', name: 'errorScreen');
+  static final addFundsProvider =
+      Route(path: '/addFundsProvider', name: 'addFundsProvider');
+  static final transactionChart =
+      Route(path: '/transactionChart', name: 'transactionChart');
+  static final addProvider = Route(path: '/addProvider', name: 'addProvider');
+  static final addValidateFunds =
+      Route(path: '/addValidateFunds', name: 'addValidateFunds');
 }

@@ -9,7 +9,7 @@ import 'package:wallet_guru/infrastructure/translations_error/network/translatio
 class TranslationsErrorDataSources {
   Future<List<TranslationErrorModel>> getTranslationsErrors(String lang) async {
     var response = await HttpDataSource.get(
-      "${TranslationsErrorNetwork.getCodesByLanguage}/$lang",
+      "${TranslationsErrorNetwork.getCodesByLanguage}/${lang.toUpperCase()}",
     );
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {

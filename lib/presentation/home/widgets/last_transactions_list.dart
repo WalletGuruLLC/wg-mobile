@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
@@ -34,38 +36,41 @@ class LastTransactionsList extends StatelessWidget {
                 ],
               );
             } else if (state is TransactionLoaded) {
-              final transactions = state.payments
-                  .take(4)
-                  .toList(); // Toma solo las primeras 4 transacciones
+              final transactions = state.payments.take(4).toList();
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ...transactions.map((payment) {
                     return TransactionItem(
-                      title: payment.description,
-                      amount: "\$${payment.value}",
-                      icon: Icons.arrow_circle_up,
+                      title: payment.type,
+                      amount: payment.incomingAmount != null
+                          ? (payment.incomingAmount!.value).toString()
+                          : (payment.receiveAmount!.value).toString(),
                     );
                   }),
                   SizedBox(height: size.height * 0.01),
+                  Visibility(
+                    visible: transactions.isNotEmpty,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () => GoRouter.of(context)
+                            .go(Routes.transactionChart.path),
+                        child: TextBase(
+                          text: l10n.homeSeeMore,
+                          color: Colors.blue,
+                          fontSize: size.width * 0.035,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               );
             } else {
               return const SizedBox();
             }
           },
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            onPressed: () {},
-            child: TextBase(
-              text: l10n.homeSeeMore,
-              color: Colors.blue,
-              fontSize: size.width * 0.035,
-            ),
-          ),
         ),
       ],
     );

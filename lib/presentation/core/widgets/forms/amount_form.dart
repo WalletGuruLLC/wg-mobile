@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/application/core/formatter/formatter.dart';
 import 'package:wallet_guru/presentation/core/styles/input/input_border_style.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/base_text_form_field.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
@@ -27,22 +26,23 @@ class AmountForm extends StatelessWidget {
         InputBorderStyle(
           child: BaseTextFormField(
             controller: controller,
-            keyboardType: TextInputType.number,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             hintText: l10n.enterAmount,
             hintStyle: AppTextStyles.formText,
             onChanged: (value) {
-              final formattedValue = Formatter.formatStringToUsFormat(value!);
               controller?.value = TextEditingValue(
-                text: formattedValue,
-                selection:
-                    TextSelection.collapsed(offset: formattedValue.length),
+                text: value!,
+                selection: TextSelection.collapsed(offset: value.length),
               );
               if (onChanged != null) {
-                onChanged!(formattedValue);
+                onChanged!(value);
               }
             },
             decoration: SpecialDecoration(
               hintText: l10n.enterAmount,
+              prefixText: '\$',
+              prefixStyle: const TextStyle(color: Colors.white),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
             ).decoration,
           ),
         ),

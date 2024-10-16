@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
-import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class WalletGuruAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -24,6 +24,11 @@ class WalletGuruAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    print(size.width);
+    print(size.width);
+    print(size.width);
+    print(size.width);
     return SafeArea(
       top: true,
       child: Padding(
@@ -32,7 +37,10 @@ class WalletGuruAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildNavigateBackButton(context, showSimpleStyle: showSimpleStyle),
-            _buildTitle(title),
+            TextBase(
+              text: title,
+              fontSize: size.width * 0.04,
+            ),
             showSimpleStyle
                 ? _buildEmptyContainer()
                 : _buildFourDotsButton(context),
@@ -41,8 +49,6 @@ class WalletGuruAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  Widget _buildTitle(String text) => TextBase(text: title, fontSize: 18);
 
   Widget _buildNavigateBackButton(
     BuildContext context, {

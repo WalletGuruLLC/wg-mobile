@@ -1,4 +1,6 @@
+import 'package:wallet_guru/domain/send_payment/models/cancel_incoming_payment_model.dart';
 import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
+import 'package:wallet_guru/domain/send_payment/models/incoming_payment_model.dart';
 
 class ResponseModel {
   final int statusCode;
@@ -41,22 +43,32 @@ class ResponseModel {
 class Data {
   final User? user;
   final Wallet? wallet;
-  final TransactionsModel? transactionsModel;
+  final List<TransactionsModel>? transactions;
+  final List<IncomingPaymentModel>? incomingPayments;
   final List<RafikiAssets>? rafikiAssets;
   final String token;
   final bool success;
   final String message;
   final OutgoingPaymentResponse? outgoingPaymentResponse;
+  final LinkedProvider? linkedProvider;
+  final List<LinkedProvider>? linkedProviders;
+  final IncomingPaymentResponse? incomingPaymentResponse;
+  final CancelIncomingPaymentModel? cancelIncomingPayment;
 
   Data({
     required this.user,
     required this.wallet,
-    required this.transactionsModel,
+    required this.transactions,
+    required this.incomingPayments,
     required this.rafikiAssets,
     required this.token,
     required this.success,
     required this.message,
     required this.outgoingPaymentResponse,
+    required this.linkedProvider,
+    required this.incomingPaymentResponse,
+    required this.cancelIncomingPayment,
+    required this.linkedProviders,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -71,9 +83,21 @@ class Data {
 
     return Data(
       user: user,
-      transactionsModel: json["transactions"] == null
-          ? null
-          : TransactionsModel.fromJson(json["transactions"]),
+      transactions: json.containsKey("transactions") &&
+              json["transactions"] != null
+          ? List<TransactionsModel>.from(
+              json["transactions"].map((x) => TransactionsModel.fromJson(x)))
+          : null,
+      incomingPayments: json.containsKey("incomingPayments") &&
+              json["incomingPayments"] != null
+          ? List<IncomingPaymentModel>.from(json["incomingPayments"]
+              .map((x) => IncomingPaymentModel.fromJson(x)))
+          : null,
+      linkedProviders: json.containsKey("linkedProviders") &&
+              json["linkedProviders"] != null
+          ? List<LinkedProvider>.from(json["linkedProviders"]
+              .map((linkedProvider) => LinkedProvider.fromJson(linkedProvider)))
+          : null,
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
           : null,
@@ -85,33 +109,55 @@ class Data {
       token: json["token"] ?? '',
       success: json["success"] ?? false,
       message: json["message"] ?? '',
+      cancelIncomingPayment: json.containsKey("cancelIncomingPayment") &&
+              json["cancelIncomingPayment"] != null
+          ? CancelIncomingPaymentModel.fromJson(json["cancelIncomingPayment"])
+          : null,
       outgoingPaymentResponse: json.containsKey("createOutgoingPayment") &&
               json["createOutgoingPayment"] != null
           ? OutgoingPaymentResponse.fromJson(json["createOutgoingPayment"])
+          : null,
+      linkedProvider: json['linkedProvider'] != null
+          ? LinkedProvider.fromJson(json['linkedProvider'])
+          : null,
+      incomingPaymentResponse: json.containsKey("incomingPaymentResponse") &&
+              json["incomingPaymentResponse"] != null
+          ? IncomingPaymentResponse.fromJson(json["incomingPaymentResponse"])
           : null,
     );
   }
 
   factory Data.initialState() => Data(
         user: null,
+        transactions: [],
+        incomingPayments: [],
         wallet: null,
-        transactionsModel: null,
         rafikiAssets: null,
         token: '',
         success: false,
         message: '',
+        cancelIncomingPayment: null,
         outgoingPaymentResponse: null,
+        linkedProvider: null,
+        incomingPaymentResponse: null,
+        linkedProviders: null,
       );
 
   factory Data.withMessage(String message) => Data(
         user: null,
+        transactions: [],
+        incomingPayments: [],
         wallet: null,
         rafikiAssets: null,
         token: '',
         success: false,
         message: message,
+        cancelIncomingPayment: null,
         outgoingPaymentResponse: null,
-        transactionsModel: null,
+        linkedProvider: null,
+        incomingPaymentResponse: null,
+        //transactionsModel: null,
+        linkedProviders: null,
       );
 
   bool hasUser() => user != null;
@@ -142,6 +188,7 @@ class User {
   final String stateLocation;
   final String lastName;
   final String firstName;
+  final bool firstFunding;
   final String id;
   final bool active;
   final List<String> createDate;
@@ -167,6 +214,7 @@ class User {
     required this.zipCode,
     required this.lastName,
     required this.firstName,
+    required this.firstFunding,
     required this.id,
     required this.active,
     required this.phone,
@@ -196,6 +244,7 @@ class User {
         zipCode: json["zipCode"] ?? '',
         lastName: json["lastName"] ?? '',
         firstName: json["firstName"] ?? '',
+        firstFunding: json["firstFunding"] ?? false,
         id: json["id"] ?? '',
         active: json["active"] ?? false,
         phone: json["phone"] ?? '',
@@ -228,6 +277,7 @@ class User {
         "zipCode": zipCode,
         "lastName": lastName,
         "firstName": firstName,
+        "firstFunding": firstFunding,
         "id": id,
         "Active": active,
         "Phone": phone,
@@ -257,6 +307,7 @@ class User {
         zipCode: '',
         lastName: '',
         firstName: '',
+        firstFunding: false,
         id: '',
         active: false,
         phone: '',
@@ -290,14 +341,12 @@ class Wallet {
 }
 
 class WalletAsset {
-  //final String typename;
   final String code;
   final String id;
   final String liquidity;
   final int scale;
 
   WalletAsset({
-    //required this.typename,
     required this.code,
     required this.id,
     required this.liquidity,
@@ -305,7 +354,6 @@ class WalletAsset {
   });
 
   factory WalletAsset.fromJson(Map<String, dynamic> json) => WalletAsset(
-        //typename: json["__typename"],
         code: json["code"],
         id: json["id"],
         liquidity: json["liquidity"],
@@ -313,7 +361,6 @@ class WalletAsset {
       );
 
   Map<String, dynamic> toJson() => {
-        //"_Typename": typename,
         "code": code,
         "id": id,
         "liquidity": liquidity,
@@ -321,7 +368,6 @@ class WalletAsset {
       };
 
   factory WalletAsset.initialState() => WalletAsset(
-        //typename: '',
         code: '',
         id: '',
         liquidity: '',
@@ -360,7 +406,7 @@ class WalletDb {
 
   factory WalletDb.fromJson(Map<String, dynamic> json) => WalletDb(
         userId: json["userId"],
-        rafikiId: json["rafikiId"],
+        rafikiId: json["rafikiId"] ?? '',
         walletType: json["walletType"],
         postedDebits: json["postedDebits"] ?? 0,
         pendingCredits: json["pendingCredits"] ?? 0,
@@ -523,6 +569,141 @@ class Amount {
       assetCode: json['assetCode'],
       assetScale: json['assetScale'],
       value: json['value'],
+    );
+  }
+}
+
+class IncomingPayment {
+  final String type;
+  final String id;
+  final String walletAddressId;
+  final String state;
+  final IncomingAmount incomingAmount;
+  final DateTime createdAt;
+  final DateTime expiresAt;
+
+  IncomingPayment({
+    required this.type,
+    required this.id,
+    required this.walletAddressId,
+    required this.state,
+    required this.incomingAmount,
+    required this.createdAt,
+    required this.expiresAt,
+  });
+
+  factory IncomingPayment.fromJson(Map<String, dynamic> json) {
+    return IncomingPayment(
+      type: json['type'] ?? '',
+      id: json['id'] ?? '',
+      walletAddressId: json['walletAddressId'] ?? '',
+      state: json['state'] ?? '',
+      incomingAmount: IncomingAmount.fromJson(json['incomingAmount']),
+      createdAt: DateTime.parse(json['createdAt']),
+      expiresAt: DateTime.parse(json['expiresAt']),
+    );
+  }
+}
+
+class IncomingAmount {
+  final String typeName;
+  final int assetScale;
+  final String assetCode;
+  final String value;
+
+  IncomingAmount({
+    required this.typeName,
+    required this.assetScale,
+    required this.assetCode,
+    required this.value,
+  });
+
+  factory IncomingAmount.fromJson(Map<String, dynamic> json) {
+    return IncomingAmount(
+      typeName: json['_typename'] ?? '',
+      assetScale: json['assetScale'] ?? 0,
+      assetCode: json['assetCode'] ?? '',
+      value: json['value'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_typename': typeName,
+      'assetScale': assetScale,
+      'assetCode': assetCode,
+      'value': value,
+    };
+  }
+}
+
+class LinkedProvider {
+  final String serviceProviderId;
+  final String sessionId;
+  final DateTime vinculationDate;
+  final String walletUrl;
+  final String serviceProviderName;
+
+  LinkedProvider({
+    required this.serviceProviderId,
+    required this.sessionId,
+    required this.vinculationDate,
+    required this.walletUrl,
+    required this.serviceProviderName,
+  });
+
+  factory LinkedProvider.fromJson(Map<String, dynamic> json) {
+    return LinkedProvider(
+      serviceProviderId: json['serviceProviderId'] as String,
+      sessionId: json['sessionId'] as String,
+      vinculationDate: DateTime.parse(json['vinculationDate'] as String),
+      walletUrl: json['walletUrl'] as String,
+      serviceProviderName: json['serviceProviderName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'serviceProviderId': serviceProviderId,
+      'sessionId': sessionId,
+      'vinculationDate': vinculationDate.toIso8601String(),
+      'walletUrl': walletUrl,
+      'serviceProviderName': serviceProviderName,
+    };
+  }
+}
+
+class IncomingPaymentResponse {
+  final String serviceProviderId;
+  final String userId;
+  final String incomingPaymentId;
+  final String receiverId;
+  final int createdAt;
+  final int updatedAt;
+  final String id;
+  final bool status;
+
+  IncomingPaymentResponse({
+    required this.serviceProviderId,
+    required this.userId,
+    required this.incomingPaymentId,
+    required this.receiverId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.id,
+    required this.status,
+  });
+
+  factory IncomingPaymentResponse.fromJson(Map<String, dynamic> json) {
+    return IncomingPaymentResponse(
+      serviceProviderId: json["serviceProviderId"],
+      userId: json["userId"],
+      incomingPaymentId: json["incomingPaymentId"],
+      receiverId: json["receiverId"],
+      createdAt: json["createdAt"],
+      updatedAt: json["updatedAt"],
+      id: json["id"],
+      status: json["status"],
     );
   }
 }
