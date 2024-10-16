@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
+import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/payments/widgets/withdraw/withdraw_modal_confirmation.dart';
 
 class WithdrawPage extends StatefulWidget {
   const WithdrawPage({
@@ -25,9 +27,14 @@ class WithdrawPage extends StatefulWidget {
 }
 
 class _WithdrawPageState extends State<WithdrawPage> {
-  bool isAllFunds = true;
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<SendPaymentCubit>(context)
+        .emitAddCancelIncoming(widget.listProvider);
+  }
 
-  double availableAmount = 30.0;
+  bool isAllFunds = true;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +105,16 @@ class _WithdrawPageState extends State<WithdrawPage> {
                     text: l10n.butonWithdraw,
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
-                    onPressed: () => (isAllFunds) ? _buildErrorModal() : null,
+                    onPressed: () => (isAllFunds)
+                        ? showDialog(
+                            context: context,
+                            barrierColor:
+                                AppColorSchema.of(context).modalBarrierColor,
+                            builder: (_) {
+                              return const WithdrawModalConfirmation();
+                            },
+                          )
+                        : null,
                   )
                 ],
               ),
@@ -106,42 +122,6 @@ class _WithdrawPageState extends State<WithdrawPage> {
           ),
         ],
       ),
-    );
-  }
-
-  // Method to build the successful modal
-  Future<dynamic> _buildErrorModal() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        double size = MediaQuery.of(context).size.height;
-        return BaseModal(
-          content: Column(
-            children: [
-              SizedBox(height: size * 0.025),
-              TextBase(
-                textAlign: TextAlign.center,
-                text:
-                    "There was an error processing your fund. Please try again.",
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-              SizedBox(height: size * 0.025),
-              TextBase(
-                textAlign: TextAlign.center,
-                text: "Error Code:XXXX",
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
-              ),
-            ],
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        );
-      },
     );
   }
 }
