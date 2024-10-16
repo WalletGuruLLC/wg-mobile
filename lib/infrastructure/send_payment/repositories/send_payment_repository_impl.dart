@@ -69,4 +69,15 @@ class SendPaymentRepositoryImpl extends SendPaymentRepository {
       return Left(invalidData);
     }
   }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> getListIncomingPayment() async {
+    try {
+      final ResponseModel response =
+          await sendPaymentDataSources.getListIncomingPayment();
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
 }
