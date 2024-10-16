@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/core/validations/validations.dart';
 import 'package:wallet_guru/domain/core/entities/send_payment_entity.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
+import 'package:wallet_guru/domain/send_payment/models/incoming_payment_model.dart';
 import 'package:wallet_guru/domain/send_payment/repositories/send_payment_repository.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
@@ -225,6 +226,27 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
           mxnExchangeRate: asset.rates!.mxn == 0.0 ? 1.0 : asset.rates!.mxn,
           jpyExchangeRate: asset.rates!.jpy == 0.0 ? 1.0 : asset.rates!.jpy,
         ));
+      },
+    );
+  }
+
+  void emitGetListIncomingPayment() async {
+    emit(state.copyWith(formStatusincomingPayments: FormSubmitting()));
+    final getIncomingPayments =
+        await receivePaymentRepository.getListIncomingPayment();
+    getIncomingPayments.fold(
+      (error) {
+        emit(state.copyWith(
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+          formStatusincomingPayments:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+        ));
+      },
+      (incomingPaymentsList) {
+        emit(state.copyWith(
+            incomingPayments: incomingPaymentsList.data!.incomingPayments!,
+            formStatusincomingPayments: SubmissionSuccess()));
       },
     );
   }

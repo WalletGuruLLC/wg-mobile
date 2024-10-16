@@ -10,12 +10,14 @@ class SendPaymentState extends Equatable {
   final bool showPaymentButton;
   final WalletForPaymentEntity? walletForPaymentEntity;
   final List<RafikiAssets>? rafikiAssets;
+  final List<IncomingPaymentModel>? incomingPayments;
   final bool fetchWalletAsset;
   final double? eurExchangeRate;
   final double? usdExchangeRate;
   final double? mxnExchangeRate;
   final double? jpyExchangeRate;
   final FormSubmissionStatus? isWalletExistForm;
+  final FormSubmissionStatus? formStatusincomingPayments;
   final FormSubmissionStatus? isWalletExistQr;
 
   const SendPaymentState({
@@ -28,12 +30,14 @@ class SendPaymentState extends Equatable {
     this.showPaymentButton = false,
     this.walletForPaymentEntity,
     this.rafikiAssets,
+    this.incomingPayments,
     this.fetchWalletAsset = false,
     this.eurExchangeRate,
     this.usdExchangeRate,
     this.mxnExchangeRate,
     this.jpyExchangeRate,
     this.isWalletExistForm = const InitialFormStatus(),
+    this.formStatusincomingPayments = const InitialFormStatus(),
     this.isWalletExistQr = const InitialFormStatus(),
   });
 
@@ -47,12 +51,14 @@ class SendPaymentState extends Equatable {
     bool? showPaymentButton,
     WalletForPaymentEntity? walletForPaymentEntity,
     List<RafikiAssets>? rafikiAssets,
+    List<IncomingPaymentModel>? incomingPayments,
     bool? fetchWalletAsset,
     double? eurExchangeRate,
     double? usdExchangeRate,
     double? mxnExchangeRate,
     double? jpyExchangeRate,
     FormSubmissionStatus? isWalletExistForm,
+    FormSubmissionStatus? formStatusincomingPayments,
     FormSubmissionStatus? isWalletExistQr,
   }) =>
       SendPaymentState(
@@ -66,12 +72,15 @@ class SendPaymentState extends Equatable {
         walletForPaymentEntity:
             walletForPaymentEntity ?? this.walletForPaymentEntity,
         rafikiAssets: rafikiAssets ?? this.rafikiAssets,
+        incomingPayments: incomingPayments ?? this.incomingPayments,
         fetchWalletAsset: fetchWalletAsset ?? this.fetchWalletAsset,
         eurExchangeRate: eurExchangeRate ?? this.eurExchangeRate,
         usdExchangeRate: usdExchangeRate ?? this.usdExchangeRate,
         mxnExchangeRate: mxnExchangeRate ?? this.mxnExchangeRate,
         jpyExchangeRate: jpyExchangeRate ?? this.jpyExchangeRate,
         isWalletExistForm: isWalletExistForm ?? this.isWalletExistForm,
+        formStatusincomingPayments:
+            formStatusincomingPayments ?? this.formStatusincomingPayments,
         isWalletExistQr: isWalletExistQr ?? this.isWalletExistQr,
       );
 
@@ -86,12 +95,14 @@ class SendPaymentState extends Equatable {
         showPaymentButton,
         walletForPaymentEntity,
         rafikiAssets,
+        incomingPayments,
         fetchWalletAsset,
         eurExchangeRate,
         usdExchangeRate,
         mxnExchangeRate,
         jpyExchangeRate,
         isWalletExistForm,
+        formStatusincomingPayments,
         isWalletExistQr,
       ];
 }
