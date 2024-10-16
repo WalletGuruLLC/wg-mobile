@@ -16,7 +16,6 @@ class AddFundsProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
 
     return WalletGuruLayout(
@@ -29,7 +28,7 @@ class AddFundsProvider extends StatelessWidget {
           Routes.fundingScreen.name,
         );
       },
-      pageAppBarTitle: title + l10n.addFundsFundingItem,
+      pageAppBarTitle: title,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/application/funding/funding_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
@@ -28,6 +29,8 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
         BlocProvider.of<UserCubit>(context).state.wallet!.walletDb.rafikiId;
     BlocProvider.of<DepositCubit>(context).emitwalletId(walletAddress);
     BlocProvider.of<SendPaymentCubit>(context).emitGetListIncomingPayment();
+    BlocProvider.of<FundingCubit>(context)
+        .updateFundingEntity(rafikiWalletAddress: walletAddress);
   }
 
   Map<String, ({double totalAmount, List<String> ids})> _groupAndSumPayments(
