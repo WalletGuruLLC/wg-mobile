@@ -272,7 +272,7 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
       },
       (incomingCancelList) {
         emit(state.copyWith(
-            incomingPayments: incomingCancelList.data!.incomingPayments!,
+            //incomingPayments: incomingCancelList.data!.incomingPayments!,
             formStatusincomingCancel: SubmissionSuccess()));
       },
     );
