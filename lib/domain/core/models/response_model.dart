@@ -1,4 +1,5 @@
 import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
+import 'package:wallet_guru/domain/send_payment/models/incoming_payment_model.dart';
 
 class ResponseModel {
   final int statusCode;
@@ -42,6 +43,7 @@ class Data {
   final User? user;
   final Wallet? wallet;
   final List<TransactionsModel>? transactions;
+  final List<IncomingPaymentModel>? incomingPayments;
   final List<RafikiAssets>? rafikiAssets;
   final String token;
   final bool success;
@@ -52,6 +54,7 @@ class Data {
     required this.user,
     required this.wallet,
     required this.transactions,
+    required this.incomingPayments,
     required this.rafikiAssets,
     required this.token,
     required this.success,
@@ -76,6 +79,11 @@ class Data {
           ? List<TransactionsModel>.from(
               json["transactions"].map((x) => TransactionsModel.fromJson(x)))
           : null,
+      incomingPayments: json.containsKey("incomingPayments") &&
+              json["incomingPayments"] != null
+          ? List<IncomingPaymentModel>.from(
+              json["incomingPayments"].map((x) => IncomingPaymentModel.fromJson(x)))
+          : null,
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
           : null,
@@ -97,6 +105,7 @@ class Data {
   factory Data.initialState() => Data(
         user: null,
         transactions: [],
+        incomingPayments: [],
         wallet: null,
         rafikiAssets: null,
         token: '',
@@ -108,6 +117,7 @@ class Data {
   factory Data.withMessage(String message) => Data(
         user: null,
         transactions: [],
+        incomingPayments: [],
         wallet: null,
         rafikiAssets: null,
         token: '',
