@@ -15,4 +15,6 @@ class SendPaymentNetwork {
       '${Env.baseUrlWallet}/api/v1/wallets-rafiki/exchange-rates';
   static final getListIncomingPayment =
       '${Env.baseUrlWallet}/api/v1/wallets-rafiki/list-incoming-payments';
+  static final getLinkedProviders =
+      '${Env.baseUrlWallet}/api/v1/wallets-rafiki/linked-providers';
 }

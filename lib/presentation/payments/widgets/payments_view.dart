@@ -50,7 +50,11 @@ class PaymentsView extends StatelessWidget {
         GradientButton(
           text: l10n.addService,
           imageAsset: Assets.addIcon,
-          onTap: () {},
+          onTap: () {
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.addProvider.name,
+            );
+          },
         ),
       ],
     );

@@ -107,7 +107,7 @@ class SendPaymentDataSource {
 
   Future<ResponseModel> getListIncomingPayment() async {
     var response = await HttpDataSource.get(
-      SendPaymentNetwork.getListIncomingPayment,
+      "${SendPaymentNetwork.getListIncomingPayment}?status=true",
     );
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
@@ -131,6 +131,23 @@ class SendPaymentDataSource {
     if (response.statusCode == 200) {
       ResponseModel cancelIncomingId = ResponseModel.fromJson(result);
       return cancelIncomingId;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
+    }
+  }
+
+  Future<ResponseModel> getLinkedProviders() async {
+    var response =
+        await HttpDataSource.get(SendPaymentNetwork.getLinkedProviders);
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel linkedProviders = ResponseModel.fromJson(result);
+      return linkedProviders;
     } else {
       final errorModel = ResponseModel.fromJson(result);
       throw InvalidData(
