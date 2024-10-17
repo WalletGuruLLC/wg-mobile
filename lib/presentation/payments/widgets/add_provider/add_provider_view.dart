@@ -142,6 +142,7 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
           onPressed: () {
             fundingCubit.resetFundingEntity();
             fundingCubit.resetFundingQrStatus();
+            fundingCubit.resetCreateIncomingPaymentStatus();
             Navigator.of(context).pop();
             GoRouter.of(context).goNamed(Routes.addProvider.name);
           },
@@ -187,6 +188,7 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
           onPressed: () {
             fundingCubit.resetFundingEntity();
             fundingCubit.resetFundingQrStatus();
+            fundingCubit.resetCreateIncomingPaymentStatus();
             Navigator.of(context).pop();
             GoRouter.of(context).goNamed(Routes.home.name);
           },

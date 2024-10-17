@@ -205,5 +205,6 @@
   "errorFundsText": "Hubo un error al procesar tu solicitud para añadir fondos. Por favor, inténtalo de nuevo",
   "successFundsTitle": "Fondos Añadidos Exitosamente",
   "successFundsText": "Has añadido $",
-  "successFundsTextAccount": "exitosamente a"
+  "successFundsTextAccount": "exitosamente a",
+  "add": "Añadir"
 }

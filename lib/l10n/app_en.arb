@@ -206,6 +206,8 @@
   "errorFundsText": "There was an error processing your request to add funds. Please try again",
   "successFundsTitle":"Funds Added Successfully",
   "successFundsText": "You have successfully added $",
-  "successFundsTextAccount": "to"
+  "successFundsTextAccount": "to",
+  "add": "Add"
+
 
 }

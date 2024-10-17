@@ -89,8 +89,8 @@ class ModalHelper {
               CustomButton(
                 width: Localizations.localeOf(context).languageCode == 'en'
                     ? size.height * 0.15
-                    : size.height * 0.19,
-                text: 'Add',
+                    : size.height * 0.16,
+                text: l10n.add,
                 onPressed: () {
                   Navigator.of(context).pop();
                   fundingCubit.emitCreateIncomingPayment();
@@ -101,7 +101,7 @@ class ModalHelper {
                 buttonTextColor: Colors.black,
                 width: Localizations.localeOf(context).languageCode == 'en'
                     ? size.height * 0.15
-                    : size.height * 0.19,
+                    : size.height * 0.16,
                 text: l10n.cancel,
                 onPressed: () {
                   Navigator.of(context).pop();
