@@ -21,7 +21,6 @@ class SplashScreenPage extends StatefulWidget {
 }
 
 class _SplashScreenPageState extends State<SplashScreenPage> {
-  late Timer _timer;
   String _version = '';
 
   @override
@@ -45,12 +44,6 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     setState(() {
       _version = '${info.version}+${info.buildNumber}';
     });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
   }
 
   @override
