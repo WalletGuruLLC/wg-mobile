@@ -80,7 +80,7 @@ class CountriesDataSource {
 class StateDataSource {
   Future<List<LocationState>> getStates({required String countryName}) async {
     final response = await HttpDataSource.get(
-      'https://countriesnow.space/api/v0.1/countries/states/q?country=$countryName',
+      'https://countriesnow.walletguru.co/api/v0.1/countries/states/q?country=$countryName',
     );
     final result = jsonDecode(response.body);
 
@@ -99,7 +99,7 @@ class CitiesDataSource {
     required String countryName,
   }) async {
     final response = await HttpDataSource.get(
-      'https://countriesnow.space/api/v0.1/countries/state/cities/q?country=$countryName&state=$stateName',
+      'https://countriesnow.walletguru.co/api/v0.1/countries/state/cities/q?country=$countryName&state=$stateName',
     );
     final result = jsonDecode(response.body);
 
@@ -114,6 +114,6 @@ class CitiesDataSource {
 
 class GetCountriesNetwork {
   static const String getCountries =
-      //'https://countriesnow.space/api/v0.1/countries/positions';
-      'https://countriesnow.space/api/v0.1/countries/codes';
+      //'https://countriesnow.walletguru.co/api/v0.1/countries/positions';
+      'https://countriesnow.walletguru.co/api/v0.1/countries/codes';
 }

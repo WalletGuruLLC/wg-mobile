@@ -47,7 +47,7 @@ class SecurityModal extends StatelessWidget {
           CustomButton(
             width: Localizations.localeOf(context).languageCode == 'en'
                 ? size * 0.15
-                : size * 0.19,
+                : size * 0.17,
             text: l10n.exit,
             onPressed: () {
               Navigator.of(context).pop();
@@ -62,7 +62,7 @@ class SecurityModal extends StatelessWidget {
             buttonTextColor: Colors.black,
             width: Localizations.localeOf(context).languageCode == 'en'
                 ? size * 0.15
-                : size * 0.19,
+                : size * 0.17,
             text: l10n.cancel,
             onPressed: () {
               Navigator.of(context).pop();

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:wallet_guru/domain/core/models/response_model.dart';
@@ -257,7 +258,7 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
   }
 
   void emitGetListLinkedProviders() async {
-    emit(state.copyWith(formStatusincomingPayments: FormSubmitting()));
+    emit(state.copyWith(formStatusLinkedProviders: FormSubmitting()));
     final getIncomingPayments =
         await receivePaymentRepository.getLinkedProviders();
     getIncomingPayments.fold(
@@ -265,14 +266,14 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
         emit(state.copyWith(
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
-          formStatusincomingPayments:
+          formStatusLinkedProviders:
               SubmissionFailed(exception: Exception(error.messageEn)),
         ));
       },
       (incomingPaymentsList) {
         emit(state.copyWith(
             linkedProviders: incomingPaymentsList.data!.linkedProviders!,
-            formStatusincomingPayments: SubmissionSuccess()));
+            formStatusLinkedProviders: SubmissionSuccess()));
       },
     );
   }
@@ -368,5 +369,9 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
 
   void resetSelectedWalletUrl() {
     emit(state.copyWith(selectedWalletUrl: ''));
+  }
+
+  void resetFormStatusincomingPayments() {
+    emit(state.copyWith(formStatusincomingPayments: const InitialFormStatus()));
   }
 }
