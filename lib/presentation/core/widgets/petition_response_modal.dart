@@ -52,7 +52,7 @@ class PetitionResponseModal extends StatelessWidget {
             TextBase(
               textAlign: TextAlign.center,
               text: errorCode!,
-              fontSize: 14,
+              fontSize: 10,
               fontWeight: FontWeight.w400,
               color: AppColorSchema.of(context).secondaryText,
             ),

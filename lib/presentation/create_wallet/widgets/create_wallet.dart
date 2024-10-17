@@ -328,7 +328,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
               TextBase(
                 textAlign: TextAlign.center,
                 text: 'Error Code: $codeError',
-                fontSize: 14,
+                fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),

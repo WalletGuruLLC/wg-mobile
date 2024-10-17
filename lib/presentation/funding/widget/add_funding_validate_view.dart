@@ -39,7 +39,10 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
     return BlocListener<FundingCubit, FundingState>(
       listener: (context, state) {
         if (state.createIncomingPayment is SubmissionFailed) {
-          modalHelper.buildErrorModal(); // Llamada al modal de error
+          modalHelper.buildErrorModal(
+              state.customMessage,
+              state.customMessageEs,
+              state.customCode); // Llamada al modal de error
         } else if (state.createIncomingPayment is SubmissionSuccess) {
           modalHelper.buildSuccessfulModal(
               _amountController.text,

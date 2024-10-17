@@ -100,6 +100,12 @@ class FundingCubit extends Cubit<FundingState> {
     );
   }
 
+  void resetCreateIncomingPaymentStatus() {
+    emit(
+      state.copyWith(createIncomingPayment: const InitialFormStatus()),
+    );
+  }
+
   void updateFundingEntity({
     String? walletAddressUrl,
     String? rafikiWalletAddress,

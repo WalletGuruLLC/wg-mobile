@@ -89,8 +89,8 @@ class ModalHelper {
               CustomButton(
                 width: Localizations.localeOf(context).languageCode == 'en'
                     ? size.height * 0.15
-                    : size.height * 0.19,
-                text: 'Add',
+                    : size.height * 0.16,
+                text: l10n.add,
                 onPressed: () {
                   Navigator.of(context).pop();
                   fundingCubit.emitCreateIncomingPayment();
@@ -101,7 +101,7 @@ class ModalHelper {
                 buttonTextColor: Colors.black,
                 width: Localizations.localeOf(context).languageCode == 'en'
                     ? size.height * 0.15
-                    : size.height * 0.19,
+                    : size.height * 0.16,
                 text: l10n.cancel,
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -114,9 +114,13 @@ class ModalHelper {
     );
   }
 
-  Future<dynamic> buildErrorModal() {
+  Future<dynamic> buildErrorModal(
+      String descriptionEn, String descriptionEs, String codeError) {
     final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
+    final locale = Localizations.localeOf(context);
+    String description =
+        locale.languageCode == 'en' ? descriptionEn : descriptionEs;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -136,8 +140,16 @@ class ModalHelper {
               SizedBox(height: size.height * 0.01),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.errorFundsText,
+                text: description,
                 fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size.height * 0.01),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: codeError,
+                fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),

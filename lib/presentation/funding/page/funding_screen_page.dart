@@ -25,14 +25,12 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
   @override
   void initState() {
     super.initState();
-    String walletAddress =
-        BlocProvider.of<UserCubit>(context).state.wallet!.walletDb.rafikiId;
-    BlocProvider.of<DepositCubit>(context).emitwalletId(walletAddress);
+
+    BlocProvider.of<FundingCubit>(context).resetFundingQrStatus();
+    BlocProvider.of<FundingCubit>(context).resetCreateIncomingPaymentStatus();
     BlocProvider.of<SendPaymentCubit>(context).emitGetListIncomingPayment();
     BlocProvider.of<SendPaymentCubit>(context).emitGetListLinkedProviders();
     BlocProvider.of<SendPaymentCubit>(context).resetSelectedWalletUrl();
-    BlocProvider.of<FundingCubit>(context)
-        .updateFundingEntity(rafikiWalletAddress: walletAddress);
   }
 
   Map<String, ({double totalAmount, List<String> ids})> _groupAndSumPayments(
@@ -99,6 +97,17 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
                         );
                       } else if (state.formStatusincomingPayments
                           is SubmissionSuccess) {
+                        String walletAddress =
+                            BlocProvider.of<UserCubit>(context)
+                                .state
+                                .wallet!
+                                .walletDb
+                                .rafikiId;
+                        BlocProvider.of<DepositCubit>(context)
+                            .emitwalletId(walletAddress);
+                        BlocProvider.of<FundingCubit>(context)
+                            .updateFundingEntity(
+                                rafikiWalletAddress: walletAddress);
                         final groupedPayments =
                             _groupAndSumPayments(state.incomingPayments!);
                         return Column(

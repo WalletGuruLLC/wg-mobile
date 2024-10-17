@@ -23,6 +23,7 @@ class SendPaymentState extends Equatable {
   final FormSubmissionStatus? isWalletExistQr;
   final List<LinkedProvider>? linkedProviders;
   final String selectedWalletUrl;
+  final FormSubmissionStatus? formStatusLinkedProviders;
 
   const SendPaymentState({
     this.sendPaymentEntity,
@@ -47,6 +48,7 @@ class SendPaymentState extends Equatable {
     this.isWalletExistQr = const InitialFormStatus(),
     this.linkedProviders,
     this.selectedWalletUrl = '',
+    this.formStatusLinkedProviders = const InitialFormStatus(),
   });
 
   SendPaymentState copyWith({
@@ -72,6 +74,7 @@ class SendPaymentState extends Equatable {
     FormSubmissionStatus? isWalletExistQr,
     List<LinkedProvider>? linkedProviders,
     String? selectedWalletUrl,
+    FormSubmissionStatus? formStatusLinkedProviders,
   }) =>
       SendPaymentState(
         formStatus: formStatus ?? this.formStatus,
@@ -99,6 +102,8 @@ class SendPaymentState extends Equatable {
         isWalletExistQr: isWalletExistQr ?? this.isWalletExistQr,
         linkedProviders: linkedProviders ?? this.linkedProviders,
         selectedWalletUrl: selectedWalletUrl ?? this.selectedWalletUrl,
+        formStatusLinkedProviders:
+            formStatusLinkedProviders ?? this.formStatusLinkedProviders,
       );
 
   @override
@@ -126,5 +131,6 @@ class SendPaymentState extends Equatable {
         isWalletExistQr,
         linkedProviders,
         selectedWalletUrl,
+        formStatusLinkedProviders,
       ];
 }

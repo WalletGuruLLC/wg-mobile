@@ -43,7 +43,8 @@ class LoginDataSource {
     if (response.statusCode == 200) {
       ResponseModel userAuthenticationResponse = ResponseModel.fromJson(result);
       storage.setString('Basic', userAuthenticationResponse.data!.token);
-      storage.setBool('firstFunding', userAuthenticationResponse.data!.user!.firstFunding);
+      storage.setBool(
+          'firstFunding', userAuthenticationResponse.data!.user!.firstFunding);
 
       return userAuthenticationResponse;
     } else {
@@ -111,8 +112,11 @@ class LoginDataSource {
       return forgotPasswordResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 
@@ -133,8 +137,11 @@ class LoginDataSource {
       return changePasswordResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
-      throw InvalidData(errorModel.customCode, errorModel.customMessage,
-          errorModel.customMessageEs);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
     }
   }
 }
