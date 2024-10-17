@@ -100,4 +100,16 @@ class _$Injector extends Injector {
       ..registerFactory<DepositRepository>((c) => DepositRepositoryImpl(
           depositDataSource: c.resolve<DepositDataSource>()));
   }
+
+  @override
+  void _configurePushNotificationFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => FirebaseMessagingDatasource())
+      ..registerFactory<PushNotificationRepository>((c) =>
+          PushNotificationRepositoryImpl(
+              c.resolve<FirebaseMessagingDatasource>()))
+      ..registerFactory((c) =>
+          InitializePushNotifications(c.resolve<PushNotificationRepository>()));
+  }
 }
