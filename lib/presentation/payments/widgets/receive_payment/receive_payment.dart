@@ -66,18 +66,9 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
       final result = await ImageGallerySaver.saveImage(pngBytes, quality: 100);
       // Notifica al usuario sobre el resultado
       if (result != null && result['isSuccess'] == true) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('QR Code guardado en la galería')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al guardar el QR Code')),
-        );
-      }
+      } else {}
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al descargar el QR: $e')),
-      );
+      print('error $e');
     }
   }
 
