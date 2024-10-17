@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallet_guru/application/push_notifications/push_notification_cubit.dart';
 
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/application/login/login_cubit.dart';
@@ -52,6 +53,9 @@ class WalletGuruStateProvider extends StatelessWidget {
       ),
       BlocProvider.value(
         value: DepositCubit(),
+      ),
+      BlocProvider.value(
+        value: PushNotificationCubit(),
       ),
     ], child: child);
   }
