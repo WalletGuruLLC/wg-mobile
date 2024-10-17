@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:wallet_guru/domain/core/models/response_model.dart';
@@ -256,6 +257,27 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
     );
   }
 
+  void emitGetListLinkedProviders() async {
+    emit(state.copyWith(formStatusLinkedProviders: FormSubmitting()));
+    final getIncomingPayments =
+        await receivePaymentRepository.getLinkedProviders();
+    getIncomingPayments.fold(
+      (error) {
+        emit(state.copyWith(
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+          formStatusLinkedProviders:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+        ));
+      },
+      (incomingPaymentsList) {
+        emit(state.copyWith(
+            linkedProviders: incomingPaymentsList.data!.linkedProviders!,
+            formStatusLinkedProviders: SubmissionSuccess()));
+      },
+    );
+  }
+
   void emitGetListCancelIncoming() async {
     emit(state.copyWith(formStatusincomingCancel: FormSubmitting()));
     final getIncomingPayments = await receivePaymentRepository
@@ -331,5 +353,25 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
         ));
       },
     );
+  }
+
+  void selectWalletUrlByTitle(String title) {
+    final linkedProvider = state.linkedProviders
+        ?.firstWhere((provider) => provider.serviceProviderName == title);
+
+    if (linkedProvider != null) {
+      emit(state.copyWith(selectedWalletUrl: linkedProvider.walletUrl));
+    } else {
+      // Manejar el caso en que no se encuentra el proveedor
+      emit(state.copyWith(selectedWalletUrl: null));
+    }
+  }
+
+  void resetSelectedWalletUrl() {
+    emit(state.copyWith(selectedWalletUrl: ''));
+  }
+
+  void resetFormStatusincomingPayments() {
+    emit(state.copyWith(formStatusincomingPayments: const InitialFormStatus()));
   }
 }

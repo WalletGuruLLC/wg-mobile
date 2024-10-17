@@ -65,7 +65,7 @@ class FundingItem extends StatelessWidget {
                               GoRouter.of(context).go(
                                 Routes.addFundsProvider.path,
                                 extra: {
-                                  "title": "Sabbatical ",
+                                  "title": title,
                                 },
                               );
                             },

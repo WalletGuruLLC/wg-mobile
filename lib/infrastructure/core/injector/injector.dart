@@ -33,6 +33,7 @@ abstract class Injector {
     _configureSettingsrModule();
     _configureSendPaymentModule();
     _configureTransactionsModule();
+    _configureFundingModule();
     _configureDepositModule();
     _configurePushNotificationModule();
   }
@@ -68,15 +69,20 @@ abstract class Injector {
   void _configureSendPaymentModule() {
     _configureSendPaymentFactories();
   }
-  
+
   void _configureTransactionsModule() {
     _configureTransactionsFactories();
   }
+
   void _configureDepositModule() {
     _configureDepositFactories();
   }
   void _configurePushNotificationModule() {
     _configurePushNotificationFactories();
+  }
+
+  void _configureFundingModule() {
+    _configureFundingFactories();
   }
 
   @Register.factory(RegisterDataSource)
@@ -111,11 +117,15 @@ abstract class Injector {
   @Register.factory(SendPaymentDataSource)
   @Register.factory(SendPaymentRepository, from: SendPaymentRepositoryImpl)
   void _configureSendPaymentFactories();
-  
+
   @Register.factory(TransactionDataSource)
   @Register.factory(TransactionRepository, from: TransactionRepositoryImpl)
   void _configureTransactionsFactories();
-  
+
+  @Register.factory(FundingDataSource)
+  @Register.factory(FundingRepository, from: FundingRepositoryImpl)
+  void _configureFundingFactories();
+
   @Register.factory(DepositDataSource)
   @Register.factory(DepositRepository, from: DepositRepositoryImpl)
   void _configureDepositFactories();

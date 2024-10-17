@@ -15,4 +15,5 @@ abstract class SendPaymentRepository {
   Future<Either<InvalidData, ResponseModel>> getListIncomingPayment();
   Future<Either<InvalidData, ResponseModel>> getListCancelIncoming(
       List<String> incomingIds);
+  Future<Either<InvalidData, ResponseModel>> getLinkedProviders();
 }

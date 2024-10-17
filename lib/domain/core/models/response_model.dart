@@ -50,6 +50,9 @@ class Data {
   final bool success;
   final String message;
   final OutgoingPaymentResponse? outgoingPaymentResponse;
+  final LinkedProvider? linkedProvider;
+  final List<LinkedProvider>? linkedProviders;
+  final IncomingPaymentResponse? incomingPaymentResponse;
   final CancelIncomingPaymentModel? cancelIncomingPayment;
 
   Data({
@@ -62,7 +65,10 @@ class Data {
     required this.success,
     required this.message,
     required this.outgoingPaymentResponse,
+    required this.linkedProvider,
+    required this.incomingPaymentResponse,
     required this.cancelIncomingPayment,
+    required this.linkedProviders,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -87,6 +93,11 @@ class Data {
           ? List<IncomingPaymentModel>.from(json["incomingPayments"]
               .map((x) => IncomingPaymentModel.fromJson(x)))
           : null,
+      linkedProviders: json.containsKey("linkedProviders") &&
+              json["linkedProviders"] != null
+          ? List<LinkedProvider>.from(json["linkedProviders"]
+              .map((linkedProvider) => LinkedProvider.fromJson(linkedProvider)))
+          : null,
       wallet: json.containsKey("wallet") && json["wallet"] != null
           ? Wallet.fromJson(json["wallet"])
           : null,
@@ -106,6 +117,13 @@ class Data {
               json["createOutgoingPayment"] != null
           ? OutgoingPaymentResponse.fromJson(json["createOutgoingPayment"])
           : null,
+      linkedProvider: json['linkedProvider'] != null
+          ? LinkedProvider.fromJson(json['linkedProvider'])
+          : null,
+      incomingPaymentResponse: json.containsKey("incomingPaymentResponse") &&
+              json["incomingPaymentResponse"] != null
+          ? IncomingPaymentResponse.fromJson(json["incomingPaymentResponse"])
+          : null,
     );
   }
 
@@ -120,6 +138,9 @@ class Data {
         message: '',
         cancelIncomingPayment: null,
         outgoingPaymentResponse: null,
+        linkedProvider: null,
+        incomingPaymentResponse: null,
+        linkedProviders: null,
       );
 
   factory Data.withMessage(String message) => Data(
@@ -133,7 +154,10 @@ class Data {
         message: message,
         cancelIncomingPayment: null,
         outgoingPaymentResponse: null,
+        linkedProvider: null,
+        incomingPaymentResponse: null,
         //transactionsModel: null,
+        linkedProviders: null,
       );
 
   bool hasUser() => user != null;
@@ -545,6 +569,141 @@ class Amount {
       assetCode: json['assetCode'],
       assetScale: json['assetScale'],
       value: json['value'],
+    );
+  }
+}
+
+class IncomingPayment {
+  final String type;
+  final String id;
+  final String walletAddressId;
+  final String state;
+  final IncomingAmount incomingAmount;
+  final DateTime createdAt;
+  final DateTime expiresAt;
+
+  IncomingPayment({
+    required this.type,
+    required this.id,
+    required this.walletAddressId,
+    required this.state,
+    required this.incomingAmount,
+    required this.createdAt,
+    required this.expiresAt,
+  });
+
+  factory IncomingPayment.fromJson(Map<String, dynamic> json) {
+    return IncomingPayment(
+      type: json['type'] ?? '',
+      id: json['id'] ?? '',
+      walletAddressId: json['walletAddressId'] ?? '',
+      state: json['state'] ?? '',
+      incomingAmount: IncomingAmount.fromJson(json['incomingAmount']),
+      createdAt: DateTime.parse(json['createdAt']),
+      expiresAt: DateTime.parse(json['expiresAt']),
+    );
+  }
+}
+
+class IncomingAmount {
+  final String typeName;
+  final int assetScale;
+  final String assetCode;
+  final String value;
+
+  IncomingAmount({
+    required this.typeName,
+    required this.assetScale,
+    required this.assetCode,
+    required this.value,
+  });
+
+  factory IncomingAmount.fromJson(Map<String, dynamic> json) {
+    return IncomingAmount(
+      typeName: json['_typename'] ?? '',
+      assetScale: json['assetScale'] ?? 0,
+      assetCode: json['assetCode'] ?? '',
+      value: json['value'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_typename': typeName,
+      'assetScale': assetScale,
+      'assetCode': assetCode,
+      'value': value,
+    };
+  }
+}
+
+class LinkedProvider {
+  final String serviceProviderId;
+  final String sessionId;
+  final DateTime vinculationDate;
+  final String walletUrl;
+  final String serviceProviderName;
+
+  LinkedProvider({
+    required this.serviceProviderId,
+    required this.sessionId,
+    required this.vinculationDate,
+    required this.walletUrl,
+    required this.serviceProviderName,
+  });
+
+  factory LinkedProvider.fromJson(Map<String, dynamic> json) {
+    return LinkedProvider(
+      serviceProviderId: json['serviceProviderId'] as String,
+      sessionId: json['sessionId'] as String,
+      vinculationDate: DateTime.parse(json['vinculationDate'] as String),
+      walletUrl: json['walletUrl'] as String,
+      serviceProviderName: json['serviceProviderName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'serviceProviderId': serviceProviderId,
+      'sessionId': sessionId,
+      'vinculationDate': vinculationDate.toIso8601String(),
+      'walletUrl': walletUrl,
+      'serviceProviderName': serviceProviderName,
+    };
+  }
+}
+
+class IncomingPaymentResponse {
+  final String serviceProviderId;
+  final String userId;
+  final String incomingPaymentId;
+  final String receiverId;
+  final int createdAt;
+  final int updatedAt;
+  final String id;
+  final bool status;
+
+  IncomingPaymentResponse({
+    required this.serviceProviderId,
+    required this.userId,
+    required this.incomingPaymentId,
+    required this.receiverId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.id,
+    required this.status,
+  });
+
+  factory IncomingPaymentResponse.fromJson(Map<String, dynamic> json) {
+    return IncomingPaymentResponse(
+      serviceProviderId: json["serviceProviderId"],
+      userId: json["userId"],
+      incomingPaymentId: json["incomingPaymentId"],
+      receiverId: json["receiverId"],
+      createdAt: json["createdAt"],
+      updatedAt: json["updatedAt"],
+      id: json["id"],
+      status: json["status"],
     );
   }
 }

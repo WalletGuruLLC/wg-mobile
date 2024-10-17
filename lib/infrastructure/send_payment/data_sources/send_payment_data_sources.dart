@@ -140,4 +140,21 @@ class SendPaymentDataSource {
       );
     }
   }
+
+  Future<ResponseModel> getLinkedProviders() async {
+    var response =
+        await HttpDataSource.get(SendPaymentNetwork.getLinkedProviders);
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel linkedProviders = ResponseModel.fromJson(result);
+      return linkedProviders;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
+    }
+  }
 }

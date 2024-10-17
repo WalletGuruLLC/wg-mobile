@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:wallet_guru/application/funding/funding_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
@@ -25,25 +25,29 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
   @override
   void initState() {
     super.initState();
-    String walletAddress =
-        BlocProvider.of<UserCubit>(context).state.wallet!.walletDb.rafikiId;
-    BlocProvider.of<DepositCubit>(context).emitwalletId(walletAddress);
+
+    BlocProvider.of<FundingCubit>(context).resetFundingQrStatus();
+    BlocProvider.of<FundingCubit>(context).resetCreateIncomingPaymentStatus();
     BlocProvider.of<SendPaymentCubit>(context).emitGetListIncomingPayment();
+    BlocProvider.of<SendPaymentCubit>(context).emitGetListLinkedProviders();
+    BlocProvider.of<SendPaymentCubit>(context).resetSelectedWalletUrl();
   }
 
   Map<String, ({double totalAmount, List<String> ids})> _groupAndSumPayments(
       List<IncomingPaymentModel> payments) {
     Map<String, ({double totalAmount, List<String> ids})> groupedPayments = {};
     for (var payment in payments) {
-      if (groupedPayments.containsKey(payment.provider)) {
-        var existing = groupedPayments[payment.provider]!;
-        groupedPayments[payment.provider] = (
-          totalAmount: existing.totalAmount + payment.incomingAmount.value,
-          ids: [...existing.ids, payment.id]
-        );
-      } else {
-        groupedPayments[payment.provider] =
-            (totalAmount: payment.incomingAmount.value, ids: [payment.id]);
+      if (payment.incomingAmount.value > 0) {
+        if (groupedPayments.containsKey(payment.provider)) {
+          var existing = groupedPayments[payment.provider]!;
+          groupedPayments[payment.provider] = (
+            totalAmount: existing.totalAmount + payment.incomingAmount.value,
+            ids: [...existing.ids, payment.id]
+          );
+        } else {
+          groupedPayments[payment.provider] =
+              (totalAmount: payment.incomingAmount.value, ids: [payment.id]);
+        }
       }
     }
     return groupedPayments;
@@ -95,6 +99,17 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
                         );
                       } else if (state.formStatusincomingPayments
                           is SubmissionSuccess) {
+                        String walletAddress =
+                            BlocProvider.of<UserCubit>(context)
+                                .state
+                                .wallet!
+                                .walletDb
+                                .rafikiId;
+                        BlocProvider.of<DepositCubit>(context)
+                            .emitwalletId(walletAddress);
+                        BlocProvider.of<FundingCubit>(context)
+                            .updateFundingEntity(
+                                rafikiWalletAddress: walletAddress);
                         final groupedPayments =
                             _groupAndSumPayments(state.incomingPayments!);
                         return Column(

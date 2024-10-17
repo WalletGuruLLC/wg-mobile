@@ -43,7 +43,8 @@ class LoginDataSource {
     if (response.statusCode == 200) {
       ResponseModel userAuthenticationResponse = ResponseModel.fromJson(result);
       storage.setString('Basic', userAuthenticationResponse.data!.token);
-      storage.setBool('firstFunding', userAuthenticationResponse.data!.user!.firstFunding);
+      storage.setBool(
+          'firstFunding', userAuthenticationResponse.data!.user!.firstFunding);
 
       return userAuthenticationResponse;
     } else {
@@ -87,6 +88,53 @@ class LoginDataSource {
       ResponseModel logOutResponseModel = ResponseModel.fromJson(result);
       HttpDataSource.cleanHeardes();
       return logOutResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
+    }
+  }
+
+  Future<ResponseModel> forgotPassword(String email) async {
+    var response = await HttpDataSource.post(
+      LoginNetwork.forgotPassword,
+      {
+        "email": email,
+      },
+    );
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel forgotPasswordResponseModel =
+          ResponseModel.fromJson(result);
+      return forgotPasswordResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
+    }
+  }
+
+  Future<ResponseModel> changePassword(
+      String email, String otp, String newPassword) async {
+    var response = await HttpDataSource.post(
+      LoginNetwork.changePassword,
+      {
+        "email": email,
+        "confirmationCode": otp,
+        "newPassword": newPassword,
+      },
+    );
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel changePasswordResponseModel =
+          ResponseModel.fromJson(result);
+      return changePasswordResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
       throw InvalidData(
