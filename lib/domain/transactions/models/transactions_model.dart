@@ -66,7 +66,7 @@ class TransactionsModel {
       receiveAmount: json["receiveAmount"] == null
           ? null
           : Amount.fromJson(json["receiveAmount"]),
-      createdAt: DateTime.parse(json["createdAt"]),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(json["createdAt"]),
       incomingPaymentId: json["incomingPaymentId"],
       incomingAmount: json["incomingAmount"] == null
           ? null
@@ -101,7 +101,7 @@ class Amount {
   });
 
   factory Amount.fromJson(Map<String, dynamic> json) => Amount(
-        typename: json["_Typename"],
+        typename: json["typename"],
         assetScale: json["assetScale"],
         assetCode: json["assetCode"],
         value: json["value"] != null
