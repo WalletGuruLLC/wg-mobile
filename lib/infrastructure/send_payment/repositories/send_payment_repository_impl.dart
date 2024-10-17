@@ -91,7 +91,7 @@ class SendPaymentRepositoryImpl extends SendPaymentRepository {
     }));
 
     return lastResult ??
-        Left(InvalidData('','No se procesaron transacciones',
+        Left(InvalidData('', 'No se procesaron transacciones',
             'No transactions were processed'));
   }
 
@@ -100,6 +100,17 @@ class SendPaymentRepositoryImpl extends SendPaymentRepository {
     try {
       final ResponseModel response =
           await sendPaymentDataSources.getCancelIncoming(id);
+      return Right(response);
+    } on InvalidData catch (invalidData) {
+      return Left(invalidData);
+    }
+  }
+
+  @override
+  Future<Either<InvalidData, ResponseModel>> getLinkedProviders() async {
+    try {
+      final ResponseModel response =
+          await sendPaymentDataSources.getLinkedProviders();
       return Right(response);
     } on InvalidData catch (invalidData) {
       return Left(invalidData);

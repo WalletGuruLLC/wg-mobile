@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
-
+import 'package:wallet_guru/application/funding/funding_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/funding/widget/add_funding_providers_view.dart';
+import 'package:wallet_guru/presentation/funding/widget/add_funding_validate_view.dart';
 
-class AddFundsProvider extends StatelessWidget {
-  const AddFundsProvider({
+class AddFundingValidatePage extends StatelessWidget {
+  const AddFundingValidatePage({
     super.key,
-    required this.title,
   });
-
-  final String title;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
-    BlocProvider.of<SendPaymentCubit>(context).selectWalletUrlByTitle(title);
+    String providerName = BlocProvider.of<FundingCubit>(context)
+        .state
+        .fundingEntity!
+        .serviceProviderName;
 
     return WalletGuruLayout(
       showSafeArea: true,
@@ -28,19 +28,17 @@ class AddFundsProvider extends StatelessWidget {
       showBottomNavigationBar: false,
       actionAppBar: () {
         GoRouter.of(context).pushReplacementNamed(
-          Routes.fundingScreen.name,
+          Routes.home.name,
         );
       },
-      pageAppBarTitle: title,
+      pageAppBarTitle: providerName,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
           child: SizedBox(
             width: size.width * 0.90,
             height: size.height * 0.80,
-            child: AddFundingProviderView(
-              title: title,
-            ),
+            child: const AddFundingValidateView(),
           ),
         ),
       ],

@@ -93,6 +93,15 @@ class _$Injector extends Injector {
   }
 
   @override
+  void _configureFundingFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => FundingDataSource())
+      ..registerFactory<FundingRepository>((c) => FundingRepositoryImpl(
+          fundingDataSource: c.resolve<FundingDataSource>()));
+  }
+
+  @override
   void _configureDepositFactories() {
     final KiwiContainer container = KiwiContainer();
     container
