@@ -107,7 +107,7 @@ class SendPaymentDataSource {
 
   Future<ResponseModel> getListIncomingPayment() async {
     var response = await HttpDataSource.get(
-      SendPaymentNetwork.getListIncomingPayment,
+      "${SendPaymentNetwork.getListIncomingPayment}?status=true",
     );
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
