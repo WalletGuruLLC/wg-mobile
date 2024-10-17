@@ -209,5 +209,7 @@
   "forgotPasswordTitle": "Olvidé mi Contraseña",
   "forgotPasswordText": "Por favor, proporciona la dirección de correo electrónico asociada con tu cuenta",
   "forgotPasswordOtpText": "Por favor, proporciona el OTP enviado a tu correo electrónico y una nueva contraseña",
-  "forgotPasswordErrorTitle": "Error al Cambiar Contraseña"
+  "forgotPasswordErrorTitle": "Error al Cambiar Contraseña",
+"forgotPasswordErrorText": "Error en el código de activación. Por favor, vuelve a ingresar tu código de verificación. Si el problema persiste, toca \"Reenviar código\" o contacta a nuestro equipo de soporte."
+
 }
