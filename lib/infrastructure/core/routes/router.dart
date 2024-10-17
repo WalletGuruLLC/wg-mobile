@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/presentation/configuration_setting/page/configuration_setting_page.dart';
+import 'package:wallet_guru/presentation/forgot_password/page/forgot_password_view.dart';
 import 'package:wallet_guru/presentation/core/widgets/error/error_screen.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_page.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_provider.dart';
@@ -136,7 +137,8 @@ class WalletGuruRouter {
               (state.extra ?? <String, dynamic>{}) as Map<String, dynamic>;
           final totalAmount = params['totalAmount'] as String;
           final listProvider = params['listProvider'] as List<String>;
-          return WithdrawPage(totalAmount: totalAmount, listProvider: listProvider);
+          return WithdrawPage(
+              totalAmount: totalAmount, listProvider: listProvider);
         }),
     GoRoute(
       name: Routes.receivePayment.name,
@@ -152,6 +154,11 @@ class WalletGuruRouter {
       name: Routes.addFunding.name,
       path: Routes.addFunding.path,
       builder: (context, state) => const AddFundingPage(),
+    ),
+    GoRoute(
+      name: Routes.forgotPassword.name,
+      path: Routes.forgotPassword.path,
+      builder: (context, state) => const ForgotPasswordPage(),
     ),
     GoRoute(
       name: Routes.transactionChart.name,

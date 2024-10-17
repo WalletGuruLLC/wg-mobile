@@ -208,7 +208,11 @@
   "successFundsTitle":"Funds Added Successfully",
   "successFundsText": "You have successfully added $",
   "successFundsTextAccount": "to",
+  "forgotPasswordTitle": "Forgot Password",
+  "forgotPasswordText": "Please provide the email address associated with your account",
+  "forgotPasswordOtpText": "Please provide the OTP sent to your email and a new password",
+  "forgotPasswordErrorTitle": "Error Changing Password",
+  "forgotPasswordErrorText": "Activation code error. Please re-enter your verification code. If the problem persists, tap \"Resend code\" or contact our support team.",
   "add": "Add"
-
 
 }

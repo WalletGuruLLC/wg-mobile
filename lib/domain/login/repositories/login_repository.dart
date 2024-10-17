@@ -12,4 +12,9 @@ abstract class LoginRepository {
   Future<Either<InvalidData, ResponseModel>> resendOtp(String email);
 
   Future<Either<InvalidData, ResponseModel>> logOut();
+
+  Future<Either<InvalidData, ResponseModel>> forgotPassword(String email);
+
+  Future<Either<InvalidData, ResponseModel>> changePassword(
+      String email, String otp, String newPassword);
 }
