@@ -277,7 +277,7 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
               SizedBox(height: size * 0.01),
               TextBase(
                 textAlign: TextAlign.center,
-                text: l10n.forgotPasswordErrorText,
+                text: description,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
