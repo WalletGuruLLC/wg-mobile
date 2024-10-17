@@ -209,5 +209,8 @@
   "forgotPasswordTitle": "Olvidé mi Contraseña",
   "forgotPasswordText": "Por favor, proporciona la dirección de correo electrónico asociada con tu cuenta",
   "forgotPasswordOtpText": "Por favor, proporciona el OTP enviado a tu correo electrónico y una nueva contraseña",
-  "forgotPasswordErrorTitle": "Error al Cambiar Contraseña"
+  "forgotPasswordErrorTitle": "Error al Cambiar Contraseña",
+  "goToProfile": "Ir al Perfil",
+  "walletLocked": "Billetera Bloqueada",
+  "firstUnlockWallet": "Para poder acceder, primero debes desbloquear tu billetera"
 }

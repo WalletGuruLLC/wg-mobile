@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
+import 'package:wallet_guru/application/core/wallet_status/wallet_status_cubit.dart'; // Importa WalletStatusCubit
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
-
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LockAccountModal extends StatelessWidget {
-  const LockAccountModal({
-    super.key,
-  });
+  const LockAccountModal({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +71,9 @@ class LockAccountModal extends StatelessWidget {
                     context.read<UserCubit>().resetFormStatusLockAccount();
                     BlocProvider.of<SendPaymentCubit>(context)
                         .emitGetWalletInformation();
+                    context
+                        .read<WalletStatusCubit>()
+                        .updateWalletStatus(!isWalletAvailable);
                   } else if (state.formStatusLockAccount is SubmissionFailed) {
                     Navigator.of(context).pop();
                     context.read<UserCubit>().resetFormStatusLockAccount();

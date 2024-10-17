@@ -210,8 +210,8 @@
   "forgotPasswordTitle": "Forgot Password",
   "forgotPasswordText": "Please provide the email address associated with your account",
   "forgotPasswordOtpText": "Please provide the OTP sent to your email and a new password",
-  "forgotPasswordErrorTitle": "Error Changing Password"
-
-
-
+  "forgotPasswordErrorTitle": "Error Changing Password",
+  "goToProfile": "Go to Profile",
+  "walletLocked": "Wallet Locked",
+  "firstUnlockWallet": "To be able to access you must first unlock your wallet"
 }
