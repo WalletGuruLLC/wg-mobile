@@ -37,15 +37,17 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
       List<IncomingPaymentModel> payments) {
     Map<String, ({double totalAmount, List<String> ids})> groupedPayments = {};
     for (var payment in payments) {
-      if (groupedPayments.containsKey(payment.provider)) {
-        var existing = groupedPayments[payment.provider]!;
-        groupedPayments[payment.provider] = (
-          totalAmount: existing.totalAmount + payment.incomingAmount.value,
-          ids: [...existing.ids, payment.id]
-        );
-      } else {
-        groupedPayments[payment.provider] =
-            (totalAmount: payment.incomingAmount.value, ids: [payment.id]);
+      if (payment.incomingAmount.value > 0) {
+        if (groupedPayments.containsKey(payment.provider)) {
+          var existing = groupedPayments[payment.provider]!;
+          groupedPayments[payment.provider] = (
+            totalAmount: existing.totalAmount + payment.incomingAmount.value,
+            ids: [...existing.ids, payment.id]
+          );
+        } else {
+          groupedPayments[payment.provider] =
+              (totalAmount: payment.incomingAmount.value, ids: [payment.id]);
+        }
       }
     }
     return groupedPayments;
