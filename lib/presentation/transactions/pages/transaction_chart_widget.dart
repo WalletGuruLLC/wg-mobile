@@ -266,23 +266,24 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
         final ThemeData theme = Theme.of(context);
         final newTheme = theme.copyWith(
           colorScheme: theme.colorScheme.copyWith(
-            primary: Colors.purple, // Color del encabezado
-            onPrimary: Colors.white, // Color del texto en el encabezado
-            surface: Colors.grey[500], // Fondo del calendario oscuro
-            onSurface: Colors.white, // Color del texto en el calendario
+            primary:
+                AppColorSchema.of(context).buttonColor, // Color del encabezado
+            onPrimary: Colors.white,   // Color del texto en el encabezado
+            surface: Colors.grey[900], // Fondo del calendario oscuro
+            onSurface: Colors.white,   // Color del texto en el calendario
             secondary: Colors.purple[800], // Color para fechas seleccionadas
             onSecondary: Colors.white, // Texto en fechas seleccionadas
           ),
           textTheme: theme.textTheme.apply(
-            bodyColor: Colors.purple,
-            displayColor: Colors.purple,
+            bodyColor: Colors.white,
+            displayColor: Colors.white,
           ),
         );
 
         final DateTimeRange? picked = await showDateRangePicker(
           context: context,
           firstDate: DateTime(2020),
-          lastDate: DateTime(2025),
+          lastDate: DateTime(2040),
           initialDateRange: DateTimeRange(start: _startDate, end: _endDate),
           builder: (BuildContext context, Widget? child) {
             return Theme(
