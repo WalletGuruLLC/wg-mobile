@@ -127,7 +127,7 @@
   "addService": "Add Service",
   "scanQR": "Scan Recipient's QR code",
   "walletAddress": "Wallet Address",
-  "exampleWalletAddress": "Example Wallet: https://walletguru.me/johnDoe",
+  "exampleWalletAddress": "Example Wallet: https://walletguru.me/johndoe",
   "enterAmount": "Enter the amount",
   "amount": "Amount",
   "currency": "Currency",
@@ -160,6 +160,7 @@
   "fundingTitelPage": "Funding",
   "fundsAddedSuccessfully": "Funds Added Successfully",
   "fundsAddedSuccessfullyDescription": "You have succesfully added $10.0",
+  "fundsAddedSuccessfullyPopUpError": "You have exceeded the deposit limit.",
   "addFundsFundingItem": "Add Funds",
   "withdrawFundingItem": "Withdraw",
   "detailsFundingItem": "Details",
@@ -211,8 +212,7 @@
   "forgotPasswordText": "Please provide the email address associated with your account",
   "forgotPasswordOtpText": "Please provide the OTP sent to your email and a new password",
   "forgotPasswordErrorTitle": "Error Changing Password",
-  "forgotPasswordErrorText": "Activation code error. Please re-enter your verification code. If the problem persists, tap \"Resend code\" or contact our support team."
-
-
+  "forgotPasswordErrorText": "Activation code error. Please re-enter your verification code. If the problem persists, tap \"Resend code\" or contact our support team.",
+  "add": "Add"
 
 }

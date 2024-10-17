@@ -52,7 +52,8 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
           setState(() {
             isProcessing = false;
           });
-          _buildErrorModal(context);
+          _buildErrorModal(context, state.customCode, state.customMessage,
+              state.customMessageEs);
         }
       },
       child: QRView(
@@ -108,8 +109,15 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
 
   void _buildErrorModal(
     BuildContext context,
+    String customCodeError,
+    String descriptionEn,
+    String descriptionEs,
   ) {
-    final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context);
+
+    String description =
+        locale.languageCode == 'en' ? descriptionEn : descriptionEs;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -131,17 +139,25 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
               SizedBox(height: size * 0.010),
               TextBase(
                 textAlign: TextAlign.center,
-                text: 'An error has ocurred, please try again.',
+                text: description,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
               SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: 'Error Code: $customCodeError',
+                fontSize: 10,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
             ],
           ),
           onPressed: () {
             fundingCubit.resetFundingEntity();
             fundingCubit.resetFundingQrStatus();
+            fundingCubit.resetCreateIncomingPaymentStatus();
             Navigator.of(context).pop();
             GoRouter.of(context).goNamed(Routes.addProvider.name);
           },
@@ -187,6 +203,7 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
           onPressed: () {
             fundingCubit.resetFundingEntity();
             fundingCubit.resetFundingQrStatus();
+            fundingCubit.resetCreateIncomingPaymentStatus();
             Navigator.of(context).pop();
             GoRouter.of(context).goNamed(Routes.home.name);
           },
