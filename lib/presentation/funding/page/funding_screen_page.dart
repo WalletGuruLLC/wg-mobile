@@ -48,6 +48,9 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
           groupedPayments[payment.provider] =
               (totalAmount: payment.incomingAmount.value, ids: [payment.id]);
         }
+      } else {
+        groupedPayments[payment.provider] =
+            (totalAmount: payment.incomingAmount.value, ids: [payment.id]);
       }
     }
     return groupedPayments;
