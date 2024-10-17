@@ -264,6 +264,7 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
+          buttonWidth: MediaQuery.of(context).size.width * 0.4,
           content: Column(
             children: [
               SizedBox(height: size * 0.01),
@@ -310,11 +311,13 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
     String description =
         locale.languageCode == 'en' ? descriptionEn : descriptionEs;
     final l10n = AppLocalizations.of(context)!;
+    double size = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
+          buttonWidth: MediaQuery.of(context).size.width * 0.4,
           isSucefull: true,
           content: Column(
             children: [

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
 
@@ -14,14 +15,15 @@ class LoginCubit extends Cubit<LoginState> {
 
   void emitSignInUser() async {
     emit(
-      state.copyWith(formStatus: FormSubmitting()),
+      state.copyWith(formStatusLogin: FormSubmitting()),
     );
     final verifyEmailOtp =
         await registerRepository.signInUser(state.email, state.password);
     verifyEmailOtp.fold(
       (error) {
         emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+          formStatusLogin:
+              SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
@@ -31,7 +33,7 @@ class LoginCubit extends Cubit<LoginState> {
         emit(state.copyWith(
           customMessage: singInUser.customCode,
           customMessageEs: singInUser.customMessageEs,
-          formStatus: SubmissionSuccess(),
+          formStatusLogin: SubmissionSuccess(),
         ));
       },
     );
@@ -51,6 +53,10 @@ class LoginCubit extends Cubit<LoginState> {
 
   void cleanFormStatus() async {
     emit(state.copyWith(formStatus: const InitialFormStatus()));
+  }
+
+  void cleanFormStatusLogin() async {
+    emit(state.copyWith(formStatusLogin: const InitialFormStatus()));
   }
 
   void cleanFormStatusOtp() async {
@@ -162,7 +168,7 @@ class LoginCubit extends Cubit<LoginState> {
       },
       (forgotPassword) {
         emit(state.copyWith(
-          customMessage: forgotPassword.customCode,
+          customMessage: forgotPassword.customMessage,
           customMessageEs: forgotPassword.customMessageEs,
         ));
       },
@@ -208,7 +214,7 @@ class LoginCubit extends Cubit<LoginState> {
       (forgotPassword) {
         emit(state.copyWith(
           formStatusForgotPassword: SubmissionSuccess(),
-          customMessage: forgotPassword.customCode,
+          customMessage: forgotPassword.customMessage,
           customMessageEs: forgotPassword.customMessageEs,
         ));
       },
