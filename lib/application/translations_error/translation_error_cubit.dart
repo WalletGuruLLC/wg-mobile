@@ -21,11 +21,11 @@ class TranslationErrorCubit extends Cubit<TranslationErrorState> {
         emit(TranslationError(error.toString()));
       }, (success) {
         List<TranslationErrorModel> translations = success;
-          Map<String, String> errorMessages = {};
-          for (var translation in translations) {
-            errorMessages[translation.id] = translation.text;
-          }
-          GlobalErrorTranslations.updateTranslations(errorMessages);
+        Map<String, String> errorMessages = {};
+        for (var translation in translations) {
+          errorMessages[translation.id] = translation.text;
+        }
+        GlobalErrorTranslations.updateTranslations(errorMessages);
         emit(TranslationLoaded(success));
       });
     } catch (e) {
