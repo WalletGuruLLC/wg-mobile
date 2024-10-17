@@ -113,12 +113,16 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
           final spots = _createSpots(filteredTransactions);
           final l10n = AppLocalizations.of(context)!;
           return WalletGuruLayout(
-            showBackButton: true,
-            showBottomNavigationBar: true,
+            showSafeArea: true,
+            showSimpleStyle: false,
             showLoggedUserAppBar: true,
+            showBottomNavigationBar: false,
+            actionAppBar: () {
+              GoRouter.of(context).pushReplacementNamed(
+                Routes.home.name,
+              );
+            },
             pageAppBarTitle: l10n.transactionsTitlePage,
-            mainAxisAlignment: MainAxisAlignment.start,
-            actionAppBar: () {},
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.72,
