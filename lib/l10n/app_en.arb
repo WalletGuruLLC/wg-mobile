@@ -206,6 +206,12 @@
   "errorFundsText": "There was an error processing your request to add funds. Please try again",
   "successFundsTitle":"Funds Added Successfully",
   "successFundsText": "You have successfully added $",
-  "successFundsTextAccount": "to"
+  "successFundsTextAccount": "to",
+  "forgotPasswordTitle": "Forgot Password",
+  "forgotPasswordText": "Please provide the email address associated with your account",
+  "forgotPasswordOtpText": "Please provide the OTP sent to your email and a new password",
+  "forgotPasswordErrorTitle": "Error Changing Password"
+
+
 
 }

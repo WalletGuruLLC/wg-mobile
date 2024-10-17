@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/application/core/validations/validations.dart';
 
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
@@ -36,6 +37,9 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
   int _remainingSeconds = 300;
   FormStep _formStep = FormStep.validateEmail;
   String? _password;
+  bool _emailIsValid = false;
+  bool _otpIsValid = false;
+  bool _passwordIsValid = false;
 
   @override
   void initState() {
@@ -64,22 +68,25 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const AuthLoginDivider(),
-            const TextBase(
-              text: 'Forgot Password',
+            TextBase(
+              text: l10n.forgotPasswordTitle,
               fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
             SizedBox(height: size * 0.005),
-            const TextBase(
-              text:
-                  'Please provide the email address associated with your account',
+            TextBase(
+              text: l10n.forgotPasswordText,
               fontSize: 16,
               fontWeight: FontWeight.w400,
             ),
             SizedBox(height: size * 0.05),
             EmailForm(
               initialValue: _email,
-              onChanged: (value) => _onFormChanged('email', value),
+              onChanged: (value) {
+                _onFormChanged('email', value);
+                _emailIsValid =
+                    Validators.validateEmail(value, context) == null;
+              },
             ),
             SizedBox(height: size * 0.025),
             SizedBox(height: size * 0.35),
@@ -91,9 +98,13 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
                 } else {
                   return CustomButton(
                       border: Border.all(
-                          color: AppColorSchema.of(context)
-                              .secondaryButtonBorderColor),
-                      color: Colors.transparent,
+                          color: !_emailIsValid
+                              ? AppColorSchema.of(context)
+                                  .secondaryButtonBorderColor
+                              : Colors.transparent),
+                      color: !_emailIsValid
+                          ? Colors.transparent
+                          : AppColorSchema.of(context).buttonColor,
                       text: l10n.verify,
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
@@ -121,27 +132,33 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const AuthLoginDivider(),
-            const TextBase(
-              text: 'Forgot Password',
+            TextBase(
+              text: l10n.forgotPasswordTitle,
               fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
             SizedBox(height: size * 0.005),
-            const TextBase(
-              text:
-                  'Please provide the OTP sent to your email and a new password',
+            TextBase(
+              text: l10n.forgotPasswordOtpText,
               fontSize: 16,
               fontWeight: FontWeight.w400,
             ),
             SizedBox(height: size * 0.05),
             OtpForm(
               initialValue: _otp,
-              onChanged: (value) => _onFormChanged('otp', value),
+              onChanged: (value) {
+                _onFormChanged('otp', value);
+                _otpIsValid = Validators.validateOtp(value, context) == null;
+              },
             ),
             SizedBox(height: size * 0.025),
             PasswordForm(
               initialValue: _password,
-              onChanged: (value) => _onFormChanged('password', value),
+              onChanged: (value) {
+                _onFormChanged('password', value);
+                _passwordIsValid =
+                    Validators.validatePassword(value, context) == null;
+              },
             ),
             SizedBox(height: size * 0.025),
             TextBase(
@@ -155,8 +172,9 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
             BlocConsumer<LoginCubit, LoginState>(
               listener: (context, state) {
                 if (state.formStatusForgotPassword is SubmissionSuccess) {
-                  GoRouter.of(context).goNamed(Routes.logIn.name);
-                } else if (state.formStatusOtp is SubmissionFailed) {
+                  buildSuccessModal(
+                      state.customMessage, state.customMessageEs, locale);
+                } else if (state.formStatusForgotPassword is SubmissionFailed) {
                   buildErrorModal(
                     state.customMessage,
                     state.customMessageEs,
@@ -170,15 +188,20 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
                   return const Center(child: CircularProgressIndicator());
                 } else {
                   return CustomButton(
-                    border: Border.all(
-                        color: AppColorSchema.of(context)
-                            .secondaryButtonBorderColor),
-                    color: Colors.transparent,
-                    text: l10n.verify,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    onPressed: () => _onButtonPressed('validateOtp'),
-                  );
+                      border: Border.all(
+                          color: !_otpIsValid || !_passwordIsValid
+                              ? AppColorSchema.of(context)
+                                  .secondaryButtonBorderColor
+                              : Colors.transparent),
+                      color: !_otpIsValid || !_passwordIsValid
+                          ? Colors.transparent
+                          : AppColorSchema.of(context).buttonColor,
+                      text: l10n.verify,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      onPressed: () {
+                        _onButtonPressed('validateOtp');
+                      });
                 }
               },
             ),
@@ -233,6 +256,7 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
     String codeError,
     Locale locale,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     String description =
         locale.languageCode == 'en' ? descriptionEn : descriptionEs;
     return showDialog(
@@ -242,7 +266,15 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
         return BaseModal(
           content: Column(
             children: [
-              SizedBox(height: size * 0.025),
+              SizedBox(height: size * 0.01),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.forgotPasswordErrorTitle,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.01),
               TextBase(
                 textAlign: TextAlign.center,
                 text: description,
@@ -250,10 +282,10 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
-              SizedBox(height: size * 0.025),
+              SizedBox(height: size * 0.01),
               TextBase(
                 textAlign: TextAlign.center,
-                text: codeError,
+                text: 'Error Code: $codeError',
                 fontSize: 10,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
@@ -262,6 +294,52 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
           ),
           onPressed: () {
             loginCubit.cleanFormStatusOtp();
+            loginCubit.cleanFormStatusForgotPassword();
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+  }
+
+  Future<dynamic> buildSuccessModal(
+    String descriptionEn,
+    String descriptionEs,
+    Locale locale,
+  ) {
+    String description =
+        locale.languageCode == 'en' ? descriptionEn : descriptionEs;
+    final l10n = AppLocalizations.of(context)!;
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          isSucefull: true,
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.01),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.changeSuccessful,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.01),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: description,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () {
+            loginCubit.cleanFormStatusOtp();
+            loginCubit.cleanFormStatusForgotPassword();
+            GoRouter.of(context).pushReplacementNamed(Routes.logIn.name);
             Navigator.of(context).pop();
           },
         );

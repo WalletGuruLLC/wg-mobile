@@ -205,5 +205,9 @@
   "errorFundsText": "Hubo un error al procesar tu solicitud para añadir fondos. Por favor, inténtalo de nuevo",
   "successFundsTitle": "Fondos Añadidos Exitosamente",
   "successFundsText": "Has añadido $",
-  "successFundsTextAccount": "exitosamente a"
+  "successFundsTextAccount": "exitosamente a",
+  "forgotPasswordTitle": "Olvidé mi Contraseña",
+  "forgotPasswordText": "Por favor, proporciona la dirección de correo electrónico asociada con tu cuenta",
+  "forgotPasswordOtpText": "Por favor, proporciona el OTP enviado a tu correo electrónico y una nueva contraseña",
+  "forgotPasswordErrorTitle": "Error al Cambiar Contraseña"
 }

@@ -17,7 +17,7 @@ class ForgotPasswordPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
           child: SizedBox(
             width: size.width * 0.90,
-            height: size.height,
+            height: size.height * 0.85,
             child: const ForgotPasswordForm(),
           ),
         ),
