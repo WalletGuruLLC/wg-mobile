@@ -77,8 +77,10 @@ class LoginFormState extends State<LoginForm> {
           ),
           SizedBox(height: size * 0.025),
           GestureDetector(
-            onTap: () =>
-                GoRouter.of(context).pushNamed(Routes.forgotPassword.name),
+            onTap: () {
+              loginCubit.cleanFormStatusLogin();
+              GoRouter.of(context).pushNamed(Routes.forgotPassword.name);
+            },
             child: TextBase(
                 color: AppColorSchema.of(context).tertiaryText,
                 text: l10n.forgot_password,
@@ -88,10 +90,11 @@ class LoginFormState extends State<LoginForm> {
           SizedBox(height: size * 0.2),
           BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
-              if (state.formStatus is SubmissionSuccess) {
+              if (state.formStatusLogin is SubmissionSuccess) {
+                loginCubit.cleanFormStatusLogin();
                 GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
                     extra: state.email);
-              } else if (state.formStatus is SubmissionFailed) {
+              } else if (state.formStatusLogin is SubmissionFailed) {
                 _buildErrorModal(
                   state.customMessage,
                   state.customMessageEs,
@@ -101,7 +104,7 @@ class LoginFormState extends State<LoginForm> {
               }
             },
             builder: (context, state) {
-              if (state.formStatus is FormSubmitting) {
+              if (state.formStatusLogin is FormSubmitting) {
                 return const Center(child: CircularProgressIndicator());
               } else {
                 return CustomButton(
@@ -183,6 +186,7 @@ class LoginFormState extends State<LoginForm> {
           ),
           onPressed: () {
             loginCubit.cleanFormStatus();
+            loginCubit.cleanFormStatusLogin();
             Navigator.of(context).pop();
           },
         );
