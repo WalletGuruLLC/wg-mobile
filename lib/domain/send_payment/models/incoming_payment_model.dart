@@ -25,7 +25,7 @@ class IncomingPaymentModel {
       IncomingPaymentModel(
         type: json["type"],
         id: json["id"],
-        provider: json["provider"],
+        provider: json["provider"] ?? "",
         ownerUser: json["ownerUser"],
         state: json["state"],
         incomingAmount: IncomingAmount.fromJson(json["incomingAmount"]),

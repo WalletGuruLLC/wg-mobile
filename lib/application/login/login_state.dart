@@ -20,6 +20,7 @@ class LoginState extends Equatable {
   final String forgotPasswordOtp;
   final String forgotPasswordNewPassword;
   final FormSubmissionStatus formStatusForgotPassword;
+  final FormSubmissionStatus formStatusLogin;
 
   const LoginState({
     this.userId = '',
@@ -41,6 +42,7 @@ class LoginState extends Equatable {
     this.forgotPasswordOtp = '',
     this.forgotPasswordNewPassword = '',
     this.formStatusForgotPassword = const InitialFormStatus(),
+    this.formStatusLogin = const InitialFormStatus(),
   });
 
   LoginState copyWith({
@@ -63,6 +65,7 @@ class LoginState extends Equatable {
     String? forgotPasswordOtp,
     String? forgotPasswordNewPassword,
     FormSubmissionStatus? formStatusForgotPassword,
+    FormSubmissionStatus? formStatusLogin,
   }) =>
       LoginState(
         userId: userId ?? this.userId,
@@ -86,6 +89,7 @@ class LoginState extends Equatable {
             forgotPasswordNewPassword ?? this.forgotPasswordNewPassword,
         formStatusForgotPassword:
             formStatusForgotPassword ?? this.formStatusForgotPassword,
+        formStatusLogin: formStatusLogin ?? this.formStatusLogin,
       );
 
   LoginState initialState() => LoginState(
@@ -107,6 +111,7 @@ class LoginState extends Equatable {
       forgotPasswordOtp: '',
       forgotPasswordNewPassword: '',
       formStatusForgotPassword: const InitialFormStatus(),
+      formStatusLogin: const InitialFormStatus(),
       user: User.initialState());
 
   @override
@@ -129,5 +134,6 @@ class LoginState extends Equatable {
         forgotPasswordOtp,
         forgotPasswordNewPassword,
         formStatusForgotPassword,
+        formStatusLogin,
       ];
 }
