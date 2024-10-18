@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallet_guru/application/funding/funding_cubit.dart';
 import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 
 import 'package:wallet_guru/application/user/user_cubit.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
     BlocProvider.of<TransactionCubit>(context).loadTransactions();
     BlocProvider.of<CreateProfileCubit>(context).emitInitialStatus();
     BlocProvider.of<SendPaymentCubit>(context).emitGetWalletInformation();
+    BlocProvider.of<FundingCubit>(context).resetCreateIncomingPaymentStatus();
     super.initState();
   }
 
