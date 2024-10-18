@@ -39,6 +39,8 @@ class _StateFormAutoCompleteState extends State<StateFormAutoComplete> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final userstateLocation =
+        BlocProvider.of<UserCubit>(context).state.user!.stateLocation;
 
     return BlocListener<UserCubit, UserState>(
       listener: (context, state) {
@@ -96,7 +98,9 @@ class _StateFormAutoCompleteState extends State<StateFormAutoComplete> {
                       _validateSelection(states);
                     },
                     validator: (value) {
-                      print('value: $value');
+                      if (userstateLocation.isNotEmpty) {
+                        return null;
+                      }
                       if (value == null ||
                           value.isEmpty ||
                           !states.contains(value)) {
@@ -115,6 +119,7 @@ class _StateFormAutoCompleteState extends State<StateFormAutoComplete> {
                     alignment: Alignment.topLeft,
                     child: Material(
                       child: Container(
+                        height: 45,
                         width: MediaQuery.of(context).size.width * 0.9,
                         color: Colors.grey[800], // Fondo gris oscuro
                         child: ListView.builder(

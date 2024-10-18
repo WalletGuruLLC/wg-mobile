@@ -45,6 +45,8 @@ class _CityFormAutocompleteState extends State<CityFormAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
+    final userCity = BlocProvider.of<UserCubit>(context).state.user!.city;
+
     final l10n = AppLocalizations.of(context)!;
     return BlocListener<UserCubit, UserState>(
       listener: (context, state) {
@@ -99,10 +101,13 @@ class _CityFormAutocompleteState extends State<CityFormAutocomplete> {
                       _validateSelection(cities);
                     },
                     validator: (value) {
+                      if (userCity.isNotEmpty) {
+                        return null;
+                      }
                       print('value: $value');
                       if (value == null ||
                           value.isEmpty ||
-                          !cities.contains(value)) {
+                          cities.contains(value)) {
                         _isValid = false;
                         return l10n.pleaseSelectGenericValue;
                       }
@@ -119,7 +124,7 @@ class _CityFormAutocompleteState extends State<CityFormAutocomplete> {
                     child: Material(
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.9,
-                        height: 160,
+                        height: 45,
                         color: const Color.fromARGB(255, 60, 59, 59),
                         child: ListView.builder(
                           padding: EdgeInsets.zero,

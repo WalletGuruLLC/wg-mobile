@@ -60,107 +60,118 @@ class _MyInfoViewState extends State<MyInfoView> {
         }
       },
       builder: (context, state) {
-        final user = state.user;
-        final initialUser = state.initialUser;
-        return Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const ProfileHeaderWidget(
-                isOnTapAvailable: true,
-              ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.phoneNumber),
-              PhoneNumberFormSection(
-                codeInitialValue: user?.phoneCode ?? '',
-                phoneInitialValue: user?.phone ?? '',
-                readOnly: readOnly,
-                onPhoneChanged: (value) {
-                  userCubit.updateUser(phone: value);
-                },
-                onCodeChanged: (value) {
-                  userCubit.updateUser(phoneCode: value);
-                },
-                fieldActivatorWidget: _buildFieldActivatorWidget(true),
-              ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.country),
-              CountryFormAutoComplete(
-                  readOnly: readOnly,
-                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
-                  initialValue: user?.country,
-                  onChanged: (value) {
-                    userCubit.updateUser(
-                        country: value, stateLocation: '', city: '');
-                  }),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.state),
-              if (user?.stateLocation == initialUser?.stateLocation)
-                StateFormAutoComplete(
-                  readOnly: readOnly,
-                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
-                  initialValue: user?.stateLocation ?? '',
-                  onChanged: (value) {
-                    userCubit.updateUser(stateLocation: value, city: '');
-                  },
+        if (state.getCurrentUserInformationStatus is FormSubmitting) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          final user = state.user;
+          final initialUser = state.initialUser;
+          return Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ProfileHeaderWidget(
+                  isOnTapAvailable: true,
                 ),
-              if (user?.stateLocation != initialUser?.stateLocation)
-                StateFormAutoComplete(
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.phoneNumber),
+                if (state.user!.phoneCode.isNotEmpty)
+                  PhoneNumberFormSection(
+                    codeInitialValue: user!.phoneCode,
+                    phoneInitialValue: user!.phone ?? '',
+                    readOnly: readOnly,
+                    onPhoneChanged: (value) {
+                      userCubit.updateUser(phone: value);
+                    },
+                    onCodeChanged: (value) {
+                      userCubit.updateUser(phoneCode: value);
+                    },
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                  ),
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.country),
+                CountryFormAutoComplete(
+                    readOnly: readOnly,
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                    initialValue: user?.country,
+                    onChanged: (value) {
+                      userCubit.updateUser(
+                          country: value, stateLocation: '', city: '');
+                    }),
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.state),
+                if (user?.stateLocation == initialUser?.stateLocation &&
+                    initialUser?.stateLocation != '' &&
+                    initialUser?.stateLocation != null &&
+                    initialUser!.stateLocation.isNotEmpty)
+                  StateFormAutoComplete(
+                    readOnly: readOnly,
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                    initialValue: user?.stateLocation ?? '',
+                    onChanged: (value) {
+                      userCubit.updateUser(stateLocation: value, city: '');
+                    },
+                  ),
+                if (user?.stateLocation != initialUser?.stateLocation)
+                  StateFormAutoComplete(
+                    readOnly: readOnly,
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                    initialValue: user?.stateLocation ?? '',
+                    onChanged: (value) {
+                      userCubit.updateUser(stateLocation: value, city: '');
+                    },
+                  ),
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.city),
+                if (user?.city == initialUser?.city &&
+                    initialUser?.city != '' &&
+                    initialUser?.city != null &&
+                    initialUser!.city.isNotEmpty)
+                  CityFormAutocomplete(
+                    readOnly: readOnly,
+                    initialValue: initialUser?.city ?? '',
+                    onChanged: (value) {
+                      userCubit.updateUser(city: value);
+                    },
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                  ),
+                if (user?.city != initialUser?.city)
+                  CityFormAutocomplete(
+                    readOnly: readOnly,
+                    initialValue: user?.city ?? '',
+                    onChanged: (value) {
+                      userCubit.updateUser(city: value);
+                    },
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                  ),
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.zipCode),
+                ZipCodeForm(
                   readOnly: readOnly,
-                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
-                  initialValue: user?.stateLocation ?? '',
+                  initialValue: user?.zipCode ?? '',
                   onChanged: (value) {
-                    userCubit.updateUser(stateLocation: value, city: '');
+                    userCubit.updateUser(zipCode: value);
                   },
+                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
                 ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.city),
-              if (user?.city == initialUser?.city)
-                CityFormAutocomplete(
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.address),
+                AddressForm(
                   readOnly: readOnly,
-                  initialValue: initialUser?.city ?? '',
+                  initialValue: user?.address ?? '',
                   onChanged: (value) {
-                    userCubit.updateUser(city: value);
+                    userCubit.updateUser(address: value);
                   },
                   fieldActivatorWidget: _buildFieldActivatorWidget(true),
                 ),
-              if (user?.city != initialUser?.city)
-                CityFormAutocomplete(
-                  readOnly: readOnly,
-                  initialValue: user?.city ?? '',
-                  onChanged: (value) {
-                    userCubit.updateUser(city: value);
-                  },
-                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                SizedBox(height: size * 0.025),
+                SaveButton(
+                  formKey: _formKey,
                 ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.zipCode),
-              ZipCodeForm(
-                readOnly: readOnly,
-                initialValue: user?.zipCode ?? '',
-                onChanged: (value) {
-                  userCubit.updateUser(zipCode: value);
-                },
-                fieldActivatorWidget: _buildFieldActivatorWidget(true),
-              ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.address),
-              AddressForm(
-                readOnly: readOnly,
-                initialValue: user?.address ?? '',
-                onChanged: (value) {
-                  userCubit.updateUser(address: value);
-                },
-                fieldActivatorWidget: _buildFieldActivatorWidget(true),
-              ),
-              SizedBox(height: size * 0.025),
-              SaveButton(
-                formKey: _formKey,
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+          );
+        }
       },
     );
   }

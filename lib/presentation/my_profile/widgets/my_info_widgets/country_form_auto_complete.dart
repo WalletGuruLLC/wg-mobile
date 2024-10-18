@@ -121,7 +121,7 @@ class _CountryFormAutoCompleteState extends State<CountryFormAutoComplete> {
                   child: Material(
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.9,
-                      height: 160,
+                      height: 45,
                       color: Color.fromARGB(255, 60, 59, 59),
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
