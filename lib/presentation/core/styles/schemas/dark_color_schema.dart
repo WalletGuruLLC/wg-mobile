@@ -21,6 +21,9 @@ class DarkColorScheme implements AppCustomColors {
   Color get cardColor => const Color(0xFF222222);
 
   @override
+  Color get cardTwoColor => const Color.fromRGBO(33, 33, 57, 1);
+
+  @override
   Color get inputColor => const Color(0xFF222222);
 
   @override
@@ -49,6 +52,9 @@ class DarkColorScheme implements AppCustomColors {
 
   @override
   Color get buttonColor => const Color(0xFF3678B1);
+
+  @override
+  Color get buttonTwoColor => const Color.fromRGBO(56, 64, 92, 1);
 
   @override
   Color get buttonTextColor => const Color(0xFFFFFFFF);
