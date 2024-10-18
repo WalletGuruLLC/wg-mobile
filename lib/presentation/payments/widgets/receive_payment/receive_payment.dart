@@ -98,6 +98,7 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
             decoration: BoxDecoration(
               border: Border.all(color: Colors.blue, width: 2),
               borderRadius: BorderRadius.circular(8),
+              color: Colors.black,
             ),
             child: Stack(
               children: [
