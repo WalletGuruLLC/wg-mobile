@@ -1,5 +1,3 @@
-// lib/cubits/transaction_state.dart
-
 import 'package:equatable/equatable.dart';
 import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
 
@@ -16,11 +14,22 @@ class TransactionLoading extends TransactionState {}
 
 class TransactionLoaded extends TransactionState {
   final List<TransactionsModel> payments;
+  final List<TransactionsModel> allPayments;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final String? transactionType;
 
-  const TransactionLoaded({required this.payments});
+  const TransactionLoaded({
+    required this.payments,
+    required this.allPayments,
+    this.startDate,
+    this.endDate,
+    this.transactionType,
+  });
 
   @override
-  List<Object?> get props => [payments];
+  List<Object?> get props =>
+      [payments, allPayments, startDate, endDate, transactionType];
 }
 
 class TransactionError extends TransactionState {

@@ -7,6 +7,7 @@ abstract class AppCustomColors {
   Color get accent;
   Color get scaffoldColor;
   Color get cardColor;
+  Color get cardTwoColor;
   Color get inputColor;
   Color get primaryText;
   Color get secondaryText;
@@ -17,6 +18,7 @@ abstract class AppCustomColors {
   Color get errorText;
   Color get successText;
   Color get buttonColor;
+  Color get buttonTwoColor;
   Color get buttonTextColor;
   Color get disabledButtonColor;
   Color get disabledButtonTextColor;
