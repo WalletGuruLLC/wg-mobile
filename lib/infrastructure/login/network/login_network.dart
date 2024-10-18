@@ -6,4 +6,8 @@ class LoginNetwork {
       '${Env.baseUrl}/api/v1/users/verify/otp/mfa';
   static final String resendOtp = '${Env.baseUrl}/api/v1/users/send-otp';
   static final String logOut = '${Env.baseUrl}/api/v1/users/logout';
+  static final String forgotPassword =
+      '${Env.baseUrl}/api/v1/users/forgot-password';
+  static final String changePassword =
+      '${Env.baseUrl}/api/v1/users/confirm-password';
 }

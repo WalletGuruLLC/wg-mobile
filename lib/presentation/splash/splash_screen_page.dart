@@ -21,16 +21,22 @@ class SplashScreenPage extends StatefulWidget {
 }
 
 class _SplashScreenPageState extends State<SplashScreenPage> {
-  late Timer _timer;
   String _version = '';
 
   @override
   void initState() {
     super.initState();
     _initPackageInfo();
-    String lang = Intl.getCurrentLocale();
-    BlocProvider.of<TranslationErrorCubit>(context).loadTranslations(lang);
+    _loadTranslations();
     BlocProvider.of<SettingsCubit>(context).loadSettings();
+  }
+
+  void _loadTranslations() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      String deviceLanguage = getDeviceLanguage();
+      BlocProvider.of<TranslationErrorCubit>(context)
+          .loadTranslations(deviceLanguage);
+    });
   }
 
   Future<void> _initPackageInfo() async {
@@ -38,12 +44,6 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     setState(() {
       _version = '${info.version}+${info.buildNumber}';
     });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
   }
 
   @override
@@ -81,4 +81,10 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       ),
     );
   }
+}
+
+String getDeviceLanguage() {
+  final String deviceLocale =
+      WidgetsBinding.instance.window.locales.first.languageCode;
+  return Intl.canonicalizedLocale(deviceLocale);
 }

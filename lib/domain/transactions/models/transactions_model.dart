@@ -10,6 +10,8 @@ class TransactionsModel {
   DateTime createdAt;
   String? incomingPaymentId;
   Amount? incomingAmount;
+  String senderUrl;
+  String receiverUrl;
 
   TransactionsModel({
     required this.type,
@@ -21,6 +23,8 @@ class TransactionsModel {
     required this.createdAt,
     this.incomingPaymentId,
     this.incomingAmount,
+    required this.senderUrl,
+    required this.receiverUrl,
   });
 
   TransactionsModel copyWith({
@@ -33,6 +37,8 @@ class TransactionsModel {
     DateTime? createdAt,
     String? incomingPaymentId,
     Amount? incomingAmount,
+    String? senderUrl,
+    String? receiverUrl,
   }) =>
       TransactionsModel(
         type: type ?? this.type,
@@ -44,19 +50,11 @@ class TransactionsModel {
         createdAt: createdAt ?? this.createdAt,
         incomingPaymentId: incomingPaymentId ?? this.incomingPaymentId,
         incomingAmount: incomingAmount ?? this.incomingAmount,
+        senderUrl: senderUrl ?? this.senderUrl,
+        receiverUrl: receiverUrl ?? this.receiverUrl,
       );
 
   factory TransactionsModel.fromJson(Map<String, dynamic> json) {
-    /*List<CompletedIncomingPayment> payments =
-        json["completedIncomingPayments"] == null
-            ? []
-            : List<CompletedIncomingPayment>.from(
-                json["completedIncomingPayments"]!
-                    .map((x) => CompletedIncomingPayment.fromJson(x)));
-
-    // Ordenar la lista de pagos de más reciente a más antiguo
-    payments.sort((a, b) => b.createdAt.compareTo(a.createdAt));*/
-
     return TransactionsModel(
       type: json["type"],
       outgoingPaymentId: json["outgoingPaymentId"],
@@ -66,11 +64,13 @@ class TransactionsModel {
       receiveAmount: json["receiveAmount"] == null
           ? null
           : Amount.fromJson(json["receiveAmount"]),
-      createdAt: DateTime.parse(json["createdAt"]),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(json["createdAt"]),
       incomingPaymentId: json["incomingPaymentId"],
       incomingAmount: json["incomingAmount"] == null
           ? null
           : Amount.fromJson(json["incomingAmount"]),
+      senderUrl: json["senderUrl"],
+      receiverUrl: json["receiverUrl"],
     );
   }
 
@@ -84,6 +84,8 @@ class TransactionsModel {
         createdAt: DateTime.now(),
         incomingPaymentId: '',
         incomingAmount: Amount.initialState(),
+        senderUrl: '',
+        receiverUrl: '',
       );
 }
 
@@ -101,7 +103,7 @@ class Amount {
   });
 
   factory Amount.fromJson(Map<String, dynamic> json) => Amount(
-        typename: json["_Typename"],
+        typename: json["typename"],
         assetScale: json["assetScale"],
         assetCode: json["assetCode"],
         value: json["value"] != null

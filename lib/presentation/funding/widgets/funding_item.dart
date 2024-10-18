@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
 
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
 class FundingItem extends StatelessWidget {
   final String title;
-  final int amount;
+  final String amount;
+  final List<String> incomingPaymentIds;
 
-  const FundingItem({super.key, required this.title, required this.amount});
+  const FundingItem({
+    super.key,
+    required this.title,
+    required this.amount,
+    required this.incomingPaymentIds,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +31,7 @@ class FundingItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextBase(
-            text: '$amount USD',
+            text: "${toCurrencyString(amount, leadingSymbol: '\$')} USD",
             fontSize: size.width * 0.04,
           ),
           IconButton(
@@ -58,7 +65,7 @@ class FundingItem extends StatelessWidget {
                               GoRouter.of(context).go(
                                 Routes.addFundsProvider.path,
                                 extra: {
-                                  "title": "Sabbatical ",
+                                  "title": title,
                                 },
                               );
                             },
@@ -76,7 +83,8 @@ class FundingItem extends StatelessWidget {
                               GoRouter.of(context).go(
                                 Routes.withdrawPage.path,
                                 extra: {
-                                  "title": "Sabbatical ",
+                                  "totalAmount": amount,
+                                  "listProvider": incomingPaymentIds,
                                 },
                               );
                             },

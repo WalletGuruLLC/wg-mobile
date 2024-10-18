@@ -16,6 +16,11 @@ class LoginState extends Equatable {
   final String customCode;
   final bool logOutSuccess;
   final User? user;
+  final String forgotPasswordEmail;
+  final String forgotPasswordOtp;
+  final String forgotPasswordNewPassword;
+  final FormSubmissionStatus formStatusForgotPassword;
+  final FormSubmissionStatus formStatusLogin;
 
   const LoginState({
     this.userId = '',
@@ -33,6 +38,11 @@ class LoginState extends Equatable {
     this.formStatusOtp = const InitialFormStatus(),
     this.logOutSuccess = false,
     this.user,
+    this.forgotPasswordEmail = '',
+    this.forgotPasswordOtp = '',
+    this.forgotPasswordNewPassword = '',
+    this.formStatusForgotPassword = const InitialFormStatus(),
+    this.formStatusLogin = const InitialFormStatus(),
   });
 
   LoginState copyWith({
@@ -51,6 +61,11 @@ class LoginState extends Equatable {
     bool? isFirstTime,
     bool? logOutSuccess,
     User? user,
+    String? forgotPasswordEmail,
+    String? forgotPasswordOtp,
+    String? forgotPasswordNewPassword,
+    FormSubmissionStatus? formStatusForgotPassword,
+    FormSubmissionStatus? formStatusLogin,
   }) =>
       LoginState(
         userId: userId ?? this.userId,
@@ -68,6 +83,13 @@ class LoginState extends Equatable {
         customCode: customCode ?? this.customCode,
         logOutSuccess: logOutSuccess ?? this.logOutSuccess,
         user: user ?? this.user,
+        forgotPasswordEmail: forgotPasswordEmail ?? this.forgotPasswordEmail,
+        forgotPasswordOtp: forgotPasswordOtp ?? this.forgotPasswordOtp,
+        forgotPasswordNewPassword:
+            forgotPasswordNewPassword ?? this.forgotPasswordNewPassword,
+        formStatusForgotPassword:
+            formStatusForgotPassword ?? this.formStatusForgotPassword,
+        formStatusLogin: formStatusLogin ?? this.formStatusLogin,
       );
 
   LoginState initialState() => LoginState(
@@ -85,6 +107,11 @@ class LoginState extends Equatable {
       customCode: '',
       isFirstTime: true,
       logOutSuccess: false,
+      forgotPasswordEmail: '',
+      forgotPasswordOtp: '',
+      forgotPasswordNewPassword: '',
+      formStatusForgotPassword: const InitialFormStatus(),
+      formStatusLogin: const InitialFormStatus(),
       user: User.initialState());
 
   @override
@@ -103,5 +130,10 @@ class LoginState extends Equatable {
         customCode,
         isFirstTime,
         logOutSuccess,
+        forgotPasswordEmail,
+        forgotPasswordOtp,
+        forgotPasswordNewPassword,
+        formStatusForgotPassword,
+        formStatusLogin,
       ];
 }

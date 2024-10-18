@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
+import 'package:wallet_guru/application/deposit/deposit_cubit.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 class AddFundingPage extends StatefulWidget {
@@ -27,6 +27,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
   @override
   void initState() {
     depositCubit = BlocProvider.of<DepositCubit>(context);
+    depositCubit.emitAddFirstFunding();
     super.initState();
   }
 
@@ -56,16 +57,20 @@ class _AddFundingPageState extends State<AddFundingPage> {
                           "${toCurrencyString("10", leadingSymbol: '\$')} USD",
                       fontSize: size.width * 0.05,
                     ),
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (value) {
+                    Radio(
+                      value: true,
+                      groupValue: isChecked,
+                      onChanged: (bool? value) {
                         setState(() {
-                          isChecked = value!;
+                          isChecked = value ?? false;
                         });
                       },
-                      fillColor: MaterialStateProperty.resolveWith(
-                          (states) => Colors.white),
-                      checkColor: Colors.black,
+                      activeColor: AppColorSchema.of(context).tertiaryText,
+                      fillColor: WidgetStateProperty.resolveWith(
+                        (states) => states.contains(WidgetState.selected)
+                            ? AppColorSchema.of(context).tertiaryText
+                            : AppColorSchema.of(context).primaryText,
+                      ),
                     ),
                   ],
                 ),
@@ -76,11 +81,9 @@ class _AddFundingPageState extends State<AddFundingPage> {
                       _buildSuccessfulModal(context);
                     } else if (state.formStatus is SubmissionFailed) {
                       _buildModal(
-                          //state.customMessage,
-                          //state.customMessageEs,
-                          //state.customCode,
-                          //locale,
-                          );
+                        descripcion: state.customMessage,
+                        codeError: state.customCode,
+                      );
                     }
                   },
                   builder: (context, state) {
@@ -97,7 +100,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
                         text: l10n.fundingTitelPage,
                         fontSize: 20,
                         fontWeight: FontWeight.w400,
-                        onPressed: () => _onButtonPressed(),
+                        onPressed: () => _onButtonPressed(state),
                       );
                     }
                   },
@@ -111,11 +114,14 @@ class _AddFundingPageState extends State<AddFundingPage> {
   }
 
   // Method to handle button actions
-  void _onButtonPressed() {
-    if (isChecked) {
+  void _onButtonPressed(DepositState state) {
+    final l10n = AppLocalizations.of(context)!;
+    if (isChecked && !state.firstFunding) {
       setState(() {
         depositCubit.emitCreateDepositWallet();
       });
+    } else {
+      _buildModal(descripcion: l10n.fundsAddedSuccessfullyPopUpError);
     }
   }
 
@@ -166,7 +172,7 @@ class _AddFundingPageState extends State<AddFundingPage> {
   }
 
   // Method to build the successful modal
-  Future<dynamic> _buildModal() {
+  Future<dynamic> _buildModal({String? descripcion, String? codeError}) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -177,19 +183,21 @@ class _AddFundingPageState extends State<AddFundingPage> {
               SizedBox(height: size * 0.025),
               TextBase(
                 textAlign: TextAlign.center,
-                text:
-                    "There was an error processing your fund. Please try again.",
+                text: descripcion,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
               ),
               SizedBox(height: size * 0.025),
-              TextBase(
-                textAlign: TextAlign.center,
-                text: "Error Code:XXXX",
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: AppColorSchema.of(context).secondaryText,
+              Visibility(
+                visible: codeError != null,
+                child: TextBase(
+                  textAlign: TextAlign.center,
+                  text: "Error Code: $codeError",
+                  fontSize: 10,
+                  fontWeight: FontWeight.w400,
+                  color: AppColorSchema.of(context).secondaryText,
+                ),
               ),
             ],
           ),

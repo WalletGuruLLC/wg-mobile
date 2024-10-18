@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
 
@@ -14,14 +15,15 @@ class LoginCubit extends Cubit<LoginState> {
 
   void emitSignInUser() async {
     emit(
-      state.copyWith(formStatus: FormSubmitting()),
+      state.copyWith(formStatusLogin: FormSubmitting()),
     );
     final verifyEmailOtp =
         await registerRepository.signInUser(state.email, state.password);
     verifyEmailOtp.fold(
       (error) {
         emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
+          formStatusLogin:
+              SubmissionFailed(exception: Exception(error.messageEn)),
           customCode: error.code,
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
@@ -31,7 +33,7 @@ class LoginCubit extends Cubit<LoginState> {
         emit(state.copyWith(
           customMessage: singInUser.customCode,
           customMessageEs: singInUser.customMessageEs,
-          formStatus: SubmissionSuccess(),
+          formStatusLogin: SubmissionSuccess(),
         ));
       },
     );
@@ -53,8 +55,16 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(formStatus: const InitialFormStatus()));
   }
 
+  void cleanFormStatusLogin() async {
+    emit(state.copyWith(formStatusLogin: const InitialFormStatus()));
+  }
+
   void cleanFormStatusOtp() async {
     emit(state.copyWith(formStatusOtp: const InitialFormStatus()));
+  }
+
+  void cleanFormStatusForgotPassword() async {
+    emit(state.copyWith(formStatusForgotPassword: const InitialFormStatus()));
   }
 
   void initialStatus() async {
@@ -128,6 +138,84 @@ class LoginCubit extends Cubit<LoginState> {
       (logOut) {
         emit(state.copyWith(
           logOutSuccess: true,
+        ));
+      },
+    );
+  }
+
+  void setUserForgotPasswordEmail(String? email) async {
+    emit(state.copyWith(forgotPasswordEmail: email));
+  }
+
+  void setForgotPasswordOtp(String? otp) async {
+    emit(state.copyWith(forgotPasswordOtp: otp));
+  }
+
+  void setUserForgotPasswordNewPassword(String? password) async {
+    emit(state.copyWith(forgotPasswordNewPassword: password));
+  }
+
+  void emitForgotPassword() async {
+    final forgotPassword =
+        await registerRepository.forgotPassword(state.forgotPasswordEmail);
+    forgotPassword.fold(
+      (error) {
+        emit(state.copyWith(
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (forgotPassword) {
+        emit(state.copyWith(
+          customMessage: forgotPassword.customMessage,
+          customMessageEs: forgotPassword.customMessageEs,
+        ));
+      },
+    );
+  }
+
+  void emitForgotPasswordOtp() async {
+    final forgotPassword =
+        await registerRepository.forgotPassword(state.forgotPasswordEmail);
+    forgotPassword.fold(
+      (error) {
+        emit(state.copyWith(
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (forgotPassword) {
+        emit(state.copyWith(
+          customMessage: forgotPassword.customCode,
+          customMessageEs: forgotPassword.customMessageEs,
+        ));
+      },
+    );
+  }
+
+  void emitChangePassword() async {
+    emit(state.copyWith(formStatusForgotPassword: FormSubmitting()));
+    final forgotPassword = await registerRepository.changePassword(
+        state.forgotPasswordEmail,
+        state.forgotPasswordOtp,
+        state.forgotPasswordNewPassword);
+    forgotPassword.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatusForgotPassword:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (forgotPassword) {
+        emit(state.copyWith(
+          formStatusForgotPassword: SubmissionSuccess(),
+          customMessage: forgotPassword.customMessage,
+          customMessageEs: forgotPassword.customMessageEs,
         ));
       },
     );

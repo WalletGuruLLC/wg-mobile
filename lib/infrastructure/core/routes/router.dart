@@ -1,13 +1,16 @@
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/presentation/configuration_setting/page/configuration_setting_page.dart';
+import 'package:wallet_guru/presentation/forgot_password/page/forgot_password_view.dart';
 import 'package:wallet_guru/presentation/core/widgets/error/error_screen.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_page.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_provider.dart';
+import 'package:wallet_guru/presentation/funding/page/add_funding_validate_page.dart';
 import 'package:wallet_guru/presentation/funding/page/funding_screen_page.dart';
 
 import 'package:wallet_guru/presentation/home/page/home_page.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
+import 'package:wallet_guru/presentation/payments/pages/add_provider/add_provider_page.dart';
 import 'package:wallet_guru/presentation/payments/pages/payments_page.dart';
 import 'package:wallet_guru/presentation/payments/pages/receive_payment/receive_payment.dart';
 import 'package:wallet_guru/presentation/payments/pages/select_wallet/select_wallet_by_qr_page.dart';
@@ -132,8 +135,10 @@ class WalletGuruRouter {
         builder: (context, state) {
           final params =
               (state.extra ?? <String, dynamic>{}) as Map<String, dynamic>;
-          final title = params['title'] as String;
-          return WithdrawPage(title: title);
+          final totalAmount = params['totalAmount'] as String;
+          final listProvider = params['listProvider'] as List<String>;
+          return WithdrawPage(
+              totalAmount: totalAmount, listProvider: listProvider);
         }),
     GoRoute(
       name: Routes.receivePayment.name,
@@ -149,6 +154,11 @@ class WalletGuruRouter {
       name: Routes.addFunding.name,
       path: Routes.addFunding.path,
       builder: (context, state) => const AddFundingPage(),
+    ),
+    GoRoute(
+      name: Routes.forgotPassword.name,
+      path: Routes.forgotPassword.path,
+      builder: (context, state) => const ForgotPasswordPage(),
     ),
     GoRoute(
       name: Routes.transactionChart.name,
@@ -169,5 +179,14 @@ class WalletGuruRouter {
           final title = params['title'] as String;
           return AddFundsProvider(title: title);
         }),
+    GoRoute(
+      name: Routes.addProvider.name,
+      path: Routes.addProvider.path,
+      builder: (context, state) => const AddProviderPage(),
+    ),
+    GoRoute(
+        name: Routes.addValidateFunds.name,
+        path: Routes.addValidateFunds.path,
+        builder: (context, state) => const AddFundingValidatePage())
   ];
 }
