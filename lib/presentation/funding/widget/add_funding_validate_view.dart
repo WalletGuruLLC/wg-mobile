@@ -85,7 +85,7 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
           BlocBuilder<FundingCubit, FundingState>(
             builder: (context, state) {
               if (state.createIncomingPayment is FormSubmitting) {
-                return const CircularProgressIndicator();
+                return const Center(child: const CircularProgressIndicator());
               } else {
                 bool isButtonEnabled = state.isFundingButtonVisible;
                 return CustomButton(
