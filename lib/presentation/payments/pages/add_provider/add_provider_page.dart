@@ -15,7 +15,7 @@ class AddProviderPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       appBar: WalletGuruAppBar(
-        title: l10n.sendPayment,
+        title: l10n.addService,
         action: () {
           GoRouter.of(context).pushReplacementNamed(
             Routes.payments.name,

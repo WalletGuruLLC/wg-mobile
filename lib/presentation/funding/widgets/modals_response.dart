@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/application/funding/funding_cubit.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -86,14 +88,25 @@ class ModalHelper {
           doubleButton: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CustomButton(
-                width: Localizations.localeOf(context).languageCode == 'en'
-                    ? size.height * 0.15
-                    : size.height * 0.16,
-                text: l10n.add,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  fundingCubit.emitCreateIncomingPayment();
+              BlocBuilder<FundingCubit, FundingState>(
+                builder: (context, state) {
+                  if (state.createIncomingPayment is FormSubmitting) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return CustomButton(
+                      width:
+                          Localizations.localeOf(context).languageCode == 'en'
+                              ? size.height * 0.15
+                              : size.height * 0.16,
+                      text: l10n.add,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        context
+                            .read<FundingCubit>()
+                            .emitCreateIncomingPayment();
+                      },
+                    );
+                  }
                 },
               ),
               CustomButton(
