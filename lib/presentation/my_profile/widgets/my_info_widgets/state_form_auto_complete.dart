@@ -40,7 +40,7 @@ class _StateFormAutoCompleteState extends State<StateFormAutoComplete> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final userstateLocation =
-        BlocProvider.of<UserCubit>(context).state.user!.stateLocation;
+        BlocProvider.of<UserCubit>(context).state.user?.stateLocation ?? '';
 
     return BlocListener<UserCubit, UserState>(
       listener: (context, state) {
@@ -119,11 +119,11 @@ class _StateFormAutoCompleteState extends State<StateFormAutoComplete> {
                     alignment: Alignment.topLeft,
                     child: Material(
                       child: Container(
-                        height: 45,
+                        height: 50,
                         width: MediaQuery.of(context).size.width * 0.9,
                         color: Colors.grey[800], // Fondo gris oscuro
                         child: ListView.builder(
-                          padding: EdgeInsets.all(8.0),
+                          padding: EdgeInsets.zero,
                           itemCount: options.length,
                           itemBuilder: (BuildContext context, int index) {
                             final String option = options.elementAt(index);
