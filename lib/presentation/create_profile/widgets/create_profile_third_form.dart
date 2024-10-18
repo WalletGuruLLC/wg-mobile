@@ -13,6 +13,9 @@ import 'package:wallet_guru/presentation/core/widgets/forms/zip_code_form.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/city_form_auto_complete.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/country_form_auto_complete.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_form_auto_complete.dart';
 
 class CreateProfileThirdForm extends StatefulWidget {
   const CreateProfileThirdForm({super.key});
@@ -61,30 +64,37 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
                 countries.remove('United States');
                 countries.insert(0, 'United States');
               }
-              return CountryForm(
+              return CountryFormAutoComplete(
+                readOnly: false,
                 initialValue: state.country.isNotEmpty ? state.country : null,
-                items: countries,
                 onChanged: (value) {
                   if (value != null) {
                     createProfileCubit.selectCountry(value);
                   }
                 },
               );
+
+              // CountryForm(
+              //   initialValue: state.country.isNotEmpty ? state.country : null,
+              //   items: countries,
+              //   onChanged: (value) {
+              //     if (value != null) {
+              //       createProfileCubit.selectCountry(value);
+              //     }
+              //   },
+              // );
             },
           ),
           const SizedBox(height: 20),
           FormLabel(label: l10n.state),
           BlocBuilder<CreateProfileCubit, CreateProfileState>(
             builder: (context, state) {
-              return StateForm(
+              return StateFormAutoComplete(
+                readOnly: false,
                 initialValue:
-                    state.stateLocation.isNotEmpty ? state.stateLocation : null,
-                enabled: state.country.isNotEmpty,
-                items: state.states.isNotEmpty ? state.states : [''],
+                    state.stateLocation.isNotEmpty ? state.stateLocation : '',
                 onChanged: (value) {
-                  if (value != null) {
-                    createProfileCubit.selectState(value);
-                  }
+                  createProfileCubit.selectState(value);
                 },
               );
             },
@@ -93,15 +103,23 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
           FormLabel(label: l10n.city),
           BlocBuilder<CreateProfileCubit, CreateProfileState>(
             builder: (context, state) {
-              return CityForm(
-                initialValue: state.city.isNotEmpty ? state.city : null,
-                items: state.cities.isNotEmpty ? state.cities : [''],
+              return CityFormAutocomplete(
+                readOnly: false,
+                initialValue: state.city.isNotEmpty ? state.city : '',
                 onChanged: (value) {
-                  if (value != null) {
-                    createProfileCubit.selectCity(value);
-                  }
+                  createProfileCubit.selectCity(value!);
                 },
               );
+
+              // CityForm(
+              //   initialValue: state.city.isNotEmpty ? state.city : null,
+              //   items: state.cities.isNotEmpty ? state.cities : [''],
+              //   onChanged: (value) {
+              //     if (value != null) {
+              //       createProfileCubit.selectCity(value);
+              //     }
+              //   },
+              // );
             },
           ),
           const SizedBox(height: 20),

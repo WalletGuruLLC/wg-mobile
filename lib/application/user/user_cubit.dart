@@ -18,6 +18,11 @@ class UserCubit extends Cubit<UserState> {
   UserCubit() : super(const UserState());
 
   void emitGetUserInformation() async {
+    emit(
+      state.copyWith(
+        getCurrentUserInformationStatus: FormSubmitting(),
+      ),
+    );
     final registerResponse = await userRepository.getCurrentUserInformation();
 
     registerResponse.fold(
@@ -26,6 +31,8 @@ class UserCubit extends Cubit<UserState> {
           customCode: error.code,
           customMessage: error.messageEn,
           customMessageEs: error.messageEs,
+          getCurrentUserInformationStatus:
+              SubmissionFailed(exception: Exception(error.messageEn)),
         ));
       },
       (registerResponse) {
@@ -33,6 +40,7 @@ class UserCubit extends Cubit<UserState> {
         emit(state.copyWith(
           user: user,
           initialUser: user,
+          getCurrentUserInformationStatus: SubmissionSuccess(),
         ));
       },
     );
@@ -145,6 +153,7 @@ class UserCubit extends Cubit<UserState> {
     emit(state.copyWith(
       formStatus: const InitialFormStatus(),
       isSubmittable: false,
+      getCurrentUserInformationStatus: const InitialFormStatus(),
     ));
   }
 

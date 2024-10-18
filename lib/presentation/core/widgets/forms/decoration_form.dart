@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 
 class CustomInputDecoration {
-  final String hintText;
+  final String? hintText;
   final Widget? suffixIcon;
 
-  CustomInputDecoration({required this.hintText, this.suffixIcon});
+  CustomInputDecoration({this.hintText, this.suffixIcon});
 
   InputDecoration get decoration {
     return InputDecoration(

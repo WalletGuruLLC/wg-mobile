@@ -84,18 +84,23 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
           SizedBox(height: size.height * 0.6),
           BlocBuilder<FundingCubit, FundingState>(
             builder: (context, state) {
-              bool isButtonEnabled = state.isFundingButtonVisible;
-              return CustomButton(
-                border: Border.all(
-                    color: AppColorSchema.of(context).buttonBorderColor),
-                color: isButtonEnabled
-                    ? AppColorSchema.of(context).buttonColor
-                    : Colors.transparent,
-                text: l10n.addFundsFundingItem,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-                onPressed: () => isButtonEnabled ? _callCreateFunding() : null,
-              );
+              if (state.createIncomingPayment is FormSubmitting) {
+                return const Center(child: const CircularProgressIndicator());
+              } else {
+                bool isButtonEnabled = state.isFundingButtonVisible;
+                return CustomButton(
+                  border: Border.all(
+                      color: AppColorSchema.of(context).buttonBorderColor),
+                  color: isButtonEnabled
+                      ? AppColorSchema.of(context).buttonColor
+                      : Colors.transparent,
+                  text: l10n.addFundsFundingItem,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  onPressed: () =>
+                      isButtonEnabled ? _callCreateFunding() : null,
+                );
+              }
             },
           ),
         ],
