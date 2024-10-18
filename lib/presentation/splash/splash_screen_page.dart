@@ -12,6 +12,7 @@ import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/translations_error/translation_error_state.dart';
 import 'package:wallet_guru/application/translations_error/translation_error_cubit.dart';
+import 'package:wallet_guru/socket_io_manager.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
@@ -25,10 +26,13 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   @override
   void initState() {
+    SocketIOManager socketManager = SocketIOManager();
+    socketManager.initializeSocket();
+
     super.initState();
     _initPackageInfo();
-    _loadTranslations();
-    BlocProvider.of<SettingsCubit>(context).loadSettings();
+    //_loadTranslations();
+    //BlocProvider.of<SettingsCubit>(context).loadSettings();
   }
 
   void _loadTranslations() {
