@@ -63,9 +63,7 @@ dependencies:
   flutter_multi_formatter: ^2.13.0
   fl_chart: ^0.69.0
   share_plus: ^10.1.0
-  image_gallery_saver: ^2.0.3
   screenshot: ^3.0.0
-
   
 
   

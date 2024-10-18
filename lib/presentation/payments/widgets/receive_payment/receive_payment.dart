@@ -1,19 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pretty_qr_code/pretty_qr_code.dart';
-import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'dart:ui' as ui;
-
+import 'package:flutter/rendering.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:screenshot/screenshot.dart';
 
 class ReceivePaymentView extends StatefulWidget {
   const ReceivePaymentView({super.key});
@@ -48,25 +46,6 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
       final imagePath = '${directory.path}/qr_code.png';
       await File(imagePath).writeAsBytes(pngBytes);
       await Share.shareXFiles([XFile(imagePath)], text: 'QR');
-    } catch (e) {
-      print('error $e');
-    }
-  }
-
-  Future<void> _downloadQrCode() async {
-    try {
-      // Captura la imagen del QR
-      RenderRepaintBoundary boundary =
-          qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-      Uint8List pngBytes = byteData!.buffer.asUint8List();
-      // Guarda la imagen en la galería
-      final result = await ImageGallerySaver.saveImage(pngBytes, quality: 100);
-      // Notifica al usuario sobre el resultado
-      if (result != null && result['isSuccess'] == true) {
-      } else {}
     } catch (e) {
       print('error $e');
     }
@@ -199,50 +178,17 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Platform.isAndroid
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            GestureDetector(
-                              onTap: _shareQrCode,
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                child: const Icon(
-                                  Icons.share_outlined,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.white,
-                              height: 20,
-                              thickness: 4,
-                            ),
-                            GestureDetector(
-                              onTap: _downloadQrCode,
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                child: const Icon(
-                                  Icons.download_outlined,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : GestureDetector(
-                          onTap: _shareQrCode,
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            child: const Icon(
-                              Icons.share_outlined,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ),
-                        ),
+                  child: GestureDetector(
+                    onTap: _shareQrCode,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      child: const Icon(
+                        Icons.share_outlined,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
