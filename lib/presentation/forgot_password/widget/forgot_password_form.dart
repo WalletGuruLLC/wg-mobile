@@ -317,7 +317,7 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
-          buttonWidth: MediaQuery.of(context).size.width * 0.4,
+          buttonWidth: MediaQuery.of(context).size.width * 0.43,
           isSucefull: true,
           content: Column(
             children: [
