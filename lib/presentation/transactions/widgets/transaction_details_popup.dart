@@ -47,10 +47,10 @@ class TransactionDetailsPopup extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          _buildDetailRow(l10n.transactionsDetailsPayedTo,
-              transaction.receiver ?? 'N/A', size),
+          _buildDetailRow(
+              l10n.transactionsDetailsPayedTo, transaction.receiverUrl, size),
           _buildDetailRow(l10n.transactionsDetailsWalletAddress,
-              transaction.walletAddressId, size),
+              transaction.senderUrl, size),
           _buildDetailRow(l10n.transactionsDetailsDate,
               DateFormat('MM/dd/yyyy').format(transaction.createdAt), size),
           _buildDetailRow(l10n.transactionsDetailsTime,
