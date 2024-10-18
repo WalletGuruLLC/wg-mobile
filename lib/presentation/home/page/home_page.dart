@@ -12,6 +12,7 @@ import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/bottom_navigation_menu.dart';
 import 'package:wallet_guru/presentation/home/widgets/last_transactions_list.dart';
+import 'package:wallet_guru/socket_io_manager.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,6 +22,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //late SocketIOManager _socketManager;
+
   @override
   void initState() {
     final userCubit = BlocProvider.of<UserCubit>(context);
@@ -29,8 +32,21 @@ class _HomePageState extends State<HomePage> {
     BlocProvider.of<TransactionCubit>(context).loadTransactions();
     BlocProvider.of<CreateProfileCubit>(context).emitInitialStatus();
     BlocProvider.of<SendPaymentCubit>(context).emitGetWalletInformation();
+
+    // Inicializar y conectar el socket
+    //_socketManager = SocketIOManager();
+    //_socketManager.initializeSocket();
+
     super.initState();
   }
+
+  //@override
+  //void dispose() {
+  //  // Desconectar el socket cuando se destruye el widget
+  //  _socketManager.disconnect();
+  //  //_socketManager.dispose();
+  //  super.dispose();
+  //}
 
   @override
   Widget build(BuildContext context) {

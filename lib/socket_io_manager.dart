@@ -5,7 +5,7 @@ class SocketIOManager {
 
   void initializeSocket() {
     socket = IO.io(
-        'https://d415-186-112-240-36.ngrok-free.app/users-balance',
+        'https://7534-186-112-240-36.ngrok-free.app/users-balance',
         <String, dynamic>{
           'transports': ['websocket'],
           //'autoConnect': true,
@@ -15,10 +15,6 @@ class SocketIOManager {
           }
         });
 
-    //socket.onConnect((_) {
-    //  print('Connection established');
-    //});
-
     socket.on('hc', (data) => print(data));
     socket.on('balance', (data) => print(data));
     socket.on('error', (data) => print(data));
@@ -26,11 +22,6 @@ class SocketIOManager {
     socket.on('disconnect', (_) => print('disconnect'));
     socket.on('fromServer', (_) => print(_));
 
-    //socket.onDisconnect((_) => print('Connection Disconnection'));
-    //socket.onConnectError((err) => print('Connect Error: $err'));
-    //socket.onError((err) => print('Error: $err'));
-
-    //socket.connect();
     socket.on('connect', (_) {
       print('connect');
       Map<String, dynamic> message = {"hola": "hola"};
