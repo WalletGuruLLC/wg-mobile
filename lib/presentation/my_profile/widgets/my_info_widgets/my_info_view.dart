@@ -12,11 +12,13 @@ import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/zip_code_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/petition_response_modal.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/activator_field_widget.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/city_form_auto_complete.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/city_section.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/countryFormAutoComplete.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/country_form_auto_complete.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/country_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/phone_number_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/save_button.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_form_auto_complete.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_header.dart';
 
@@ -84,51 +86,53 @@ class _MyInfoViewState extends State<MyInfoView> {
               ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.country),
-              CountryFormAutocomplete(
+              CountryFormAutoComplete(
+                  readOnly: readOnly,
                   fieldActivatorWidget: _buildFieldActivatorWidget(true),
                   initialValue: user?.country,
                   onChanged: (value) {
                     userCubit.updateUser(
                         country: value, stateLocation: '', city: '');
                   }),
-              CountryFormSection(
-                initialValue: user?.country ?? '',
-                onChanged: (value) {
-                  userCubit.updateUser(
-                      country: value, stateLocation: '', city: '');
-                },
-              ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.state),
               if (user?.stateLocation == initialUser?.stateLocation)
-                StateFormSection(
-                  initialValue: initialUser?.stateLocation ?? '',
+                StateFormAutoComplete(
+                  readOnly: readOnly,
+                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                  initialValue: user?.stateLocation ?? '',
                   onChanged: (value) {
-                    userCubit.updateUser(stateLocation: value);
+                    userCubit.updateUser(stateLocation: value, city: '');
                   },
                 ),
               if (user?.stateLocation != initialUser?.stateLocation)
-                StateFormSection2(
-                  initialValue: user?.stateLocation,
+                StateFormAutoComplete(
+                  readOnly: readOnly,
+                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                  initialValue: user?.stateLocation ?? '',
                   onChanged: (value) {
-                    userCubit.updateUser(stateLocation: value);
+                    userCubit.updateUser(stateLocation: value, city: '');
                   },
                 ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.city),
               if (user?.city == initialUser?.city)
-                CityFormSection(
+                CityFormAutocomplete(
+                  readOnly: readOnly,
                   initialValue: initialUser?.city ?? '',
                   onChanged: (value) {
                     userCubit.updateUser(city: value);
                   },
+                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
                 ),
               if (user?.city != initialUser?.city)
-                CityFormSection2(
+                CityFormAutocomplete(
+                  readOnly: readOnly,
                   initialValue: user?.city ?? '',
                   onChanged: (value) {
                     userCubit.updateUser(city: value);
                   },
+                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
                 ),
               SizedBox(height: size * 0.015),
               FormLabel(label: l10n.zipCode),

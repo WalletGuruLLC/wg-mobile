@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/decoration_form.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CountryFormAutocomplete extends StatefulWidget {
+class CountryFormAutoComplete extends StatefulWidget {
   final String? initialValue;
   final void Function(String?) onChanged;
   final Widget? fieldActivatorWidget;
+  final bool? readOnly; //
 
-  const CountryFormAutocomplete({
+  const CountryFormAutoComplete({
     super.key,
     required this.initialValue,
     required this.onChanged,
     this.fieldActivatorWidget,
+    this.readOnly,
   });
 
   @override
-  _CountryFormAutocompleteState createState() =>
-      _CountryFormAutocompleteState();
+  State<CountryFormAutoComplete> createState() =>
+      _CountryFormAutoCompleteState();
 }
 
-class _CountryFormAutocompleteState extends State<CountryFormAutocomplete> {
+class _CountryFormAutoCompleteState extends State<CountryFormAutoComplete> {
   late TextEditingController _textEditingController;
   late FocusNode _focusNode;
-  bool _isValid = true; // Estado para mostrar error si es necesario
+  bool _isValid = true;
 
   @override
   void initState() {
@@ -43,6 +47,8 @@ class _CountryFormAutocompleteState extends State<CountryFormAutocomplete> {
   Widget build(BuildContext context) {
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
+        final l10n = AppLocalizations.of(context);
+
         final createProfileCubit = context.read<CreateProfileCubit>();
         List<String> countries = List.from(state.countries);
 
@@ -68,7 +74,7 @@ class _CountryFormAutocompleteState extends State<CountryFormAutocomplete> {
               },
               onSelected: (String value) {
                 setState(() {
-                  _isValid = true; // Restablecer validez al seleccionar
+                  _isValid = true;
                 });
                 widget.onChanged(value);
                 createProfileCubit.selectCountry(value);
@@ -80,17 +86,30 @@ class _CountryFormAutocompleteState extends State<CountryFormAutocomplete> {
                 _textEditingController = textEditingController;
                 _focusNode = focusNode;
                 return TextFormField(
+                  readOnly: widget.readOnly ?? true,
                   controller: textEditingController,
                   focusNode: focusNode,
+                  style: GoogleFonts.montserrat(
+                    color: Colors.white,
+                  ),
                   decoration: CustomInputDecoration(
-                    hintText: 'Country',
+                    suffixIcon: widget.fieldActivatorWidget,
+                    hintText: l10n!.country,
                   ).decoration,
                   onFieldSubmitted: (String value) {
                     onFieldSubmitted();
                     _validateSelection(countries);
                   },
                   validator: (value) {
-                    return _isValid ? null : 'Please select a valid country';
+                    print('value: $value');
+                    if (value == null ||
+                        value.isEmpty ||
+                        !countries.contains(value)) {
+                      _isValid = false;
+                      return l10n.pleaseSelectGenericValue;
+                    }
+                    _isValid = true;
+                    return null;
                   },
                 );
               },
@@ -101,9 +120,9 @@ class _CountryFormAutocompleteState extends State<CountryFormAutocomplete> {
                   alignment: Alignment.topLeft,
                   child: Material(
                     child: Container(
-                      // Padding del 10% de la pantalla (aproximado)
                       width: MediaQuery.of(context).size.width * 0.9,
-                      color: const Color.fromARGB(255, 126, 122, 122),
+                      height: 160,
+                      color: Color.fromARGB(255, 60, 59, 59),
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
                         itemCount: options.length,
@@ -135,11 +154,11 @@ class _CountryFormAutocompleteState extends State<CountryFormAutocomplete> {
 
   void _validateSelection(List<String> validCountries) {
     setState(() {
-      if (!_textEditingController.text.isEmpty &&
+      if (_textEditingController.text.isNotEmpty &&
           !validCountries.contains(_textEditingController.text)) {
-        _isValid = false; // Mostrar error si el valor no es válido
+        _isValid = false;
       } else {
-        _isValid = true; // No mostrar error si el valor es válido
+        _isValid = true;
       }
     });
   }
