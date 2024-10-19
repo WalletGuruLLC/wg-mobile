@@ -512,7 +512,7 @@ class OutgoingPaymentResponse {
 class OutgoingPayment {
   final String createdAt;
   final String? error;
-  final String? metadata;
+  //final String? metadata;
   final String id;
   final String walletAddressId;
   final Amount receiveAmount;
@@ -525,7 +525,7 @@ class OutgoingPayment {
   OutgoingPayment({
     required this.createdAt,
     this.error,
-    this.metadata,
+    //this.metadata,
     required this.id,
     required this.walletAddressId,
     required this.receiveAmount,
@@ -540,7 +540,7 @@ class OutgoingPayment {
     return OutgoingPayment(
       createdAt: json['createdAt'],
       error: json['error'],
-      metadata: json['metadata'],
+      //metadata: json['metadata'],
       id: json['id'],
       walletAddressId: json['walletAddressId'],
       receiveAmount: Amount.fromJson(json['receiveAmount']),
