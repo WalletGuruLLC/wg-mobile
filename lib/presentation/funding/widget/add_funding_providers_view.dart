@@ -80,6 +80,9 @@ class _AddFundingProviderViewState extends State<AddFundingProviderView> {
                   child: AmountForm(
                     controller: _amountController,
                     onChanged: (value) {
+                      if (RegExp(r'^0([.,]0*)?$').hasMatch(value!)) {
+                        return;
+                      }
                       fundingCubit.updateFundingEntity(
                         amountToAddFund: value,
                         walletAddressUrl:
@@ -133,10 +136,11 @@ class _AddFundingProviderViewState extends State<AddFundingProviderView> {
 
   void _callCreateFunding() {
     double balance = BlocProvider.of<UserCubit>(context).state.balance;
-    if (balance < double.parse(_amountController.text)) {
+    if (balance < double.parse(_amountController.text.replaceAll(',', '.'))) {
       modalHelper
           .buildInsufficientBalanceModal(); // Llamada al modal de saldo insuficiente
-    } else if (balance >= double.parse(_amountController.text)) {
+    } else if (balance >=
+        double.parse(_amountController.text.replaceAll(',', '.'))) {
       modalHelper.buildConfirmModal(
           _amountController.text); // Llamada al modal de confirmación
     }
