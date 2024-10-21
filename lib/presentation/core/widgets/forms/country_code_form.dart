@@ -85,7 +85,6 @@ class _CountryCodeFormAutoCompleteState
         SizedBox(
           width: 80,
           child: Autocomplete<String>(
-            initialValue: TextEditingValue(text: widget.initialValue ?? ''),
             optionsBuilder: (TextEditingValue textEditingValue) {
               if (textEditingValue.text.isEmpty) {
                 return const Iterable<String>.empty();
@@ -109,7 +108,8 @@ class _CountryCodeFormAutoCompleteState
                 style: GoogleFonts.montserrat(
                   color: Colors.white,
                 ),
-                decoration: CustomInputDecoration().decoration,
+                decoration: CustomInputDecoration(hintText: widget.initialValue)
+                    .decoration,
                 onFieldSubmitted: (String value) {
                   onFieldSubmitted();
                   _validateSelection(widget.items);

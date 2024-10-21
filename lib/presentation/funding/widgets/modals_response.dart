@@ -77,7 +77,7 @@ class ModalHelper {
               SizedBox(height: size.height * 0.01),
               TextBase(
                 textAlign: TextAlign.center,
-                text: '${l10n.confirmFundsText}$amount',
+                text: '${l10n.confirmFundsText}$amount?',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColorSchema.of(context).secondaryText,
@@ -170,6 +170,8 @@ class ModalHelper {
           ),
           onPressed: () {
             Navigator.of(context).pop();
+            BlocProvider.of<FundingCubit>(context)
+                .resetCreateIncomingPaymentStatus();
           },
         );
       },
