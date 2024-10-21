@@ -93,7 +93,8 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
                   builder: (context, state) {
                     final uniqueCountriesCode =
                         state.countriesCode.toSet().toList();
-                    return CountryCodeForm(
+                    return CountryCodeFormAutoComplete(
+                      initialValue: '+00',
                       items: uniqueCountriesCode,
                       onChanged: (value) {
                         if (value != null) {
@@ -101,6 +102,14 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
                         }
                       },
                     );
+                    // return CountryCodeForm(
+                    //   items: uniqueCountriesCode,
+                    //   onChanged: (value) {
+                    //     if (value != null) {
+                    //       createProfileCubit.selectCountryCode(value);
+                    //     }
+                    //   },
+                    // );
                   },
                 ),
                 Expanded(

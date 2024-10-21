@@ -35,18 +35,18 @@ class PhoneNumberFormSection extends StatelessWidget {
                     : uniqueCountriesCode.isNotEmpty
                         ? uniqueCountriesCode.first
                         : '';
-
-            return CountryCodeForm(
-              initialValue: adjustedCodeInitialValue,
-              items: uniqueCountriesCode,
-              onChanged: (value) {
-                if (value != null) {
-                  BlocProvider.of<CreateProfileCubit>(context)
-                      .selectCountryCode(value);
-                  onCodeChanged(value);
-                }
-              },
-            );
+            return adjustedCodeInitialValue.isEmpty
+                ? const SizedBox()
+                : CountryCodeFormAutoComplete(
+                    initialValue: adjustedCodeInitialValue,
+                    onChanged: (value) {
+                      if (value != null && value.isNotEmpty) {
+                        BlocProvider.of<CreateProfileCubit>(context)
+                            .selectCountryCode(value);
+                        onCodeChanged(value);
+                      }
+                    },
+                    items: uniqueCountriesCode);
           },
         ),
         Expanded(

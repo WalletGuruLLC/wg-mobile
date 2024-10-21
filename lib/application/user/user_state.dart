@@ -20,6 +20,7 @@ class UserState extends Equatable {
   final double balance;
   final double reservedFunds;
   final String walletAddress;
+  final FormSubmissionStatus getCurrentUserInformationStatus;
 
   const UserState({
     this.user,
@@ -41,6 +42,7 @@ class UserState extends Equatable {
     this.balance = 0.0,
     this.reservedFunds = 0.0,
     this.walletAddress = '',
+    this.getCurrentUserInformationStatus = const InitialFormStatus(),
   });
 
   UserState copyWith({
@@ -63,6 +65,7 @@ class UserState extends Equatable {
     double? balance,
     double? reservedFunds,
     String? walletAddress,
+    FormSubmissionStatus? getCurrentUserInformationStatus,
   }) =>
       UserState(
         user: user ?? this.user,
@@ -85,6 +88,8 @@ class UserState extends Equatable {
         balance: balance ?? this.balance,
         reservedFunds: reservedFunds ?? this.reservedFunds,
         walletAddress: walletAddress ?? this.walletAddress,
+        getCurrentUserInformationStatus: getCurrentUserInformationStatus ??
+            this.getCurrentUserInformationStatus,
       );
 
   @override
@@ -108,5 +113,6 @@ class UserState extends Equatable {
         balance,
         reservedFunds,
         walletAddress,
+        getCurrentUserInformationStatus,
       ];
 }
