@@ -1,48 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/decoration_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/dropdown_base.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-class CountryCodeForm extends StatelessWidget {
-  final String? initialValue;
-  final List<String> items;
-  final Function(String?) onChanged;
-  const CountryCodeForm({
-    super.key,
-    required this.items,
-    this.initialValue,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    String hintText = l10n.selectYourCountryCode;
-
-    return BaseDropdown(
-      initialValue: initialValue,
-      width: 80,
-      hintText: hintText,
-      items: items,
-      onChanged: onChanged,
-      decoration: CustomInputDecoration(hintText: hintText).decoration,
-      hintStyle: AppTextStyles.formText,
-    );
-  }
-}
 
 class CountryCodeFormAutoComplete extends StatefulWidget {
   final String? initialValue;
   final List<String> items;
   final void Function(String?) onChanged;
+  final bool? isCreated;
 
   const CountryCodeFormAutoComplete({
     super.key,
     required this.initialValue,
     required this.onChanged,
     required this.items,
+    this.isCreated = false,
   });
 
   @override
@@ -85,14 +57,22 @@ class _CountryCodeFormAutoCompleteState
         SizedBox(
           width: 80,
           child: Autocomplete<String>(
-            initialValue: TextEditingValue(text: widget.initialValue ?? ''),
+            initialValue: widget.isCreated!
+                ? TextEditingValue(text: widget.initialValue ?? '')
+                : null,
             optionsBuilder: (TextEditingValue textEditingValue) {
               if (textEditingValue.text.isEmpty) {
                 return const Iterable<String>.empty();
               }
-              return widget.items.where((code) {
-                return code.contains(textEditingValue.text);
-              });
+              final query = textEditingValue.text.toLowerCase();
+              final List<String> filteredItems = widget.items
+                  .where((item) => item.toLowerCase().contains(query))
+                  .toList();
+              if (query == '1' && filteredItems.contains('+1')) {
+                filteredItems.remove('+1');
+                filteredItems.insert(0, '+1');
+              }
+              return filteredItems;
             },
             onSelected: (String value) {
               widget.onChanged(value);
@@ -109,7 +89,11 @@ class _CountryCodeFormAutoCompleteState
                 style: GoogleFonts.montserrat(
                   color: Colors.white,
                 ),
-                decoration: CustomInputDecoration().decoration,
+                decoration: widget.isCreated!
+                    ? CustomInputDecoration().decoration
+                    : CustomInputDecoration().decoration.copyWith(
+                          hintText: '+00',
+                        ),
                 onFieldSubmitted: (String value) {
                   onFieldSubmitted();
                   _validateSelection(widget.items);
