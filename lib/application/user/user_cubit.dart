@@ -5,17 +5,42 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/entities/user_entity.dart';
 import 'package:wallet_guru/domain/core/entities/wallet_entity.dart';
-import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
-
+import 'package:wallet_guru/domain/websocket/i_websocket_service.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
+import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 
 part 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
+  final IWebSocketService webSocketService =
+      Injector.resolve<IWebSocketService>();
   final UserRepository userRepository = Injector.resolve<UserRepository>();
 
   UserCubit() : super(const UserState());
+
+  void initializeWebSocket() async {
+    await webSocketService.connect();
+    webSocketService.onMessage('balance').listen((data) {
+      updateBalanceFromWebSocket(data);
+    });
+  }
+
+  void updateBalanceFromWebSocket(Map<String, dynamic> data) {
+    final scale = state.wallet?.walletAsset.scale ?? 0;
+    final availableFunds =
+        (data['postedCredit'] - (data['pendingDebit'] + data['postedDebit'])) /
+            (pow(10, scale));
+    final balance =
+        (data['postedCredit'] - data['postedDebit']) / (pow(10, scale));
+    final reservedFunds = data['pendingDebit'] / (pow(10, scale));
+
+    emit(state.copyWith(
+      availableFunds: availableFunds,
+      balance: balance,
+      reservedFunds: reservedFunds,
+    ));
+  }
 
   void emitGetUserInformation() async {
     emit(
