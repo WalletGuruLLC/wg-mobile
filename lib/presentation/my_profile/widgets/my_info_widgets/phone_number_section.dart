@@ -38,6 +38,7 @@ class PhoneNumberFormSection extends StatelessWidget {
             return adjustedCodeInitialValue.isEmpty
                 ? const SizedBox()
                 : CountryCodeFormAutoComplete(
+                    isCreated: true,
                     initialValue: adjustedCodeInitialValue,
                     onChanged: (value) {
                       if (value != null && value.isNotEmpty) {
