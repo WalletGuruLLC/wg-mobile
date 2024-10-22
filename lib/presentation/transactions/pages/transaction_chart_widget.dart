@@ -345,8 +345,9 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
           children: [
             ListTile(
               title: TextBase(
-                text:
-                    transaction.type == 'IncomingPayment' ? 'Credit' : 'Debit',
+                text: transaction.type == 'IncomingPayment'
+                    ? transaction.senderName
+                    : transaction.receiverName,
                 fontSize: 16,
                 color: AppColorSchema.of(context).primaryText,
               ),
