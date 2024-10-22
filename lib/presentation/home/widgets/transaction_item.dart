@@ -31,7 +31,7 @@ class TransactionItem extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            title == 'OutgoingPayment'
+            transactionType == 'OutgoingPayment'
                 ? Icons.arrow_circle_up
                 : Icons.arrow_circle_down,
             color: Colors.white,
