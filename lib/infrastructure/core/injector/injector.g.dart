@@ -109,4 +109,10 @@ class _$Injector extends Injector {
       ..registerFactory<DepositRepository>((c) => DepositRepositoryImpl(
           depositDataSource: c.resolve<DepositDataSource>()));
   }
+
+  @override
+  void _configureWebSocketFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container.registerSingleton<IWebSocketService>((c) => SocketIOService());
+  }
 }
