@@ -6,11 +6,13 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 
 class TransactionItem extends StatelessWidget {
   final String title;
+  final String transactionType;
   final String amount;
 
   const TransactionItem({
     super.key,
     required this.title,
+    required this.transactionType,
     required this.amount,
   });
 
@@ -38,7 +40,7 @@ class TransactionItem extends StatelessWidget {
           SizedBox(width: size.width * 0.03),
           Expanded(
             child: TextBase(
-              text: title == 'OutgoingPayment' ? 'Outgoing' : 'Incoming',
+              text: title,
               fontSize: size.width * 0.04,
               fontWeight: FontWeight.w400,
             ),
