@@ -66,6 +66,7 @@ class _AddFundingValidateViewState extends State<AddFundingValidateView> {
                     controller: _amountController,
                     onChanged: (value) {
                       if (RegExp(r'^0([.,]0*)?$').hasMatch(value!)) {
+                        fundingCubit.updateFundingEntity(amountToAddFund: '');
                         return;
                       }
                       fundingCubit.updateFundingEntity(

@@ -27,6 +27,7 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
     super.initState();
 
     BlocProvider.of<FundingCubit>(context).resetFundingQrStatus();
+    BlocProvider.of<FundingCubit>(context).resetFundingEntity();
     BlocProvider.of<FundingCubit>(context).resetCreateIncomingPaymentStatus();
     BlocProvider.of<SendPaymentCubit>(context).emitGetListIncomingPayment();
     BlocProvider.of<SendPaymentCubit>(context).emitGetListLinkedProviders();
