@@ -9,8 +9,53 @@ class TransactionCubit extends Cubit<TransactionState> {
   TransactionCubit() : super(TransactionInitial());
   final transactionRepository = Injector.resolve<TransactionRepository>();
 
-  Future<void> loadTransactions(
-      {DateTime? startDate, DateTime? endDate, String? transactionType}) async {
+    List<TransactionsModel> _processTransactions(List<TransactionsModel> transactions) {
+    List<TransactionsModel> processedList = [];
+    Map<String, TransactionsModel> providerTransactions = {};
+
+    for (var transaction in transactions) {
+      if (transaction.metadata.type == "PROVIDER") {
+        // Agrupamos por receiverName para providers
+        String providerKey = transaction.receiverName;
+        
+        if (providerTransactions.containsKey(providerKey)) {
+          // Sumamos al proveedor existente
+          var existingTransaction = providerTransactions[providerKey]!;
+          double currentAmount = existingTransaction.receiveAmount?.value ?? 0;
+          double newAmount = transaction.receiveAmount?.value ?? 0;
+
+          providerTransactions[providerKey] = existingTransaction.copyWith(
+            receiveAmount: Amount(
+              typename: existingTransaction.receiveAmount?.typename ?? "",
+              assetScale: existingTransaction.receiveAmount?.assetScale ?? 2,
+              assetCode: existingTransaction.receiveAmount?.assetCode ?? "USD",
+              value: currentAmount + newAmount,
+            ),
+          );
+        } else {
+          // Primera transacción del proveedor
+          providerTransactions[providerKey] = transaction;
+        }
+      } else {
+        // Para transacciones de usuarios, las agregamos directamente
+        processedList.add(transaction);
+      }
+    }
+
+    // Agregamos las transacciones de proveedores procesadas
+    processedList.addAll(providerTransactions.values);
+
+    // Ordenamos por fecha más reciente
+    processedList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
+    return processedList;
+  }
+
+  Future<void> loadTransactions({
+    DateTime? startDate,
+    DateTime? endDate,
+    String? transactionType,
+  }) async {
     emit(TransactionLoading());
     final result = await transactionRepository.getTransactions();
     result.fold(
@@ -18,19 +63,25 @@ class TransactionCubit extends Cubit<TransactionState> {
       (response) {
         final allTransactions = response.data!.transactions!;
 
-        if (startDate != null &&
-            endDate != null &&
-            startDate!.isAfter(endDate!)) {
+        if (startDate != null && endDate != null && startDate!.isAfter(endDate!)) {
           final temp = startDate;
           startDate = endDate;
           endDate = temp;
         }
 
         final filteredTransactions = _filterTransactions(
-            allTransactions, startDate, endDate, transactionType);
+          allTransactions,
+          startDate,
+          endDate,
+          transactionType,
+        );
+
+        final processedTransactions = _processTransactions(filteredTransactions);
+
         emit(TransactionLoaded(
           payments: filteredTransactions,
           allPayments: allTransactions,
+          processedPayments: processedTransactions,
           startDate: startDate,
           endDate: endDate,
           transactionType: transactionType,
