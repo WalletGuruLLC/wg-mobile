@@ -4,6 +4,7 @@ import 'package:http_parser/http_parser.dart'; // Necesario para MediaType
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 
 class HttpDataSource {
   static final Map<String, String> _headers = {};
@@ -124,7 +125,7 @@ class HttpDataSource {
 
   // Processes the HTTP response and handles errors
   // Returns: Future with the decoded response body
-  static dynamic _processResponse(http.Response response) {
+  static dynamic _processResponse(http.Response response) async {
     switch (response.statusCode) {
       case 200:
         return decode(response.body);
@@ -133,12 +134,17 @@ class HttpDataSource {
       case 400:
         throw Exception('Bad request: ${response.body}');
       case 401:
+        await _refreshToken();
       case 403:
         throw Exception('Unauthorized: ${response.body}');
       case 500:
       default:
         throw Exception(response);
     }
+  }
+
+  static Future<void> _refreshToken() async {
+    LoginDataSource().refreshToken();
   }
 
   static String _getMimeType(String filePath) {
