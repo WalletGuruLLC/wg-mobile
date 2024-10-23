@@ -9,15 +9,17 @@ class TransactionCubit extends Cubit<TransactionState> {
   TransactionCubit() : super(TransactionInitial());
   final transactionRepository = Injector.resolve<TransactionRepository>();
 
-    List<TransactionsModel> _processTransactions(List<TransactionsModel> transactions) {
+  List<TransactionsModel> _processTransactions(
+      List<TransactionsModel> transactions) {
     List<TransactionsModel> processedList = [];
     Map<String, TransactionsModel> providerTransactions = {};
 
     for (var transaction in transactions) {
       if (transaction.metadata.type == "PROVIDER") {
-        // Agrupamos por receiverName para providers
-        String providerKey = transaction.receiverName;
-        
+        // Agrupamos por receiverName y activityId para providers
+        String providerKey =
+            "${transaction.receiverName}_${transaction.metadata.activityId}";
+
         if (providerTransactions.containsKey(providerKey)) {
           // Sumamos al proveedor existente
           var existingTransaction = providerTransactions[providerKey]!;
@@ -57,37 +59,47 @@ class TransactionCubit extends Cubit<TransactionState> {
     String? transactionType,
   }) async {
     emit(TransactionLoading());
-    final result = await transactionRepository.getTransactions();
-    result.fold(
-      (exception) => emit(TransactionError(message: exception.toString())),
-      (response) {
-        final allTransactions = response.data!.transactions!;
+    try {
+      final result = await transactionRepository.getTransactions();
+      result.fold(
+        (exception) => emit(TransactionError(message: exception.toString())),
+        (response) {
+          final allTransactions = response.data!.transactions!;
 
-        if (startDate != null && endDate != null && startDate!.isAfter(endDate!)) {
-          final temp = startDate;
-          startDate = endDate;
-          endDate = temp;
-        }
+          // Normalizamos las fechas si es necesario
+          if (startDate != null &&
+              endDate != null &&
+              startDate!.isAfter(endDate!)) {
+            final temp = startDate;
+            startDate = endDate;
+            endDate = temp;
+          }
 
-        final filteredTransactions = _filterTransactions(
-          allTransactions,
-          startDate,
-          endDate,
-          transactionType,
-        );
+          // Primero filtramos
+          final filteredTransactions = _filterTransactions(
+            allTransactions,
+            startDate,
+            endDate,
+            transactionType,
+          );
 
-        final processedTransactions = _processTransactions(filteredTransactions);
+          // Luego procesamos y agrupamos
+          final processedTransactions =
+              _processTransactions(filteredTransactions);
 
-        emit(TransactionLoaded(
-          payments: filteredTransactions,
-          allPayments: allTransactions,
-          processedPayments: processedTransactions,
-          startDate: startDate,
-          endDate: endDate,
-          transactionType: transactionType,
-        ));
-      },
-    );
+          emit(TransactionLoaded(
+            payments: allTransactions,
+            allPayments: allTransactions,
+            processedPayments: processedTransactions,
+            startDate: startDate,
+            endDate: endDate,
+            transactionType: transactionType,
+          ));
+        },
+      );
+    } catch (e) {
+      emit(TransactionError(message: e.toString()));
+    }
   }
 
   List<TransactionsModel> _filterTransactions(
@@ -101,13 +113,22 @@ class TransactionCubit extends Cubit<TransactionState> {
       endDate = null;
     }
     return transactions.where((t) {
-      final isInDateRange =
-          (startDate == null || !t.createdAt.isBefore(startDate)) &&
-              (endDate == null || !t.createdAt.isAfter(endDate));
+      final date =
+          DateTime(t.createdAt.year, t.createdAt.month, t.createdAt.day);
+      final start = startDate != null
+          ? DateTime(startDate.year, startDate.month, startDate.day)
+          : null;
+      final end = endDate != null
+          ? DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59)
+          : null;
+
+      final isInDateRange = (start == null || !date.isBefore(start)) &&
+          (end == null || !date.isAfter(end));
       final matchesType = transactionType == null ||
           transactionType == 'All' ||
           (transactionType == 'Credits' && t.type == 'IncomingPayment') ||
           (transactionType == 'Debits' && t.type == 'OutgoingPayment');
+
       return isInDateRange && matchesType;
     }).toList();
   }
