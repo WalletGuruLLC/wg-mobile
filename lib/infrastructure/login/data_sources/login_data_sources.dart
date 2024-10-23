@@ -43,9 +43,10 @@ class LoginDataSource {
     if (response.statusCode == 200) {
       ResponseModel userAuthenticationResponse = ResponseModel.fromJson(result);
       storage.setString('Basic', userAuthenticationResponse.data!.token);
+      storage.setString('email', userAuthenticationResponse.data!.user!.email);
       storage.setBool(
           'firstFunding', userAuthenticationResponse.data!.user!.firstFunding);
-
+      await refreshToken();
       return userAuthenticationResponse;
     } else {
       final errorModel = ResponseModel.fromJson(result);
@@ -135,6 +136,31 @@ class LoginDataSource {
       ResponseModel changePasswordResponseModel =
           ResponseModel.fromJson(result);
       return changePasswordResponseModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
+    }
+  }
+
+  Future<ResponseModel> refreshToken() async {
+    final storage = await SharedPreferences.getInstance();
+    final String? userEmail = storage.getString('email');
+    final String? basic = storage.getString('Basic');
+    var response = await HttpDataSource.post(
+      LoginNetwork.refreshToken,
+      {
+        "email": userEmail,
+        "token": basic,
+      },
+    );
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      ResponseModel signUpResponseModel = ResponseModel.fromJson(result);
+      return signUpResponseModel;
     } else {
       final errorModel = ResponseModel.fromJson(result);
       throw InvalidData(
