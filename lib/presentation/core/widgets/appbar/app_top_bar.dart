@@ -25,10 +25,6 @@ class WalletGuruAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print(size.width);
-    print(size.width);
-    print(size.width);
-    print(size.width);
     return SafeArea(
       top: true,
       child: Padding(

@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/address_form.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/zip_code_form.dart';
+import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/petition_response_modal.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/save_button.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_header.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/phone_number_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/activator_field_widget.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/city_form_auto_complete.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/city_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/country_form_auto_complete.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/country_section.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/phone_number_section.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/save_button.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_form_auto_complete.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_section.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_header.dart';
 
 class MyInfoView extends StatefulWidget {
   const MyInfoView({super.key});

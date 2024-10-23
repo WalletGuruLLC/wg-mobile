@@ -1,6 +1,6 @@
-import 'package:wallet_guru/domain/send_payment/models/cancel_incoming_payment_model.dart';
-import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
-import 'package:wallet_guru/domain/send_payment/models/incoming_payment_model.dart';
+import '../../transactions/models/transactions_model.dart';
+import '../../send_payment/models/incoming_payment_model.dart';
+import '../../send_payment/models/cancel_incoming_payment_model.dart';
 
 class ResponseModel {
   final int statusCode;
