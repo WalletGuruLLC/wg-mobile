@@ -27,26 +27,26 @@ class SelectWalletByQrPage extends StatelessWidget {
       body: Stack(
         children: [
           const SendPaymentByQrView(),
-          Positioned(
-            top: 700,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextBase(
-                    text: l10n.uploadQr,
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  const SizedBox(width: 5),
-                  const Icon(Icons.upload_rounded, color: Colors.white),
-                ],
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 700,
+          //   left: 0,
+          //   right: 0,
+          //   child: Center(
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         TextBase(
+          //           text: l10n.uploadQr,
+          //           color: Colors.white,
+          //           fontSize: 14,
+          //           fontWeight: FontWeight.w400,
+          //         ),
+          //         const SizedBox(width: 5),
+          //         const Icon(Icons.upload_rounded, color: Colors.white),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
