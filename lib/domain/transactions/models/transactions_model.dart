@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:wallet_guru/domain/transactions/models/transaction_metadata.dart';
+import 'transaction_metadata.dart';
 
 class TransactionsModel {
   String type;
