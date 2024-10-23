@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallet_guru/domain/websocket/i_websocket_service.dart';
 
 import 'transaction_state.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
@@ -8,6 +9,14 @@ import 'package:wallet_guru/domain/transactions/repositories/transaction_reposit
 class TransactionCubit extends Cubit<TransactionState> {
   TransactionCubit() : super(TransactionInitial());
   final transactionRepository = Injector.resolve<TransactionRepository>();
+  final webSocketService = Injector.resolve<IWebSocketService>();
+
+  void webSocketTransacctions() async {
+    webSocketService.onMessage('transacctions').listen((data) {
+      print(data);
+      loadTransactions();
+    });
+  }
 
   List<TransactionsModel> _processTransactions(
       List<TransactionsModel> transactions) {

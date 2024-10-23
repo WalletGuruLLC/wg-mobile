@@ -26,6 +26,12 @@ class UserCubit extends Cubit<UserState> {
     });
   }
 
+  @override
+  Future<void> close() {
+    webSocketService.disconnect();
+    return super.close();
+  }
+
   void updateBalanceFromWebSocket(Map<String, dynamic> data) {
     final scale = state.wallet?.walletAsset.scale ?? 0;
     final availableFunds =
