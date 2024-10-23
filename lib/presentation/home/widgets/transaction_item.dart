@@ -8,12 +8,14 @@ class TransactionItem extends StatelessWidget {
   final String title;
   final String transactionType;
   final String amount;
+  final bool isProvider;
 
   const TransactionItem({
     super.key,
     required this.title,
     required this.transactionType,
     required this.amount,
+    this.isProvider = false,
   });
 
   @override
@@ -41,7 +43,7 @@ class TransactionItem extends StatelessWidget {
           Expanded(
             child: TextBase(
               text: title,
-              fontSize: size.width * 0.04,
+              fontSize: isProvider ? size.width * 0.035 : size.width * 0.04,
               fontWeight: FontWeight.w400,
             ),
           ),

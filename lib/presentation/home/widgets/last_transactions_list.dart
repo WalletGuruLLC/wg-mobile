@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
@@ -12,6 +13,17 @@ import 'package:wallet_guru/presentation/home/widgets/transaction_skeleton.dart'
 
 class LastTransactionsList extends StatelessWidget {
   const LastTransactionsList({super.key});
+
+  String _getDisplayTitle(TransactionsModel payment) {
+    if (payment.type == 'OutgoingPayment') {
+      if (payment.metadata.type == "PROVIDER") {
+        // Para providers, concatenamos el receiverName y contentName
+        return "${payment.receiverName}${payment.metadata.contentName.isNotEmpty ? ' - ${payment.metadata.contentName}' : ''}";
+      }
+      return payment.receiverName;
+    }
+    return payment.senderName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +55,12 @@ class LastTransactionsList extends StatelessWidget {
                 children: [
                   ...transactions.map((payment) {
                     return TransactionItem(
-                      title: payment.type == 'OutgoingPayment'
-                          ? payment.receiverName
-                          : payment.senderName,
+                      title: _getDisplayTitle(payment),
                       transactionType: payment.type,
                       amount: payment.incomingAmount != null
                           ? (payment.incomingAmount!.value).toString()
                           : (payment.receiveAmount!.value).toString(),
+                      isProvider: payment.metadata.type == "PROVIDER",
                     );
                   }),
                   SizedBox(height: size.height * 0.01),
