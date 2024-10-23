@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
 import 'package:wallet_guru/application/transactions/transaction_state.dart';
 import 'package:wallet_guru/presentation/home/widgets/transaction_item.dart';
+import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
 import 'package:wallet_guru/presentation/home/widgets/transaction_skeleton.dart';
 
-class LastTransactionsList extends StatelessWidget {
+class LastTransactionsList extends StatefulWidget {
   const LastTransactionsList({super.key});
+
+  @override
+  State<LastTransactionsList> createState() => _LastTransactionsListState();
+}
+
+class _LastTransactionsListState extends State<LastTransactionsList> {
+  @override
+  void initState() {
+    BlocProvider.of<TransactionCubit>(context).webSocketTransacctions();
+    super.initState();
+  }
 
   String _getDisplayTitle(TransactionsModel payment) {
     if (payment.type == 'OutgoingPayment') {
