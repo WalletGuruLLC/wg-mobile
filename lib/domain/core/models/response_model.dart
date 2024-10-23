@@ -54,6 +54,7 @@ class Data {
   final List<LinkedProvider>? linkedProviders;
   final IncomingPaymentResponse? incomingPaymentResponse;
   final CancelIncomingPaymentModel? cancelIncomingPayment;
+  final String refreshToken;
 
   Data({
     required this.user,
@@ -69,6 +70,7 @@ class Data {
     required this.incomingPaymentResponse,
     required this.cancelIncomingPayment,
     required this.linkedProviders,
+    required this.refreshToken,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -124,6 +126,7 @@ class Data {
               json["incomingPaymentResponse"] != null
           ? IncomingPaymentResponse.fromJson(json["incomingPaymentResponse"])
           : null,
+      refreshToken: json["refresToken"] ?? '',
     );
   }
 
@@ -141,6 +144,7 @@ class Data {
         linkedProvider: null,
         incomingPaymentResponse: null,
         linkedProviders: null,
+        refreshToken: '',
       );
 
   factory Data.withMessage(String message) => Data(
@@ -158,6 +162,7 @@ class Data {
         incomingPaymentResponse: null,
         //transactionsModel: null,
         linkedProviders: null,
+        refreshToken: '',
       );
 
   bool hasUser() => user != null;

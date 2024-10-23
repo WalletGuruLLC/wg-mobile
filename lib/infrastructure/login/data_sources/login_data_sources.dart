@@ -44,9 +44,10 @@ class LoginDataSource {
       ResponseModel userAuthenticationResponse = ResponseModel.fromJson(result);
       storage.setString('Basic', userAuthenticationResponse.data!.token);
       storage.setString('email', userAuthenticationResponse.data!.user!.email);
+      storage.setString(
+          'refreshToken', userAuthenticationResponse.data!.refreshToken);
       storage.setBool(
           'firstFunding', userAuthenticationResponse.data!.user!.firstFunding);
-      await refreshToken();
       return userAuthenticationResponse;
     } else {
       final errorModel = ResponseModel.fromJson(result);
@@ -149,12 +150,12 @@ class LoginDataSource {
   Future<ResponseModel> refreshToken() async {
     final storage = await SharedPreferences.getInstance();
     final String? userEmail = storage.getString('email');
-    final String? basic = storage.getString('Basic');
+    final String? refreshToken = storage.getString('refreshToken');
     var response = await HttpDataSource.post(
       LoginNetwork.refreshToken,
       {
         "email": userEmail,
-        "token": basic,
+        "token": refreshToken,
       },
     );
     final result = jsonDecode(response.body);
