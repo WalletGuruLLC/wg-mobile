@@ -24,70 +24,75 @@ class BalanceCard extends StatelessWidget {
         color: AppColorSchema.of(context).tertiaryText,
         borderRadius: BorderRadius.circular(size.width * 0.05),
       ),
-      child: BlocConsumer<UserCubit, UserState>(
-        listener: (context, state) {
+      child: BlocBuilder<UserCubit, UserState>(
+        /*listener: (context, state) {
           if (state.formStatusWallet is SubmissionFailed) {
             GoRouter.of(context).pushReplacementNamed(
               Routes.errorScreen.name,
             );
           }
-        },
+        },*/
         builder: (context, state) {
-          if (state.formStatusWallet is SubmissionSuccess) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextBase(
-                  text: l10n.homeBalance,
-                  fontSize: size.width * 0.04,
-                ),
-                SizedBox(height: size.height * 0.01),
-                TextBase(
-                  text: toCurrencyString(state.balance.toString(),
-                      leadingSymbol: '\$'),
-                  fontSize: size.width * 0.1,
-                  fontWeight: FontWeight.bold,
-                ),
-                SizedBox(height: size.height * 0.01),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextBase(
-                          text: l10n.homeReservedFunds,
-                          fontSize: size.width * 0.035,
-                        ),
-                        TextBase(
-                          text: toCurrencyString(state.reservedFunds.toString(),
-                              leadingSymbol: '\$'),
-                          fontSize: size.width * 0.035,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextBase(
-                          text: l10n.homeAvailableFunds,
-                          fontSize: size.width * 0.035,
-                        ),
-                        TextBase(
-                          text: toCurrencyString(
-                              state.availableFunds.toString(),
-                              leadingSymbol: '\$'),
-                          fontSize: size.width * 0.035,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            );
-          } else if (state.formStatusWallet is FormSubmitting) {
+          //if (state.formStatusWallet is SubmissionSuccess) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextBase(
+                text: l10n.homeBalance,
+                fontSize: size.width * 0.04,
+              ),
+              SizedBox(height: size.height * 0.01),
+              TextBase(
+                text: state.balance != 0.0
+                    ? toCurrencyString(state.balance.toString(),
+                        leadingSymbol: '\$')
+                    : "---/---",
+                fontSize: size.width * 0.1,
+                fontWeight: FontWeight.bold,
+              ),
+              SizedBox(height: size.height * 0.01),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextBase(
+                        text: l10n.homeReservedFunds,
+                        fontSize: size.width * 0.035,
+                      ),
+                      TextBase(
+                        text: state.reservedFunds != 0.0
+                            ? toCurrencyString(state.reservedFunds.toString(),
+                                leadingSymbol: '\$')
+                            : "---/---",
+                        fontSize: size.width * 0.035,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextBase(
+                        text: l10n.homeAvailableFunds,
+                        fontSize: size.width * 0.035,
+                      ),
+                      TextBase(
+                        text: state.availableFunds != 0.0
+                            ? toCurrencyString(state.availableFunds.toString(),
+                                leadingSymbol: '\$')
+                            : "---/---",
+                        fontSize: size.width * 0.035,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          );
+          /*} else if (state.formStatusWallet is FormSubmitting) {
             return const Center(child: CircularProgressIndicator());
           } else {
             return Column(
@@ -139,7 +144,7 @@ class BalanceCard extends StatelessWidget {
                 ),
               ],
             );
-          }
+          }*/
         },
       ),
     );

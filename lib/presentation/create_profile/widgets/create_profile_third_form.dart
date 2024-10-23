@@ -4,10 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/city_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/state_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/country_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/zip_code_form.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
@@ -73,16 +70,6 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
                   }
                 },
               );
-
-              // CountryForm(
-              //   initialValue: state.country.isNotEmpty ? state.country : null,
-              //   items: countries,
-              //   onChanged: (value) {
-              //     if (value != null) {
-              //       createProfileCubit.selectCountry(value);
-              //     }
-              //   },
-              // );
             },
           ),
           const SizedBox(height: 20),
@@ -110,16 +97,6 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
                   createProfileCubit.selectCity(value!);
                 },
               );
-
-              // CityForm(
-              //   initialValue: state.city.isNotEmpty ? state.city : null,
-              //   items: state.cities.isNotEmpty ? state.cities : [''],
-              //   onChanged: (value) {
-              //     if (value != null) {
-              //       createProfileCubit.selectCity(value);
-              //     }
-              //   },
-              // );
             },
           ),
           const SizedBox(height: 20),

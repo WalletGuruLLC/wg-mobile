@@ -10,4 +10,6 @@ class LoginNetwork {
       '${Env.baseUrl}/api/v1/users/forgot-password';
   static final String changePassword =
       '${Env.baseUrl}/api/v1/users/confirm-password';
+  static final String refreshToken =
+      '${Env.baseUrl}/api/v1/users/refresh-token';
 }
