@@ -41,7 +41,7 @@
 
                 <data android:scheme="https" />
                 <data android:host="walletguru.me" />
-                <data android:pathPrefix="/accounts/"/>
+                <data android:pathPrefix="/*"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
