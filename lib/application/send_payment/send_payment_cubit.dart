@@ -194,6 +194,7 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
         );
       },
     );
+    emitGetExchangeRate();
   }
 
   void emitFetchWalletAsset() async {
