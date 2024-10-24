@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:wallet_guru/firebase_options.dart';
 import 'package:wallet_guru/application/core/state_provider.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
@@ -12,9 +13,11 @@ import 'package:wallet_guru/infrastructure/dynamic_links/data_sources/dynamic_li
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   Injector.setup();
   DynamicLinksDataSources.initDynamicLink();
   DynamicLinksDataSources.listenDynamicLinks();
