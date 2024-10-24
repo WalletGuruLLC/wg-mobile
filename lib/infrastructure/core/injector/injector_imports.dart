@@ -9,6 +9,7 @@ export 'package:wallet_guru/domain/register/repositories/register_repository.dar
 export 'package:wallet_guru/infrastructure/user/data_sources/user_data_source.dart';
 export 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 export 'package:wallet_guru/infrastructure/user/repositories/user_repository_impl.dart';
+export 'package:wallet_guru/application/push_notifications/push_notification_cubit.dart';
 export 'package:wallet_guru/domain/transactions/repositories/transaction_repository.dart';
 export 'package:wallet_guru/infrastructure/login/repositories/login_repository_impl.dart';
 export 'package:wallet_guru/infrastructure/funding/data_sources/funding_data_source.dart';

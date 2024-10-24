@@ -78,6 +78,7 @@ abstract class Injector {
   void _configureDepositModule() {
     _configureDepositFactories();
   }
+
   void _configurePushNotificationModule() {
     _configurePushNotificationFactories();
   }
@@ -134,10 +135,16 @@ abstract class Injector {
   @Register.factory(DepositDataSource)
   @Register.factory(DepositRepository, from: DepositRepositoryImpl)
   void _configureDepositFactories();
-  
+
   @Register.factory(FirebaseMessagingDatasource)
-  @Register.factory(PushNotificationRepository, from: PushNotificationRepositoryImpl)
+  @Register.factory(PushNotificationRepository,
+      from: PushNotificationRepositoryImpl)
   @Register.factory(InitializePushNotifications)
+  @Register.factory(GetPushNotificationToken)
+  @Register.factory(SubscribeToTopic)
+  @Register.factory(UnsubscribeFromTopic)
+  @Register.factory(PushNotificationCubit)
+  //@Register.factory(HandleNotificationTap)
   void _configurePushNotificationFactories();
 
   @Register.singleton(IWebSocketService, from: SocketIOService)

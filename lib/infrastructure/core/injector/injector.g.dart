@@ -119,7 +119,14 @@ class _$Injector extends Injector {
           PushNotificationRepositoryImpl(
               c.resolve<FirebaseMessagingDatasource>()))
       ..registerFactory((c) =>
-          InitializePushNotifications(c.resolve<PushNotificationRepository>()));
+          InitializePushNotifications(c.resolve<PushNotificationRepository>()))
+      ..registerFactory((c) =>
+          GetPushNotificationToken(c.resolve<PushNotificationRepository>()))
+      ..registerFactory(
+          (c) => SubscribeToTopic(c.resolve<PushNotificationRepository>()))
+      ..registerFactory(
+          (c) => UnsubscribeFromTopic(c.resolve<PushNotificationRepository>()))
+      ..registerFactory((c) => PushNotificationCubit());
   }
 
   @override
