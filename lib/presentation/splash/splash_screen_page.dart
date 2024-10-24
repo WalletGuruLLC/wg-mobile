@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/settings/settings_cubit.dart';
@@ -25,8 +24,8 @@ class _SplashScreenPageState extends State<SplashScreenPage>
     with SingleTickerProviderStateMixin {
   String _version = '';
   late final AnimationController _animationController;
-  Timer? _minimumTimeTimer;
-  bool _isReadyToNavigate = false;
+  bool _isAnimationComplete = false;
+  bool _isTranslationLoaded = false;
 
   @override
   void initState() {
@@ -35,13 +34,6 @@ class _SplashScreenPageState extends State<SplashScreenPage>
     _initPackageInfo();
     _loadTranslations();
     BlocProvider.of<SettingsCubit>(context).loadSettings();
-
-    // Asegurar un tiempo mínimo de visualización
-    _minimumTimeTimer = Timer(const Duration(seconds: 3), () {
-      setState(() {
-        _isReadyToNavigate = true;
-      });
-    });
   }
 
   void _initializeAnimation() {
@@ -49,6 +41,15 @@ class _SplashScreenPageState extends State<SplashScreenPage>
       vsync: this,
       duration: const Duration(seconds: 2),
     );
+
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          _isAnimationComplete = true;
+          _checkAndNavigate();
+        });
+      }
+    });
   }
 
   void _loadTranslations() {
@@ -68,10 +69,15 @@ class _SplashScreenPageState extends State<SplashScreenPage>
     }
   }
 
+  void _checkAndNavigate() {
+    if (_isAnimationComplete && _isTranslationLoaded && mounted) {
+      GoRouter.of(context).pushNamed(Routes.logIn.name);
+    }
+  }
+
   @override
   void dispose() {
     _animationController.dispose();
-    _minimumTimeTimer?.cancel();
     super.dispose();
   }
 
@@ -81,9 +87,11 @@ class _SplashScreenPageState extends State<SplashScreenPage>
 
     return BlocListener<TranslationErrorCubit, TranslationErrorState>(
       listener: (context, state) {
-        if (state is TranslationLoaded && _isReadyToNavigate) {
-          _minimumTimeTimer?.cancel();
-          GoRouter.of(context).pushNamed(Routes.logIn.name);
+        if (state is TranslationLoaded) {
+          setState(() {
+            _isTranslationLoaded = true;
+            _checkAndNavigate();
+          });
         } else if (state is TranslationError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -99,27 +107,22 @@ class _SplashScreenPageState extends State<SplashScreenPage>
         showBackButton: false,
         showBottomNavigationBar: false,
         children: [
-          // Animación Lottie
-          Container(
-            constraints: BoxConstraints(
-              maxHeight: size.height * 0.3,
-              maxWidth: size.width * 0.7,
-            ),
-            child: Lottie.asset(
-              'assets/splash.json',
-              controller: _animationController,
-              onLoaded: (composition) {
-                _animationController
-                  ..duration = composition.duration
-                  ..forward();
-              },
-              fit: BoxFit.contain,
+          SizedBox(
+            width: size.width * 0.85,
+            child: Center(
+              child: Lottie.asset(
+                'assets/splash.json',
+                controller: _animationController,
+                onLoaded: (composition) {
+                  _animationController
+                    ..duration = composition.duration
+                    ..forward();
+                },
+                fit: BoxFit.contain,
+              ),
             ),
           ),
-
-          const SizedBox(height: 20),
-
-          // Versión
+          SizedBox(height: size.height * 0.01),
           Text(
             'Version $_version',
             style: GoogleFonts.montserrat(
