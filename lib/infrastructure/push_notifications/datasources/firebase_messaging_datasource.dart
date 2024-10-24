@@ -1,18 +1,15 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:wallet_guru/domain/push_notifications/entities/push_notification.dart';
+
+import '../services/push_notification_service.dart';
+import '../../../domain/push_notifications/entities/push_notification.dart';
 
 class FirebaseMessagingDatasource {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
   Future<void> initialize() async {
-    await Firebase.initializeApp();
-    await _firebaseMessaging.requestPermission();
-    // Configurar manejadores de mensajes aquí
+    await PushNotificationService.initialize();
   }
 
   Future<String?> getToken() async {
-    return await _firebaseMessaging.getToken();
+    return await PushNotificationService.getToken();
   }
 
   Stream<PushNotification> get notificationStream {
@@ -23,5 +20,13 @@ class FirebaseMessagingDatasource {
         data: message.data,
       );
     });
+  }
+
+  Future<void> subscribeToTopic(String topic) async {
+    await PushNotificationService.subscribeToTopic(topic);
+  }
+
+  Future<void> unsubscribeFromTopic(String topic) async {
+    await PushNotificationService.unsubscribeFromTopic(topic);
   }
 }

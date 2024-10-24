@@ -1,6 +1,7 @@
-import 'package:wallet_guru/domain/push_notifications/entities/push_notification.dart';
-import 'package:wallet_guru/domain/push_notifications/repositories/push_notification_repository.dart';
-import 'package:wallet_guru/infrastructure/push_notifications/datasources/firebase_messaging_datasource.dart';
+import '../services/push_notification_service.dart';
+import '../datasources/firebase_messaging_datasource.dart';
+import '../../../domain/push_notifications/entities/push_notification.dart';
+import '../../../domain/push_notifications/repositories/push_notification_repository.dart';
 
 class PushNotificationRepositoryImpl implements PushNotificationRepository {
   final FirebaseMessagingDatasource _datasource;
@@ -18,5 +19,16 @@ class PushNotificationRepositoryImpl implements PushNotificationRepository {
   }
 
   @override
-  Stream<PushNotification> get notificationStream => _datasource.notificationStream;
+  Stream<PushNotification> get notificationStream =>
+      _datasource.notificationStream;
+
+  @override
+  Future<void> subscribeToTopic(String topic) async {
+    await PushNotificationService.subscribeToTopic(topic);
+  }
+
+  @override
+  Future<void> unsubscribeFromTopic(String topic) async {
+    await PushNotificationService.unsubscribeFromTopic(topic);
+  }
 }
