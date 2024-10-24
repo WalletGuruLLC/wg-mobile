@@ -121,4 +121,10 @@ class _$Injector extends Injector {
       ..registerFactory((c) =>
           InitializePushNotifications(c.resolve<PushNotificationRepository>()));
   }
+
+  @override
+  void _configureWebSocketFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container.registerSingleton<IWebSocketService>((c) => SocketIOService());
+  }
 }

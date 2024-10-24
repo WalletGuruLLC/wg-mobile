@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'transaction_metadata.dart';
+
 class TransactionsModel {
   String type;
   String? outgoingPaymentId;
@@ -10,6 +12,11 @@ class TransactionsModel {
   DateTime createdAt;
   String? incomingPaymentId;
   Amount? incomingAmount;
+  String senderUrl;
+  String receiverUrl;
+  TransactionMetadata metadata;
+  String senderName;
+  String receiverName;
 
   TransactionsModel({
     required this.type,
@@ -21,6 +28,11 @@ class TransactionsModel {
     required this.createdAt,
     this.incomingPaymentId,
     this.incomingAmount,
+    required this.senderUrl,
+    required this.receiverUrl,
+    required this.metadata,
+    required this.senderName,
+    required this.receiverName,
   });
 
   TransactionsModel copyWith({
@@ -33,6 +45,11 @@ class TransactionsModel {
     DateTime? createdAt,
     String? incomingPaymentId,
     Amount? incomingAmount,
+    String? senderUrl,
+    String? receiverUrl,
+    TransactionMetadata? metadata,
+    String? senderName,
+    String? receiverName,
   }) =>
       TransactionsModel(
         type: type ?? this.type,
@@ -44,19 +61,14 @@ class TransactionsModel {
         createdAt: createdAt ?? this.createdAt,
         incomingPaymentId: incomingPaymentId ?? this.incomingPaymentId,
         incomingAmount: incomingAmount ?? this.incomingAmount,
+        senderUrl: senderUrl ?? this.senderUrl,
+        receiverUrl: receiverUrl ?? this.receiverUrl,
+        metadata: metadata ?? this.metadata,
+        senderName: senderName ?? this.senderName,
+        receiverName: receiverName ?? this.receiverName,
       );
 
   factory TransactionsModel.fromJson(Map<String, dynamic> json) {
-    /*List<CompletedIncomingPayment> payments =
-        json["completedIncomingPayments"] == null
-            ? []
-            : List<CompletedIncomingPayment>.from(
-                json["completedIncomingPayments"]!
-                    .map((x) => CompletedIncomingPayment.fromJson(x)));
-
-    // Ordenar la lista de pagos de más reciente a más antiguo
-    payments.sort((a, b) => b.createdAt.compareTo(a.createdAt));*/
-
     return TransactionsModel(
       type: json["type"],
       outgoingPaymentId: json["outgoingPaymentId"],
@@ -71,6 +83,13 @@ class TransactionsModel {
       incomingAmount: json["incomingAmount"] == null
           ? null
           : Amount.fromJson(json["incomingAmount"]),
+      senderUrl: json["senderUrl"],
+      receiverUrl: json["receiverUrl"],
+      metadata: json["metadata"] != null
+          ? TransactionMetadata.fromJson(json["metadata"])
+          : TransactionMetadata.defaultUser(),
+      senderName: json["senderName"] ?? '',
+      receiverName: json["receiverName"] ?? '',
     );
   }
 
@@ -84,6 +103,11 @@ class TransactionsModel {
         createdAt: DateTime.now(),
         incomingPaymentId: '',
         incomingAmount: Amount.initialState(),
+        senderUrl: '',
+        receiverUrl: '',
+        metadata: TransactionMetadata.defaultUser(),
+        senderName: '',
+        receiverName: '',
       );
 }
 

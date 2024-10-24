@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/application/user/user_cubit.dart';
-import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/address_form.dart';
+import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/address_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/zip_code_form.dart';
+import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/petition_response_modal.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/activator_field_widget.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/city_section.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/country_section.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/phone_number_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/save_button.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_section.dart';
 import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/profile_header.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/phone_number_section.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/activator_field_widget.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/city_form_auto_complete.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/country_form_auto_complete.dart';
+import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_form_auto_complete.dart';
 
 class MyInfoView extends StatefulWidget {
   const MyInfoView({super.key});
@@ -57,98 +57,118 @@ class _MyInfoViewState extends State<MyInfoView> {
         }
       },
       builder: (context, state) {
-        final user = state.user;
-        final initialUser = state.initialUser;
-        return Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const ProfileHeaderWidget(
-                isOnTapAvailable: true,
-              ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.phoneNumber),
-              PhoneNumberFormSection(
-                codeInitialValue: user?.phoneCode ?? '',
-                phoneInitialValue: user?.phone ?? '',
-                readOnly: readOnly,
-                onPhoneChanged: (value) {
-                  userCubit.updateUser(phone: value);
-                },
-                onCodeChanged: (value) {
-                  userCubit.updateUser(phoneCode: value);
-                },
-                fieldActivatorWidget: _buildFieldActivatorWidget(true),
-              ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.country),
-              CountryFormSection(
-                initialValue: user?.country ?? '',
-                onChanged: (value) {
-                  userCubit.updateUser(
-                      country: value, stateLocation: '', city: '');
-                },
-              ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.state),
-              if (user?.stateLocation == initialUser?.stateLocation)
-                StateFormSection(
-                  initialValue: initialUser?.stateLocation ?? '',
-                  onChanged: (value) {
-                    userCubit.updateUser(stateLocation: value);
-                  },
+        if (state.getCurrentUserInformationStatus is FormSubmitting) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          final user = state.user;
+          final initialUser = state.initialUser;
+          return Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ProfileHeaderWidget(
+                  isOnTapAvailable: true,
                 ),
-              if (user?.stateLocation != initialUser?.stateLocation)
-                StateFormSection2(
-                  initialValue: user?.stateLocation,
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.phoneNumber),
+                if (state.user!.phoneCode.isNotEmpty)
+                  PhoneNumberFormSection(
+                    codeInitialValue: user!.phoneCode,
+                    phoneInitialValue: user!.phone ?? '',
+                    readOnly: readOnly,
+                    onPhoneChanged: (value) {
+                      userCubit.updateUser(phone: value);
+                    },
+                    onCodeChanged: (value) {
+                      userCubit.updateUser(phoneCode: value);
+                    },
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                  ),
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.country),
+                CountryFormAutoComplete(
+                    readOnly: readOnly,
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                    initialValue: user?.country,
+                    onChanged: (value) {
+                      userCubit.updateUser(
+                          country: value, stateLocation: '', city: '');
+                    }),
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.state),
+                if (user?.stateLocation == initialUser?.stateLocation &&
+                    initialUser?.stateLocation != '' &&
+                    initialUser?.stateLocation != null &&
+                    initialUser!.stateLocation.isNotEmpty)
+                  StateFormAutoComplete(
+                    readOnly: readOnly,
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                    initialValue: user?.stateLocation ?? '',
+                    onChanged: (value) {
+                      userCubit.updateUser(stateLocation: value, city: '');
+                    },
+                  ),
+                if (user?.stateLocation != initialUser?.stateLocation)
+                  StateFormAutoComplete(
+                    readOnly: readOnly,
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                    initialValue: user?.stateLocation ?? '',
+                    onChanged: (value) {
+                      userCubit.updateUser(stateLocation: value, city: '');
+                    },
+                  ),
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.city),
+                if (user?.city == initialUser?.city &&
+                    initialUser?.city != '' &&
+                    initialUser?.city != null &&
+                    initialUser!.city.isNotEmpty)
+                  CityFormAutocomplete(
+                    readOnly: readOnly,
+                    initialValue: initialUser?.city ?? '',
+                    onChanged: (value) {
+                      userCubit.updateUser(city: value);
+                    },
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                  ),
+                if (user?.city != initialUser?.city)
+                  CityFormAutocomplete(
+                    readOnly: readOnly,
+                    initialValue: user?.city ?? '',
+                    onChanged: (value) {
+                      userCubit.updateUser(city: value);
+                    },
+                    fieldActivatorWidget: _buildFieldActivatorWidget(true),
+                  ),
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.zipCode),
+                ZipCodeForm(
+                  readOnly: readOnly,
+                  initialValue: user?.zipCode ?? '',
                   onChanged: (value) {
-                    userCubit.updateUser(stateLocation: value);
+                    userCubit.updateUser(zipCode: value);
                   },
+                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
                 ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.city),
-              if (user?.city == initialUser?.city)
-                CityFormSection(
-                  initialValue: initialUser?.city ?? '',
+                SizedBox(height: size * 0.015),
+                FormLabel(label: l10n.address),
+                AddressForm(
+                  readOnly: readOnly,
+                  initialValue: user?.address ?? '',
                   onChanged: (value) {
-                    userCubit.updateUser(city: value);
+                    userCubit.updateUser(address: value);
                   },
+                  fieldActivatorWidget: _buildFieldActivatorWidget(true),
                 ),
-              if (user?.city != initialUser?.city)
-                CityFormSection2(
-                  initialValue: user?.city ?? '',
-                  onChanged: (value) {
-                    userCubit.updateUser(city: value);
-                  },
+                SizedBox(height: size * 0.025),
+                SaveButton(
+                  formKey: _formKey,
                 ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.zipCode),
-              ZipCodeForm(
-                readOnly: readOnly,
-                initialValue: user?.zipCode ?? '',
-                onChanged: (value) {
-                  userCubit.updateUser(zipCode: value);
-                },
-                fieldActivatorWidget: _buildFieldActivatorWidget(true),
-              ),
-              SizedBox(height: size * 0.015),
-              FormLabel(label: l10n.address),
-              AddressForm(
-                readOnly: readOnly,
-                initialValue: user?.address ?? '',
-                onChanged: (value) {
-                  userCubit.updateUser(address: value);
-                },
-                fieldActivatorWidget: _buildFieldActivatorWidget(true),
-              ),
-              SizedBox(height: size * 0.025),
-              SaveButton(
-                formKey: _formKey,
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+          );
+        }
       },
     );
   }

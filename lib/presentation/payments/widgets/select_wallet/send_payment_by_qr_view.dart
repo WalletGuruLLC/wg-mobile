@@ -90,7 +90,6 @@ class _SendPaymentByQrViewState extends State<SendPaymentByQrView> {
 
         BlocProvider.of<SendPaymentCubit>(context)
             .updateSendPaymentInformation(receiverWalletAddress: scanData.code);
-        sendPaymentCubit.emitGetExchangeRate();
         sendPaymentCubit.emitVerifyWalletExistence('qr');
       }
     });

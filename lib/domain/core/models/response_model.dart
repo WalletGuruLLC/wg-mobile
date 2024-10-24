@@ -1,6 +1,6 @@
-import 'package:wallet_guru/domain/send_payment/models/cancel_incoming_payment_model.dart';
-import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
-import 'package:wallet_guru/domain/send_payment/models/incoming_payment_model.dart';
+import '../../transactions/models/transactions_model.dart';
+import '../../send_payment/models/incoming_payment_model.dart';
+import '../../send_payment/models/cancel_incoming_payment_model.dart';
 
 class ResponseModel {
   final int statusCode;
@@ -54,6 +54,7 @@ class Data {
   final List<LinkedProvider>? linkedProviders;
   final IncomingPaymentResponse? incomingPaymentResponse;
   final CancelIncomingPaymentModel? cancelIncomingPayment;
+  final String refreshToken;
 
   Data({
     required this.user,
@@ -69,6 +70,7 @@ class Data {
     required this.incomingPaymentResponse,
     required this.cancelIncomingPayment,
     required this.linkedProviders,
+    required this.refreshToken,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -124,6 +126,7 @@ class Data {
               json["incomingPaymentResponse"] != null
           ? IncomingPaymentResponse.fromJson(json["incomingPaymentResponse"])
           : null,
+      refreshToken: json["refresToken"] ?? '',
     );
   }
 
@@ -141,6 +144,7 @@ class Data {
         linkedProvider: null,
         incomingPaymentResponse: null,
         linkedProviders: null,
+        refreshToken: '',
       );
 
   factory Data.withMessage(String message) => Data(
@@ -158,6 +162,7 @@ class Data {
         incomingPaymentResponse: null,
         //transactionsModel: null,
         linkedProviders: null,
+        refreshToken: '',
       );
 
   bool hasUser() => user != null;
@@ -512,7 +517,7 @@ class OutgoingPaymentResponse {
 class OutgoingPayment {
   final String createdAt;
   final String? error;
-  final String? metadata;
+  //final String? metadata;
   final String id;
   final String walletAddressId;
   final Amount receiveAmount;
@@ -525,7 +530,7 @@ class OutgoingPayment {
   OutgoingPayment({
     required this.createdAt,
     this.error,
-    this.metadata,
+    //this.metadata,
     required this.id,
     required this.walletAddressId,
     required this.receiveAmount,
@@ -540,7 +545,7 @@ class OutgoingPayment {
     return OutgoingPayment(
       createdAt: json['createdAt'],
       error: json['error'],
-      metadata: json['metadata'],
+      //metadata: json['metadata'],
       id: json['id'],
       walletAddressId: json['walletAddressId'],
       receiveAmount: Amount.fromJson(json['receiveAmount']),

@@ -21,6 +21,9 @@ class LightColorSchema implements AppCustomColors {
   Color get cardColor => const Color(0xFF222222);
 
   @override
+  Color get cardTwoColor => const Color.fromRGBO(33, 33, 57, 1);
+
+  @override
   Color get inputColor => const Color(0xFF222222);
 
   @override
@@ -49,6 +52,9 @@ class LightColorSchema implements AppCustomColors {
 
   @override
   Color get buttonColor => const Color(0xFF1DA1F2);
+  
+  @override
+  Color get buttonTwoColor => const Color(0xFF1DA1F2);
 
   @override
   Color get buttonTextColor => const Color(0xFFFFFFFF);

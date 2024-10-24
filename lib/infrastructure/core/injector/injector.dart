@@ -36,6 +36,7 @@ abstract class Injector {
     _configureFundingModule();
     _configureDepositModule();
     _configurePushNotificationModule();
+    _configureWebSocketModule();
   }
 
   void _configureRegisterModule() {
@@ -83,6 +84,10 @@ abstract class Injector {
 
   void _configureFundingModule() {
     _configureFundingFactories();
+  }
+
+  void _configureWebSocketModule() {
+    _configureWebSocketFactories();
   }
 
   @Register.factory(RegisterDataSource)
@@ -134,4 +139,7 @@ abstract class Injector {
   @Register.factory(PushNotificationRepository, from: PushNotificationRepositoryImpl)
   @Register.factory(InitializePushNotifications)
   void _configurePushNotificationFactories();
+
+  @Register.singleton(IWebSocketService, from: SocketIOService)
+  void _configureWebSocketFactories();
 }

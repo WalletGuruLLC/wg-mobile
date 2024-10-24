@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/application/core/validations/validations.dart';
 
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/email_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/password_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/application/core/validations/validations.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/otp_form.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/email_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/auth_login_divider.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/password_form.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 
 enum FormStep { validateEmail, changePassword }
@@ -311,13 +311,12 @@ class ForgotPasswordFormState extends State<ForgotPasswordForm> {
     String description =
         locale.languageCode == 'en' ? descriptionEn : descriptionEs;
     final l10n = AppLocalizations.of(context)!;
-    double size = MediaQuery.of(context).size.width;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         double size = MediaQuery.of(context).size.height;
         return BaseModal(
-          buttonWidth: MediaQuery.of(context).size.width * 0.4,
+          buttonWidth: MediaQuery.of(context).size.width * 0.43,
           isSucefull: true,
           content: Column(
             children: [

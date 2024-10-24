@@ -1,5 +1,7 @@
 export 'package:wallet_guru/domain/funding/funding_repository.dart';
+export 'package:wallet_guru/domain/websocket/i_websocket_service.dart';
 export 'package:wallet_guru/domain/user/repositories/user_repository.dart';
+export 'package:wallet_guru/infrastructure/websocket/socket_io_service.dart';
 export 'package:wallet_guru/domain/login/repositories/login_repository.dart';
 export 'package:wallet_guru/domain/deposit/repositories/deposit_repository.dart';
 export 'package:wallet_guru/domain/settings/repositories/settings_repository.dart';
@@ -35,3 +37,4 @@ export 'package:wallet_guru/infrastructure/push_notifications/datasources/fireba
 export 'package:wallet_guru/infrastructure/translations_error/data_sources/translations_error_data_sources.dart';
 export 'package:wallet_guru/infrastructure/push_notifications/repositories/push_notification_repository_impl.dart';
 export 'package:wallet_guru/infrastructure/translations_error/repositories/translations_error_repository_impl.dart';
+
