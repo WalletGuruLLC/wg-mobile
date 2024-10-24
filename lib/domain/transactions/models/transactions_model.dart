@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'transaction_metadata.dart';
+
 class TransactionsModel {
   String type;
   String? outgoingPaymentId;
@@ -12,6 +14,9 @@ class TransactionsModel {
   Amount? incomingAmount;
   String senderUrl;
   String receiverUrl;
+  TransactionMetadata metadata;
+  String senderName;
+  String receiverName;
 
   TransactionsModel({
     required this.type,
@@ -25,6 +30,9 @@ class TransactionsModel {
     this.incomingAmount,
     required this.senderUrl,
     required this.receiverUrl,
+    required this.metadata,
+    required this.senderName,
+    required this.receiverName,
   });
 
   TransactionsModel copyWith({
@@ -39,6 +47,9 @@ class TransactionsModel {
     Amount? incomingAmount,
     String? senderUrl,
     String? receiverUrl,
+    TransactionMetadata? metadata,
+    String? senderName,
+    String? receiverName,
   }) =>
       TransactionsModel(
         type: type ?? this.type,
@@ -52,6 +63,9 @@ class TransactionsModel {
         incomingAmount: incomingAmount ?? this.incomingAmount,
         senderUrl: senderUrl ?? this.senderUrl,
         receiverUrl: receiverUrl ?? this.receiverUrl,
+        metadata: metadata ?? this.metadata,
+        senderName: senderName ?? this.senderName,
+        receiverName: receiverName ?? this.receiverName,
       );
 
   factory TransactionsModel.fromJson(Map<String, dynamic> json) {
@@ -71,6 +85,11 @@ class TransactionsModel {
           : Amount.fromJson(json["incomingAmount"]),
       senderUrl: json["senderUrl"],
       receiverUrl: json["receiverUrl"],
+      metadata: json["metadata"] != null
+          ? TransactionMetadata.fromJson(json["metadata"])
+          : TransactionMetadata.defaultUser(),
+      senderName: json["senderName"] ?? '',
+      receiverName: json["receiverName"] ?? '',
     );
   }
 
@@ -86,6 +105,9 @@ class TransactionsModel {
         incomingAmount: Amount.initialState(),
         senderUrl: '',
         receiverUrl: '',
+        metadata: TransactionMetadata.defaultUser(),
+        senderName: '',
+        receiverName: '',
       );
 }
 

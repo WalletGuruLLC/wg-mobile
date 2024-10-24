@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/settings/settings_cubit.dart';
@@ -24,42 +25,30 @@ class _SplashScreenPageState extends State<SplashScreenPage>
     with SingleTickerProviderStateMixin {
   String _version = '';
   late final AnimationController _animationController;
-  bool _hasMinimumTimeElapsed = false;
-  bool _isTranslationLoaded = false;
-  bool _isSettingsLoaded = false;
   Timer? _minimumTimeTimer;
+  bool _isReadyToNavigate = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeComponents();
-  }
-
-  void _initializeComponents() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    );
-
-    _minimumTimeTimer = Timer(const Duration(seconds: 3), () {
-      setState(() {
-        _hasMinimumTimeElapsed = true;
-        _checkAndNavigate();
-      });
-    });
-
+    _initializeAnimation();
     _initPackageInfo();
     _loadTranslations();
-    _loadSettings();
+    BlocProvider.of<SettingsCubit>(context).loadSettings();
+
+    // Asegurar un tiempo mínimo de visualización
+    _minimumTimeTimer = Timer(const Duration(seconds: 3), () {
+      setState(() {
+        _isReadyToNavigate = true;
+      });
+    });
   }
 
-  void _loadSettings() async {
-    final settingsCubit = BlocProvider.of<SettingsCubit>(context);
-    await settingsCubit.loadSettings();
-    setState(() {
-      _isSettingsLoaded = true;
-      _checkAndNavigate();
-    });
+  void _initializeAnimation() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
   }
 
   void _loadTranslations() {
@@ -79,16 +68,6 @@ class _SplashScreenPageState extends State<SplashScreenPage>
     }
   }
 
-  void _checkAndNavigate() {
-    if (_hasMinimumTimeElapsed &&
-        _isTranslationLoaded &&
-        _isSettingsLoaded &&
-        mounted) {
-      _minimumTimeTimer?.cancel();
-      GoRouter.of(context).pushNamed(Routes.logIn.name);
-    }
-  }
-
   @override
   void dispose() {
     _animationController.dispose();
@@ -102,11 +81,9 @@ class _SplashScreenPageState extends State<SplashScreenPage>
 
     return BlocListener<TranslationErrorCubit, TranslationErrorState>(
       listener: (context, state) {
-        if (state is TranslationLoaded) {
-          setState(() {
-            _isTranslationLoaded = true;
-            _checkAndNavigate();
-          });
+        if (state is TranslationLoaded && _isReadyToNavigate) {
+          _minimumTimeTimer?.cancel();
+          GoRouter.of(context).pushNamed(Routes.logIn.name);
         } else if (state is TranslationError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -122,7 +99,12 @@ class _SplashScreenPageState extends State<SplashScreenPage>
         showBackButton: false,
         showBottomNavigationBar: false,
         children: [
-          Center(
+          // Animación Lottie
+          Container(
+            constraints: BoxConstraints(
+              maxHeight: size.height * 0.3,
+              maxWidth: size.width * 0.7,
+            ),
             child: Lottie.asset(
               'assets/splash.json',
               controller: _animationController,
@@ -131,21 +113,17 @@ class _SplashScreenPageState extends State<SplashScreenPage>
                   ..duration = composition.duration
                   ..forward();
               },
-              width: double.infinity,
               fit: BoxFit.contain,
             ),
           ),
-          SizedBox(height: size.height * 0.05),
-          Container(
-            height: size.height * 0.15,
-            alignment: Alignment.center,
-            child: Text(
-              'Version $_version',
-              style: GoogleFonts.montserrat(
-                color: Colors.blue,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+
+          const SizedBox(height: 20),
+
+          // Versión
+          Text(
+            'Version $_version',
+            style: GoogleFonts.montserrat(
+              color: Colors.blue,
             ),
           ),
         ],

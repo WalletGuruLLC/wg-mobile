@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wallet_guru/application/funding/funding_cubit.dart';
-import 'package:wallet_guru/application/send_payment/send_payment_cubit.dart';
+
 import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
+import 'package:wallet_guru/application/funding/funding_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/home/widgets/balance_card.dart';
@@ -24,14 +24,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
+    super.initState();
     final userCubit = BlocProvider.of<UserCubit>(context);
     userCubit.emitGetUserInformation();
     userCubit.emitGetWalletInformation();
+    userCubit.initializeWebSocket();
     BlocProvider.of<TransactionCubit>(context).loadTransactions();
     BlocProvider.of<CreateProfileCubit>(context).emitInitialStatus();
     BlocProvider.of<SendPaymentCubit>(context).emitGetWalletInformation();
     BlocProvider.of<FundingCubit>(context).resetCreateIncomingPaymentStatus();
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

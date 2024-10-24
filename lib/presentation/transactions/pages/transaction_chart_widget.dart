@@ -83,13 +83,14 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
           return const Center(child: CircularProgressIndicator());
         } else if (state is TransactionLoaded) {
           _initializeDates(state.payments);
-          final filteredTransactions = state.payments;
-          final total = _calculateTotal(filteredTransactions);
-          final spots = _createSpots(filteredTransactions);
+          _initializeDates(state.processedPayments);
+          final total = _calculateTotal(state.processedPayments);
+          final spots = _createSpots(state.processedPayments);
           final l10n = AppLocalizations.of(context)!;
 
-          _startDate = state.startDate ?? filteredTransactions.first.createdAt;
-          _endDate = state.endDate ?? filteredTransactions.last.createdAt;
+          _startDate =
+              state.startDate ?? state.processedPayments.first.createdAt;
+          _endDate = state.endDate ?? state.processedPayments.last.createdAt;
           _selectedTransactionType = state.transactionType ?? 'All';
 
           return WalletGuruLayout(
@@ -109,7 +110,7 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
                   children: [
                     _buildChartCard(context, total, spots),
                     Expanded(
-                        child: _buildTransactionsList(filteredTransactions)),
+                        child: _buildTransactionsList(state.processedPayments)),
                   ],
                 ),
               ),
@@ -338,15 +339,25 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
       itemCount: transactions.length,
       itemBuilder: (context, index) {
         final transaction = transactions[index];
+        final isProvider = transaction.metadata.type == "PROVIDER";
+
         final amount = transaction.type == 'IncomingPayment'
             ? (transaction.incomingAmount?.value ?? 0)
             : (transaction.receiveAmount?.value ?? 0);
+        String displayName;
+        if (isProvider) {
+          displayName =
+              "${transaction.receiverName}${transaction.metadata.contentName.isNotEmpty ? ' - ${transaction.metadata.contentName}' : ''}";
+        } else {
+          displayName = transaction.type == 'IncomingPayment'
+              ? transaction.senderName
+              : transaction.receiverName;
+        }
         return Column(
           children: [
             ListTile(
               title: TextBase(
-                text:
-                    transaction.type == 'IncomingPayment' ? 'Credit' : 'Debit',
+                text: displayName,
                 fontSize: 16,
                 color: AppColorSchema.of(context).primaryText,
               ),
