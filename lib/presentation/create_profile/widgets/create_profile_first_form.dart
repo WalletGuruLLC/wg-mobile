@@ -7,6 +7,7 @@ import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/last_name_form.dart';
@@ -130,6 +131,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
             onPressed1: _onBackButtonPressed,
             onPressed2: _onNextButtonPressed,
           ),
+          const SizedBox(height: 10),
           BlocBuilder<CreateProfileCubit, CreateProfileState>(
             builder: (context, state) {
               if (state.formStatusGetToken is FormSubmitting) {
@@ -137,10 +139,10 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
               } else if (state.formStatusGetToken is SubmissionFailed) {
                 return Text(state.customMessage);
               }
-              return ElevatedButton(
+              return CustomButton(
                 onPressed: () =>
                     launchSDK(state.sumSubToken, state.sumSubUserId),
-                child: Text('verificaridentidad'),
+                text: 'Verify Identity',
               );
             },
           ),
