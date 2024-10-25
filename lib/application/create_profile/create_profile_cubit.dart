@@ -303,4 +303,25 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
   void updateUserPicture(File picture) async {
     emit(state.copyWith(picture: picture));
   }
+
+  void generateSumSubAccessToken(String userId) async {
+    emit(state.copyWith(formStatusGetToken: FormSubmitting()));
+    final generatedToken =
+        await createProfileRepository.generateSumSubAccessToken(userId);
+    generatedToken.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatusGetToken:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+        ));
+      },
+      (generatedToken) {
+        emit(state.copyWith(
+          formStatusGetToken: SubmissionSuccess(),
+          sumSubToken: generatedToken.sumSubToken,
+          sumSubUserId: generatedToken.sumSubUserId,
+        ));
+      },
+    );
+  }
 }

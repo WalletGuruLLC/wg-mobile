@@ -10,6 +10,8 @@ class ResponseModel {
   final Data? data;
   final Wallet? wallet;
   final Rate? rates;
+  final String? sumSubToken;
+  final String? sumSubUserId;
 
   ResponseModel({
     required this.statusCode,
@@ -19,6 +21,8 @@ class ResponseModel {
     required this.data,
     required this.wallet,
     required this.rates,
+    required this.sumSubToken,
+    required this.sumSubUserId,
   });
 
   factory ResponseModel.fromJson(Map<String, dynamic> json) => ResponseModel(
@@ -37,6 +41,8 @@ class ResponseModel {
                 ? Data.withMessage("exist")
                 : Data.withMessage("don’t found")),
         rates: json["rates"] != null ? Rate.fromJson(json["rates"]) : null,
+        sumSubToken: json["token"] ?? '',
+        sumSubUserId: json["userId"] ?? '',
       );
 }
 
