@@ -47,6 +47,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
     BlocProvider.of<LoginCubit>(context).cleanFormStatus();
     BlocProvider.of<RegisterCubit>(context).initialStatus();
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
+    createProfileCubit.setUserId(widget.id, widget.email);
     createProfileCubit.loadCountryCodeAndCountry();
     _sumSubToken = createProfileCubit.state.sumSubToken;
     _sumSubUserId = createProfileCubit.state.sumSubUserId;
@@ -58,7 +59,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
         if (state.formStatusGetToken is FormSubmitting) {
-          return const CircularProgressIndicator();
+          return Center(child: const CircularProgressIndicator());
         } else if (state.formStatusGetToken is SubmissionFailed) {
           return Text(state.customMessage);
         } else {

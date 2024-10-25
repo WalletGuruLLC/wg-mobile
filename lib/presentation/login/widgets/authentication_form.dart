@@ -89,6 +89,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
                 if (state.firstName.isEmpty && state.lastName.isEmpty) {
                   BlocProvider.of<CreateProfileCubit>(context)
                       .generateSumSubAccessToken(state.userId);
+
                   GoRouter.of(context).pushNamed(
                     Routes.createProfile1.name,
                     extra: {
