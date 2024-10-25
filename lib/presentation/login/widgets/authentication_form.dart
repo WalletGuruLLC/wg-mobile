@@ -1,8 +1,9 @@
-import 'dart:async'; 
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
@@ -86,6 +87,8 @@ class AuthenticationFormState extends State<AuthenticationForm> {
             listener: (context, state) {
               if (state.formStatusOtp is SubmissionSuccess) {
                 if (state.firstName.isEmpty && state.lastName.isEmpty) {
+                  BlocProvider.of<CreateProfileCubit>(context)
+                      .generateSumSubAccessToken(state.userId);
                   GoRouter.of(context).pushNamed(
                     Routes.createProfile1.name,
                     extra: {
@@ -95,6 +98,8 @@ class AuthenticationFormState extends State<AuthenticationForm> {
                   );
                 } else if (!state.isFirstTime) {
                   GoRouter.of(context).pushReplacementNamed(Routes.home.name);
+                  BlocProvider.of<CreateProfileCubit>(context)
+                      .generateSumSubAccessToken(state.userId);
                 } else {
                   GoRouter.of(context).pushNamed(Routes.createWallet.name);
                 }

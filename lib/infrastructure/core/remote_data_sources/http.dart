@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:crypto/crypto.dart';
 import 'package:http_parser/http_parser.dart'; // Necesario para MediaType
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_guru/infrastructure/core/env/env.dart';
 import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 
 class HttpDataSource {
@@ -16,6 +18,12 @@ class HttpDataSource {
     if (basic != null) {
       _headers['Authorization'] = 'Bearer $basic';
     }
+  }
+
+  static Future<void> setSumSubHeaders() async {
+    _headers[HttpHeaders.contentTypeHeader] = 'application/json';
+    _headers['X-App-Token'] = Env.sumSubApiToken;
+    _headers['X-Secret-Key'] = Env.sumSubApiSecret;
   }
 
   static void cleanHeardes() async {
@@ -53,6 +61,38 @@ class HttpDataSource {
     Uri uri = Uri.parse(path);
     try {
       final response = await http.post(uri, body: body, headers: _headers);
+      return response;
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  static Future<dynamic> postSumSub(
+      String path, Map<String, dynamic> data) async {
+    await setSumSubHeaders();
+
+    // Calculate timestamp and signature
+    final timestamp =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    final method = "POST"; // for post requests
+    final uri = Uri.parse(path);
+
+    // Generate signature
+    final hmac = Hmac(sha256, utf8.encode(Env.sumSubApiSecret));
+    final signatureData = '$timestamp$method${uri.path}';
+    final signature = hmac.convert(utf8.encode(signatureData)).toString();
+
+    _headers['X-App-Access-Ts'] = timestamp;
+    _headers['X-App-Access-Sig'] = signature;
+
+    // Remove Authorization header for SumSub
+    final headersWithoutAuthorization = Map<String, String>.from(_headers);
+    headersWithoutAuthorization.remove("Authorization");
+
+    final body = encode(data);
+    try {
+      final response = await http.post(uri,
+          body: body, headers: headersWithoutAuthorization);
       return response;
     } on Exception catch (e) {
       throw Exception(e);
