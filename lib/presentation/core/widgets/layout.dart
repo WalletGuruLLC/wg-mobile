@@ -17,6 +17,7 @@ class WalletGuruLayout extends StatelessWidget {
   final void Function()? actionAppBar;
   final bool showSimpleStyle;
   final bool showNotLoggedAppBar;
+  final Color? backgroundColor;
   const WalletGuruLayout({
     super.key,
     required this.children,
@@ -31,6 +32,7 @@ class WalletGuruLayout extends StatelessWidget {
     this.showNotLoggedAppBar = false,
     this.actionAppBar,
     this.showSimpleStyle = true,
+    this.backgroundColor,
   });
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class WalletGuruLayout extends StatelessWidget {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        backgroundColor: AppColorSchema.of(context).scaffoldColor,
+        backgroundColor: backgroundColor ?? AppColorSchema.of(context).scaffoldColor,
         appBar: showLoggedUserAppBar && !showNotLoggedAppBar
             ? WalletGuruAppBar(
                 title: pageAppBarTitle!,
