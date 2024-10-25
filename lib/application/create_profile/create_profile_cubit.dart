@@ -176,6 +176,10 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     emit(state.copyWith(identificationNumber: identificationNumber));
   }
 
+  void setDateOfBirth(String? dateOfBirth) async {
+    emit(state.copyWith(dateOfBirth: dateOfBirth));
+  }
+
   void cleanFormStatusTwo() async {
     emit(state.copyWith(formStatusTwo: const InitialFormStatus()));
   }
@@ -225,14 +229,10 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
         await createProfileRepository.updateUser(CreateProfileEntity(
       id: state.id,
       email: state.email,
-      firstName: state.firstName,
-      lastName: state.lastName,
       phone: "${state.countryCode}-${state.phone}",
       termsConditions: true,
       privacyPolicy: true,
       socialSecurityNumber: state.socialSecurityNumber,
-      identificationType: state.identificationType,
-      identificationNumber: state.identificationNumber,
       country: state.country,
       stateLocation: state.stateLocation,
       city: state.city,

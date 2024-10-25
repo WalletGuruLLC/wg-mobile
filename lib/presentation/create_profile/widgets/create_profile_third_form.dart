@@ -51,7 +51,7 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const UserProfileDescription(),
-          const ProgressBar(currentStep: 3),
+          const ProgressBar(currentStep: 2),
           SizedBox(height: size * 0.030),
           FormLabel(label: l10n.country),
           BlocBuilder<CreateProfileCubit, CreateProfileState>(
@@ -149,7 +149,7 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
   void _onNextButtonPressed() {
     if (_formKey.currentState?.validate() ?? _addressMinLength) {
       debugPrint('Form is valid');
-      GoRouter.of(context).pushNamed(Routes.createProfile4.name);
+      GoRouter.of(context).pushNamed(Routes.createProfile3.name);
     }
   }
 }

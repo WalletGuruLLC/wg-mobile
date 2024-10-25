@@ -77,12 +77,12 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.createProfile2.name,
       path: Routes.createProfile2.path,
-      builder: (context, state) => const CreateProfileSecondPage(),
+      builder: (context, state) => const CreateProfileThirdPage(),
     ),
     GoRoute(
       name: Routes.createProfile3.name,
       path: Routes.createProfile3.path,
-      builder: (context, state) => const CreateProfileThirdPage(),
+      builder: (context, state) => const CreateProfileSecondPage(),
     ),
     GoRoute(
       name: Routes.createProfile4.name,

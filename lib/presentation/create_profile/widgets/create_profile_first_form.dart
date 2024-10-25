@@ -45,9 +45,9 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
   @override
   void initState() {
     BlocProvider.of<LoginCubit>(context).cleanFormStatus();
-
     BlocProvider.of<RegisterCubit>(context).initialStatus();
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
+    createProfileCubit.loadCountryCodeAndCountry();
     _sumSubToken = createProfileCubit.state.sumSubToken;
     _sumSubUserId = createProfileCubit.state.sumSubUserId;
     super.initState();
@@ -55,114 +55,34 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    double size = MediaQuery.of(context).size.height;
-    return Form(
-      key: _formKey,
-      child: _buildProfileBasicInfoView(
-        size,
-        context,
-        l10n,
-      ),
-    );
-  }
-
-  Widget _buildProfileBasicInfoView(
-      double size, BuildContext context, AppLocalizations l10n) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const UserProfileDescription(),
-          const ProgressBar(currentStep: 1),
-          SizedBox(height: size * 0.030),
-          FormLabel(label: l10n.firstName),
-          FirstNameForm(
-            initialValue: _firstName,
-            onChanged: (value) => _onFormChanged('firstName', value),
-          ),
-          const SizedBox(height: 30),
-          FormLabel(label: l10n.lastName),
-          LastNameForm(
-            initialValue: _lastName,
-            onChanged: (value) => _onFormChanged('lastName', value),
-          ),
-          const SizedBox(height: 30),
-          FormLabel(label: l10n.phoneNumber),
-          SizedBox(
-            //width: size * 0.9,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BlocBuilder<CreateProfileCubit, CreateProfileState>(
-                  builder: (context, state) {
-                    final uniqueCountriesCode =
-                        state.countriesCode.toSet().toList();
-                    return CountryCodeFormAutoComplete(
-                      initialValue: '+00',
-                      items: uniqueCountriesCode,
-                      onChanged: (value) {
-                        if (value != null) {
-                          createProfileCubit.selectCountryCode(value);
-                        }
-                      },
-                    );
-                    // return CountryCodeForm(
-                    //   items: uniqueCountriesCode,
-                    //   onChanged: (value) {
-                    //     if (value != null) {
-                    //       createProfileCubit.selectCountryCode(value);
-                    //     }
-                    //   },
-                    // );
-                  },
-                ),
-                Expanded(
-                  child: PhoneNumberForm(
-                    initialValue: _phoneNumber,
-                    onChanged: (value) => _onFormChanged('phoneNumber', value),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: size * 0.12),
-          CreateProfileButtons(
-            onPressed1: _onBackButtonPressed,
-            onPressed2: _onNextButtonPressed,
-          ),
-          const SizedBox(height: 10),
-          BlocBuilder<CreateProfileCubit, CreateProfileState>(
-            builder: (context, state) {
-              if (state.formStatusGetToken is FormSubmitting) {
-                return const CircularProgressIndicator();
-              } else if (state.formStatusGetToken is SubmissionFailed) {
-                return Text(state.customMessage);
-              }
-              return CustomButton(
-                onPressed: () =>
-                    launchSDK(state.sumSubToken, state.sumSubUserId),
-                text: 'Verify Identity',
-              );
-            },
-          ),
-        ],
-      ),
+    return BlocBuilder<CreateProfileCubit, CreateProfileState>(
+      builder: (context, state) {
+        if (state.formStatusGetToken is FormSubmitting) {
+          return const CircularProgressIndicator();
+        } else if (state.formStatusGetToken is SubmissionFailed) {
+          return Text(state.customMessage);
+        } else {
+          // Llamar directamente al SDK si no hay errores
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            launchSDK(state.sumSubToken, state.sumSubUserId);
+          });
+          return const SizedBox.shrink(); // Retorna un widget vacío
+        }
+      },
     );
   }
 
   Future<void> launchSDK(String accessToken, String userId) async {
-    final onTokenExpiration = () async {
+    onTokenExpiration() async {
       // Lógica para obtener un nuevo token de tu backend
-      //TODO: IMPLEMENTAR CASO DE USO PARA OBTENER UN NUEVO TOKEN
       return Future<String>.delayed(
-          Duration(seconds: 2), () => "your new access token");
-    };
+          const Duration(seconds: 2), () => "your new access token");
+    }
 
-    final SNSStatusChangedHandler onStatusChanged =
-        (SNSMobileSDKStatus newStatus, SNSMobileSDKStatus prevStatus) {
+    onStatusChanged(
+        SNSMobileSDKStatus newStatus, SNSMobileSDKStatus prevStatus) {
       print("The SDK status was changed: $prevStatus -> $newStatus");
-    };
+    }
 
     final snsMobileSDK = SNSMobileSDK.init(accessToken, onTokenExpiration)
         .withHandlers(
@@ -173,37 +93,9 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
         .build();
 
     final SNSMobileSDKResult result = await snsMobileSDK.launch();
-
-    print("Completed with result: $result");
-  }
-
-  void _onFormChanged(String formType, String? value) {
-    setState(() {
-      switch (formType) {
-        case 'firstName':
-          _firstName = value!;
-          createProfileCubit.setUserFirstName(_firstName);
-          break;
-        case 'lastName':
-          _lastName = value!;
-          createProfileCubit.setUserLastName(_lastName);
-          break;
-        case 'phoneNumber':
-          _phoneNumber = value!;
-          createProfileCubit.setUserPhone(_phoneNumber);
-          break;
-      }
-    });
-  }
-
-  void _onBackButtonPressed() {
-    Navigator.of(context).pop();
-  }
-
-  // Method to handle button actions
-  void _onNextButtonPressed() {
-    if (_formKey.currentState?.validate() ?? false) {
-      GoRouter.of(context).pushNamed(Routes.createProfile2.name);
+    if (result.success && result.status == SNSMobileSDKStatus.Approved) {
+      GoRouter.of(context).pushReplacementNamed(Routes.createProfile2.name);
     }
+    print("Completed with result: $result");
   }
 }

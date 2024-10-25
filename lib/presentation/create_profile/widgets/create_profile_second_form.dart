@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/country_code_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
@@ -26,6 +28,7 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
   String _identificationNumber = '';
   String _idType = '';
   late CreateProfileCubit createProfileCubit;
+  String _phoneNumber = '';
 
   @override
   void initState() {
@@ -52,7 +55,7 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const UserProfileDescription(),
-          const ProgressBar(currentStep: 2),
+          const ProgressBar(currentStep: 3),
           SizedBox(height: size * 0.030),
           FormLabel(label: l10n.socialSecurityNumber),
           SocialSecurityForm(
@@ -63,23 +66,31 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
             onChanged: (value) => _onFormChanged('snn', value),
           ),
           const SizedBox(height: 30),
-          FormLabel(label: l10n.idType),
-          IdentificationTypeDropForm(
-            initialValue: _idType.isNotEmpty && _idType.contains(_idType)
-                ? _idType
-                : null,
-            hintText: l10n.selectIdType,
-            items: [l10n.nationalId, l10n.passport, l10n.driversLicense],
-            onChanged: (value) => _onFormChanged('idType', value),
-          ),
-          const SizedBox(height: 30),
-          FormLabel(label: l10n.identificationNumber),
-          IdentificationNumberForm(
-            initialValue:
-                createProfileCubit.state.identificationNumber.isNotEmpty
-                    ? createProfileCubit.state.identificationNumber
-                    : _identificationNumber,
-            onChanged: (value) => _onFormChanged('idNumber', value),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BlocBuilder<CreateProfileCubit, CreateProfileState>(
+                builder: (context, state) {
+                  final uniqueCountriesCode =
+                      state.countriesCode.toSet().toList();
+                  return CountryCodeFormAutoComplete(
+                    initialValue: '+00',
+                    items: uniqueCountriesCode,
+                    onChanged: (value) {
+                      if (value != null) {
+                        createProfileCubit.selectCountryCode(value);
+                      }
+                    },
+                  );
+                },
+              ),
+              Expanded(
+                child: PhoneNumberForm(
+                  initialValue: _phoneNumber,
+                  onChanged: (value) => _onFormChanged('phoneNumber', value),
+                ),
+              ),
+            ],
           ),
           SizedBox(height: size * 0.12),
           CreateProfileButtons(
@@ -98,9 +109,9 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
           _ssn = value!;
           createProfileCubit.setSocialSecurityNumber(_ssn);
           break;
-        case 'idType':
+        case 'phoneNumber':
           _idType = value!;
-          createProfileCubit.setIdentificationType(_idType);
+          createProfileCubit.setUserPhone(_phoneNumber);
           break;
         case 'idNumber':
           _identificationNumber = value!;
@@ -119,7 +130,7 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
     if (_formKey.currentState?.validate() ?? false) {
       debugPrint('Form is valid');
       //createProfileCubit.emitCreateProfileTwo();
-      GoRouter.of(context).pushNamed(Routes.createProfile3.name);
+      GoRouter.of(context).pushNamed(Routes.createProfile4.name);
     }
   }
 }

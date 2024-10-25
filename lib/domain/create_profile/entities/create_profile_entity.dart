@@ -1,15 +1,15 @@
 import 'package:wallet_guru/domain/create_profile/entities/base_profile_entity.dart';
 
 class CreateProfileEntity extends BaseProfileEntity {
-  final String firstName;
-  final String lastName;
+  final String? firstName;
+  final String? lastName;
   final String phone;
   final bool termsConditions;
   final bool privacyPolicy;
 //
   final String socialSecurityNumber;
-  final String identificationType;
-  final String identificationNumber;
+  final String? identificationType;
+  final String? identificationNumber;
 //
   final String country;
   final String stateLocation;
@@ -20,15 +20,15 @@ class CreateProfileEntity extends BaseProfileEntity {
   CreateProfileEntity({
     required String id,
     required String email,
-    required this.firstName,
-    required this.lastName,
+    this.firstName,
+    this.lastName,
     required this.phone,
     required this.termsConditions,
     required this.privacyPolicy,
     //
     required this.socialSecurityNumber,
-    required this.identificationType,
-    required this.identificationNumber,
+    this.identificationType,
+    this.identificationNumber,
     //
     required this.country,
     required this.stateLocation,
