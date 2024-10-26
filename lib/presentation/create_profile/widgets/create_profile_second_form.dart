@@ -110,7 +110,7 @@ class CreateProfileSecondFormState extends State<CreateProfileSecondForm> {
           createProfileCubit.setSocialSecurityNumber(_ssn);
           break;
         case 'phoneNumber':
-          _idType = value!;
+          _phoneNumber = value!;
           createProfileCubit.setUserPhone(_phoneNumber);
           break;
         case 'idNumber':

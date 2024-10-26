@@ -34,13 +34,7 @@ class CreateProfileFirstForm extends StatefulWidget {
 }
 
 class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
-  final _formKey = GlobalKey<FormState>();
-  String _firstName = '';
-  String _lastName = '';
-  String _phoneNumber = '';
   late CreateProfileCubit createProfileCubit;
-  late String _sumSubToken;
-  late String _sumSubUserId;
 
   @override
   void initState() {
@@ -49,8 +43,6 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
     createProfileCubit.setUserId(widget.id, widget.email);
     createProfileCubit.loadCountryCodeAndCountry();
-    _sumSubToken = createProfileCubit.state.sumSubToken;
-    _sumSubUserId = createProfileCubit.state.sumSubUserId;
     super.initState();
   }
 
@@ -59,7 +51,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
         if (state.formStatusGetToken is FormSubmitting) {
-          return Center(child: const CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (state.formStatusGetToken is SubmissionFailed) {
           return Text(state.customMessage);
         } else {

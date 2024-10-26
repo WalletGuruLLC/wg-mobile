@@ -238,6 +238,7 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
       city: state.city,
       zipCode: state.zipCode,
       address: state.address,
+      dateOfBirth: DateTime.parse(state.dateOfBirth),
     ));
     createProfile2.fold(
       (error) {
