@@ -11,4 +11,6 @@ abstract class CreateProfileRepository {
       updateUser<T extends BaseProfileEntity>(T entity);
   Future<Either<InvalidData, ResponseModel>> updateUserPicture(
       File picture, String userId);
+  Future<Either<InvalidData, ResponseModel>> generateSumSubAccessToken(
+      String userId);
 }

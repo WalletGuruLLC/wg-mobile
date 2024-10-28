@@ -242,7 +242,7 @@ packages:
     source: hosted
     version: "0.3.4+2"
   crypto:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: crypto
       sha256: ff625774173754681d66daaf4a448684fb04b78f902da9cb3d308c19cc5e8bab
@@ -454,6 +454,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.1.6"
+  flutter_idensic_mobile_sdk_plugin:
+    dependency: "direct main"
+    description:
+      name: flutter_idensic_mobile_sdk_plugin
+      sha256: "0461691b61eb809319c4b5c466fa89d531bce8b21a77e7028367e61910f9505a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.32.1"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -765,6 +773,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  lottie:
+    dependency: "direct main"
+    description:
+      name: lottie
+      sha256: "7afc60865a2429d994144f7d66ced2ae4305fe35d82890b8766e3359872d872c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.3"
   marquee_text:
     dependency: "direct main"
     description:
