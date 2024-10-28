@@ -20,12 +20,6 @@ class HttpDataSource {
     }
   }
 
-  static Future<void> setSumSubHeaders() async {
-    _headers[HttpHeaders.contentTypeHeader] = 'application/json';
-    _headers['X-App-Token'] = Env.sumSubApiToken;
-    _headers['X-Secret-Key'] = Env.sumSubApiSecret;
-  }
-
   static void cleanHeardes() async {
     final storage = await SharedPreferences.getInstance();
     storage.remove('Basic');
@@ -46,7 +40,11 @@ class HttpDataSource {
     await setHeaders();
     Uri uri = Uri.parse(path);
     try {
-      final response = await http.get(uri, headers: _headers);
+      var response = await http.get(uri, headers: _headers);
+      if (response.statusCode == 401) {
+        await _refreshToken();
+        response = await http.get(uri, headers: _headers);
+      }
       return response;
     } on Exception catch (e) {
       throw Exception(e);
@@ -60,39 +58,11 @@ class HttpDataSource {
     final body = encode(data);
     Uri uri = Uri.parse(path);
     try {
-      final response = await http.post(uri, body: body, headers: _headers);
-      return response;
-    } on Exception catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  static Future<dynamic> postSumSub(
-      String path, Map<String, dynamic> data) async {
-    await setSumSubHeaders();
-
-    // Calculate timestamp and signature
-    final timestamp =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    final method = "POST"; // for post requests
-    final uri = Uri.parse(path);
-
-    // Generate signature
-    final hmac = Hmac(sha256, utf8.encode(Env.sumSubApiSecret));
-    final signatureData = '$timestamp$method${uri.path}';
-    final signature = hmac.convert(utf8.encode(signatureData)).toString();
-
-    _headers['X-App-Access-Ts'] = timestamp;
-    _headers['X-App-Access-Sig'] = signature;
-
-    // Remove Authorization header for SumSub
-    final headersWithoutAuthorization = Map<String, String>.from(_headers);
-    headersWithoutAuthorization.remove("Authorization");
-
-    final body = encode(data);
-    try {
-      final response = await http.post(uri,
-          body: body, headers: headersWithoutAuthorization);
+      var response = await http.post(uri, body: body, headers: _headers);
+      if (response.statusCode == 401) {
+        await _refreshToken();
+        response = await http.post(uri, body: body, headers: _headers);
+      }
       return response;
     } on Exception catch (e) {
       throw Exception(e);
@@ -106,7 +76,11 @@ class HttpDataSource {
     final body = encode(data);
     Uri uri = Uri.parse(path);
     try {
-      final response = await http.patch(uri, body: body, headers: _headers);
+      var response = await http.patch(uri, body: body, headers: _headers);
+      if (response.statusCode == 401) {
+        await _refreshToken();
+        response = await http.patch(uri, body: body, headers: _headers);
+      }
       return response;
     } on Exception catch (e) {
       throw Exception(e);
@@ -120,7 +94,11 @@ class HttpDataSource {
     final body = encode(data);
     Uri uri = Uri.parse(path);
     try {
-      final response = await http.put(uri, body: body, headers: _headers);
+      var response = await http.put(uri, body: body, headers: _headers);
+      if (response.statusCode == 401) {
+        await _refreshToken();
+        response = await http.put(uri, body: body, headers: _headers);
+      }
       return response;
     } on Exception catch (e) {
       throw Exception(e);
