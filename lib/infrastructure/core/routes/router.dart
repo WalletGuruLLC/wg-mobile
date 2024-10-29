@@ -24,8 +24,8 @@ import 'package:wallet_guru/presentation/login/pages/authentication_page.dart';
 import 'package:wallet_guru/presentation/create_wallet/pages/create_wallet.dart';
 import 'package:wallet_guru/presentation/change_password/page/change_password_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_first_page.dart';
-import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_second_page.dart';
+import 'package:wallet_guru/presentation/create_profile/page/create_profile_third_page.dart';
 import 'package:wallet_guru/presentation/create_profile/page/create_profile_fourth_page.dart';
 import 'package:wallet_guru/presentation/splash/splash_screen_page.dart';
 import 'package:wallet_guru/presentation/transactions/pages/transaction_chart_widget.dart';
@@ -77,12 +77,12 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.createProfile2.name,
       path: Routes.createProfile2.path,
-      builder: (context, state) => const CreateProfileThirdPage(),
+      builder: (context, state) => const CreateProfile2Page(),
     ),
     GoRoute(
       name: Routes.createProfile3.name,
       path: Routes.createProfile3.path,
-      builder: (context, state) => const CreateProfileSecondPage(),
+      builder: (context, state) => const CreateProfile3Page(),
     ),
     GoRoute(
       name: Routes.createProfile4.name,

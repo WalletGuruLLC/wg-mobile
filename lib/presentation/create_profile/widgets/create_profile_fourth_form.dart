@@ -64,11 +64,12 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
           SizedBox(height: size * 0.12),
           BlocConsumer<CreateProfileCubit, CreateProfileState>(
               listener: (context, state) {
-            if (state.formStatus is SubmissionSuccess) {
+            if (state.formStatusThree is SubmissionSuccess) {
               GoRouter.of(context).pushReplacementNamed(
                 Routes.createWallet.name,
               );
-            } else if (state.formStatus is SubmissionFailed) {
+              createProfileCubit.cleanFormStatusThree();
+            } else if (state.formStatusThree is SubmissionFailed) {
               buildErrorModal(
                 state.customMessage,
                 state.customMessageEs,
@@ -99,7 +100,7 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
   void _onNextButtonPressed() {
     if (_formKey.currentState?.validate() ?? false) {
       debugPrint('Form is valid');
-      createProfileCubit.emitCreateProfile();
+      createProfileCubit.emitCreateProfileThree();
     }
   }
 
@@ -138,7 +139,7 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
             ],
           ),
           onPressed: () {
-            createProfileCubit.cleanFormStatus();
+            createProfileCubit.cleanFormStatusThree();
             Navigator.of(context).pop();
           },
         );

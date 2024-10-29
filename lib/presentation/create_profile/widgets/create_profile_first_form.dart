@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
-import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
-import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/last_name_form.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/first_name_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/country_code_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 import 'package:flutter_idensic_mobile_sdk_plugin/flutter_idensic_mobile_sdk_plugin.dart';
 
 class CreateProfileFirstForm extends StatefulWidget {

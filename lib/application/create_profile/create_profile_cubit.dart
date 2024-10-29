@@ -78,40 +78,6 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     ));
   }
 
-  void emitCreateProfileOne() async {
-    emit(
-      state.copyWith(formStatusOne: FormSubmitting()),
-    );
-    final createProfile1 =
-        await createProfileRepository.updateUser(CreateProfileOneEntity(
-      id: state.id,
-      email: state.email,
-      firstName: state.firstName,
-      lastName: state.lastName,
-      phone: "${state.countryCode}-${state.phone}",
-      termsConditions: true,
-      privacyPolicy: true,
-    ));
-    createProfile1.fold(
-      (error) {
-        emit(state.copyWith(
-          formStatusOne:
-              SubmissionFailed(exception: Exception(error.messageEn)),
-          customCode: error.code,
-          customMessage: error.messageEn,
-          customMessageEs: error.messageEs,
-        ));
-      },
-      (createProfileOne) {
-        emit(state.copyWith(
-          customMessage: createProfileOne.customCode,
-          customMessageEs: createProfileOne.customMessageEs,
-          formStatusOne: SubmissionSuccess(),
-        ));
-      },
-    );
-  }
-
   void setUserFirstName(String? firstName) async {
     emit(state.copyWith(firstName: firstName));
   }
@@ -140,9 +106,8 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
         await createProfileRepository.updateUser(CreateProfileTwoEntity(
       id: state.id,
       email: state.email,
+      phone: "${state.countryCode}-${state.phone}",
       socialSecurityNumber: state.socialSecurityNumber,
-      identificationType: state.identificationType,
-      identificationNumber: state.identificationNumber,
     ));
     createProfile2.fold(
       (error) {
@@ -188,15 +153,12 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     emit(
       state.copyWith(formStatusThree: FormSubmitting()),
     );
+    await submitUserPicture(state.picture!, state.id);
     final createProfile2 =
         await createProfileRepository.updateUser(CreateProfileThreeEntity(
       id: state.id,
       email: state.email,
-      country: state.country,
-      stateLocation: state.stateLocation,
-      city: state.city,
-      zipCode: state.zipCode,
-      address: state.address,
+      dateOfBirth: DateTime.parse(state.dateOfBirth),
     ));
     createProfile2.fold(
       (error) {
@@ -254,6 +216,43 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
           customMessage: createProfileTwo.customCode,
           customMessageEs: createProfileTwo.customMessageEs,
           formStatus: SubmissionSuccess(),
+        ));
+      },
+    );
+  }
+
+  // Update user profile specifically location information
+  void emitCreateProfileOne() async {
+    emit(
+      state.copyWith(formStatusOne: FormSubmitting()),
+    );
+    final createProfile1 =
+        await createProfileRepository.updateUser(CreateProfileOneEntity(
+      id: state.id,
+      email: state.email,
+      country: state.country,
+      stateLocation: state.stateLocation,
+      city: state.city,
+      zipCode: state.zipCode,
+      address: state.address,
+      termsConditions: true,
+      privacyPolicy: true,
+    ));
+    createProfile1.fold(
+      (error) {
+        emit(state.copyWith(
+          formStatusOne:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (createProfileOne) {
+        emit(state.copyWith(
+          customMessage: createProfileOne.customCode,
+          customMessageEs: createProfileOne.customMessageEs,
+          formStatusOne: SubmissionSuccess(),
         ));
       },
     );

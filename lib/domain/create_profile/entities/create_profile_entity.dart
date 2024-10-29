@@ -48,4 +48,30 @@ class CreateProfileEntity extends BaseProfileEntity {
         "address": address,
         "dateOfBirth": dateOfBirth.toIso8601String(),
       };
+
+  Map<String, dynamic> userLocationToJson() => {
+        // General Information to update
+        "id": id,
+        "email": email,
+        "termsConditions": termsConditions,
+        "privacyPolicy": privacyPolicy,
+        // Specific Information to update
+        "country": country,
+        "stateLocation": stateLocation,
+        "city": city,
+        "zipCode": zipCode,
+        "address": address,
+      };
+  Map<String, dynamic> userPersonalInformationToJson() => {
+        "id": id,
+        "email": email,
+        "phone": phone,
+        "socialSecurityNumber": socialSecurityNumber,
+      };
+
+  Map<String, dynamic> userDateOfBirthToJson() => {
+        "id": id,
+        "email": email,
+        "dateOfBirth": dateOfBirth.toIso8601String(),
+      };
 }
