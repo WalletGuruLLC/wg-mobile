@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_guru/application/login/login_cubit.dart';
 
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
@@ -51,7 +53,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     return BlocListener<TranslationErrorCubit, TranslationErrorState>(
       listener: (context, state) {
         if (state is TranslationLoaded) {
-          GoRouter.of(context).pushNamed(Routes.logIn.name);
+          setInitialRoute(context);
         } else if (state is TranslationError) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text('Error: ${state.message}')));
@@ -87,4 +89,15 @@ String getDeviceLanguage() {
   final String deviceLocale =
       WidgetsBinding.instance.window.locales.first.languageCode;
   return Intl.canonicalizedLocale(deviceLocale);
+}
+
+Future<void> setInitialRoute(BuildContext context) async {
+  final storage = await SharedPreferences.getInstance();
+  final String? basic = storage.getString('Basic');
+  final bool? firstFunding = storage.getBool('firstFunding');
+  if (basic != null && firstFunding == false) {
+    GoRouter.of(context).pushNamed(Routes.home.name);
+  } else {
+    GoRouter.of(context).pushNamed(Routes.logIn.name);
+  }
 }
