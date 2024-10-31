@@ -1,121 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/country_code_form.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/form_label.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/address_form.dart';
-import 'package:wallet_guru/presentation/core/widgets/forms/zip_code_form.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/widgets/create_profile_buttons.dart';
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/city_form_auto_complete.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/country_form_auto_complete.dart';
-import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_form_auto_complete.dart';
+import 'package:wallet_guru/presentation/core/widgets/forms/social_security_form.dart';
 
-class CreateProfileThirdForm extends StatefulWidget {
-  const CreateProfileThirdForm({super.key});
+class CreateProfile3Form extends StatefulWidget {
+  final String? id;
+  final String? email;
+
+  const CreateProfile3Form({super.key, this.id, this.email});
 
   @override
-  State<CreateProfileThirdForm> createState() => CreateProfileThirdFormState();
+  State<CreateProfile3Form> createState() => CreateProfile3FormState();
 }
 
-class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
+class CreateProfile3FormState extends State<CreateProfile3Form> {
   final _formKey = GlobalKey<FormState>();
-  String _address = '';
-  String _zipCode = '';
-  bool _addressMinLength = false;
+  String _ssn = '';
+  String _identificationNumber = '';
+  String _idType = '';
   late CreateProfileCubit createProfileCubit;
+  String _phoneNumber = '';
 
   @override
   void initState() {
-    super.initState();
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
-    createProfileCubit.loadCountries();
+    if (widget.email != null &&
+        widget.id != null &&
+        widget.email!.isNotEmpty &&
+        widget.id!.isNotEmpty) {
+      createProfileCubit.setUserId(widget.id!, widget.email!);
+      createProfileCubit.loadCountryCodeAndCountry();
+    }
+    //createProfileCubit.cleanFormStatusOne();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     double size = MediaQuery.of(context).size.height;
+    _idType = createProfileCubit.state.identificationType.isNotEmpty
+        ? createProfileCubit.state.identificationType
+        : _idType;
     return Form(
-        key: _formKey,
-        child: _buildProfilePersonalInfoView(size, context, l10n));
+        key: _formKey, child: _buildProfileLocationView(size, context, l10n));
   }
 
-  Widget _buildProfilePersonalInfoView(
+  Widget _buildProfileLocationView(
       double size, BuildContext context, AppLocalizations l10n) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           const UserProfileDescription(),
           const ProgressBar(currentStep: 3),
           SizedBox(height: size * 0.030),
-          FormLabel(label: l10n.country),
-          BlocBuilder<CreateProfileCubit, CreateProfileState>(
-            builder: (context, state) {
-              List<String> countries = List.from(state.countries);
-              if (countries.contains('United States')) {
-                countries.remove('United States');
-                countries.insert(0, 'United States');
-              }
-              return CountryFormAutoComplete(
-                readOnly: false,
-                initialValue: state.country.isNotEmpty ? state.country : null,
-                onChanged: (value) {
-                  if (value != null) {
-                    createProfileCubit.selectCountry(value);
-                  }
+          FormLabel(label: l10n.socialSecurityNumber),
+          SocialSecurityForm(
+            initialValue:
+                createProfileCubit.state.socialSecurityNumber.isNotEmpty
+                    ? createProfileCubit.state.socialSecurityNumber
+                    : _ssn,
+            onChanged: (value) => _onFormChanged('snn', value),
+          ),
+          const SizedBox(height: 30),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BlocBuilder<CreateProfileCubit, CreateProfileState>(
+                builder: (context, state) {
+                  final uniqueCountriesCode =
+                      state.countriesCode.toSet().toList();
+                  return CountryCodeFormAutoComplete(
+                    initialValue: '+00',
+                    items: uniqueCountriesCode,
+                    onChanged: (value) {
+                      if (value != null) {
+                        createProfileCubit.selectCountryCode(value);
+                      }
+                    },
+                  );
                 },
-              );
-            },
+              ),
+              Expanded(
+                child: PhoneNumberForm(
+                  initialValue: _phoneNumber,
+                  onChanged: (value) => _onFormChanged('phoneNumber', value),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 20),
-          FormLabel(label: l10n.state),
-          BlocBuilder<CreateProfileCubit, CreateProfileState>(
-            builder: (context, state) {
-              return StateFormAutoComplete(
-                readOnly: false,
-                initialValue:
-                    state.stateLocation.isNotEmpty ? state.stateLocation : '',
-                onChanged: (value) {
-                  createProfileCubit.selectState(value);
-                },
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-          FormLabel(label: l10n.city),
-          BlocBuilder<CreateProfileCubit, CreateProfileState>(
-            builder: (context, state) {
-              return CityFormAutocomplete(
-                readOnly: false,
-                initialValue: state.city.isNotEmpty ? state.city : '',
-                onChanged: (value) {
-                  createProfileCubit.selectCity(value!);
-                },
-              );
-            },
-          ),
-          const SizedBox(height: 20),
-          FormLabel(label: l10n.zipCode),
-          ZipCodeForm(
-            initialValue: createProfileCubit.state.zipCode.isNotEmpty
-                ? createProfileCubit.state.zipCode
-                : null,
-            onChanged: (value) => _onFormChanged('zipCode', value),
-          ),
-          const SizedBox(height: 20),
-          FormLabel(label: l10n.address),
-          AddressForm(
-            initialValue: createProfileCubit.state.address.isNotEmpty
-                ? createProfileCubit.state.address
-                : null,
-            onChanged: (value) => _onFormChanged('address', value),
-          ),
-          SizedBox(height: size * 0.05),
+          SizedBox(height: size * 0.12),
           CreateProfileButtons(
             onPressed1: _onBackButtonPressed,
             onPressed2: _onNextButtonPressed,
@@ -128,14 +110,17 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
   void _onFormChanged(String formType, String? value) {
     setState(() {
       switch (formType) {
-        case 'zipCode':
-          _zipCode = value!;
-          createProfileCubit.setZipCode(_zipCode);
+        case 'snn':
+          _ssn = value!;
+          createProfileCubit.setSocialSecurityNumber(_ssn);
           break;
-        case 'address':
-          _address = value!;
-          _addressMinLength = value.length > 4;
-          createProfileCubit.setAddress(_address);
+        case 'phoneNumber':
+          _phoneNumber = value!;
+          createProfileCubit.setUserPhone(_phoneNumber);
+          break;
+        case 'idNumber':
+          _identificationNumber = value!;
+          createProfileCubit.setIdentificationNumber(_identificationNumber);
           break;
       }
     });
@@ -147,9 +132,9 @@ class CreateProfileThirdFormState extends State<CreateProfileThirdForm> {
 
   // Method to handle button actions
   void _onNextButtonPressed() {
-    if (_formKey.currentState?.validate() ?? _addressMinLength) {
+    if (_formKey.currentState?.validate() ?? false) {
       debugPrint('Form is valid');
-      GoRouter.of(context).pushNamed(Routes.createProfile4.name);
+      createProfileCubit.emitCreateProfileTwo();
     }
   }
 }

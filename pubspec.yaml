@@ -68,6 +68,7 @@ dependencies:
   socket_io_client: ^3.0.0
   crypto: ^3.0.0
   flutter_idensic_mobile_sdk_plugin: ^1.32.1
+  jwt_decode: ^0.3.1
 
 
   

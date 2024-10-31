@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/settings/settings_cubit.dart';
@@ -33,6 +35,7 @@ class _SplashScreenPageState extends State<SplashScreenPage>
     _initializeAnimation();
     _initPackageInfo();
     _loadTranslations();
+    _checkTokenExpiration();
     BlocProvider.of<SettingsCubit>(context).loadSettings();
   }
 
@@ -71,7 +74,7 @@ class _SplashScreenPageState extends State<SplashScreenPage>
 
   void _checkAndNavigate() {
     if (_isAnimationComplete && _isTranslationLoaded && mounted) {
-      GoRouter.of(context).pushNamed(Routes.logIn.name);
+      setInitialRoute(context);
     }
   }
 
@@ -139,4 +142,36 @@ String getDeviceLanguage() {
   final String deviceLocale =
       WidgetsBinding.instance.window.locales.first.languageCode;
   return Intl.canonicalizedLocale(deviceLocale);
+}
+
+Future<void> setInitialRoute(BuildContext context) async {
+  final storage = await SharedPreferences.getInstance();
+  final String? basic = storage.getString('Basic');
+  final bool? isWalletCreated = storage.getBool('isWalletCreated');
+  if (basic != null && isWalletCreated == false) {
+    GoRouter.of(context).pushNamed(Routes.home.name);
+  } else {
+    GoRouter.of(context).pushNamed(Routes.logIn.name);
+  }
+}
+
+Future<void> _checkTokenExpiration() async {
+  final storage = await SharedPreferences.getInstance();
+  final String? basic = storage.getString('Basic');
+  if (basic == null) {
+    return;
+  }
+  Map<String, dynamic> payload = Jwt.parseJwt(basic);
+  int expirationTimestamp = payload['exp'] as int;
+
+  DateTime expirationDate =
+      DateTime.fromMillisecondsSinceEpoch(expirationTimestamp * 1000);
+  print('Expiration date: $expirationDate');
+  bool isExpired = Jwt.isExpired(basic);
+  if (isExpired) {
+    LoginDataSource().refreshToken();
+  } else {
+    print('Token is not expired');
+    return;
+  }
 }
