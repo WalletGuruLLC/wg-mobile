@@ -34,6 +34,11 @@ class _FundingScreenPageState extends State<FundingScreenPage> {
     BlocProvider.of<SendPaymentCubit>(context).resetSelectedWalletUrl();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Map<String, ({double totalAmount, List<String> ids})> _groupAndSumPayments(
       List<IncomingPaymentModel> payments) {
     Map<String, ({double totalAmount, List<String> ids})> groupedPayments = {};

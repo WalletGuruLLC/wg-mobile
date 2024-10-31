@@ -22,21 +22,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final UserCubit userCubit;
+  bool _initialized = false;
+
   @override
-  void initState() {
-    super.initState();
-    final userCubit = BlocProvider.of<UserCubit>(context);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      userCubit = context.read<UserCubit>();
+      _initializeData();
+      _initialized = true;
+    }
+  }
+
+  void _initializeData() {
     userCubit.emitGetUserInformation();
     userCubit.emitGetWalletInformation();
     userCubit.initializeWebSocket();
-    BlocProvider.of<TransactionCubit>(context).loadTransactions();
-    BlocProvider.of<CreateProfileCubit>(context).emitInitialStatus();
-    BlocProvider.of<SendPaymentCubit>(context).emitGetWalletInformation();
-    BlocProvider.of<FundingCubit>(context).resetCreateIncomingPaymentStatus();
+    context.read<TransactionCubit>().loadTransactions();
+    context.read<CreateProfileCubit>().emitInitialStatus();
+    context.read<SendPaymentCubit>().emitGetWalletInformation();
+    context.read<FundingCubit>().resetCreateIncomingPaymentStatus();
   }
 
   @override
   void dispose() {
+    // TODO: implement dispose
     super.dispose();
   }
 
@@ -61,7 +72,6 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(height: size.height * 0.02),
                     const LastTransactionsList(),
                     SizedBox(height: size.height * 0.02),
-                    // Espacio adicional para que el contenido no quede oculto detrás del TextBase
                     SizedBox(height: size.height * 0.1),
                   ],
                 ),
