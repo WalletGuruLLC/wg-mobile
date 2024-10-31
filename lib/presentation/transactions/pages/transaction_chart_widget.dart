@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/widgets/loading_widget.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
@@ -80,7 +81,13 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
       },
       builder: (context, state) {
         if (state is TransactionLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: LoadingWidget(
+            showSafeArea: true,
+            showSimpleStyle: false,
+            showLoggedUserAppBar: false,
+            showBottomNavigationBar: false,
+          ));
         } else if (state is TransactionLoaded) {
           _initializeDates(state.payments);
           _initializeDates(state.processedPayments);

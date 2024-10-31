@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
@@ -68,16 +69,21 @@ class _PasswordFormState extends State<PasswordForm> {
   }
 
   Widget _buildSuffixIcon() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _obscureText = !_obscureText;
-        });
-      },
-      child: Image.asset(
-        _obscureText ? Assets.passwordLogo : Assets.viewPasswordLogo,
-        width: 20,
-        height: 20,
+    return Container(
+      width: 40,
+      height: 40,
+      padding: const EdgeInsets.all(8),
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _obscureText = !_obscureText;
+          });
+        },
+        child: SvgPicture.asset(
+          _obscureText ? Assets.openEye : Assets.closeEye,
+          width: 10,
+          height: 10,
+        ),
       ),
     );
   }

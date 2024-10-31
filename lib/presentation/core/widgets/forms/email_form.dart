@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -38,10 +39,11 @@ class EmailForm extends StatelessWidget {
           initialValue: initialValue,
           keyboardType: TextInputType.text,
           hintStyle: AppTextStyles.formText,
-          suffixIcon: Image.asset(
+          suffixIcon: SvgPicture.asset(
             Assets.emailLogo,
-            width: 20,
-            height: 20,
+            //width: 10,
+            //height: 10,
+            fit: BoxFit.scaleDown,
           ),
           hintText: l10n.email,
           validator: (value, context) =>
