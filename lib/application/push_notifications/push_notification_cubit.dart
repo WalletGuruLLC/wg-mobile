@@ -19,6 +19,7 @@ class PushNotificationCubit extends Cubit<PushNotificationState> {
     try {
       await initializePushNotifications();
       final token = await _getPushNotificationToken();
+      print("token: $token");
       emit(PushNotificationInitialized(token: token));
     } catch (e) {
       emit(PushNotificationError(e.toString()));
