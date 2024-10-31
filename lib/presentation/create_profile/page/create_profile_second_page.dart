@@ -20,7 +20,7 @@ class CreateProfile2Page extends StatelessWidget {
           child: SizedBox(
             width: size.width * 0.90,
             height: size.height,
-            child: const CreateProfile2Form(),
+            child: CreateProfile2Form(id: id, email: email),
           ),
         ),
       ],

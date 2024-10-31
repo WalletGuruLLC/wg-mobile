@@ -31,8 +31,12 @@ class CreateProfile3FormState extends State<CreateProfile3Form> {
   @override
   void initState() {
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
-    if (widget.email != null && widget.id != null) {
+    if (widget.email != null &&
+        widget.id != null &&
+        widget.email!.isNotEmpty &&
+        widget.id!.isNotEmpty) {
       createProfileCubit.setUserId(widget.id!, widget.email!);
+      createProfileCubit.loadCountryCodeAndCountry();
     }
     //createProfileCubit.cleanFormStatusOne();
     super.initState();

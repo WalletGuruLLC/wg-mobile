@@ -216,6 +216,7 @@
   "walletLocked": "Wallet Locked",
   "firstUnlockWallet": "To be able to access you must first unlock your wallet",
   "forgotPasswordErrorText": "Activation code error. Please re-enter your verification code. If the problem persists, tap \"Resend code\" or contact our support team.",
-  "add": "Add"
+  "add": "Add",
+  "copiedToClipboard": "Copied to clipboard"
 
 }

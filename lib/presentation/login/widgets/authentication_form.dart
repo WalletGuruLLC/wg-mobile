@@ -123,8 +123,6 @@ class AuthenticationFormState extends State<AuthenticationForm> {
                   );
                 } else if (!state.isFirstTime) {
                   GoRouter.of(context).pushReplacementNamed(Routes.home.name);
-                  BlocProvider.of<CreateProfileCubit>(context)
-                      .generateSumSubAccessToken(state.userId);
                 } else {
                   GoRouter.of(context).pushNamed(Routes.createWallet.name);
                 }

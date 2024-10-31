@@ -34,7 +34,10 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
   void initState() {
     super.initState();
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
-    if (widget.email != null && widget.id != null) {
+    if (widget.email != null &&
+        widget.id != null &&
+        widget.email!.isNotEmpty &&
+        widget.id!.isNotEmpty) {
       createProfileCubit.setUserId(widget.id!, widget.email!);
     }
   }

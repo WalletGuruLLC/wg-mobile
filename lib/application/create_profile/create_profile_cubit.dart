@@ -154,13 +154,13 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
       state.copyWith(formStatusThree: FormSubmitting()),
     );
     await submitUserPicture(state.picture!, state.id);
-    final createProfile2 =
+    final createProfile3 =
         await createProfileRepository.updateUser(CreateProfileThreeEntity(
       id: state.id,
       email: state.email,
       dateOfBirth: DateTime.parse(state.dateOfBirth),
     ));
-    createProfile2.fold(
+    createProfile3.fold(
       (error) {
         emit(state.copyWith(
           formStatusThree:
@@ -175,47 +175,6 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
           customMessage: createProfileTwo.customCode,
           customMessageEs: createProfileTwo.customMessageEs,
           formStatusThree: SubmissionSuccess(),
-        ));
-      },
-    );
-  }
-
-  void emitCreateProfile() async {
-    emit(
-      state.copyWith(formStatus: FormSubmitting()),
-    );
-
-    await submitUserPicture(state.picture!, state.id);
-
-    final createProfile2 =
-        await createProfileRepository.updateUser(CreateProfileEntity(
-      id: state.id,
-      email: state.email,
-      phone: "${state.countryCode}-${state.phone}",
-      termsConditions: true,
-      privacyPolicy: true,
-      socialSecurityNumber: state.socialSecurityNumber,
-      country: state.country,
-      stateLocation: state.stateLocation,
-      city: state.city,
-      zipCode: state.zipCode,
-      address: state.address,
-      dateOfBirth: DateTime.parse(state.dateOfBirth),
-    ));
-    createProfile2.fold(
-      (error) {
-        emit(state.copyWith(
-          formStatus: SubmissionFailed(exception: Exception(error.messageEn)),
-          customCode: error.code,
-          customMessage: error.messageEn,
-          customMessageEs: error.messageEs,
-        ));
-      },
-      (createProfileTwo) {
-        emit(state.copyWith(
-          customMessage: createProfileTwo.customCode,
-          customMessageEs: createProfileTwo.customMessageEs,
-          formStatus: SubmissionSuccess(),
         ));
       },
     );

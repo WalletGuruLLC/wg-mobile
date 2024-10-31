@@ -13,6 +13,6 @@ class CreateProfileThreeEntity extends BaseProfileEntity {
   Map<String, dynamic> toJson() => {
         "id": id,
         "email": email,
-        "dateOfBirth": dateOfBirth,
+        "dateOfBirth": dateOfBirth.toIso8601String(),
       };
 }
