@@ -96,6 +96,9 @@ class LoginCubit extends Cubit<LoginState> {
           formStatusOtp: SubmissionSuccess(),
           isFirstTime: verifiedUser.data!.user!.first,
           user: verifiedUser.data!.user,
+          country: verifiedUser.data!.user!.country,
+          phone: verifiedUser.data!.user!.phone,
+          picture: verifiedUser.data!.user!.picture,
         ));
       },
     );

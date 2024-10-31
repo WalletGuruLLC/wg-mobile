@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/country_code_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/phone_number_form.dart';
 import 'package:wallet_guru/presentation/core/widgets/progress_bar.dart';
@@ -13,7 +11,10 @@ import 'package:wallet_guru/presentation/core/widgets/user_profile_description.d
 import 'package:wallet_guru/presentation/core/widgets/forms/social_security_form.dart';
 
 class CreateProfile3Form extends StatefulWidget {
-  const CreateProfile3Form({super.key});
+  final String? id;
+  final String? email;
+
+  const CreateProfile3Form({super.key, this.id, this.email});
 
   @override
   State<CreateProfile3Form> createState() => CreateProfile3FormState();
@@ -30,6 +31,9 @@ class CreateProfile3FormState extends State<CreateProfile3Form> {
   @override
   void initState() {
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
+    if (widget.email != null && widget.id != null) {
+      createProfileCubit.setUserId(widget.id!, widget.email!);
+    }
     //createProfileCubit.cleanFormStatusOne();
     super.initState();
   }

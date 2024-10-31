@@ -75,20 +75,36 @@ class WalletGuruRouter {
           return CreateProfileFirstPage(id: id, email: email);
         }),
     GoRoute(
-      name: Routes.createProfile2.name,
-      path: Routes.createProfile2.path,
-      builder: (context, state) => const CreateProfile2Page(),
-    ),
+        name: Routes.createProfile2.name,
+        path: Routes.createProfile2.path,
+        builder: (context, state) {
+          final params =
+              (state.extra ?? <String, dynamic>{}) as Map<String, dynamic>;
+          final id = (params['id'] as String?) ?? '';
+          final email = (params['email'] as String?) ?? '';
+
+          return CreateProfile2Page(id: id, email: email);
+        }),
     GoRoute(
-      name: Routes.createProfile3.name,
-      path: Routes.createProfile3.path,
-      builder: (context, state) => const CreateProfile3Page(),
-    ),
+        name: Routes.createProfile3.name,
+        path: Routes.createProfile3.path,
+        builder: (context, state) {
+          final params =
+              (state.extra ?? <String, dynamic>{}) as Map<String, dynamic>;
+          final id = (params['id'] as String?) ?? '';
+          final email = (params['email'] as String?) ?? '';
+          return CreateProfile3Page(id: id, email: email);
+        }),
     GoRoute(
-      name: Routes.createProfile4.name,
-      path: Routes.createProfile4.path,
-      builder: (context, state) => const CreateProfileFourthPage(),
-    ),
+        name: Routes.createProfile4.name,
+        path: Routes.createProfile4.path,
+        builder: (context, state) {
+          final params =
+              (state.extra ?? <String, dynamic>{}) as Map<String, dynamic>;
+          final id = (params['id'] as String?) ?? '';
+          final email = (params['email'] as String?) ?? '';
+          return CreateProfileFourthPage(id: id, email: email);
+        }),
     GoRoute(
       name: Routes.myProfile.name,
       path: Routes.myProfile.path,

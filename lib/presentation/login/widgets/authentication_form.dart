@@ -97,6 +97,30 @@ class AuthenticationFormState extends State<AuthenticationForm> {
                       "email": state.email,
                     },
                   );
+                } else if (state.country.isEmpty) {
+                  GoRouter.of(context).pushNamed(
+                    Routes.createProfile2.name,
+                    extra: {
+                      "id": state.userId,
+                      "email": state.email,
+                    },
+                  );
+                } else if (state.phone.isEmpty) {
+                  GoRouter.of(context).pushNamed(
+                    Routes.createProfile3.name,
+                    extra: {
+                      "id": state.userId,
+                      "email": state.email,
+                    },
+                  );
+                } else if (state.picture.isEmpty) {
+                  GoRouter.of(context).pushNamed(
+                    Routes.createProfile4.name,
+                    extra: {
+                      "id": state.userId,
+                      "email": state.email,
+                    },
+                  );
                 } else if (!state.isFirstTime) {
                   GoRouter.of(context).pushReplacementNamed(Routes.home.name);
                   BlocProvider.of<CreateProfileCubit>(context)

@@ -13,7 +13,9 @@ import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/coun
 import 'package:wallet_guru/presentation/my_profile/widgets/my_info_widgets/state_form_auto_complete.dart';
 
 class CreateProfile2Form extends StatefulWidget {
-  const CreateProfile2Form({super.key});
+  final String? id;
+  final String? email;
+  const CreateProfile2Form({super.key, this.id, this.email});
 
   @override
   State<CreateProfile2Form> createState() => CreateProfile2FormState();
@@ -31,6 +33,9 @@ class CreateProfile2FormState extends State<CreateProfile2Form> {
     super.initState();
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
     createProfileCubit.loadCountries();
+    if (widget.email != null && widget.id != null) {
+      createProfileCubit.setUserId(widget.id!, widget.email!);
+    }
   }
 
   @override

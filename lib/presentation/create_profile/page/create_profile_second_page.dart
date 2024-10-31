@@ -4,7 +4,9 @@ import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_second_form.dart';
 
 class CreateProfile2Page extends StatelessWidget {
-  const CreateProfile2Page({super.key});
+  final String? id;
+  final String? email;
+  const CreateProfile2Page({this.id, this.email, super.key});
 
   @override
   Widget build(BuildContext context) {

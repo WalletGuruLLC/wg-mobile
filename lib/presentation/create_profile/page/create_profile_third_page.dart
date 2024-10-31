@@ -4,7 +4,10 @@ import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/presentation/create_profile/widgets/create_profile_third_form.dart';
 
 class CreateProfile3Page extends StatelessWidget {
-  const CreateProfile3Page({super.key});
+  final String? id;
+  final String? email;
+
+  const CreateProfile3Page({super.key, this.id, this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,7 @@ class CreateProfile3Page extends StatelessWidget {
           child: SizedBox(
             width: size.width * 0.90,
             height: size.height,
-            child: const CreateProfile3Form(),
+            child: CreateProfile3Form(id: id, email: email),
           ),
         ),
       ],
