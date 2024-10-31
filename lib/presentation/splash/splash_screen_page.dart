@@ -8,9 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
-
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/settings/settings_cubit.dart';

@@ -79,7 +79,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
           onStatusChanged: onStatusChanged,
         )
         .withDebug(true)
-        .withLocale(Locale("en"))
+        .withLocale(Locale(Localizations.localeOf(context).languageCode))
         .build();
 
     final SNSMobileSDKResult result = await snsMobileSDK.launch();
