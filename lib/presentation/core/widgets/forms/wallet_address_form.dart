@@ -7,7 +7,7 @@ import 'package:wallet_guru/presentation/core/widgets/forms/special_decoration.d
 import 'package:wallet_guru/presentation/core/widgets/forms/base_text_form_field.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 
-class WalletAddressForm extends StatelessWidget {
+class WalletAddressForm extends StatefulWidget {
   final void Function(String?)? onChanged;
   final String? initialValue;
   final bool enabled;
@@ -32,19 +32,77 @@ class WalletAddressForm extends StatelessWidget {
   });
 
   @override
+  State<WalletAddressForm> createState() => _WalletAddressFormState();
+}
+
+class _WalletAddressFormState extends State<WalletAddressForm> {
+  late TextEditingController _controller;
+  bool _disposed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = widget.controller ?? TextEditingController();
+    _initializeController();
+  }
+
+  void _initializeController() {
+    if (widget.initialValue != null && _controller.text.isEmpty) {
+      _controller.text = widget.initialValue!.toLowerCase();
+    }
+    _controller.addListener(_handleTextChange);
+  }
+
+  void _handleTextChange() {
+    if (_disposed) return;
+
+    final String currentText = _controller.text;
+    final String lowerText = currentText.toLowerCase();
+
+    if (currentText != lowerText && mounted) {
+      final int currentPosition = _controller.selection.base.offset;
+      _controller.value = TextEditingValue(
+        text: lowerText,
+        selection: TextSelection.collapsed(
+          offset: currentPosition,
+        ),
+      );
+      widget.onChanged?.call(lowerText);
+    }
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    if (widget.controller == null) {
+      _controller.removeListener(_handleTextChange);
+      _controller.dispose();
+    }
+    super.dispose();
+  }
+
+  /*@override
+  void didUpdateWidget(WalletAddressForm oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialValue != oldWidget.initialValue) {
+      _initializeController();
+    }
+  }*/
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (labelText != null)
+        if (widget.labelText != null)
           Text(
-            labelText!,
+            widget.labelText!,
             style: AppTextStyles.formText,
           ),
         Container(
           margin: const EdgeInsets.all(1),
-          decoration: specialDecoration == true
+          decoration: widget.specialDecoration == true
               ? BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(
@@ -60,19 +118,17 @@ class WalletAddressForm extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: BaseTextFormField(
-              enabled: enabled,
-              initialValue: initialValue,
-              controller: controller,
+              enabled: widget.enabled,
+              controller: _controller,
               keyboardType: TextInputType.text,
-              hintText: hintText ?? l10n.enterAddressName,
+              hintText: widget.hintText ?? l10n.enterAddressName,
               hintStyle: AppTextStyles.formText,
-              onChanged: onChanged,
-              decoration: specialDecoration == true
+              decoration: widget.specialDecoration == true
                   ? SpecialDecoration(
                       hintText: l10n.enterAddressName,
                     ).decoration
                   : null,
-              validator: validation == true
+              validator: widget.validation == true
                   ? (value, context) =>
                       Validators.validateWalletAddress(value, context)
                   : null,
