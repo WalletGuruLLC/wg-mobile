@@ -216,5 +216,6 @@
   "firstUnlockWallet": "Para poder acceder, primero debes desbloquear tu billetera",
   "forgotPasswordErrorText": "Error en el código de activación. Por favor, vuelve a ingresar tu código de verificación. Si el problema persiste, toca \"Reenviar código\" o contacta a nuestro equipo de soporte.",
   "add": "Añadir",
-  "copiedToClipboard": "Copiado al portapapeles"
+  "copiedToClipboard": "Copiado al portapapeles",
+  "startKYC": "Empezar KYC"
 }

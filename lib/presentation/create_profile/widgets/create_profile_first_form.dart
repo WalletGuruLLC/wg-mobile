@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:flutter_idensic_mobile_sdk_plugin/flutter_idensic_mobile_sdk_plugin.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 
 class CreateProfileFirstForm extends StatefulWidget {
   const CreateProfileFirstForm({
@@ -38,6 +40,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
         if (state.formStatusGetToken is FormSubmitting) {
@@ -45,11 +48,15 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
         } else if (state.formStatusGetToken is SubmissionFailed) {
           return Text(state.customMessage);
         } else {
-          // Llamar directamente al SDK si no hay errores
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            launchSDK(state.sumSubToken, state.sumSubUserId);
-          });
-          return const SizedBox.shrink(); // Retorna un widget vacío
+          return Center(
+            child: CustomButton(
+                width: MediaQuery.of(context).size.width * 0.5,
+                onPressed: () {
+                  launchSDK(state.sumSubToken, state.sumSubUserId);
+                },
+                text: l10n.startKYC,
+                color: AppColorSchema.of(context).buttonColor),
+          );
         }
       },
     );

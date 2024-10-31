@@ -15,6 +15,7 @@ class CreateProfileFirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return WalletGuruLayout(
+      centerLogo: true,
       showSafeArea: true,
       showNotLoggedAppBar: true,
       children: [
@@ -22,7 +23,7 @@ class CreateProfileFirstPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
           child: SizedBox(
             width: size.width * 0.90,
-            height: size.height,
+            height: size.height * 0.7,
             child: CreateProfileFirstForm(
               id: id,
               email: email,
