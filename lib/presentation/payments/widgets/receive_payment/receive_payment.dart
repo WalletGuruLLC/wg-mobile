@@ -12,6 +12,7 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReceivePaymentView extends StatefulWidget {
   const ReceivePaymentView({super.key});
@@ -53,6 +54,7 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, userState) {
         qrUrl = userState.walletAddress;
@@ -76,6 +78,22 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
                   icon: const Icon(Icons.copy, color: Colors.white),
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: qrUrl));
+                    ScaffoldMessenger.of(Scaffold.of(context).context)
+                        .showSnackBar(
+                      SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.03,
+                            vertical: 10),
+                        content: TextBase(
+                          text: '${l10n.copiedToClipboard}: $qrUrl',
+                          color: Colors.white,
+                        ),
+                        duration: const Duration(seconds: 5),
+                        backgroundColor: const Color.fromARGB(255, 96, 96, 96),
+                      ),
+                    );
                   },
                 ),
               ],

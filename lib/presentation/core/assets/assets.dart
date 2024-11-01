@@ -3,12 +3,11 @@ class Assets {
   static const base = 'assets/wallet_guru_';
 
 // IMAGES
-  static const iconLogoSplash = '${base}logo_white.png';
   static const iconLogo = '${base}logo_dark.png';
   static const iconLogoLarge = '${base}logo_big.png';
-  static const emailLogo = '${base}email_icon.png';
-  static const passwordLogo = '${base}password_icon.png';
-  static const viewPasswordLogo = '${base}view_password_icon.png';
+  static const emailLogo = '${base}profile_simple.svg';
+  static const closeEye = '${base}close_eye.svg';
+  static const openEye = '${base}open_eye.svg';
   static const stepProgress = '${base}basic_info_loading_1.svg';
   static const stepProgress2 = '${base}basic_info_loading_2.svg';
   static const stepProgress3 = '${base}basic_info_loading_3.svg';
@@ -16,11 +15,10 @@ class Assets {
   static const cameraIcon = '${base}camera_icon.png';
   static const uploadIcon = '${base}upload_icon.png';
   static const warningIcon = '${base}warning_icon.svg';
-  static const walletDashboard = '${base}home.png';
   static const mainLogoWithLetter = '${base}main_logo_with_letter.png';
-  static const addIcon = '${base}add_icon.png';
-  static const arrowDownIcon = '${base}arrow_down.png';
-  static const arrowUpIcon = '${base}arrow_up.png';
+  static const addIcon = '${base}add_icon.svg';
+  static const arrowDownIcon = '${base}arrow_down.svg';
+  static const arrowUpIcon = '${base}arrow_up.svg';
   static const editInfoIcon = '${base}edit_info.png';
   static const scanIcon = '${base}scan_icon.png';
 

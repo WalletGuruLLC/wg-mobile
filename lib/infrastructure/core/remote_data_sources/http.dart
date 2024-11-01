@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:crypto/crypto.dart';
 import 'package:http_parser/http_parser.dart'; // Necesario para MediaType
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_guru/infrastructure/core/env/env.dart';
 import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 
 class HttpDataSource {
@@ -21,6 +23,9 @@ class HttpDataSource {
   static void cleanHeardes() async {
     final storage = await SharedPreferences.getInstance();
     storage.remove('Basic');
+    storage.remove('isWalletCreated');
+    storage.remove('refreshToken');
+    storage.remove('firstFunding');
     _headers.clear();
   }
 
@@ -38,7 +43,11 @@ class HttpDataSource {
     await setHeaders();
     Uri uri = Uri.parse(path);
     try {
-      final response = await http.get(uri, headers: _headers);
+      var response = await http.get(uri, headers: _headers);
+      if (response.statusCode == 401) {
+        await _refreshToken();
+        response = await http.get(uri, headers: _headers);
+      }
       return response;
     } on Exception catch (e) {
       throw Exception(e);
@@ -52,7 +61,11 @@ class HttpDataSource {
     final body = encode(data);
     Uri uri = Uri.parse(path);
     try {
-      final response = await http.post(uri, body: body, headers: _headers);
+      var response = await http.post(uri, body: body, headers: _headers);
+      if (response.statusCode == 401) {
+        await _refreshToken();
+        response = await http.post(uri, body: body, headers: _headers);
+      }
       return response;
     } on Exception catch (e) {
       throw Exception(e);
@@ -66,7 +79,11 @@ class HttpDataSource {
     final body = encode(data);
     Uri uri = Uri.parse(path);
     try {
-      final response = await http.patch(uri, body: body, headers: _headers);
+      var response = await http.patch(uri, body: body, headers: _headers);
+      if (response.statusCode == 401) {
+        await _refreshToken();
+        response = await http.patch(uri, body: body, headers: _headers);
+      }
       return response;
     } on Exception catch (e) {
       throw Exception(e);
@@ -80,7 +97,11 @@ class HttpDataSource {
     final body = encode(data);
     Uri uri = Uri.parse(path);
     try {
-      final response = await http.put(uri, body: body, headers: _headers);
+      var response = await http.put(uri, body: body, headers: _headers);
+      if (response.statusCode == 401) {
+        await _refreshToken();
+        response = await http.put(uri, body: body, headers: _headers);
+      }
       return response;
     } on Exception catch (e) {
       throw Exception(e);

@@ -23,7 +23,11 @@ class CreateProfileState extends Equatable {
   final String city;
   final String zipCode;
   final String address;
+  final String sumSubToken;
+  final String sumSubUserId;
+  final String dateOfBirth;
 
+  final FormSubmissionStatus formStatusGetToken;
   final FormSubmissionStatus formStatus;
   final FormSubmissionStatus formStatusOne;
   final FormSubmissionStatus formStatusTwo;
@@ -62,6 +66,10 @@ class CreateProfileState extends Equatable {
     this.customMessage = '',
     this.customMessageEs = '',
     this.customCode = '',
+    this.sumSubToken = '',
+    this.sumSubUserId = '',
+    this.formStatusGetToken = const InitialFormStatus(),
+    this.dateOfBirth = '',
   });
 
   CreateProfileState copyWith({
@@ -93,6 +101,10 @@ class CreateProfileState extends Equatable {
     String? customMessage,
     String? customMessageEs,
     String? customCode,
+    String? sumSubToken,
+    String? sumSubUserId,
+    FormSubmissionStatus? formStatusGetToken,
+    String? dateOfBirth,
   }) =>
       CreateProfileState(
         id: id ?? this.id,
@@ -123,6 +135,10 @@ class CreateProfileState extends Equatable {
         customMessage: customMessage ?? this.customMessage,
         customMessageEs: customMessageEs ?? this.customMessageEs,
         customCode: customCode ?? this.customCode,
+        sumSubToken: sumSubToken ?? this.sumSubToken,
+        sumSubUserId: sumSubUserId ?? this.sumSubUserId,
+        formStatusGetToken: formStatusGetToken ?? this.formStatusGetToken,
+        dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       );
 
   CreateProfileState initialState() => const CreateProfileState(
@@ -154,6 +170,10 @@ class CreateProfileState extends Equatable {
         customMessage: '',
         customMessageEs: '',
         customCode: '',
+        sumSubToken: '',
+        sumSubUserId: '',
+        formStatusGetToken: InitialFormStatus(),
+        dateOfBirth: '',
       );
 
   @override
@@ -186,5 +206,9 @@ class CreateProfileState extends Equatable {
         customMessageEs,
         customCode,
         picture,
+        sumSubToken,
+        sumSubUserId,
+        formStatusGetToken,
+        dateOfBirth,
       ];
 }

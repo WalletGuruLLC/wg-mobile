@@ -1,40 +1,6 @@
 import 'package:kiwi/kiwi.dart';
 
-import 'package:wallet_guru/domain/funding/funding_repository.dart';
-import 'package:wallet_guru/domain/websocket/i_websocket_service.dart';
-import 'package:wallet_guru/domain/user/repositories/user_repository.dart';
-import 'package:wallet_guru/domain/login/repositories/login_repository.dart';
-import 'package:wallet_guru/infrastructure/websocket/socket_io_service.dart';
-import 'package:wallet_guru/domain/deposit/repositories/deposit_repository.dart';
-import 'package:wallet_guru/domain/settings/repositories/settings_repository.dart';
-import 'package:wallet_guru/domain/register/repositories/register_repository.dart';
-import 'package:wallet_guru/infrastructure/user/data_sources/user_data_source.dart';
-import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
-import 'package:wallet_guru/infrastructure/user/repositories/user_repository_impl.dart';
-import 'package:wallet_guru/infrastructure/funding/data_sources/funding_data_source.dart';
-import 'package:wallet_guru/infrastructure/login/repositories/login_repository_impl.dart';
-import 'package:wallet_guru/domain/transactions/repositories/transaction_repository.dart';
-import 'package:wallet_guru/domain/send_payment/repositories/send_payment_repository.dart';
-import 'package:wallet_guru/infrastructure/deposit/data_sources/deposit_data_sources.dart';
-import 'package:wallet_guru/infrastructure/register/data_sources/register_data_source.dart';
-import 'package:wallet_guru/infrastructure/settings/data_sources/settings_data_source.dart';
-import 'package:wallet_guru/domain/create_wallet/repositories/create_wallet_repository.dart';
-import 'package:wallet_guru/infrastructure/funding/repositories/funding_repository_impl.dart';
-import 'package:wallet_guru/infrastructure/deposit/repositories/deposit_repository_impl.dart';
-import 'package:wallet_guru/domain/create_profile/repositories/create_profile_repository.dart';
-import 'package:wallet_guru/infrastructure/settings/repositories/settings_repository_impl.dart';
-import 'package:wallet_guru/infrastructure/register/repositories/register_repository_impl.dart';
-import 'package:wallet_guru/infrastructure/transactions/data_sources/transaction_data_source.dart';
-import 'package:wallet_guru/infrastructure/send_payment/data_sources/send_payment_data_sources.dart';
-import 'package:wallet_guru/infrastructure/transactions/repositories/transaction_repository_impl.dart';
-import 'package:wallet_guru/infrastructure/create_wallet/data_sources/create_wallet_data_sources.dart';
-import 'package:wallet_guru/domain/translations_error/repositories/translations_error_repository.dart';
-import 'package:wallet_guru/infrastructure/create_profile/data_sources/create_profile_data_source.dart';
-import 'package:wallet_guru/infrastructure/send_payment/repositories/send_payment_repository_impl.dart';
-import 'package:wallet_guru/infrastructure/create_wallet/repositories/create_wallet_repository_impl.dart';
-import 'package:wallet_guru/infrastructure/create_profile/repositories/create_profile_repository_impl.dart';
-import 'package:wallet_guru/infrastructure/translations_error/data_sources/translations_error_data_sources.dart';
-import 'package:wallet_guru/infrastructure/translations_error/repositories/translations_error_repository_impl.dart';
+import 'injector_imports.dart';
 
 part 'injector.g.dart';
 
@@ -69,6 +35,7 @@ abstract class Injector {
     _configureTransactionsModule();
     _configureFundingModule();
     _configureDepositModule();
+    _configurePushNotificationModule();
     _configureWebSocketModule();
   }
 
@@ -110,6 +77,10 @@ abstract class Injector {
 
   void _configureDepositModule() {
     _configureDepositFactories();
+  }
+
+  void _configurePushNotificationModule() {
+    _configurePushNotificationFactories();
   }
 
   void _configureFundingModule() {
@@ -164,6 +135,17 @@ abstract class Injector {
   @Register.factory(DepositDataSource)
   @Register.factory(DepositRepository, from: DepositRepositoryImpl)
   void _configureDepositFactories();
+
+  @Register.factory(FirebaseMessagingDatasource)
+  @Register.factory(PushNotificationRepository,
+      from: PushNotificationRepositoryImpl)
+  @Register.factory(InitializePushNotifications)
+  @Register.factory(GetPushNotificationToken)
+  @Register.factory(SubscribeToTopic)
+  @Register.factory(UnsubscribeFromTopic)
+  @Register.factory(PushNotificationCubit)
+  //@Register.factory(HandleNotificationTap)
+  void _configurePushNotificationFactories();
 
   @Register.singleton(IWebSocketService, from: SocketIOService)
   void _configureWebSocketFactories();

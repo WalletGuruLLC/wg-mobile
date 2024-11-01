@@ -20,12 +20,18 @@ class BottomNavigationMenu extends StatefulWidget {
 
 class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
   int _selectedIndex = 0;
+  late final SendPaymentCubit _sendPaymentCubit;
+  bool _initialized = false;
 
   @override
-  void initState() {
-    super.initState();
-    _selectedIndex = widget.selectedIndex;
-    BlocProvider.of<SendPaymentCubit>(context).emitGetWalletInformation();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      _selectedIndex = widget.selectedIndex;
+      _sendPaymentCubit = context.read<SendPaymentCubit>();
+      _sendPaymentCubit.emitGetWalletInformation();
+      _initialized = true;
+    }
   }
 
   @override
@@ -33,14 +39,18 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
     _selectedIndex =
         _getSelectedIndexFromRoute(GoRouterState.of(context).fullPath!);
 
-    return BlocListener<SendPaymentCubit, SendPaymentState>(
-      listener: (context, state) {
-        if (state.walletForPaymentEntity != null) {
-          // Actualizar el estado de la billetera usando WalletStatusCubit
-          context.read<WalletStatusCubit>().updateWalletStatus(
-              state.walletForPaymentEntity!.walletDb.active);
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SendPaymentCubit, SendPaymentState>(
+          listener: (context, state) {
+            if (state.walletForPaymentEntity != null) {
+              // Actualizar el estado de la billetera usando WalletStatusCubit
+              context.read<WalletStatusCubit>().updateWalletStatus(
+                  state.walletForPaymentEntity!.walletDb.active);
+            }
+          },
+        ),
+      ],
       child: BlocBuilder<WalletStatusCubit, WalletStatusState>(
         builder: (context, walletStatusState) {
           return ClipRRect(

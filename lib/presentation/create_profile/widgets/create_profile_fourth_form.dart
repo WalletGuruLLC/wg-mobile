@@ -17,7 +17,9 @@ import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.da
 import 'package:wallet_guru/presentation/core/widgets/user_profile_description.dart';
 
 class CreateProfileFourthForm extends StatefulWidget {
-  const CreateProfileFourthForm({super.key});
+  final String? id;
+  final String? email;
+  const CreateProfileFourthForm({super.key, this.id, this.email});
 
   @override
   State<CreateProfileFourthForm> createState() =>
@@ -32,6 +34,12 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
   void initState() {
     super.initState();
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
+    if (widget.email != null &&
+        widget.id != null &&
+        widget.email!.isNotEmpty &&
+        widget.id!.isNotEmpty) {
+      createProfileCubit.setUserId(widget.id!, widget.email!);
+    }
   }
 
   @override
@@ -64,11 +72,12 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
           SizedBox(height: size * 0.12),
           BlocConsumer<CreateProfileCubit, CreateProfileState>(
               listener: (context, state) {
-            if (state.formStatus is SubmissionSuccess) {
+            if (state.formStatusThree is SubmissionSuccess) {
               GoRouter.of(context).pushReplacementNamed(
                 Routes.createWallet.name,
               );
-            } else if (state.formStatus is SubmissionFailed) {
+              createProfileCubit.cleanFormStatusThree();
+            } else if (state.formStatusThree is SubmissionFailed) {
               buildErrorModal(
                 state.customMessage,
                 state.customMessageEs,
@@ -99,7 +108,7 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
   void _onNextButtonPressed() {
     if (_formKey.currentState?.validate() ?? false) {
       debugPrint('Form is valid');
-      createProfileCubit.emitCreateProfile();
+      createProfileCubit.emitCreateProfileThree();
     }
   }
 
@@ -138,7 +147,7 @@ class CreateProfileFourthFormState extends State<CreateProfileFourthForm> {
             ],
           ),
           onPressed: () {
-            createProfileCubit.cleanFormStatus();
+            createProfileCubit.cleanFormStatusThree();
             Navigator.of(context).pop();
           },
         );
