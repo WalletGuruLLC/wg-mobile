@@ -78,8 +78,7 @@ class _ReceivePaymentViewState extends State<ReceivePaymentView> {
                   icon: const Icon(Icons.copy, color: Colors.white),
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: qrUrl));
-                    ScaffoldMessenger.of(Scaffold.of(context).context)
-                        .showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         behavior: SnackBarBehavior.floating,
                         margin: EdgeInsets.symmetric(
