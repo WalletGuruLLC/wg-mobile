@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:wallet_guru/presentation/core/styles/text_styles/app_text_styles.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/base_text_form_field.dart';
 import 'package:wallet_guru/presentation/core/widgets/forms/decoration_form.dart';
@@ -91,6 +93,8 @@ class _DatePickerFormState extends State<DatePickerForm> {
         selectedDate = picked;
         _updateDateController();
         widget.onDateChanged(selectedDate);
+        BlocProvider.of<CreateProfileCubit>(context)
+            .setDateOfBirth(selectedDate.toString());
       });
     }
   }

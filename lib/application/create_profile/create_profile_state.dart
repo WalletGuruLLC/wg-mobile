@@ -25,6 +25,7 @@ class CreateProfileState extends Equatable {
   final String address;
   final String sumSubToken;
   final String sumSubUserId;
+  final String dateOfBirth;
 
   final FormSubmissionStatus formStatusGetToken;
   final FormSubmissionStatus formStatus;
@@ -68,6 +69,7 @@ class CreateProfileState extends Equatable {
     this.sumSubToken = '',
     this.sumSubUserId = '',
     this.formStatusGetToken = const InitialFormStatus(),
+    this.dateOfBirth = '',
   });
 
   CreateProfileState copyWith({
@@ -102,6 +104,7 @@ class CreateProfileState extends Equatable {
     String? sumSubToken,
     String? sumSubUserId,
     FormSubmissionStatus? formStatusGetToken,
+    String? dateOfBirth,
   }) =>
       CreateProfileState(
         id: id ?? this.id,
@@ -135,6 +138,7 @@ class CreateProfileState extends Equatable {
         sumSubToken: sumSubToken ?? this.sumSubToken,
         sumSubUserId: sumSubUserId ?? this.sumSubUserId,
         formStatusGetToken: formStatusGetToken ?? this.formStatusGetToken,
+        dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       );
 
   CreateProfileState initialState() => const CreateProfileState(
@@ -169,6 +173,7 @@ class CreateProfileState extends Equatable {
         sumSubToken: '',
         sumSubUserId: '',
         formStatusGetToken: InitialFormStatus(),
+        dateOfBirth: '',
       );
 
   @override
@@ -204,5 +209,6 @@ class CreateProfileState extends Equatable {
         sumSubToken,
         sumSubUserId,
         formStatusGetToken,
+        dateOfBirth,
       ];
 }

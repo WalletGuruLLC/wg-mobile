@@ -44,6 +44,8 @@ class LoginDataSource {
       ResponseModel userAuthenticationResponse = ResponseModel.fromJson(result);
       storage.setString('Basic', userAuthenticationResponse.data!.token);
       storage.setString('email', userAuthenticationResponse.data!.user!.email);
+      storage.setBool(
+          'isWalletCreated', userAuthenticationResponse.data!.user!.first);
       storage.setString(
           'refreshToken', userAuthenticationResponse.data!.refreshToken);
       storage.setBool(

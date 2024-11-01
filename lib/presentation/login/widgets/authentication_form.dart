@@ -89,6 +89,7 @@ class AuthenticationFormState extends State<AuthenticationForm> {
                 if (state.firstName.isEmpty && state.lastName.isEmpty) {
                   BlocProvider.of<CreateProfileCubit>(context)
                       .generateSumSubAccessToken(state.userId);
+
                   GoRouter.of(context).pushNamed(
                     Routes.createProfile1.name,
                     extra: {
@@ -96,10 +97,32 @@ class AuthenticationFormState extends State<AuthenticationForm> {
                       "email": state.email,
                     },
                   );
+                } else if (state.country.isEmpty) {
+                  GoRouter.of(context).pushNamed(
+                    Routes.createProfile2.name,
+                    extra: {
+                      "id": state.userId,
+                      "email": state.email,
+                    },
+                  );
+                } else if (state.phone.isEmpty) {
+                  GoRouter.of(context).pushNamed(
+                    Routes.createProfile3.name,
+                    extra: {
+                      "id": state.userId,
+                      "email": state.email,
+                    },
+                  );
+                } else if (state.picture.isEmpty) {
+                  GoRouter.of(context).pushNamed(
+                    Routes.createProfile4.name,
+                    extra: {
+                      "id": state.userId,
+                      "email": state.email,
+                    },
+                  );
                 } else if (!state.isFirstTime) {
                   GoRouter.of(context).pushReplacementNamed(Routes.home.name);
-                  BlocProvider.of<CreateProfileCubit>(context)
-                      .generateSumSubAccessToken(state.userId);
                 } else {
                   GoRouter.of(context).pushNamed(Routes.createWallet.name);
                 }
