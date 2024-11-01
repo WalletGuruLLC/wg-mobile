@@ -111,6 +111,25 @@ class _$Injector extends Injector {
   }
 
   @override
+  void _configurePushNotificationFactories() {
+    final KiwiContainer container = KiwiContainer();
+    container
+      ..registerFactory((c) => FirebaseMessagingDatasource())
+      ..registerFactory<PushNotificationRepository>((c) =>
+          PushNotificationRepositoryImpl(
+              c.resolve<FirebaseMessagingDatasource>()))
+      ..registerFactory((c) =>
+          InitializePushNotifications(c.resolve<PushNotificationRepository>()))
+      ..registerFactory((c) =>
+          GetPushNotificationToken(c.resolve<PushNotificationRepository>()))
+      ..registerFactory(
+          (c) => SubscribeToTopic(c.resolve<PushNotificationRepository>()))
+      ..registerFactory(
+          (c) => UnsubscribeFromTopic(c.resolve<PushNotificationRepository>()))
+      ..registerFactory((c) => PushNotificationCubit());
+  }
+
+  @override
   void _configureWebSocketFactories() {
     final KiwiContainer container = KiwiContainer();
     container.registerSingleton<IWebSocketService>((c) => SocketIOService());
