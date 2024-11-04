@@ -162,8 +162,10 @@ class LoginDataSource {
     );
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      ResponseModel signUpResponseModel = ResponseModel.fromJson(result);
-      return signUpResponseModel;
+      ResponseModel refreshToken = ResponseModel.fromJson(result);
+      final storage = await SharedPreferences.getInstance();
+      storage.setString('Basic', refreshToken.data!.token);
+      return refreshToken;
     } else {
       final errorModel = ResponseModel.fromJson(result);
       throw InvalidData(
