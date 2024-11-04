@@ -7,9 +7,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
-import 'package:wallet_guru/presentation/core/widgets/loading_widget.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/presentation/core/widgets/loading_widget.dart';
 import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
 import 'package:wallet_guru/application/transactions/transaction_state.dart';
 import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
@@ -147,12 +147,12 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextBase(
+                /*TextBase(
                   text: '\$${total.abs().toStringAsFixed(2)}',
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: AppColorSchema.of(context).primaryText,
-                ),
+                ),*/
                 _buildDateRangePicker(),
               ],
             ),
