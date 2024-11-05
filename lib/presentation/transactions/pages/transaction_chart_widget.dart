@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
-import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/domain/transactions/models/interval_data.dart';
 import 'package:wallet_guru/presentation/core/widgets/loading_widget.dart';
 import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
 import 'package:wallet_guru/application/transactions/transaction_state.dart';
@@ -23,115 +23,246 @@ class TransactionChartWidget extends StatefulWidget {
   _TransactionChartWidgetState createState() => _TransactionChartWidgetState();
 }
 
+enum TimeRange { day1, day7, month1 }
+
 class _TransactionChartWidgetState extends State<TransactionChartWidget> {
   late DateTime _startDate;
   late DateTime _endDate;
   String _selectedTransactionType = 'All';
+  TimeRange _selectedRange = TimeRange.day7;
 
   @override
   void initState() {
     super.initState();
-    context.read<TransactionCubit>().loadTransactions();
+    _initializeDates();
+    _loadTransactions();
+  }
+
+  void _initializeDates() {
+    final intervalData = _getIntervalData(_selectedRange);
+    _startDate = intervalData.start;
+    _endDate = DateTime.now();
+  }
+
+  void _loadTransactions() {
+    context.read<TransactionCubit>().loadTransactions(
+          startDate: _startDate,
+          endDate: _endDate,
+          transactionType: _selectedTransactionType,
+        );
+  }
+
+  IntervalData _getIntervalData(TimeRange range) {
+    final now = DateTime.now();
+
+    switch (range) {
+      case TimeRange.day1:
+        final start = DateTime(now.year, now.month, now.day)
+            .subtract(const Duration(days: 1));
+        return IntervalData(start, const Duration(hours: 1), 24);
+      case TimeRange.day7:
+        final start = now.subtract(const Duration(days: 6));
+        return IntervalData(start, const Duration(days: 1), 7);
+      case TimeRange.month1:
+        final start = DateTime(now.year, now.month - 1, now.day);
+        return IntervalData(start, const Duration(days: 1), 30);
+    }
   }
 
   List<FlSpot> _createSpots(List<TransactionsModel> transactions) {
     if (transactions.isEmpty) return [const FlSpot(0, 0)];
 
-    final Map<DateTime, double> dailyTotals = {};
-    for (var t in transactions) {
-      final date =
-          DateTime(t.createdAt.year, t.createdAt.month, t.createdAt.day);
-      final amount = t.type == 'IncomingPayment'
-          ? (t.incomingAmount?.value ?? 0)
-          : -(t.receiveAmount?.value ?? 0);
-      dailyTotals[date] = (dailyTotals[date] ?? 0) + amount;
+    final intervalData = _getIntervalData(_selectedRange);
+    final datePoints = _generateDatePoints(
+        intervalData.start, _endDate, intervalData.interval);
+    final groupedData = _groupTransactionsByDate(
+        transactions, datePoints.keys.toList(), intervalData.interval);
+
+    // Generar spots con valores acumulados
+    var cumulativeTotal = 0.0;
+    final spots = <FlSpot>[];
+
+    for (var date in datePoints.keys.toList()..sort()) {
+      if (groupedData.containsKey(date)) {
+        cumulativeTotal += groupedData[date]!;
+      }
+      spots.add(FlSpot(datePoints[date]!.toDouble(), cumulativeTotal));
     }
 
-    final sortedDates = dailyTotals.keys.toList()..sort();
-    double cumulativeTotal = 0;
-    return sortedDates.asMap().entries.map((entry) {
-      final index = entry.key;
-      final date = entry.value;
-      cumulativeTotal += dailyTotals[date]!;
-      return FlSpot(index.toDouble(), cumulativeTotal);
-    }).toList();
+    return spots;
   }
 
-  void _initializeDates(List<TransactionsModel> transactions) {
-    if (transactions.isNotEmpty) {
-      _startDate = transactions
-          .map((t) => t.createdAt)
-          .reduce((a, b) => a.isBefore(b) ? a : b);
-      _endDate = transactions
-          .map((t) => t.createdAt)
-          .reduce((a, b) => a.isAfter(b) ? a : b);
-    } else {
-      _startDate = DateTime.now().subtract(const Duration(days: 30));
-      _endDate = DateTime.now();
+  Map<DateTime, int> _generateDatePoints(
+      DateTime start, DateTime end, Duration interval) {
+    final points = <DateTime, int>{};
+    var current = start;
+    var index = 0;
+
+    while (current.isBefore(end) || current.isAtSameMomentAs(end)) {
+      points[_normalizeDate(current, interval)] = index++;
+      current = current.add(interval);
+    }
+
+    return points;
+  }
+
+  DateTime _normalizeDate(DateTime date, Duration interval) {
+    if (interval.inHours == 1) {
+      return DateTime(date.year, date.month, date.day, date.hour);
+    }
+    return DateTime(date.year, date.month, date.day);
+  }
+
+  Map<DateTime, double> _groupTransactionsByDate(
+      List<TransactionsModel> transactions,
+      List<DateTime> datePoints,
+      Duration interval) {
+    final groupedData = <DateTime, double>{};
+
+    for (var transaction in transactions) {
+      final date = _normalizeDate(transaction.createdAt, interval);
+      if (!datePoints.contains(date)) continue;
+
+      final amount = transaction.type == 'IncomingPayment'
+          ? (transaction.incomingAmount?.value ?? 0)
+          : -(transaction.receiveAmount?.value ?? 0);
+
+      groupedData[date] = (groupedData[date] ?? 0) + amount;
+    }
+
+    return groupedData;
+  }
+
+  String _getRangeText(TimeRange range) {
+    switch (range) {
+      case TimeRange.day1:
+        return '1D';
+      case TimeRange.day7:
+        return '7D';
+      case TimeRange.month1:
+        return '1M';
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<TransactionCubit, TransactionState>(
-      listener: (context, state) {
-        if (state is TransactionError) {
-          GoRouter.of(context).pushReplacementNamed(Routes.errorScreen.name);
-        }
-      },
-      builder: (context, state) {
-        if (state is TransactionLoading) {
-          return const Center(
-              child: LoadingWidget(
-            showSafeArea: true,
-            showSimpleStyle: false,
-            showLoggedUserAppBar: false,
-            showBottomNavigationBar: false,
-          ));
-        } else if (state is TransactionLoaded) {
-          _initializeDates(state.payments);
-          _initializeDates(state.processedPayments);
-          final total = _calculateTotal(state.processedPayments);
-          final spots = _createSpots(state.processedPayments);
-          final l10n = AppLocalizations.of(context)!;
-
-          _startDate =
-              state.startDate ?? state.processedPayments.first.createdAt;
-          _endDate = state.endDate ?? state.processedPayments.last.createdAt;
-          _selectedTransactionType = state.transactionType ?? 'All';
-
-          return WalletGuruLayout(
-            showSafeArea: true,
-            showSimpleStyle: false,
-            showLoggedUserAppBar: true,
-            showBottomNavigationBar: false,
-            actionAppBar: () {
-              GoRouter.of(context).pushReplacementNamed(Routes.home.name);
+  Widget _buildTimeRangeSelector() {
+    return Row(
+      children: TimeRange.values.map((range) {
+        return Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                _selectedRange = range;
+                _initializeDates();
+              });
+              _loadTransactions();
             },
-            pageAppBarTitle: l10n.transactionsTitlePage,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.72,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    _buildChartCard(context, total, spots),
-                    Expanded(
-                        child: _buildTransactionsList(state.processedPayments)),
-                  ],
-                ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: _selectedRange == range
+                    ? AppColorSchema.of(context).primary
+                    : AppColorSchema.of(context).buttonTwoColor,
+                borderRadius: BorderRadius.circular(15),
               ),
-            ],
-          );
-        } else {
-          return const Center(child: Text('No data available'));
-        }
-      },
+              child: TextBase(
+                text: _getRangeText(range),
+                fontSize: 12,
+                color: _selectedRange == range
+                    ? Colors.white
+                    : AppColorSchema.of(context).primaryText,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
     );
+  }
+
+  Widget _buildTransactionTypeDropdown() {
+    return Container(
+      height: 40,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColorSchema.of(context).buttonTwoColor,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: DropdownButton<String>(
+        value: _selectedTransactionType,
+        dropdownColor: AppColorSchema.of(context).cardColor,
+        style: TextStyle(
+            color: AppColorSchema.of(context).primaryText, fontSize: 12),
+        underline: Container(),
+        icon: Icon(Icons.arrow_drop_down,
+            color: AppColorSchema.of(context).primaryText),
+        onChanged: (String? newValue) {
+          if (newValue != null) {
+            setState(() {
+              _selectedTransactionType = newValue;
+            });
+            _loadTransactions();
+          }
+        },
+        items: <String>['All', 'Credits', 'Debits']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: TextBase(
+              text: value,
+              fontSize: 12,
+              color: AppColorSchema.of(context).primaryText,
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildAxisLabel(double value, TimeRange range) {
+    final intervalData = _getIntervalData(range);
+    final date = intervalData.start.add(intervalData.interval * value.toInt());
+
+    switch (range) {
+      case TimeRange.day1:
+        return TextBase(
+          text: DateFormat('HH:00').format(date),
+          fontSize: 10,
+          color: AppColorSchema.of(context).accentText,
+        );
+      case TimeRange.day7:
+        return TextBase(
+          text: DateFormat('dd/MM').format(date),
+          fontSize: 10,
+          color: AppColorSchema.of(context).accentText,
+        );
+      case TimeRange.month1:
+        if (value % 5 == 0) {
+          // Mostrar cada 5 días
+          return TextBase(
+            text: DateFormat('dd/MM').format(date),
+            fontSize: 10,
+            color: AppColorSchema.of(context).accentText,
+          );
+        }
+        return const SizedBox.shrink();
+    }
+  }
+
+  double _getAxisInterval(TimeRange range) {
+    switch (range) {
+      case TimeRange.day1:
+        return 4; // Cada 4 horas
+      case TimeRange.day7:
+        return 1; // Cada día
+      case TimeRange.month1:
+        return 5; // Cada 5 días
+    }
   }
 
   Widget _buildChartCard(
       BuildContext context, double total, List<FlSpot> spots) {
+    final intervalData = _getIntervalData(_selectedRange);
+
     return Container(
       width: 350,
       height: 211,
@@ -146,15 +277,7 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                /*TextBase(
-                  text: '\$${total.abs().toStringAsFixed(2)}',
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColorSchema.of(context).primaryText,
-                ),*/
-                _buildDateRangePicker(),
-              ],
+              children: [_buildTimeRangeSelector()],
             ),
             const SizedBox(height: 8),
             _buildTransactionTypeDropdown(),
@@ -170,29 +293,10 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
-                          getTitlesWidget: (value, meta) {
-                            const months = [
-                              'J',
-                              'F',
-                              'M',
-                              'A',
-                              'M',
-                              'J',
-                              'J',
-                              'A',
-                              'S',
-                              'O',
-                              'N',
-                              'D'
-                            ];
-                            final monthIndex = value.toInt() % 12;
-                            return TextBase(
-                              text: months[monthIndex],
-                              fontSize: 10,
-                              color: AppColorSchema.of(context).accentText,
-                            );
-                          },
-                          interval: 1,
+                          reservedSize: 30,
+                          interval: _getAxisInterval(_selectedRange),
+                          getTitlesWidget: (value, meta) =>
+                              _buildAxisLabel(value, _selectedRange),
                         ),
                       ),
                       leftTitles: const AxisTitles(
@@ -204,9 +308,13 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
                     ),
                     borderData: FlBorderData(show: false),
                     minX: 0,
-                    maxX: 11,
-                    minY: spots.map((s) => s.y).reduce((a, b) => a < b ? a : b),
-                    maxY: spots.map((s) => s.y).reduce((a, b) => a > b ? a : b),
+                    maxX: intervalData.pointCount.toDouble() - 1,
+                    minY: spots.isEmpty
+                        ? 0
+                        : spots.map((s) => s.y).reduce((a, b) => a < b ? a : b),
+                    maxY: spots.isEmpty
+                        ? 0
+                        : spots.map((s) => s.y).reduce((a, b) => a > b ? a : b),
                     lineBarsData: [
                       LineChartBarData(
                         spots: spots,
@@ -245,165 +353,71 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
     );
   }
 
-  Widget _buildDateRangePicker() {
-    return CustomButton(
-      onPressed: () async {
-        final ThemeData theme = Theme.of(context);
-        final newTheme = theme.copyWith(
-          colorScheme: theme.colorScheme.copyWith(
-            primary: AppColorSchema.of(context).buttonColor,
-            onPrimary: Colors.white,
-            surface: Colors.grey[900],
-            onSurface: Colors.white,
-            secondary: Colors.purple[800],
-            onSecondary: Colors.white,
-          ),
-          textTheme: theme.textTheme.apply(
-            bodyColor: Colors.white,
-            displayColor: Colors.white,
-          ),
-        );
-
-        DateTime firstDate =
-            _startDate.isBefore(_endDate) ? _startDate : _endDate;
-        DateTime lastDate =
-            _endDate.isAfter(_startDate) ? _endDate : _startDate;
-
-        final DateTimeRange? picked = await showDateRangePicker(
-          context: context,
-          firstDate: firstDate.subtract(const Duration(days: 365)),
-          lastDate: lastDate.add(const Duration(days: 365)),
-          initialDateRange: DateTimeRange(start: firstDate, end: lastDate),
-          builder: (BuildContext context, Widget? child) {
-            return Theme(data: newTheme, child: Container(child: child));
-          },
-        );
-        if (picked != null) {
-          setState(() {
-            _startDate = picked.start;
-            _endDate = picked.end;
-          });
-          context.read<TransactionCubit>().loadTransactions(
-                startDate: picked.start,
-                endDate: picked.end,
-                transactionType: _selectedTransactionType,
-              );
-        }
-      },
-      text:
-          '${DateFormat('MMM d, y').format(_startDate)} - ${DateFormat('MMM d, y').format(_endDate)}',
-      fontSize: 12,
-      height: 30,
-      width: 180,
-      color: AppColorSchema.of(context).buttonTwoColor,
-    );
-  }
-
-  Widget _buildTransactionTypeDropdown() {
-    return Container(
-      height: 40,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColorSchema.of(context).buttonTwoColor,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: DropdownButton<String>(
-        value: _selectedTransactionType,
-        dropdownColor: AppColorSchema.of(context).cardColor,
-        style: TextStyle(
-            color: AppColorSchema.of(context).primaryText, fontSize: 12),
-        underline: Container(),
-        icon: Icon(Icons.arrow_drop_down,
-            color: AppColorSchema.of(context).primaryText),
-        onChanged: (String? newValue) {
-          if (newValue != null) {
-            context.read<TransactionCubit>().loadTransactions(
-                  startDate: _startDate,
-                  endDate: _endDate,
-                  transactionType: newValue,
-                );
-          }
-        },
-        items: <String>['All', 'Credits', 'Debits']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: TextBase(
-              text: value,
-              fontSize: 12,
-              color: AppColorSchema.of(context).primaryText,
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
   Widget _buildTransactionsList(List<TransactionsModel> transactions) {
     return ListView.builder(
-      shrinkWrap: true,
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        final isProvider = transaction.metadata.type == "PROVIDER";
+        shrinkWrap: true,
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          final isProvider = transaction.metadata.type == "PROVIDER";
 
-        final amount = transaction.type == 'IncomingPayment'
-            ? (transaction.incomingAmount?.value ?? 0)
-            : (transaction.receiveAmount?.value ?? 0);
-        String displayName;
-        if (isProvider) {
-          displayName =
-              "${transaction.receiverName}${transaction.metadata.contentName.isNotEmpty ? ' - ${transaction.metadata.contentName}' : ''}";
-        } else {
-          displayName = transaction.type == 'IncomingPayment'
-              ? transaction.senderName
-              : transaction.receiverName;
-        }
-        return Column(
-          children: [
-            ListTile(
-              title: TextBase(
-                text: displayName,
-                fontSize: 16,
-                color: AppColorSchema.of(context).primaryText,
+          final amount = transaction.type == 'IncomingPayment'
+              ? (transaction.incomingAmount?.value ?? 0)
+              : (transaction.receiveAmount?.value ?? 0);
+          String displayName;
+          if (isProvider) {
+            displayName =
+                "${transaction.receiverName}${transaction.metadata.contentName.isNotEmpty ? ' - ${transaction.metadata.contentName}' : ''}";
+          } else {
+            displayName = transaction.type == 'IncomingPayment'
+                ? transaction.senderName
+                : transaction.receiverName;
+          }
+          return Column(
+            children: [
+              ListTile(
+                title: TextBase(
+                  text: displayName,
+                  fontSize: 16,
+                  color: AppColorSchema.of(context).primaryText,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextBase(
+                      text:
+                          '${transaction.type == 'IncomingPayment' ? '+' : '-'}\$${amount.toStringAsFixed(2)}',
+                      fontSize: 16,
+                      color: AppColorSchema.of(context).primaryText,
+                    ),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return TransactionDetailsPopup(
+                                transaction: transaction);
+                          },
+                        );
+                      },
+                      child: Icon(Icons.info_outline,
+                          color: AppColorSchema.of(context).primaryText),
+                    ),
+                  ],
+                ),
               ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextBase(
-                    text:
-                        '${transaction.type == 'IncomingPayment' ? '+' : '-'}\$${amount.toStringAsFixed(2)}',
-                    fontSize: 16,
-                    color: AppColorSchema.of(context).primaryText,
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return TransactionDetailsPopup(
-                              transaction: transaction);
-                        },
-                      );
-                    },
-                    child: Icon(Icons.info_outline,
-                        color: AppColorSchema.of(context).primaryText),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Divider(
+                    color: AppColorSchema.of(context)
+                        .primaryText
+                        .withOpacity(0.5)),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Divider(
-                  color:
-                      AppColorSchema.of(context).primaryText.withOpacity(0.5)),
-            ),
-          ],
-        );
-      },
-    );
+            ],
+          );
+        });
   }
 
   double _calculateTotal(List<TransactionsModel> transactions) {
@@ -413,5 +427,61 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
           : (t.receiveAmount?.value ?? 0);
       return sum + (t.type == 'IncomingPayment' ? amount : -amount);
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<TransactionCubit, TransactionState>(
+      listener: (context, state) {
+        if (state is TransactionError) {
+          GoRouter.of(context).pushReplacementNamed(Routes.errorScreen.name);
+        }
+      },
+      builder: (context, state) {
+        if (state is TransactionLoading) {
+          return const Center(
+              child: LoadingWidget(
+            showSafeArea: true,
+            showSimpleStyle: false,
+            showLoggedUserAppBar: false,
+            showBottomNavigationBar: false,
+          ));
+        } else if (state is TransactionLoaded) {
+          final total = _calculateTotal(state.processedPayments);
+          final spots = _createSpots(state.processedPayments);
+          final l10n = AppLocalizations.of(context)!;
+
+          return PopScope(
+            canPop: false,
+            //onPopInvoked: (true) => ,
+            child: WalletGuruLayout(
+              showSafeArea: true,
+              showSimpleStyle: false,
+              showLoggedUserAppBar: true,
+              showBottomNavigationBar: false,
+              actionAppBar: () {
+                GoRouter.of(context).pushReplacementNamed(Routes.home.name);
+              },
+              pageAppBarTitle: l10n.transactionsTitlePage,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.72,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      _buildChartCard(context, total, spots),
+                      Expanded(
+                          child: _buildTransactionsList(state.processedPayments)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const Center(child: Text('No data available'));
+        }
+      },
+    );
   }
 }
