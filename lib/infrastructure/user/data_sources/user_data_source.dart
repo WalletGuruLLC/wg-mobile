@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_guru/domain/core/models/invalid_data.dart';
 import 'package:wallet_guru/domain/core/models/response_model.dart';
 import 'package:wallet_guru/infrastructure/core/remote_data_sources/http.dart';
@@ -86,7 +87,8 @@ class UserDataSource {
 
   Future<ResponseModel> getWalletInformation() async {
     var response = await HttpDataSource.get(UserNetwork.getWalletInformation);
-
+    final storage = await SharedPreferences.getInstance();
+    final String? basic = storage.getString('Basic');
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       ResponseModel walletInfo = ResponseModel.fromJson(result);

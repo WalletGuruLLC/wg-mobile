@@ -32,10 +32,10 @@ class _SplashScreenPageState extends State<SplashScreenPage>
   @override
   void initState() {
     super.initState();
+    _checkTokenExpiration();
     _initializeAnimation();
     _initPackageInfo();
     _loadTranslations();
-    _checkTokenExpiration();
     BlocProvider.of<SettingsCubit>(context).loadSettings();
   }
 
@@ -155,23 +155,26 @@ Future<void> setInitialRoute(BuildContext context) async {
   }
 }
 
+bool isExpired(String token) {
+  final DateTime? expirationDate = Jwt.getExpiryDate(token);
+  print('expirationDate UTC: $expirationDate');
+  if (expirationDate != null) {
+    print('dateTime.now UTC: ${DateTime.now().toUtc()}');
+    print('IS EXPIRED: ${DateTime.now().toUtc().isAfter(expirationDate)}');
+    return DateTime.now().toUtc().isAfter(expirationDate);
+  } else {
+    return false;
+  }
+}
+
 Future<void> _checkTokenExpiration() async {
   final storage = await SharedPreferences.getInstance();
   final String? basic = storage.getString('Basic');
   if (basic == null) {
     return;
   }
-  Map<String, dynamic> payload = Jwt.parseJwt(basic);
-  int expirationTimestamp = payload['exp'] as int;
-
-  DateTime expirationDate =
-      DateTime.fromMillisecondsSinceEpoch(expirationTimestamp * 1000);
-  print('Expiration date: $expirationDate');
-  bool isExpired = Jwt.isExpired(basic);
-  if (isExpired) {
-    LoginDataSource().refreshToken();
-  } else {
-    print('Token is not expired');
-    return;
-  }
+  bool tokenIsExpired = isExpired(basic);
+  if (tokenIsExpired) {
+    await LoginDataSource().refreshToken();
+  } else {}
 }
