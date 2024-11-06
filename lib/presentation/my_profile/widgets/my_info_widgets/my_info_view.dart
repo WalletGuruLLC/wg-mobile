@@ -36,9 +36,11 @@ class _MyInfoViewState extends State<MyInfoView> {
   @override
   void initState() {
     super.initState();
+    userCubit = BlocProvider.of<UserCubit>(context);
     createProfileCubit = BlocProvider.of<CreateProfileCubit>(context);
     createProfileCubit.loadCountryCodeAndCountry();
-    userCubit = BlocProvider.of<UserCubit>(context);
+    createProfileCubit.selectCountry(userCubit.state.initialUser!.country);
+    createProfileCubit.selectState(userCubit.state.initialUser!.country);
   }
 
   @override
