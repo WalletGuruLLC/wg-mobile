@@ -59,7 +59,7 @@ class _WalletAddressFormState extends State<WalletAddressForm> {
     final String currentText = _controller.text;
     final String lowerText = currentText.toLowerCase();
 
-    if (currentText != lowerText && mounted) {
+    if ((currentText != lowerText || currentText == lowerText) && mounted) {
       final int currentPosition = _controller.selection.base.offset;
       _controller.value = TextEditingValue(
         text: lowerText,

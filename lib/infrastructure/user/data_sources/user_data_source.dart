@@ -92,6 +92,7 @@ class UserDataSource {
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       ResponseModel walletInfo = ResponseModel.fromJson(result);
+      storage.setBool('isWalletCreated', false);
       return walletInfo;
     } else {
       final errorModel = ResponseModel.fromJson(result);
