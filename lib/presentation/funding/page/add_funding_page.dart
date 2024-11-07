@@ -35,81 +35,91 @@ class _AddFundingPageState extends State<AddFundingPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
-    return WalletGuruLayout(
-      showSafeArea: true,
-      showSimpleStyle: false,
-      showLoggedUserAppBar: true,
-      showBottomNavigationBar: false,
-      actionAppBar: () => Navigator.pop(context),
-      pageAppBarTitle: l10n.fundingTitelPage,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-          child: SizedBox(
-            width: size.width * 0.90,
-            height: size.height * 0.80,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    TextBase(
-                      text:
-                          "${toCurrencyString("10", leadingSymbol: '\$')} USD",
-                      fontSize: size.width * 0.05,
-                    ),
-                    Radio(
-                      value: true,
-                      groupValue: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value ?? false;
-                        });
-                      },
-                      activeColor: AppColorSchema.of(context).tertiaryText,
-                      fillColor: WidgetStateProperty.resolveWith(
-                        (states) => states.contains(WidgetState.selected)
-                            ? AppColorSchema.of(context).tertiaryText
-                            : AppColorSchema.of(context).primaryText,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
+        final navigator = Navigator.of(context);
+        navigator.pop();
+      },
+      child: WalletGuruLayout(
+        showSafeArea: true,
+        showSimpleStyle: false,
+        showLoggedUserAppBar: true,
+        showBottomNavigationBar: false,
+        actionAppBar: () => Navigator.pop(context),
+        pageAppBarTitle: l10n.fundingTitelPage,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+            child: SizedBox(
+              width: size.width * 0.90,
+              height: size.height * 0.80,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      TextBase(
+                        text:
+                            "${toCurrencyString("10", leadingSymbol: '\$')} USD",
+                        fontSize: size.width * 0.05,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.6),
-                BlocConsumer<DepositCubit, DepositState>(
-                  listener: (context, state) {
-                    if (state.formStatus is SubmissionSuccess) {
-                      _buildSuccessfulModal(context);
-                    } else if (state.formStatus is SubmissionFailed) {
-                      _buildModal(
-                        descripcion: state.customMessage,
-                        codeError: state.customCode,
-                      );
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state.formStatus is FormSubmitting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else {
-                      return CustomButton(
-                        border: Border.all(
-                            color:
-                                AppColorSchema.of(context).buttonBorderColor),
-                        color: isChecked
-                            ? AppColorSchema.of(context).buttonColor
-                            : Colors.transparent,
-                        text: l10n.fundingTitelPage,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                        onPressed: () => _onButtonPressed(state),
-                      );
-                    }
-                  },
-                ),
-              ],
+                      Radio(
+                        value: true,
+                        groupValue: isChecked,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isChecked = value ?? false;
+                          });
+                        },
+                        activeColor: AppColorSchema.of(context).tertiaryText,
+                        fillColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.selected)
+                              ? AppColorSchema.of(context).tertiaryText
+                              : AppColorSchema.of(context).primaryText,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.6),
+                  BlocConsumer<DepositCubit, DepositState>(
+                    listener: (context, state) {
+                      if (state.formStatus is SubmissionSuccess) {
+                        _buildSuccessfulModal(context);
+                      } else if (state.formStatus is SubmissionFailed) {
+                        _buildModal(
+                          descripcion: state.customMessage,
+                          codeError: state.customCode,
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state.formStatus is FormSubmitting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        return CustomButton(
+                          border: Border.all(
+                              color:
+                                  AppColorSchema.of(context).buttonBorderColor),
+                          color: isChecked
+                              ? AppColorSchema.of(context).buttonColor
+                              : Colors.transparent,
+                          text: l10n.fundingTitelPage,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          onPressed: () => _onButtonPressed(state),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -12,42 +12,52 @@ class SelectWalletByQrPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      extendBodyBehindAppBar: true,
-      appBar: WalletGuruAppBar(
-        title: l10n.sendPayment,
-        action: () {
-          GoRouter.of(context).pushReplacementNamed(
-            Routes.payments.name,
-          );
-        },
-        showSimpleStyle: false,
-      ),
-      body: Stack(
-        children: [
-          const SendPaymentByQrView(),
-          // Positioned(
-          //   top: 700,
-          //   left: 0,
-          //   right: 0,
-          //   child: Center(
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       children: [
-          //         TextBase(
-          //           text: l10n.uploadQr,
-          //           color: Colors.white,
-          //           fontSize: 14,
-          //           fontWeight: FontWeight.w400,
-          //         ),
-          //         const SizedBox(width: 5),
-          //         const Icon(Icons.upload_rounded, color: Colors.white),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-        ],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
+        final navigator = Navigator.of(context);
+        navigator.pop();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        appBar: WalletGuruAppBar(
+          title: l10n.sendPayment,
+          action: () {
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.payments.name,
+            );
+          },
+          showSimpleStyle: false,
+        ),
+        body: Stack(
+          children: [
+            const SendPaymentByQrView(),
+            // Positioned(
+            //   top: 700,
+            //   left: 0,
+            //   right: 0,
+            //   child: Center(
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         TextBase(
+            //           text: l10n.uploadQr,
+            //           color: Colors.white,
+            //           fontSize: 14,
+            //           fontWeight: FontWeight.w400,
+            //         ),
+            //         const SizedBox(width: 5),
+            //         const Icon(Icons.upload_rounded, color: Colors.white),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }

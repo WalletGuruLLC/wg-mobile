@@ -20,27 +20,37 @@ class AddFundingValidatePage extends StatelessWidget {
         .fundingEntity!
         .serviceProviderName;
 
-    return WalletGuruLayout(
-      showSafeArea: true,
-      showSimpleStyle: false,
-      showLoggedUserAppBar: true,
-      showBottomNavigationBar: false,
-      actionAppBar: () {
-        GoRouter.of(context).pushReplacementNamed(
-          Routes.home.name,
-        );
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
+        final navigator = Navigator.of(context);
+        navigator.pop();
       },
-      pageAppBarTitle: providerName,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-          child: SizedBox(
-            width: size.width * 0.90,
-            height: size.height * 0.80,
-            child: const AddFundingValidateView(),
+      child: WalletGuruLayout(
+        showSafeArea: true,
+        showSimpleStyle: false,
+        showLoggedUserAppBar: true,
+        showBottomNavigationBar: false,
+        actionAppBar: () {
+          GoRouter.of(context).pushReplacementNamed(
+            Routes.home.name,
+          );
+        },
+        pageAppBarTitle: providerName,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+            child: SizedBox(
+              width: size.width * 0.90,
+              height: size.height * 0.80,
+              child: const AddFundingValidateView(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
