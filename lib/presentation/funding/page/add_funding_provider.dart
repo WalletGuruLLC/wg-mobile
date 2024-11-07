@@ -20,29 +20,39 @@ class AddFundsProvider extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     BlocProvider.of<SendPaymentCubit>(context).selectWalletUrlByTitle(title);
 
-    return WalletGuruLayout(
-      showSafeArea: true,
-      showSimpleStyle: false,
-      showLoggedUserAppBar: true,
-      showBottomNavigationBar: false,
-      actionAppBar: () {
-        GoRouter.of(context).pushReplacementNamed(
-          Routes.fundingScreen.name,
-        );
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
+        final navigator = Navigator.of(context);
+        navigator.pop();
       },
-      pageAppBarTitle: title,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-          child: SizedBox(
-            width: size.width * 0.90,
-            height: size.height * 0.80,
-            child: AddFundingProviderView(
-              title: title,
+      child: WalletGuruLayout(
+        showSafeArea: true,
+        showSimpleStyle: false,
+        showLoggedUserAppBar: true,
+        showBottomNavigationBar: false,
+        actionAppBar: () {
+          GoRouter.of(context).pushReplacementNamed(
+            Routes.fundingScreen.name,
+          );
+        },
+        pageAppBarTitle: title,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+            child: SizedBox(
+              width: size.width * 0.90,
+              height: size.height * 0.80,
+              child: AddFundingProviderView(
+                title: title,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
