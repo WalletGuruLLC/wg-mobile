@@ -453,7 +453,13 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
 
           return PopScope(
             canPop: false,
-            //onPopInvoked: (true) => ,
+            onPopInvoked: (didPop) async {
+              if (didPop) {
+                return;
+              }
+              final navigator = Navigator.of(context);
+              navigator.pop();
+            },
             child: WalletGuruLayout(
               showSafeArea: true,
               showSimpleStyle: false,
@@ -471,7 +477,8 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
                     children: [
                       _buildChartCard(context, total, spots),
                       Expanded(
-                          child: _buildTransactionsList(state.processedPayments)),
+                          child:
+                              _buildTransactionsList(state.processedPayments)),
                     ],
                   ),
                 ),

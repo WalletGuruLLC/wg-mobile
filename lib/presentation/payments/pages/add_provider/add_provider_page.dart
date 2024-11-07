@@ -11,19 +11,29 @@ class AddProviderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      extendBodyBehindAppBar: true,
-      appBar: WalletGuruAppBar(
-        title: l10n.addService,
-        action: () {
-          GoRouter.of(context).pushReplacementNamed(
-            Routes.payments.name,
-          );
-        },
-        showSimpleStyle: false,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
+        final navigator = Navigator.of(context);
+        navigator.pop();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        appBar: WalletGuruAppBar(
+          title: l10n.addService,
+          action: () {
+            GoRouter.of(context).pushReplacementNamed(
+              Routes.payments.name,
+            );
+          },
+          showSimpleStyle: false,
+        ),
+        body: const AddProviderByQrView(),
       ),
-      body: const AddProviderByQrView(),
     );
   }
 }

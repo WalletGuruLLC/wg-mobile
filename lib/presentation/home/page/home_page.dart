@@ -55,44 +55,54 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      body: SizedBox(
-        height: size.height,
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: size.height * 0.02),
-                    const BalanceCard(),
-                    SizedBox(height: size.height * 0.02),
-                    const LastTransactionsList(),
-                    SizedBox(height: size.height * 0.02),
-                    SizedBox(height: size.height * 0.1),
-                  ],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
+        final navigator = Navigator.of(context);
+        navigator.pop();
+      },
+      child: Scaffold(
+        appBar: const CustomAppBar(),
+        body: SizedBox(
+          height: size.height,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: size.height * 0.02),
+                      const BalanceCard(),
+                      SizedBox(height: size.height * 0.02),
+                      const LastTransactionsList(),
+                      SizedBox(height: size.height * 0.02),
+                      SizedBox(height: size.height * 0.1),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: kBottomNavigationBarHeight * 0.30,
-              left: size.width * 0.05,
-              right: size.width * 0.05,
-              child: TextBase(
-                text: "Connecting you to \na Digital Future",
-                fontSize: size.width * 0.045,
+              Positioned(
+                bottom: kBottomNavigationBarHeight * 0.30,
+                left: size.width * 0.05,
+                right: size.width * 0.05,
+                child: TextBase(
+                  text: "Connecting you to \na Digital Future",
+                  fontSize: size.width * 0.045,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        bottomNavigationBar: const BottomNavigationMenu(
+          selectedIndex: 0,
+        ),
+        backgroundColor: Colors.black,
       ),
-      bottomNavigationBar: const BottomNavigationMenu(
-        selectedIndex: 0,
-      ),
-      backgroundColor: Colors.black,
     );
   }
 }
