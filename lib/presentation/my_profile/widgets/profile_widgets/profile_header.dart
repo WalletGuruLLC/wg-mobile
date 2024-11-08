@@ -54,31 +54,32 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
                   },
                   child: Stack(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: image != null
-                            ? Image.memory(
+                      image != null
+                          ? ClipOval(
+                              child: Image.memory(
                                 image!,
                                 fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
-                              )
-                            : (state.user!.picture.isNotEmpty &&
-                                    Uri.tryParse(state.user!.picture)
-                                            ?.hasAbsolutePath ==
-                                        true
-                                ? Image.network(
+                                width: 90,
+                                height: 90,
+                              ),
+                            )
+                          : (state.user!.picture.isNotEmpty &&
+                                  Uri.tryParse(state.user!.picture)
+                                          ?.hasAbsolutePath ==
+                                      true
+                              ? ClipOval(
+                                  child: Image.network(
                                     state.user!.picture,
                                     fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                  )
-                                : const Icon(
-                                    Icons.account_circle,
-                                    size: 90,
-                                    color: Colors.grey,
-                                  )),
-                      ),
+                                    width: 90,
+                                    height: 90,
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.account_circle,
+                                  size: 90,
+                                  color: Colors.grey,
+                                )),
                       if (widget.isOnTapAvailable!)
                         Center(
                           child: CircleAvatar(

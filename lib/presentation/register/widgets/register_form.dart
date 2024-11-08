@@ -212,12 +212,14 @@ class RegisterFormState extends State<RegisterForm> {
         registerCubit.emitUserCreate();
       });
     } else {
-      _buildErrorModal(
-        'you must accept the terms and conditions',
-        'tienes que aceptar los terminos y condiciones',
-        'WGE0000',
-        locale,
-      );
+      if (acceptTerms == false && acceptPrivacy == false) {
+        _buildErrorModal(
+          'you must accept the terms and conditions and privacy policy',
+          'tienes que aceptar los terminos y condiciones y la politica de privacidad',
+          'WGE0000',
+          locale,
+        );
+      }
     }
   }
 

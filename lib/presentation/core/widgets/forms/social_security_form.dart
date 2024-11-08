@@ -43,6 +43,7 @@ class SocialSecurityForm extends StatelessWidget {
           validator: (value, context) => Validators.validateSSN(value, context),
           onChanged: onChanged,
           inputFormatters: [SSNInputFormatter()],
+          maxLength: 11,
         ),
       ],
     );
