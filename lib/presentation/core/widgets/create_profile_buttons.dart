@@ -42,7 +42,8 @@ class CreateProfileButtons extends StatelessWidget {
               GoRouter.of(context).pushNamed(Routes.createProfile3.name);
               BlocProvider.of<CreateProfileCubit>(context).cleanFormStatusOne();
             } else if (state.formStatusTwo is SubmissionSuccess) {
-              GoRouter.of(context).pushNamed(Routes.createProfile4.name);
+              GoRouter.of(context)
+                  .pushReplacementNamed(Routes.createProfile4.name);
               BlocProvider.of<CreateProfileCubit>(context).cleanFormStatusTwo();
             } else if (state.formStatusOne is SubmissionFailed ||
                 state.formStatusTwo is SubmissionFailed) {

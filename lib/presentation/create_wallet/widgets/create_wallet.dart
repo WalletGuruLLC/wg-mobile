@@ -177,7 +177,11 @@ class CreateWalletFormState extends State<CreateWalletForm> {
             if (state.fetchWalletAsset)
               WalletAssetDropdown(
                 hintText: l10n.selectAsset,
-                initialValue: null,
+                initialValue: state.rafikiAssets!
+                    .where((e) => e.code == 'USD')
+                    .map((e) => e.code)
+                    .toList()
+                    .first,
                 items: state.rafikiAssets!
                     .where((e) => e.code == 'USD')
                     .map((e) => e.code)
