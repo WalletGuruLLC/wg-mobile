@@ -86,7 +86,7 @@ class InputBorderStyle2 extends StatelessWidget {
             : AppColorSchema.of(context).buttonGradientColor,
       ),
       child: Container(
-          padding: const EdgeInsets.only(left: 20.0),
+          padding: const EdgeInsets.only(left: 20.0, top: 5.0),
           decoration: BoxDecoration(
             color: AppColorSchema.of(context).scaffoldColor,
             borderRadius: BorderRadius.circular(10.0),
