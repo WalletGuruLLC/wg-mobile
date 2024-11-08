@@ -65,7 +65,13 @@ class SendPaymentToUserView extends StatelessWidget {
             const SizedBox(height: 10),
             if (state.fetchWalletAsset == true)
               CurrencyDropDown(
-                initialValue: null,
+                initialValue: sendPaymentCubit.state.rafikiAssets!
+                    .where((e) =>
+                        e.code ==
+                        'USD') // Filtrar solo los que tengan el código 'USD'
+                    .map((e) => e.code)
+                    .toList()
+                    .first,
                 hintText: l10n.chooseCurrency,
                 items: sendPaymentCubit.state.rafikiAssets!
                     .where((e) =>
