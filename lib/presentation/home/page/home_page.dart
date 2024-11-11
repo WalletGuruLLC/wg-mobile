@@ -118,7 +118,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print("sizeeee: $size");
 
     return AppBar(
       automaticallyImplyLeading: false,
