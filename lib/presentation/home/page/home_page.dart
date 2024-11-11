@@ -110,9 +110,15 @@ class _HomePageState extends State<HomePage> {
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
+  bool isSmallScreen(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return size.width < 420;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print("sizeeee: $size");
 
     return AppBar(
       automaticallyImplyLeading: false,
@@ -137,7 +143,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: TextBase(
                     text: "Hi ${state.user?.firstName}",
                     color: Colors.white,
-                    fontSize: size.width * 0.05,
+                    fontSize: isSmallScreen(context)
+                        ? size.width * 0.04
+                        : size.width * 0.048,
                   ),
                 ),
                 Row(
