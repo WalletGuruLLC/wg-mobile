@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,8 +9,10 @@ import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
 import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart';
 import 'package:flutter_idensic_mobile_sdk_plugin/flutter_idensic_mobile_sdk_plugin.dart';
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
+import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
 class CreateProfileFirstForm extends StatefulWidget {
   const CreateProfileFirstForm({
@@ -40,6 +43,7 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
@@ -48,15 +52,43 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
         } else if (state.formStatusGetToken is SubmissionFailed) {
           return Text(state.customMessage);
         } else {
-          return Center(
-            child: CustomButton(
-                width: MediaQuery.of(context).size.width * 0.5,
-                onPressed: () {
-                  launchSDK(state.sumSubToken, state.sumSubUserId);
-                },
-                text: l10n.startKYC,
-                color: AppColorSchema.of(context).buttonColor),
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 41),
+                SvgPicture.asset(
+                  Assets.kycProcessIcon,
+                  //width: 10,
+                  //height: 10,
+                  fit: BoxFit.scaleDown,
+                ),
+                const SizedBox(height: 40),
+                TextBase(
+                  text: l10n.forSecurityKyc,
+                  textAlign: TextAlign.center,
+                  fontSize: 18,
+                ),
+                const SizedBox(height: 20),
+                TextBase(
+                  text: l10n.forSecurityTextKyc,
+                  fontSize: 18,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: size.height * 0.2),
+                Center(
+                  child: CustomButton(
+                      width: 301,
+                      onPressed: () {
+                        launchSDK(state.sumSubToken, state.sumSubUserId);
+                      },
+                      text: l10n.startKYC,
+                      color: AppColorSchema.of(context).buttonColor),
+                ),
+              ],
+            ),
           );
+          // return
         }
       },
     );

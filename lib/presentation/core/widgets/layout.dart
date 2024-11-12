@@ -17,7 +17,7 @@ class WalletGuruLayout extends StatelessWidget {
   final void Function()? actionAppBar;
   final bool showSimpleStyle;
   final bool showNotLoggedAppBar;
-  final bool centerLogo;
+  final bool kycAppBar;
   final Color? backgroundColor;
   const WalletGuruLayout({
     super.key,
@@ -33,7 +33,7 @@ class WalletGuruLayout extends StatelessWidget {
     this.showNotLoggedAppBar = false,
     this.actionAppBar,
     this.showSimpleStyle = true,
-    this.centerLogo = false,
+    this.kycAppBar = false,
     this.backgroundColor,
   });
   @override
@@ -52,7 +52,7 @@ class WalletGuruLayout extends StatelessWidget {
                 showSimpleStyle: showSimpleStyle,
               )
             : !showLoggedUserAppBar && showNotLoggedAppBar
-                ? appBarLogoWidget(context, centerLogo)
+                ? appBarLogoWidget(context, kycAppBar)
                 : null,
         body: SafeArea(
           top: showSafeArea,

@@ -153,7 +153,10 @@ class CreateProfileCubit extends Cubit<CreateProfileState> {
     emit(
       state.copyWith(formStatusThree: FormSubmitting()),
     );
-    await submitUserPicture(state.picture!, state.id);
+    if (state.picture != null && state.picture != '') {
+      await submitUserPicture(state.picture!, state.id);
+    }
+
     final createProfile3 =
         await createProfileRepository.updateUser(CreateProfileThreeEntity(
       id: state.id,
