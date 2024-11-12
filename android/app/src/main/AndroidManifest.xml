@@ -41,9 +41,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
-                        android:scheme="https"
-                        android:host="walletguru.me"
-                        android:pathPrefix="/"
+                    android:scheme="https"
+                    android:host="walletguru.me"
                 />
             </intent-filter>
         </activity>
