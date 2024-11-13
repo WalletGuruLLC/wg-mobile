@@ -6,6 +6,7 @@ import 'package:wallet_guru/application/user/user_cubit.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/application/funding/funding_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/utils/screen_util.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/home/widgets/balance_card.dart';
 import 'package:wallet_guru/application/transactions/transaction_cubit.dart';
@@ -110,14 +111,17 @@ class _HomePageState extends State<HomePage> {
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
-  bool isSmallScreen(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return size.width < 420;
+  String capitalize(String input) {
+    return input.split(' ').map((word) {
+      if (word.isEmpty) return word;
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }).join(' ');
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    bool smallScreen = ScreenUtils.isSmallScreen(context);
 
     return AppBar(
       automaticallyImplyLeading: false,
@@ -131,6 +135,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
         child: BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
+            final userName = state.user!.firstName;
+
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -140,11 +146,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 Center(
                   child: TextBase(
-                    text: "Hi ${state.user?.firstName}",
+                    text: "Hi $userName",
                     color: Colors.white,
-                    fontSize: isSmallScreen(context)
-                        ? size.width * 0.04
-                        : size.width * 0.048,
+                    fontSize:
+                        smallScreen ? size.width * 0.04 : size.width * 0.048,
                   ),
                 ),
                 Row(
@@ -153,17 +158,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       borderRadius: BorderRadius.circular(12),
                       child:
                           state.user != null && state.user!.picture.isNotEmpty
-                              ? ClipOval(
-                                  child: Image.network(
-                                    state.user!.picture,
-                                    width: 45,
-                                    height: 45,
-                                    fit: BoxFit.cover,
-                                  ),
+                              ? Image.network(
+                                  state.user!.picture,
+                                  width: 42,
+                                  height: 42,
+                                  fit: BoxFit.cover,
                                 )
                               : const Icon(
                                   Icons.account_circle,
-                                  size: 45,
+                                  size: 42,
                                   color: Colors.grey,
                                 ),
                     ),

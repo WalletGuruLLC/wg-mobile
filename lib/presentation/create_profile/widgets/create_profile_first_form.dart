@@ -11,6 +11,7 @@ import 'package:wallet_guru/application/create_profile/create_profile_cubit.dart
 import 'package:flutter_idensic_mobile_sdk_plugin/flutter_idensic_mobile_sdk_plugin.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/utils/screen_util.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
@@ -44,6 +45,8 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    bool smallScreen = ScreenUtils.isSmallScreen(context);
+
     final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<CreateProfileCubit, CreateProfileState>(
       builder: (context, state) {
@@ -75,7 +78,9 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
                   fontSize: 18,
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: size.height * 0.2),
+                SizedBox(
+                    height:
+                        smallScreen ? size.height * 0.1 : size.height * 0.15),
                 Center(
                   child: CustomButton(
                       width: 301,
