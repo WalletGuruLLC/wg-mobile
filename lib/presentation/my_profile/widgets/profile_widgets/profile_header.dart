@@ -43,6 +43,7 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
           children: [
             if (isLongName)
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextBase(text: state.user!.firstName),
                   TextBase(text: state.user!.lastName)
