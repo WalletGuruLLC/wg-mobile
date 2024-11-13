@@ -37,10 +37,18 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
     Size size = MediaQuery.of(context).size;
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
+        bool isLongName = state.user!.isLongName;
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextBase(text: state.user!.fullName),
+            if (isLongName)
+              Column(
+                children: [
+                  TextBase(text: state.user!.firstName),
+                  TextBase(text: state.user!.lastName)
+                ],
+              ),
+            if (!isLongName) TextBase(text: state.user!.fullName),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SizedBox(
@@ -55,7 +63,8 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
                   child: Stack(
                     children: [
                       image != null
-                          ? ClipOval(
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
                               child: Image.memory(
                                 image!,
                                 fit: BoxFit.cover,
@@ -67,7 +76,8 @@ class _ProfileHeaderWidgetState extends State<ProfileHeaderWidget> {
                                   Uri.tryParse(state.user!.picture)
                                           ?.hasAbsolutePath ==
                                       true
-                              ? ClipOval(
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
                                   child: Image.network(
                                     state.user!.picture,
                                     fit: BoxFit.cover,
