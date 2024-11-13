@@ -129,4 +129,9 @@ class UserEntity {
     }
     return '';
   }
+
+  bool get isLongName {
+    final nameParts = fullName.split(' ');
+    return nameParts.length >= 4;
+  }
 }

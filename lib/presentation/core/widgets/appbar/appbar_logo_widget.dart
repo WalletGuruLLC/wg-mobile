@@ -3,9 +3,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/utils/screen_util.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 
 AppBar appBarLogoWidget(BuildContext context, bool kycAppBar) {
+  bool smallScreen = ScreenUtils.isSmallScreen(context);
+
   final l10n = AppLocalizations.of(context)!;
   return AppBar(
     automaticallyImplyLeading: false,
@@ -13,17 +16,17 @@ AppBar appBarLogoWidget(BuildContext context, bool kycAppBar) {
     elevation: 0,
     title: kycAppBar
         ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: smallScreen ? 10 : 20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
                   Assets.iconLogo,
                 ),
-                const SizedBox(width: 40),
+                SizedBox(width: smallScreen ? 20 : 40),
                 TextBase(
                   text: l10n.identityVerification,
-                  fontSize: 20,
+                  fontSize: smallScreen ? 18 : 20,
                 )
               ],
             ),
