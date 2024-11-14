@@ -58,9 +58,30 @@ class Validators {
     if (value == null || value.isEmpty) {
       return l10n!.enterEmailValidation;
     }
-    const pattern = r'^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+
+    // Regex con todas las reglas
+    const pattern =
+        r"^(?!.*\.{2})[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]{1,64}@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$";
     final regex = RegExp(pattern);
-    if (!regex.hasMatch(value)) {
+
+    if (!regex.hasMatch(value) || value.length > 254) {
+      return l10n!.enterValidEmailValidation;
+    }
+
+    // Validaciones adicionales
+    final parts = value.split('@');
+    if (parts.length != 2) return l10n!.enterValidEmailValidation;
+
+    final localPart = parts[0];
+    final domainPart = parts[1];
+
+    // La parte local no debe iniciar o terminar con un punto.
+    if (localPart.startsWith('.') || localPart.endsWith('.')) {
+      return l10n!.enterValidEmailValidation;
+    }
+
+    // El dominio no debe iniciar o terminar con un punto.
+    if (domainPart.startsWith('.') || domainPart.endsWith('.')) {
       return l10n!.enterValidEmailValidation;
     }
     return null;
