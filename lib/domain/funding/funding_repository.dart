@@ -10,4 +10,6 @@ abstract class FundingRepository {
       FundingEntity fundingEntity);
   Future<Either<InvalidData, ResponseModel>> createIncomingPayment(
       FundingEntity fundingEntity);
+  Future<Either<InvalidData, ResponseModel>> unlinkedServiceProvider(
+      String sessionId);
 }

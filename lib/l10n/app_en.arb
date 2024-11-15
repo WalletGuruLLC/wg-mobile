@@ -221,8 +221,12 @@
   "startKYC": "Ready to Start?",
   "forSecurityKyc": "For your security, we need to verify your identity.",
   "forSecurityTextKyc": "Have your official ID ready, and a photo will be taken to complete the process. It's quick and confidential.",
-  "identityVerification": "Identity Verification"
-
-  
+  "identityVerification": "Identity Verification",
+  "unlink": "Unlink",
+  "confirmProviderDeletion": "Confirm provider removal",
+  "confirmProviderText": "Are you sure you want to delete this provider? This action cannot be undone.",
+  "successUnlinkedProviderTitle": "Provider Unlinked",
+  "successUnlinkedProviderText": "The provider has been unlinked successfully.",
+  "unsuccessUnlinkedProviderTitle": "Provider Unlinking Unsuccessful"
 
 }
