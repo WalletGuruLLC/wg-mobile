@@ -1,12 +1,11 @@
+import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/entities/incoming_payments_entity.dart';
 import 'package:wallet_guru/domain/funding/funding_repository.dart';
 import 'package:wallet_guru/domain/core/entities/funding_entity.dart';
-
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
-
 part 'funding_state.dart';
 
 class FundingCubit extends Cubit<FundingState> {
@@ -145,9 +144,31 @@ class FundingCubit extends Cubit<FundingState> {
         );
   }
 
-  // void createServiceProviderPayment() async {
-  //   emit(state.copyWith(formStatus: FormSubmitting()));
-  //   final createdServiceProviderPaymentResponse =
-  //       await fundingRepository.createServiceProviderPayment();
-  // }
+  void emitUnlinkedServiceProvider(String sessionId) async {
+    emit(state.copyWith(unlinkedServiceProvider: FormSubmitting()));
+    final unlinkedServiceProviderResponse =
+        fundingRepository.unlinkedServiceProvider(sessionId);
+    unlinkedServiceProviderResponse.fold(
+      (error) {
+        emit(state.copyWith(
+          unlinkedServiceProvider:
+              SubmissionFailed(exception: Exception(error.messageEn)),
+          customCode: error.code,
+          customMessage: error.messageEn,
+          customMessageEs: error.messageEs,
+        ));
+      },
+      (success) {
+        emit(state.copyWith(
+          unlinkedServiceProvider: SubmissionSuccess(),
+        ));
+      },
+    );
+  }
+
+  void resetUnlinkedServiceProviderStatus() {
+    emit(
+      state.copyWith(unlinkedServiceProvider: const InitialFormStatus()),
+    );
+  }
 }
