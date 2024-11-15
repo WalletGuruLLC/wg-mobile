@@ -4,18 +4,23 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
 
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
+import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
+import 'package:wallet_guru/presentation/funding/widgets/modal_helpers.dart';
 
 class FundingItem extends StatelessWidget {
   final String title;
   final String amount;
   final List<String> incomingPaymentIds;
+  final String sessionId;
 
   const FundingItem({
     super.key,
     required this.title,
     required this.amount,
     required this.incomingPaymentIds,
+    required this.sessionId,
   });
 
   @override
@@ -104,6 +109,20 @@ class FundingItem extends StatelessWidget {
                             },
                           ),
                           const Divider(),
+                          ListTile(
+                            trailing: const Icon(Icons.cancel_outlined,
+                                color: Colors.black),
+                            title: TextBase(
+                              text: l10n.unlink,
+                              fontSize: size.width * 0.03,
+                              color: Colors.black,
+                            ),
+                            onTap: () {
+                              ModalHelper(context)
+                                  .buildConfirmationModal(sessionId);
+                            },
+                          ),
+                          const Divider(),
                         ],
                       ),
                     ),
@@ -114,6 +133,46 @@ class FundingItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Future<dynamic> buildSuccessfulModal(
+      String amount, String providerName, BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    final l10n = AppLocalizations.of(context)!;
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BaseModal(
+          buttonText: "OK",
+          buttonWidth: size.width * 0.4,
+          content: Column(
+            children: [
+              SizedBox(height: size.height * 0.01),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.successFundsTitle,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size.height * 0.01),
+              TextBase(
+                textAlign: TextAlign.center,
+                text:
+                    '${l10n.successFundsText}$amount ${l10n.successFundsTextAccount} $providerName',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            GoRouter.of(context).pushReplacementNamed(Routes.home.name);
+          },
+        );
+      },
     );
   }
 }

@@ -220,5 +220,11 @@
   "startKYC": "¿Listo para empezar?",
   "forSecurityKyc": "Para su seguridad, necesitamos verificar su identidad.",
   "forSecurityTextKyc": "Tenga su identificación oficial lista, y se tomará una foto para completar el proceso. Es rápido y confidencial.",
-  "identityVerification": "Verificación de Identidad"
+  "identityVerification": "Verificación de Identidad",
+  "unlink": "Desvincular",
+  "confirmProviderDeletion": "Confirmar eliminación del proveedor",
+  "confirmProviderText": "¿Está seguro de que desea eliminar este proveedor? Esta acción no se puede deshacer.",
+  "successUnlinkedProviderTitle": "Proveedor desvinculado",
+  "successUnlinkedProviderText": "El proveedor ha sido desvinculado exitosamente.",
+  "unsuccessUnlinkedProviderTitle": "Desvinculación del proveedor fallida"
 }

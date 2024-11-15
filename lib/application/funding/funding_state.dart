@@ -10,6 +10,7 @@ class FundingState extends Equatable {
   final FundingEntity? fundingEntity;
   final FormSubmissionStatus createIncomingPayment;
   final bool isFundingButtonVisible;
+  final FormSubmissionStatus unlinkedServiceProvider;
 
   const FundingState({
     this.incomingPayments,
@@ -21,6 +22,7 @@ class FundingState extends Equatable {
     this.fundingEntity,
     this.createIncomingPayment = const InitialFormStatus(),
     this.isFundingButtonVisible = false,
+    this.unlinkedServiceProvider = const InitialFormStatus(),
   });
 
   FundingState copyWith({
@@ -33,6 +35,7 @@ class FundingState extends Equatable {
     final FundingEntity? fundingEntity,
     FormSubmissionStatus? createIncomingPayment,
     bool? isFundingButtonVisible,
+    FormSubmissionStatus? unlinkedServiceProvider,
   }) =>
       FundingState(
         customCode: customCode ?? this.customCode,
@@ -46,6 +49,8 @@ class FundingState extends Equatable {
             createIncomingPayment ?? this.createIncomingPayment,
         isFundingButtonVisible:
             isFundingButtonVisible ?? this.isFundingButtonVisible,
+        unlinkedServiceProvider:
+            unlinkedServiceProvider ?? this.unlinkedServiceProvider,
       );
 
   FundingState initialState() => const FundingState(
@@ -58,6 +63,7 @@ class FundingState extends Equatable {
         fundingEntity: null,
         createIncomingPayment: InitialFormStatus(),
         isFundingButtonVisible: false,
+        unlinkedServiceProvider: InitialFormStatus(),
       );
 
   @override
@@ -71,5 +77,6 @@ class FundingState extends Equatable {
         fundingEntity,
         createIncomingPayment,
         isFundingButtonVisible,
+        unlinkedServiceProvider,
       ];
 }

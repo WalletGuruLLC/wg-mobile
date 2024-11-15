@@ -68,4 +68,24 @@ class FundingDataSource {
           GlobalErrorTranslations.getErrorMessage(errorModel.customCode));
     }
   }
+
+  Future<ResponseModel> unlinkedServiceProvider(String sessionId) async {
+    var body = {
+      "sessionId": sessionId,
+    };
+    var response =
+        await HttpDataSource.post(FundingNetwork.unlinkedServiceProvider, body);
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      ResponseModel registerModel = ResponseModel.fromJson(result);
+      return registerModel;
+    } else {
+      final errorModel = ResponseModel.fromJson(result);
+      throw InvalidData(
+        errorModel.customCode,
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+        GlobalErrorTranslations.getErrorMessage(errorModel.customCode),
+      );
+    }
+  }
 }

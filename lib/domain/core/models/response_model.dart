@@ -654,6 +654,9 @@ class LinkedProvider {
   final DateTime vinculationDate;
   final String walletUrl;
   final String serviceProviderName;
+  final String statusCode;
+  final String message;
+  final String customCode;
 
   LinkedProvider({
     required this.serviceProviderId,
@@ -661,15 +664,29 @@ class LinkedProvider {
     required this.vinculationDate,
     required this.walletUrl,
     required this.serviceProviderName,
+    required this.customCode,
+    required this.statusCode,
+    required this.message,
   });
 
   factory LinkedProvider.fromJson(Map<String, dynamic> json) {
     return LinkedProvider(
-      serviceProviderId: json['serviceProviderId'] as String,
-      sessionId: json['sessionId'] as String,
-      vinculationDate: DateTime.parse(json['vinculationDate'] as String),
-      walletUrl: json['walletUrl'] as String,
-      serviceProviderName: json['serviceProviderName'] as String,
+      serviceProviderId: json['serviceProviderId'] != null
+          ? json['serviceProviderId'] as String
+          : '',
+      sessionId: json['sessionId'] != null ? json['sessionId'] as String : '',
+      vinculationDate: json['vinculationDate'] != null
+          ? DateTime.parse(json['vinculationDate'] as String)
+          : DateTime.now(),
+      walletUrl: json['walletUrl'] != null ? json['walletUrl'] as String : '',
+      serviceProviderName: json['serviceProviderName'] != null
+          ? json['serviceProviderName'] as String
+          : '',
+      customCode:
+          json['customCode'] != null ? json['customCode'] as String : '',
+      statusCode:
+          json['statusCode'] != null ? json['statusCode'].toString() : '',
+      message: json['message'] != null ? json['message'] as String : '',
     );
   }
 

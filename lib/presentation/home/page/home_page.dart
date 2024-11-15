@@ -135,8 +135,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         },
         child: BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
-            final userName = state.user!.firstName;
-
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -146,7 +144,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 Center(
                   child: TextBase(
-                    text: "Hi $userName",
+                    text: "Hi ${state.user?.firstName}",
                     color: Colors.white,
                     fontSize:
                         smallScreen ? size.width * 0.04 : size.width * 0.048,
