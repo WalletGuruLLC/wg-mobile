@@ -42,10 +42,10 @@ class _MyProfileMainViewState extends State<MyProfileMainView> {
               optionTitle: l10n.myInfo,
               profileOrder: 1,
             ),
-            ProfileOption(
-              optionTitle: l10n.notificationSettings,
-              profileOrder: 2,
-            ),
+            // ProfileOption(
+            //   optionTitle: l10n.notificationSettings,
+            //   profileOrder: 2,
+            // ),
             ProfileOption(
               optionTitle: l10n.changePassword,
               profileOrder: 3,
