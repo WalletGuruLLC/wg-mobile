@@ -226,5 +226,8 @@
   "confirmProviderText": "¿Está seguro de que desea eliminar este proveedor? Esta acción no se puede deshacer.",
   "successUnlinkedProviderTitle": "Proveedor desvinculado",
   "successUnlinkedProviderText": "El proveedor ha sido desvinculado exitosamente.",
-  "unsuccessUnlinkedProviderTitle": "Desvinculación del proveedor fallida"
+  "unsuccessUnlinkedProviderTitle": "Desvinculación del proveedor fallida",
+  "notValidActionModalTitle": "Acción no válida",
+  "notValidActionModalText": "Para enviar dinero, ve a 'Enviar Pagos'. 'Añadir servicio' es solo para vincular servicios."
+  
 }
