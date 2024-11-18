@@ -87,6 +87,14 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
     controller.scannedDataStream.listen((scanData) {
       if (scanData.code == null || isProcessing) {
         return;
+      }
+      controller.pauseCamera();
+      final Uri uri = Uri.tryParse(scanData.code!)!;
+      final String? sessionId = uri.queryParameters['sessionId'];
+
+      if (sessionId == null) {
+        _buildNotValidActionModal(context);
+        return;
       } else {
         controller.pauseCamera();
         setState(() {
@@ -105,6 +113,46 @@ class _AddProviderByQrViewState extends State<AddProviderByQrView> {
   void dispose() {
     controller?.dispose();
     super.dispose();
+  }
+
+  void _buildNotValidActionModal(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        double size = MediaQuery.of(context).size.height;
+        return BaseModal(
+          buttonText: 'OK',
+          buttonWidth: MediaQuery.of(context).size.width * 0.40,
+          isSucefull: false,
+          content: Column(
+            children: [
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.notValidActionModalTitle,
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.notValidActionModalText,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+              SizedBox(height: size * 0.010),
+            ],
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            controller!.resumeCamera();
+          },
+        );
+      },
+    );
   }
 
   void _buildErrorModal(
