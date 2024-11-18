@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:wallet_guru/application/core/state_provider.dart';
+import 'package:wallet_guru/domain/core/auth/auth_service.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
@@ -27,10 +27,36 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({
-    super.key,
-  });
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  final AuthService _authService = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      await _authService.checkTokenExpiration();
+      if (!mounted) return;
+      await _authService.setInitialRoute(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,16 +1,11 @@
 import 'dart:async';
-import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jwt_decode/jwt_decode.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
+import 'package:wallet_guru/domain/core/auth/auth_service.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/settings/settings_cubit.dart';
 import 'package:wallet_guru/application/translations_error/translation_error_state.dart';
 import 'package:wallet_guru/application/translations_error/translation_error_cubit.dart';
@@ -28,11 +23,12 @@ class _SplashScreenPageState extends State<SplashScreenPage>
   late final AnimationController _animationController;
   bool _isAnimationComplete = false;
   bool _isTranslationLoaded = false;
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
     super.initState();
-    _checkTokenExpiration();
+    _authService.checkTokenExpiration();
     _initializeAnimation();
     _initPackageInfo();
     _loadTranslations();
@@ -57,7 +53,7 @@ class _SplashScreenPageState extends State<SplashScreenPage>
 
   void _loadTranslations() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      String deviceLanguage = getDeviceLanguage();
+      String deviceLanguage = _authService.getDeviceLanguage();
       BlocProvider.of<TranslationErrorCubit>(context)
           .loadTranslations(deviceLanguage);
     });
@@ -74,7 +70,7 @@ class _SplashScreenPageState extends State<SplashScreenPage>
 
   void _checkAndNavigate() {
     if (_isAnimationComplete && _isTranslationLoaded && mounted) {
-      setInitialRoute(context);
+      _authService.setInitialRoute(context);
     }
   }
 
@@ -136,45 +132,4 @@ class _SplashScreenPageState extends State<SplashScreenPage>
       ),
     );
   }
-}
-
-String getDeviceLanguage() {
-  final String deviceLocale =
-      WidgetsBinding.instance.window.locales.first.languageCode;
-  return Intl.canonicalizedLocale(deviceLocale);
-}
-
-Future<void> setInitialRoute(BuildContext context) async {
-  final storage = await SharedPreferences.getInstance();
-  final String? basic = storage.getString('Basic');
-  final bool? isWalletCreated = storage.getBool('isWalletCreated');
-  if (basic != null && isWalletCreated == false) {
-    GoRouter.of(context).pushNamed(Routes.home.name);
-  } else {
-    GoRouter.of(context).pushNamed(Routes.logIn.name);
-  }
-}
-
-bool isExpired(String token) {
-  final DateTime? expirationDate = Jwt.getExpiryDate(token);
-  print('expirationDate UTC: $expirationDate');
-  if (expirationDate != null) {
-    print('dateTime.now UTC: ${DateTime.now().toUtc()}');
-    print('IS EXPIRED: ${DateTime.now().toUtc().isAfter(expirationDate)}');
-    return DateTime.now().toUtc().isAfter(expirationDate);
-  } else {
-    return false;
-  }
-}
-
-Future<void> _checkTokenExpiration() async {
-  final storage = await SharedPreferences.getInstance();
-  final String? basic = storage.getString('Basic');
-  if (basic == null) {
-    return;
-  }
-  bool tokenIsExpired = isExpired(basic);
-  if (tokenIsExpired) {
-    await LoginDataSource().refreshToken();
-  } else {}
 }

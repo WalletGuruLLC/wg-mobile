@@ -101,9 +101,13 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
 
   Future<void> launchSDK(String accessToken, String userId) async {
     onTokenExpiration() async {
-      // Lógica para obtener un nuevo token de tu backend
+      BlocProvider.of<CreateProfileCubit>(context)
+          .generateSumSubAccessToken(widget.id);
+
       return Future<String>.delayed(
-          const Duration(seconds: 2), () => "your new access token");
+        const Duration(seconds: 2),
+        () => BlocProvider.of<CreateProfileCubit>(context).state.sumSubToken,
+      );
     }
 
     onStatusChanged(
