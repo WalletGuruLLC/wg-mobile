@@ -230,6 +230,7 @@
   "notValidActionModalTitle": "Acción no válida",
   "notValidActionModalText": "Para enviar dinero, ve a 'Enviar Pagos'. 'Añadir servicio' es solo para vincular servicios.",
   "loggedOutTitle": "Sesión cerrada",
-  "loggedOutText": "Has sido desconectado por inactividad. Por favor, inicia sesión de nuevo."
+  "loggedOutText": "Has sido desconectado por inactividad. Por favor, inicia sesión de nuevo.",
+  "to": "a"
   
 }

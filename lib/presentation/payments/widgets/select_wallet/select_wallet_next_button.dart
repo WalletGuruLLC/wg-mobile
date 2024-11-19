@@ -59,7 +59,7 @@ class SelectWalletNextButton extends StatelessWidget {
         return BaseModal(
           buttonWidth: locale.languageCode == 'en'
               ? MediaQuery.of(context).size.width * 0.40
-              : MediaQuery.of(context).size.width * 0.42,
+              : MediaQuery.of(context).size.width * 0.44,
           isSucefull: false,
           content: Column(
             children: [
