@@ -3,6 +3,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 
@@ -43,5 +44,15 @@ class AuthService {
     } else {
       GoRouter.of(context).pushNamed(Routes.logIn.name);
     }
+  }
+
+  Future<void> logout() async {
+    final storage = await SharedPreferences.getInstance();
+    await storage.remove('Basic');
+    storage.remove('isWalletCreated');
+    storage.remove('refreshToken');
+    storage.remove('firstFunding');
+    final uniqueValue = DateTime.now().millisecondsSinceEpoch;
+    router.go('${Routes.splash.path}?forceRebuild=$uniqueValue');
   }
 }

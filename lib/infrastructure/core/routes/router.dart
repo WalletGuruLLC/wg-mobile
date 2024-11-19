@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/presentation/configuration_setting/page/configuration_setting_page.dart';
 import 'package:wallet_guru/presentation/forgot_password/page/forgot_password_view.dart';
@@ -6,7 +7,6 @@ import 'package:wallet_guru/presentation/funding/page/add_funding_page.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_provider.dart';
 import 'package:wallet_guru/presentation/funding/page/add_funding_validate_page.dart';
 import 'package:wallet_guru/presentation/funding/page/funding_screen_page.dart';
-
 import 'package:wallet_guru/presentation/home/page/home_page.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/login/pages/login_page.dart';
@@ -40,7 +40,12 @@ class WalletGuruRouter {
     GoRoute(
       name: Routes.splash.name,
       path: Routes.splash.path,
-      builder: (context, state) => const SplashScreenPage(),
+      builder: (context, state) {
+        final forceRebuild = state.uri.queryParameters['forceRebuild'];
+        return SplashScreenPage(
+          key: ValueKey(forceRebuild ?? 'initial'),
+        );
+      },
     ),
     GoRoute(
       name: Routes.signUp.name,

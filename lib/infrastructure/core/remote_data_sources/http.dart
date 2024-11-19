@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:crypto/crypto.dart';
 import 'package:http_parser/http_parser.dart'; // Necesario para MediaType
-
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wallet_guru/infrastructure/core/env/env.dart';
 import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 
 class HttpDataSource {

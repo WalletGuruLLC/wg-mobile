@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wallet_guru/domain/core/auth/auth_service.dart';
+import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/application/settings/settings_cubit.dart';
 import 'package:wallet_guru/application/translations_error/translation_error_state.dart';
@@ -28,7 +30,6 @@ class _SplashScreenPageState extends State<SplashScreenPage>
   @override
   void initState() {
     super.initState();
-    _authService.checkTokenExpiration();
     _initializeAnimation();
     _initPackageInfo();
     _loadTranslations();
@@ -69,8 +70,12 @@ class _SplashScreenPageState extends State<SplashScreenPage>
   }
 
   void _checkAndNavigate() {
+    print('_isAnimationComplete $_isAnimationComplete');
+    print('_isTranslationLoaded $_isTranslationLoaded');
+    print('mounted $mounted');
+
     if (_isAnimationComplete && _isTranslationLoaded && mounted) {
-      _authService.setInitialRoute(context);
+      GoRouter.of(context).pushNamed(Routes.logIn.name);
     }
   }
 
