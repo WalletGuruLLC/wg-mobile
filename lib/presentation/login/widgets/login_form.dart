@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
@@ -29,9 +29,12 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   void initState() {
-    loginCubit = BlocProvider.of<LoginCubit>(context);
-    loginCubit.cleanFormStatusForgotPassword();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loginCubit = BlocProvider.of<LoginCubit>(context);
+      loginCubit.cleanFormStatusForgotPassword();
+      _getInactiveSection();
+    });
   }
 
   @override
@@ -188,6 +191,54 @@ class LoginFormState extends State<LoginForm> {
             loginCubit.cleanFormStatus();
             loginCubit.cleanFormStatusLogin();
             Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _getInactiveSection() async {
+    final storage = await SharedPreferences.getInstance();
+    bool? inactiveSection = storage.getBool('inactiveSection');
+    if (inactiveSection != null && inactiveSection) {
+      _setInactiveSessionAndShowModal();
+    }
+  }
+
+  Future<void> _setInactiveSessionAndShowModal() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        final l10n = AppLocalizations.of(context)!;
+        return BaseModal(
+          buttonText: "OK",
+          buttonWidth: MediaQuery.of(context).size.width * 0.4,
+          content: Column(
+            children: [
+              const SizedBox(height: 10),
+              TextBase(
+                text: l10n.loggedOutTitle,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              TextBase(
+                textAlign: TextAlign.center,
+                text: l10n.loggedOutText,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              ),
+            ],
+          ),
+          onPressed: () async {
+            Navigator.of(context).pop();
+            final storage = await SharedPreferences.getInstance();
+            storage.setBool('inactiveSection', false);
+            // Close the modal
           },
         );
       },

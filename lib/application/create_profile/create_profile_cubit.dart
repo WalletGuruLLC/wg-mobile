@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallet_guru/domain/core/models/country_model.dart';
 import 'package:wallet_guru/infrastructure/core/injector/injector.dart';
 import 'package:wallet_guru/domain/core/models/form_submission_status.dart';
-import 'package:wallet_guru/domain/create_profile/entities/create_profile_entity.dart';
 import 'package:wallet_guru/domain/create_profile/entities/create_profile_two_entity.dart';
 import 'package:wallet_guru/domain/create_profile/entities/create_profile_one_entity.dart';
 import 'package:wallet_guru/domain/create_profile/entities/create_profile_three_entity.dart';

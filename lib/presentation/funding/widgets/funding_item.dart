@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_multi_formatter/formatters/formatter_utils.dart';
 
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/styles/schemas/app_color_schema.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
@@ -59,8 +61,9 @@ class FundingItem extends StatelessWidget {
                             height: size.height * 0.04,
                           ),
                           ListTile(
-                            trailing: const Icon(Icons.add_circle_outline,
-                                color: Colors.black),
+                            trailing: SvgPicture.asset(
+                              Assets.sum,
+                            ),
                             title: TextBase(
                               text: l10n.addFundsFundingItem,
                               fontSize: size.width * 0.03,
@@ -77,8 +80,9 @@ class FundingItem extends StatelessWidget {
                           ),
                           const Divider(),
                           ListTile(
-                            trailing:
-                                const Icon(Icons.remove, color: Colors.black),
+                            trailing: SvgPicture.asset(
+                              Assets.empty,
+                            ),
                             title: TextBase(
                               text: l10n.withdrawFundingItem,
                               fontSize: size.width * 0.03,
@@ -96,8 +100,9 @@ class FundingItem extends StatelessWidget {
                           ),
                           const Divider(),
                           ListTile(
-                            trailing: const Icon(Icons.info_outline,
-                                color: Colors.black),
+                            trailing: SvgPicture.asset(
+                              Assets.myInfo,
+                            ),
                             title: TextBase(
                               text: l10n.detailsFundingItem,
                               fontSize: size.width * 0.03,
@@ -110,8 +115,9 @@ class FundingItem extends StatelessWidget {
                           ),
                           const Divider(),
                           ListTile(
-                            trailing: const Icon(Icons.cancel_outlined,
-                                color: Colors.black),
+                            trailing: SvgPicture.asset(
+                              Assets.unlink,
+                            ),
                             title: TextBase(
                               text: l10n.unlink,
                               fontSize: size.width * 0.03,
