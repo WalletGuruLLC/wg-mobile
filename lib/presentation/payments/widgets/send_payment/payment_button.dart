@@ -42,7 +42,7 @@ class _PaymentButtonWithTimerState extends State<PaymentButtonWithTimer> {
               const SizedBox(height: 10),
               TextBase(
                 text:
-                    '${l10n.convert} ${state.walletForPaymentEntity!.walletAsset.code} to ${state.sendPaymentEntity!.currency}',
+                    '${l10n.convert} ${state.walletForPaymentEntity!.walletAsset.code} ${l10n.to} ${state.sendPaymentEntity!.currency}',
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),

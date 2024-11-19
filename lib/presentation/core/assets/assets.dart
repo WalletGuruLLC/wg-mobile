@@ -22,6 +22,10 @@ class Assets {
   static const editInfoIcon = '${base}edit_info.png';
   static const scanIcon = '${base}scan_icon.png';
   static const kycProcessIcon = '${base}kyc_process.svg';
+  static const unlink = '${base}unlink.svg';
+  static const empty = '${base}empty.svg';
+  static const myInfo = '${base}my_info.svg';
+  static const sum = '${base}sum.svg';
 
   // BOTTOM MENU ICONS
   static const homeMenuIcon = '${base}home_menu_icon.svg';

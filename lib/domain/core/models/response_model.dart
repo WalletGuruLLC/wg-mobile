@@ -80,6 +80,10 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
+    if (json.isEmpty) {
+      return Data.initialState();
+    }
+
     User? user;
     if (json.containsKey("user") && json["user"] != null) {
       user = User.fromJson(json["user"]);
