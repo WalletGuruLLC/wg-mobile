@@ -229,6 +229,8 @@
   "successUnlinkedProviderText": "The provider has been unlinked successfully.",
   "unsuccessUnlinkedProviderTitle": "Provider Unlinking Unsuccessful",
   "notValidActionModalTitle": "Invalid action",
-  "notValidActionModalText": "To send money, go to 'Send Payments'. 'Add service' is for linking services only."
+  "notValidActionModalText": "To send money, go to 'Send Payments'. 'Add service' is for linking services only.",
+  "loggedOutTitle": "Logged out",
+  "loggedOutText": "You have been logged out due to inactivity. Please log in again."
 
 }

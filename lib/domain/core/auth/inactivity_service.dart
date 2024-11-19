@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_guru/domain/core/auth/auth_service.dart';
 import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 
@@ -39,6 +40,11 @@ class InactivityService with WidgetsBindingObserver {
   void _logoutUser(BuildContext context) async {
     await _authService.logout();
     debugPrint('App Closed due to inactivity');
+    final storage = await SharedPreferences.getInstance();
+    storage.setBool('inactiveSection', true);
+    if (context.mounted) {
+      resetTimer(context);
+    }
   }
 
   @override

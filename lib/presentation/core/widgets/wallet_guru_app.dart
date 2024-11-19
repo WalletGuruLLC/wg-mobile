@@ -37,7 +37,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('AppLifecycleState: $state');
     _inactivityService.handleAppLifecycleStateChange(state, context);
   }
 
@@ -49,7 +48,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       child: WalletGuruStateProvider(
         child: MaterialApp.router(
           routerConfig: router,
-          title: 'Flutter Demo',
           theme: ThemeData(
             primaryColor: AppColorSchema.of(context).primary,
             scaffoldBackgroundColor: AppColorSchema.of(context).scaffoldColor,
