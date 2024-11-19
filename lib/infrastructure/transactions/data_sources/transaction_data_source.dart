@@ -9,7 +9,7 @@ import 'package:wallet_guru/infrastructure/transactions/network/transaction_netw
 class TransactionDataSource {
   Future<ResponseModel> fetchTransactions() async {
     final response = await HttpDataSource.get(
-      TransactionNetwork.getListUserTransactions,
+      "${TransactionNetwork.getListUserTransactions}?page=1&items=100000",
     );
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
