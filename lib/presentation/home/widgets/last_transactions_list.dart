@@ -10,6 +10,7 @@ import 'package:wallet_guru/application/transactions/transaction_state.dart';
 import 'package:wallet_guru/presentation/home/widgets/transaction_item.dart';
 import 'package:wallet_guru/domain/transactions/models/transactions_model.dart';
 import 'package:wallet_guru/presentation/home/widgets/transaction_skeleton.dart';
+import 'package:wallet_guru/presentation/splash/splash_animation.dart';
 
 class LastTransactionsList extends StatefulWidget {
   const LastTransactionsList({super.key});
@@ -52,12 +53,7 @@ class _LastTransactionsListState extends State<LastTransactionsList> {
         BlocBuilder<TransactionCubit, TransactionState>(
           builder: (context, state) {
             if (state is TransactionLoading) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ...List.generate(4, (index) => const TransactionSkeleton()),
-                ],
-              );
+              return const Center(child: SplashAnimation());
             } else if (state is TransactionLoaded) {
               final transactions = state.processedPayments.take(4).toList();
 
