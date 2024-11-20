@@ -52,8 +52,6 @@ class CreateProfileFirstFormState extends State<CreateProfileFirstForm> {
       builder: (context, state) {
         if (state.formStatusGetToken is FormSubmitting) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state.formStatusGetToken is SubmissionFailed) {
-          return Text(state.customMessage);
         } else {
           return SingleChildScrollView(
             child: Column(

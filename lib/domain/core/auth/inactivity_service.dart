@@ -5,7 +5,7 @@ import 'package:wallet_guru/domain/core/auth/auth_service.dart';
 import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 
 class InactivityService with WidgetsBindingObserver {
-  static const int _timeoutDuration = 1000 * 60; // 10 minutes in seconds
+  static const int _timeoutDuration = 10 * 60; // 10 minutes in seconds
   Timer? _inactivityTimer;
   Timer? _printTimer;
   final AuthService _authService = AuthService();

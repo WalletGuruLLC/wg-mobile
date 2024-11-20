@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +10,7 @@ import 'package:wallet_guru/presentation/core/widgets/layout.dart';
 import 'package:wallet_guru/application/settings/settings_cubit.dart';
 import 'package:wallet_guru/application/translations_error/translation_error_state.dart';
 import 'package:wallet_guru/application/translations_error/translation_error_cubit.dart';
+import 'package:wallet_guru/presentation/splash/splash_animation.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
@@ -19,10 +19,8 @@ class SplashScreenPage extends StatefulWidget {
   State<SplashScreenPage> createState() => _SplashScreenPageState();
 }
 
-class _SplashScreenPageState extends State<SplashScreenPage>
-    with SingleTickerProviderStateMixin {
+class _SplashScreenPageState extends State<SplashScreenPage> {
   String _version = '';
-  late final AnimationController _animationController;
   bool _isAnimationComplete = false;
   bool _isTranslationLoaded = false;
   final AuthService _authService = AuthService();
@@ -30,26 +28,9 @@ class _SplashScreenPageState extends State<SplashScreenPage>
   @override
   void initState() {
     super.initState();
-    _initializeAnimation();
     _initPackageInfo();
     _loadTranslations();
     BlocProvider.of<SettingsCubit>(context).loadSettings();
-  }
-
-  void _initializeAnimation() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        setState(() {
-          _isAnimationComplete = true;
-          _checkAndNavigate();
-        });
-      }
-    });
   }
 
   void _loadTranslations() {
@@ -70,19 +51,13 @@ class _SplashScreenPageState extends State<SplashScreenPage>
   }
 
   void _checkAndNavigate() {
-    print('_isAnimationComplete $_isAnimationComplete');
-    print('_isTranslationLoaded $_isTranslationLoaded');
-    print('mounted $mounted');
+    debugPrint('_isAnimationComplete $_isAnimationComplete');
+    debugPrint('_isTranslationLoaded $_isTranslationLoaded');
+    debugPrint('mounted $mounted');
 
     if (_isAnimationComplete && _isTranslationLoaded && mounted) {
       GoRouter.of(context).pushNamed(Routes.logIn.name);
     }
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
   }
 
   @override
@@ -114,15 +89,13 @@ class _SplashScreenPageState extends State<SplashScreenPage>
           SizedBox(
             width: size.width * 0.85,
             child: Center(
-              child: Lottie.asset(
-                'assets/splash.json',
-                controller: _animationController,
-                onLoaded: (composition) {
-                  _animationController
-                    ..duration = composition.duration
-                    ..forward();
+              child: SplashAnimation(
+                onAnimationComplete: () {
+                  setState(() {
+                    _isAnimationComplete = true;
+                    _checkAndNavigate();
+                  });
                 },
-                fit: BoxFit.contain,
               ),
             ),
           ),
