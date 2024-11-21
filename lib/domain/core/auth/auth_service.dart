@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
@@ -54,5 +56,12 @@ class AuthService {
     storage.remove('firstFunding');
     final uniqueValue = DateTime.now().millisecondsSinceEpoch;
     router.go('${Routes.splash.path}?forceRebuild=$uniqueValue');
+    BlocProvider.of<LoginCubit>(navigatorKey.currentContext!).cleanFormStatus();
+    BlocProvider.of<LoginCubit>(navigatorKey.currentContext!)
+        .cleanFormStatusLogin();
+    BlocProvider.of<LoginCubit>(navigatorKey.currentContext!)
+        .cleanFormStatusOtp();
+    BlocProvider.of<LoginCubit>(navigatorKey.currentContext!)
+        .cleanFormStatusForgotPassword();
   }
 }
