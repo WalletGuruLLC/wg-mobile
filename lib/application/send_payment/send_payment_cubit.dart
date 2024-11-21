@@ -118,9 +118,9 @@ class SendPaymentCubit extends Cubit<SendPaymentState> {
         );
   }
 
-  void showButton() {
+  Future<void> showButton() async {
     String address = state.sendPaymentEntity!.receiverWalletAddress;
-    bool shouldShowButton = Validators.regExpressionForWallet.hasMatch(address);
+    bool shouldShowButton = await Validators.validateWalletUrl(address);
     emit(
       state.copyWith(
         showNextButton: shouldShowButton,
