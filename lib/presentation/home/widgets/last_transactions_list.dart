@@ -53,7 +53,10 @@ class _LastTransactionsListState extends State<LastTransactionsList> {
         BlocBuilder<TransactionCubit, TransactionState>(
           builder: (context, state) {
             if (state is TransactionLoading) {
-              return const Center(child: SplashAnimation());
+              return SizedBox(
+                  width: size.width,
+                  height: size.height * 0.4,
+                  child: const SplashAnimation());
             } else if (state is TransactionLoaded) {
               final transactions = state.processedPayments.take(4).toList();
 
