@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Validators {
-  static final regExpressionForWallet =
-      RegExp(r'^https:\/\/walletguru\.me\/[a-zA-Z0-9]{4,}$');
+  static Future<RegExp> getDynamicRegExpForWallet() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final urlWallet = sharedPreferences.getString('urlWallet');
+    final escapedUrlWallet = RegExp.escape(urlWallet!);
+    return RegExp(r'^' + escapedUrlWallet + r'\/[a-zA-Z0-9]{4,}$');
+  }
+
+  static Future<bool> validateWalletUrl(String? value) async {
+    if (value == null || value.isEmpty) {
+      return false;
+    }
+
+    final regExp = await getDynamicRegExpForWallet();
+    return regExp.hasMatch(value);
+  }
+
   static String? validateEmpty(String? value, [BuildContext? context]) {
     final l10n = AppLocalizations.of(context!);
 
