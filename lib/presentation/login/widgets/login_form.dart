@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_guru/application/core/device/device.dart';
 import 'package:wallet_guru/application/login/login_cubit.dart';
+import 'package:wallet_guru/domain/core/auth/biometric_auth_service.dart';
+import 'package:wallet_guru/domain/core/enums/support_state_enum.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
@@ -22,10 +29,15 @@ class LoginForm extends StatefulWidget {
 }
 
 class LoginFormState extends State<LoginForm> {
+  final BiometricAuthService _biometricAuthService = BiometricAuthService();
+  final deviceType = getDeviceType();
   final _formKey = GlobalKey<FormState>();
   String? _email;
   String? _password;
   late LoginCubit loginCubit;
+  final LocalAuthentication auth = LocalAuthentication();
+  SupportState supportState = SupportState.unknown;
+  List<BiometricType> availableBiometrics = [];
 
   @override
   void initState() {
@@ -34,6 +46,24 @@ class LoginFormState extends State<LoginForm> {
       loginCubit = BlocProvider.of<LoginCubit>(context);
       loginCubit.cleanFormStatusForgotPassword();
       _getInactiveSection();
+      _initializeBiometricFeatures();
+    });
+  }
+
+  Future<void> _initializeBiometricFeatures() async {
+    final isSupported = await _biometricAuthService.isDeviceSupported();
+    final canCheckBiometric = await _biometricAuthService.canCheckBiometrics();
+    final available = await _biometricAuthService.getAvailableBiometrics();
+
+    if (!mounted) return;
+
+    setState(() {
+      supportState = isSupported
+          ? SupportState.supported
+          : (canCheckBiometric
+              ? SupportState.notSupported
+              : SupportState.unknown);
+      availableBiometrics = available;
     });
   }
 
@@ -90,7 +120,18 @@ class LoginFormState extends State<LoginForm> {
                 fontSize: 16,
                 fontWeight: FontWeight.w400),
           ),
-          SizedBox(height: size * 0.2),
+          SizedBox(height: size * 0.035),
+          GestureDetector(
+            onTap: () => _biometricAuthService.authenticateWithBiometric(),
+            child: Center(
+              child: SvgPicture.asset(
+                deviceType == DeviceType.android
+                    ? Assets.walletAndroid
+                    : Assets.walletIos,
+              ),
+            ),
+          ),
+          SizedBox(height: size * 0.1),
           BlocConsumer<LoginCubit, LoginState>(
             listener: (context, state) {
               if (state.formStatusLogin is SubmissionSuccess) {

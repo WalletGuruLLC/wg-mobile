@@ -33,6 +33,8 @@ class AuthService {
     final bool tokenIsExpired = isExpired(token);
     if (tokenIsExpired) {
       await LoginDataSource().refreshToken();
+      GoRouter.of(navigatorKey.currentContext!)
+          .pushReplacementNamed(Routes.home.name);
     }
   }
 
@@ -50,7 +52,6 @@ class AuthService {
 
   Future<void> logout() async {
     final storage = await SharedPreferences.getInstance();
-    await storage.remove('Basic');
     storage.remove('isWalletCreated');
     storage.remove('refreshToken');
     storage.remove('firstFunding');

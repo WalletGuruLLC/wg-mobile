@@ -26,6 +26,8 @@ class Assets {
   static const empty = '${base}empty.svg';
   static const myInfo = '${base}my_info.svg';
   static const sum = '${base}sum.svg';
+  static const walletIos = '${base}login_biometric_ios.svg';
+  static const walletAndroid = '${base}login_biometric_android.svg';
 
   // BOTTOM MENU ICONS
   static const homeMenuIcon = '${base}home_menu_icon.svg';
