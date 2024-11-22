@@ -5,6 +5,9 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:walletguru.me</string>
+		<string>applinks:dev.walletguru.me</string>
+		<string>applinks:qa.walletguru.me</string>
+		<string>applinks:sgt.walletguru.me</string>
 	</array>
 </dict>
 </plist>
