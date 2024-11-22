@@ -284,65 +284,76 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
             const SizedBox(height: 8),
             Expanded(
               child: SizedBox(
-                width: 331,
-                height: 115,
-                child: LineChart(
-                  LineChartData(
-                    gridData: const FlGridData(show: false),
-                    titlesData: FlTitlesData(
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 30,
-                          interval: _getAxisInterval(_selectedRange),
-                          getTitlesWidget: (value, meta) =>
-                              _buildAxisLabel(value, _selectedRange),
-                        ),
-                      ),
-                      leftTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false)),
-                      topTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false)),
-                      rightTitles: const AxisTitles(
-                          sideTitles: SideTitles(showTitles: false)),
-                    ),
-                    borderData: FlBorderData(show: false),
-                    minX: 0,
-                    maxX: intervalData.pointCount.toDouble() - 1,
-                    minY: spots.isEmpty
-                        ? 0
-                        : spots.map((s) => s.y).reduce((a, b) => a < b ? a : b),
-                    maxY: spots.isEmpty
-                        ? 0
-                        : spots.map((s) => s.y).reduce((a, b) => a > b ? a : b),
-                    lineBarsData: [
-                      LineChartBarData(
-                        spots: spots,
-                        isCurved: true,
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColorSchema.of(context).primary,
-                            AppColorSchema.of(context).secondary
-                          ],
-                        ),
-                        barWidth: 4,
-                        isStrokeCapRound: true,
-                        dotData: const FlDotData(show: false),
-                        belowBarData: BarAreaData(
-                          show: true,
-                          gradient: LinearGradient(
-                            colors: [
-                              AppColorSchema.of(context)
-                                  .primary
-                                  .withOpacity(0.3),
-                              AppColorSchema.of(context)
-                                  .secondary
-                                  .withOpacity(0.3),
-                            ],
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(20), // Asegura bordes redondeados
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0), // Añade margen interno
+                    child: LineChart(
+                      LineChartData(
+                        gridData: const FlGridData(show: false),
+                        titlesData: FlTitlesData(
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 30,
+                              interval: _getAxisInterval(_selectedRange),
+                              getTitlesWidget: (value, meta) =>
+                                  _buildAxisLabel(value, _selectedRange),
+                            ),
                           ),
+                          leftTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          topTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          rightTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
                         ),
+                        borderData: FlBorderData(show: false),
+                        minX: 0,
+                        maxX: intervalData.pointCount.toDouble() - 1,
+                        minY: spots.isEmpty
+                            ? 0
+                            : spots
+                                .map((s) => s.y)
+                                .reduce((a, b) => a < b ? a : b),
+                        maxY: spots.isEmpty
+                            ? 0
+                            : spots
+                                .map((s) => s.y)
+                                .reduce((a, b) => a > b ? a : b),
+                        lineBarsData: [
+                          LineChartBarData(
+                            spots: spots,
+                            isCurved: true,
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColorSchema.of(context).primary,
+                                AppColorSchema.of(context).secondary
+                              ],
+                            ),
+                            barWidth: 4,
+                            isStrokeCapRound: true,
+                            dotData: const FlDotData(show: false),
+                            belowBarData: BarAreaData(
+                              show: true,
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColorSchema.of(context)
+                                      .primary
+                                      .withOpacity(0.3),
+                                  AppColorSchema.of(context)
+                                      .secondary
+                                      .withOpacity(0.3),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
