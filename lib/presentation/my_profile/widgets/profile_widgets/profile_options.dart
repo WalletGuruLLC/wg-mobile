@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
+import 'package:wallet_guru/presentation/core/widgets/biometric_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 // ignore: unused_import
 import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/lock_account_modal.dart';
@@ -72,7 +73,12 @@ class ProfileOption extends StatelessWidget {
         GoRouter.of(context).pushNamed(Routes.myInfo.name);
         break;
       case 2:
-        GoRouter.of(context).pushNamed(Routes.configurationSettings.name);
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return const BiometricModal(isUserLogged: true);
+            });
         break;
       case 3:
         GoRouter.of(context).pushNamed(Routes.changePassword.name);

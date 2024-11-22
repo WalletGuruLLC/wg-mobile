@@ -231,6 +231,12 @@
   "notValidActionModalText": "Para enviar dinero, ve a 'Enviar Pagos'. 'Añadir servicio' es solo para vincular servicios.",
   "loggedOutTitle": "Sesión cerrada",
   "loggedOutText": "Has sido desconectado por inactividad. Por favor, inicia sesión de nuevo.",
-  "to": "a"
+  "to": "a",
+  "biometricAccessTitle": "Acceso Biométrico",
+  "biometricAccessText": "¿Deseas que esta aplicación acceda a tu autenticación biométrica?",
+  "buttonYes": "Sí",
+  "activateBiometrics": "Activar Biométricos",
+  "deactivateBiometrics": "Desactivar Biométricos"
+
   
 }

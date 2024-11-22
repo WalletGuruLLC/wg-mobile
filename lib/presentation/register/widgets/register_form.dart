@@ -1,13 +1,14 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 import 'package:wallet_guru/application/settings/settings_state.dart';
 import 'package:wallet_guru/application/settings/settings_cubit.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
+import 'package:wallet_guru/presentation/core/widgets/biometric_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
 import 'package:wallet_guru/presentation/core/widgets/custom_button.dart';
@@ -151,8 +152,7 @@ class RegisterFormState extends State<RegisterForm> {
           BlocConsumer<RegisterCubit, RegisterState>(
             listener: (context, state) {
               if (state.formStatus is SubmissionSuccess) {
-                GoRouter.of(context).pushNamed(Routes.doubleFactorAuth.name,
-                    extra: state.email);
+                _buildSuccessModal(state.email);
               } else if (state.formStatus is SubmissionFailed) {
                 _buildErrorModal(
                   state.customMessage,
@@ -261,6 +261,18 @@ class RegisterFormState extends State<RegisterForm> {
             registerCubit.cleanFormStatus();
             Navigator.of(context).pop();
           },
+        );
+      },
+    );
+  }
+
+  Future<dynamic> _buildSuccessModal(String email) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return BiometricModal(
+          email: email,
         );
       },
     );

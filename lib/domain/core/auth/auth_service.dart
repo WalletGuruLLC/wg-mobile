@@ -18,7 +18,11 @@ class AuthService {
 
   bool isExpired(String token) {
     final DateTime? expirationDate = Jwt.getExpiryDate(token);
+    debugPrint('expirationDate UTC: $expirationDate');
     if (expirationDate != null) {
+      debugPrint('dateTime.now UTC: ${DateTime.now().toUtc()}');
+      debugPrint(
+          'IS EXPIRED: ${DateTime.now().toUtc().isAfter(expirationDate)}');
       return DateTime.now().toUtc().isAfter(expirationDate);
     } else {
       return false;
@@ -31,8 +35,10 @@ class AuthService {
     if (token == null) return;
 
     final bool tokenIsExpired = isExpired(token);
-    if (tokenIsExpired) {
+    if (!tokenIsExpired) {
       await LoginDataSource().refreshToken();
+      GoRouter.of(navigatorKey.currentContext!)
+          .pushReplacementNamed(Routes.home.name);
     }
   }
 
@@ -50,9 +56,7 @@ class AuthService {
 
   Future<void> logout() async {
     final storage = await SharedPreferences.getInstance();
-    await storage.remove('Basic');
     storage.remove('isWalletCreated');
-    storage.remove('refreshToken');
     storage.remove('firstFunding');
     final uniqueValue = DateTime.now().millisecondsSinceEpoch;
     router.go('${Routes.splash.path}?forceRebuild=$uniqueValue');
