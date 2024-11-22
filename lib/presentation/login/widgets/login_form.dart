@@ -38,6 +38,7 @@ class LoginFormState extends State<LoginForm> {
   final LocalAuthentication auth = LocalAuthentication();
   SupportState supportState = SupportState.unknown;
   List<BiometricType> availableBiometrics = [];
+  late bool isBiometricAvailable;
 
   @override
   void initState() {
@@ -47,6 +48,7 @@ class LoginFormState extends State<LoginForm> {
       loginCubit.cleanFormStatusForgotPassword();
       _getInactiveSection();
       _initializeBiometricFeatures();
+      _getIsBiometricAvailable();
     });
   }
 
@@ -121,13 +123,16 @@ class LoginFormState extends State<LoginForm> {
                 fontWeight: FontWeight.w400),
           ),
           SizedBox(height: size * 0.035),
-          GestureDetector(
-            onTap: () => _biometricAuthService.authenticateWithBiometric(),
-            child: Center(
-              child: SvgPicture.asset(
-                deviceType == DeviceType.android
-                    ? Assets.walletAndroid
-                    : Assets.walletIos,
+          Visibility(
+            visible: isBiometricAvailable,
+            child: GestureDetector(
+              onTap: () => _biometricAuthService.authenticateWithBiometric(),
+              child: Center(
+                child: SvgPicture.asset(
+                  deviceType == DeviceType.android
+                      ? Assets.walletAndroid
+                      : Assets.walletIos,
+                ),
               ),
             ),
           ),
@@ -244,6 +249,14 @@ class LoginFormState extends State<LoginForm> {
     if (inactiveSection != null && inactiveSection) {
       _setInactiveSessionAndShowModal();
     }
+  }
+
+  Future<void> _getIsBiometricAvailable() async {
+    final storage = await SharedPreferences.getInstance();
+    bool? isBiometricAvailable = storage.getBool('isBiometricAvailable');
+    setState(() {
+      this.isBiometricAvailable = isBiometricAvailable ?? false;
+    });
   }
 
   Future<void> _setInactiveSessionAndShowModal() async {

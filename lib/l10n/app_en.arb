@@ -232,6 +232,12 @@
   "notValidActionModalText": "To send money, go to 'Send Payments'. 'Add service' is for linking services only.",
   "loggedOutTitle": "Logged out",
   "loggedOutText": "You have been logged out due to inactivity. Please log in again.",
-  "to": "to"
+  "to": "to",
+  "biometricAccessTitle": "Biometric Access",
+  "biometricAccessText": "Do you want this App to access your biometric authentication?",
+  "buttonYes": "Yes",
+  "activateBiometrics": "Active Biometrics",
+  "deactivateBiometrics": "Deactivate Biometrics"
+  
 
 }

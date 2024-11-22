@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
-
 import 'package:local_auth/local_auth.dart';
 import 'package:wallet_guru/domain/core/auth/auth_service.dart';
-import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
-import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
 
 class BiometricAuthService {
   final LocalAuthentication _auth = LocalAuthentication();
