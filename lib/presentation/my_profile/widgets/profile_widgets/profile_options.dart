@@ -77,7 +77,9 @@ class ProfileOption extends StatelessWidget {
             barrierDismissible: false,
             context: context,
             builder: (context) {
-              return const BiometricModal(isUserLogged: true);
+              return const BiometricModal(
+                isUserLogged: true,
+              );
             });
         break;
       case 3:
