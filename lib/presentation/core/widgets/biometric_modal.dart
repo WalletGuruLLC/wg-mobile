@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallet_guru/application/core/wallet_status/wallet_status_cubit.dart';
 import 'package:wallet_guru/application/register/register_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
@@ -40,13 +41,20 @@ class BiometricModal extends StatelessWidget {
             color: AppColorSchema.of(context).secondaryText,
           ),
           SizedBox(height: size * 0.010),
-          TextBase(
-            textAlign: TextAlign.center,
-            text: l10n.biometricAccessText,
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppColorSchema.of(context).secondaryText,
-          ),
+          BlocBuilder<WalletStatusCubit, WalletStatusState>(
+            builder: (context, state) {
+              bool isBiometricAvailable = state.isBiometricAvailable;
+              return TextBase(
+                textAlign: TextAlign.center,
+                text: isBiometricAvailable
+                    ? l10n.biometricAccessText
+                    : l10n.biometricDeactivateText,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColorSchema.of(context).secondaryText,
+              );
+            },
+          )
         ],
       ),
       doubleButton: Row(
@@ -58,13 +66,13 @@ class BiometricModal extends StatelessWidget {
             onPressed: () async {
               final storage = await SharedPreferences.getInstance();
               storage.setBool('isBiometricAvailable', true);
-
+              BlocProvider.of<WalletStatusCubit>(navigatorKey.currentContext!)
+                  .updateBiometricStatus(true);
               BlocProvider.of<RegisterCubit>(navigatorKey.currentContext!)
                   .cleanFormStatus();
               Navigator.of(navigatorKey.currentContext!).pop();
               isUserLogged == true
-                  ? GoRouter.of(navigatorKey.currentContext!)
-                      .pushReplacementNamed(Routes.myProfile.name)
+                  ? null
                   : GoRouter.of(navigatorKey.currentContext!)
                       .pushNamed(Routes.doubleFactorAuth.name, extra: email);
             },
@@ -79,9 +87,10 @@ class BiometricModal extends StatelessWidget {
               BlocProvider.of<RegisterCubit>(context).cleanFormStatus();
               final storage = await SharedPreferences.getInstance();
               storage.setBool('isBiometricAvailable', false);
+              BlocProvider.of<WalletStatusCubit>(navigatorKey.currentContext!)
+                  .updateBiometricStatus(false);
               isUserLogged == true
-                  ? GoRouter.of(navigatorKey.currentContext!)
-                      .pushNamed(Routes.myProfile.name)
+                  ? null
                   : GoRouter.of(navigatorKey.currentContext!)
                       .pushNamed(Routes.doubleFactorAuth.name, extra: email);
             },
