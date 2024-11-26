@@ -236,7 +236,6 @@
   "biometricAccessText": "¿Deseas que esta aplicación acceda a tu autenticación biométrica?",
   "buttonYes": "Sí",
   "activateBiometrics": "Activar Biométricos",
-  "deactivateBiometrics": "Desactivar Biométricos"
-
-  
+  "deactivateBiometrics": "Desactivar Biométricos",
+  "biometricDeactivateText": "La autenticación biométrica ha sido desactivada. Ahora usarás tu contraseña para acceder."
 }

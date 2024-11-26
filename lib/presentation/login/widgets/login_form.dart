@@ -38,7 +38,7 @@ class LoginFormState extends State<LoginForm> {
   final LocalAuthentication auth = LocalAuthentication();
   SupportState supportState = SupportState.unknown;
   List<BiometricType> availableBiometrics = [];
-  late bool isBiometricAvailable;
+  bool isBiometricAvailable = false;
 
   @override
   void initState() {
@@ -254,6 +254,7 @@ class LoginFormState extends State<LoginForm> {
   Future<void> _getIsBiometricAvailable() async {
     final storage = await SharedPreferences.getInstance();
     bool? isBiometricAvailable = storage.getBool('isBiometricAvailable');
+    if (!mounted) return;
     setState(() {
       this.isBiometricAvailable = isBiometricAvailable ?? false;
     });

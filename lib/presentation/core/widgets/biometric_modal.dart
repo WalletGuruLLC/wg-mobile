@@ -15,9 +15,11 @@ import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 class BiometricModal extends StatelessWidget {
   final bool? isUserLogged;
   final String? email;
+  final bool? isBiometricAvailable;
   const BiometricModal({
     super.key,
     this.isUserLogged = false,
+    this.isBiometricAvailable = false,
     this.email,
   });
 
@@ -42,7 +44,9 @@ class BiometricModal extends StatelessWidget {
           SizedBox(height: size * 0.010),
           TextBase(
             textAlign: TextAlign.center,
-            text: l10n.biometricAccessText,
+            text: isBiometricAvailable!
+                ? l10n.biometricAccessText
+                : l10n.biometricDeactivateText,
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: AppColorSchema.of(context).secondaryText,

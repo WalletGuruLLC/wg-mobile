@@ -46,6 +46,7 @@ class _MyProfileMainViewState extends State<MyProfileMainView> {
               profileOrder: 1,
             ),
             ProfileOption(
+              isBiometricAvailable: isBiometricAvailable,
               optionTitle: isBiometricAvailable
                   ? l10n.deactivateBiometrics
                   : l10n.activateBiometrics,
