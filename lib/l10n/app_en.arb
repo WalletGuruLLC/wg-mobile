@@ -238,7 +238,7 @@
   "buttonYes": "Yes",
   "activateBiometrics": "Active Biometrics",
   "deactivateBiometrics": "Deactivate Biometrics",
-  "biometricDeactivateText": "Biometric authentication has been deactivated. You will now use your password to log in."
+  "biometricDeactivateText": "Biometric authentication has been deactivated. To activate it press 'Yes'"
   
 
 }

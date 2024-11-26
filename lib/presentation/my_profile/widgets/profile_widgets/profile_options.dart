@@ -11,13 +11,11 @@ import 'package:wallet_guru/presentation/my_profile/widgets/profile_widgets/lock
 class ProfileOption extends StatelessWidget {
   final String optionTitle;
   final int profileOrder;
-  final bool? isBiometricAvailable;
 
   const ProfileOption({
     super.key,
     required this.optionTitle,
     required this.profileOrder,
-    this.isBiometricAvailable = false,
   });
 
   @override
@@ -79,9 +77,9 @@ class ProfileOption extends StatelessWidget {
             barrierDismissible: false,
             context: context,
             builder: (context) {
-              return BiometricModal(
-                  isUserLogged: true,
-                  isBiometricAvailable: isBiometricAvailable);
+              return const BiometricModal(
+                isUserLogged: true,
+              );
             });
         break;
       case 3:

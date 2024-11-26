@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallet_guru/application/core/device/device.dart';
+import 'package:wallet_guru/application/core/wallet_status/wallet_status_cubit.dart';
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/domain/core/auth/biometric_auth_service.dart';
 import 'package:wallet_guru/domain/core/enums/support_state_enum.dart';
@@ -256,7 +257,9 @@ class LoginFormState extends State<LoginForm> {
     bool? isBiometricAvailable = storage.getBool('isBiometricAvailable');
     if (!mounted) return;
     setState(() {
-      this.isBiometricAvailable = isBiometricAvailable ?? false;
+      this.isBiometricAvailable = isBiometricAvailable!;
+      BlocProvider.of<WalletStatusCubit>(context)
+          .updateBiometricStatus(isBiometricAvailable);
     });
   }
 
