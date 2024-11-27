@@ -234,11 +234,11 @@
   "loggedOutText": "You have been logged out due to inactivity. Please log in again.",
   "to": "to",
   "biometricAccessTitle": "Biometric Access",
-  "biometricAccessText": "Do you want this App to access your biometric authentication?",
+  "biometricAccessText": "Biometric authentication is activated. Would you like to deactivate it?",
   "buttonYes": "Yes",
   "activateBiometrics": "Active Biometrics",
   "deactivateBiometrics": "Deactivate Biometrics",
-  "biometricDeactivateText": "Biometric authentication has been deactivated. To activate it press 'Yes'"
+  "biometricDeactivateText": "Biometric authentication has been deactivated. Would you like to activate it?"
   
 
 }
