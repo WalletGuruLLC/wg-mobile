@@ -60,21 +60,29 @@ class BiometricModal extends StatelessWidget {
       doubleButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          CustomButton(
-            width: size * 0.1,
-            text: l10n.yes,
-            onPressed: () async {
-              final storage = await SharedPreferences.getInstance();
-              storage.setBool('isBiometricAvailable', true);
-              BlocProvider.of<WalletStatusCubit>(navigatorKey.currentContext!)
-                  .updateBiometricStatus(true);
-              BlocProvider.of<RegisterCubit>(navigatorKey.currentContext!)
-                  .cleanFormStatus();
-              Navigator.of(navigatorKey.currentContext!).pop();
-              isUserLogged == true
-                  ? null
-                  : GoRouter.of(navigatorKey.currentContext!)
-                      .pushNamed(Routes.doubleFactorAuth.name, extra: email);
+          BlocBuilder<WalletStatusCubit, WalletStatusState>(
+            builder: (context, state) {
+              bool isBiometricAvailable = state.isBiometricAvailable;
+              return CustomButton(
+                width: size * 0.1,
+                text: l10n.yes,
+                onPressed: () async {
+                  final storage = await SharedPreferences.getInstance();
+                  storage.setBool(
+                      'isBiometricAvailable', !isBiometricAvailable);
+                  BlocProvider.of<WalletStatusCubit>(
+                          navigatorKey.currentContext!)
+                      .updateBiometricStatus(!isBiometricAvailable);
+                  BlocProvider.of<RegisterCubit>(navigatorKey.currentContext!)
+                      .cleanFormStatus();
+                  Navigator.of(navigatorKey.currentContext!).pop();
+                  isUserLogged == true
+                      ? null
+                      : GoRouter.of(navigatorKey.currentContext!).pushNamed(
+                          Routes.doubleFactorAuth.name,
+                          extra: email);
+                },
+              );
             },
           ),
           CustomButton(
@@ -84,15 +92,15 @@ class BiometricModal extends StatelessWidget {
             text: 'No',
             onPressed: () async {
               Navigator.of(context).pop();
-              BlocProvider.of<RegisterCubit>(context).cleanFormStatus();
-              final storage = await SharedPreferences.getInstance();
-              storage.setBool('isBiometricAvailable', false);
-              BlocProvider.of<WalletStatusCubit>(navigatorKey.currentContext!)
-                  .updateBiometricStatus(false);
-              isUserLogged == true
-                  ? null
-                  : GoRouter.of(navigatorKey.currentContext!)
-                      .pushNamed(Routes.doubleFactorAuth.name, extra: email);
+              if (!isUserLogged!) {
+                BlocProvider.of<RegisterCubit>(context).cleanFormStatus();
+                final storage = await SharedPreferences.getInstance();
+                storage.setBool('isBiometricAvailable', false);
+                BlocProvider.of<WalletStatusCubit>(navigatorKey.currentContext!)
+                    .updateBiometricStatus(false);
+                GoRouter.of(navigatorKey.currentContext!)
+                    .pushNamed(Routes.doubleFactorAuth.name, extra: email);
+              }
             },
           ),
         ],
