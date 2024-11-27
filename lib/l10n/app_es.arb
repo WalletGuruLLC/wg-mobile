@@ -233,9 +233,9 @@
   "loggedOutText": "Has sido desconectado por inactividad. Por favor, inicia sesión de nuevo.",
   "to": "a",
   "biometricAccessTitle": "Acceso Biométrico",
-  "biometricAccessText": "¿Deseas que esta aplicación acceda a tu autenticación biométrica?",
+  "biometricAccessText": "La autenticación biométrica está activada. ¿Deseas desactivarla?",
   "buttonYes": "Sí",
   "activateBiometrics": "Activar Biométricos",
   "deactivateBiometrics": "Desactivar Biométricos",
-  "biometricDeactivateText": "La autenticación biométrica ha sido desactivada. Para activarla presione 'Sí'."
+  "biometricDeactivateText": "La autenticación biométrica ha sido desactivada. ¿Deseas activarla?"
 }
