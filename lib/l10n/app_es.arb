@@ -237,5 +237,6 @@
   "buttonYes": "Sí",
   "activateBiometrics": "Activar Biométricos",
   "deactivateBiometrics": "Desactivar Biométricos",
-  "biometricDeactivateText": "La autenticación biométrica ha sido desactivada. ¿Deseas activarla?"
+  "biometricDeactivateText": "La autenticación biométrica ha sido desactivada. ¿Deseas activarla?",
+  "problemModal": "Ocurrió un problema, inténtalo de nuevo más tarde"
 }
