@@ -23,7 +23,7 @@ class TransactionChartWidget extends StatefulWidget {
   _TransactionChartWidgetState createState() => _TransactionChartWidgetState();
 }
 
-enum TimeRange { day1, day7, month1 }
+enum TimeRange { day1, day7, month1, month6, year1 }
 
 class _TransactionChartWidgetState extends State<TransactionChartWidget> {
   late DateTime _startDate;
@@ -66,6 +66,14 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
       case TimeRange.month1:
         final start = DateTime(now.year, now.month - 1, now.day);
         return IntervalData(start, const Duration(days: 1), 30);
+      case TimeRange.month6:
+        final start = DateTime(now.year, now.month - 6, now.day);
+        return IntervalData(
+            start, const Duration(days: 5), 36); // Aproximadamente cada 5 días
+      case TimeRange.year1:
+        final start = DateTime(now.year - 1, now.month, now.day);
+        return IntervalData(
+            start, const Duration(days: 30), 12); // Aproximadamente mensual
     }
   }
 
@@ -141,6 +149,10 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
         return '7D';
       case TimeRange.month1:
         return '1M';
+      case TimeRange.month6:
+        return '6M';
+      case TimeRange.year1:
+        return '1Y';
     }
   }
 
@@ -222,30 +234,17 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
     final intervalData = _getIntervalData(range);
     final date = intervalData.start.add(intervalData.interval * value.toInt());
 
-    switch (range) {
-      case TimeRange.day1:
-        return TextBase(
-          text: DateFormat('HH:00').format(date),
-          fontSize: 10,
-          color: AppColorSchema.of(context).accentText,
-        );
-      case TimeRange.day7:
-        return TextBase(
+    return Padding(
+      padding: const EdgeInsets.only(top: 15),
+      child: Transform.rotate(
+        angle: -0.5, // Rota las etiquetas (en radianes)
+        child: TextBase(
           text: DateFormat('dd/MM').format(date),
           fontSize: 10,
           color: AppColorSchema.of(context).accentText,
-        );
-      case TimeRange.month1:
-        if (value % 5 == 0) {
-          // Mostrar cada 5 días
-          return TextBase(
-            text: DateFormat('dd/MM').format(date),
-            fontSize: 10,
-            color: AppColorSchema.of(context).accentText,
-          );
-        }
-        return const SizedBox.shrink();
-    }
+        ),
+      ),
+    );
   }
 
   double _getAxisInterval(TimeRange range) {
@@ -256,16 +255,21 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
         return 1; // Cada día
       case TimeRange.month1:
         return 5; // Cada 5 días
+      case TimeRange.month6:
+        return 6; // Cada 6 días
+      case TimeRange.year1:
+        return 1; // Cada mes (aproximado)
     }
   }
 
   Widget _buildChartCard(
       BuildContext context, double total, List<FlSpot> spots) {
     final intervalData = _getIntervalData(_selectedRange);
+    Size size = MediaQuery.of(context).size;
 
     return Container(
-      width: 350,
-      height: 211,
+      width: size.width * 0.9,
+      height: 220,
       decoration: BoxDecoration(
         color: AppColorSchema.of(context).cardTwoColor,
         borderRadius: BorderRadius.circular(20),
@@ -289,8 +293,8 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
                   borderRadius:
                       BorderRadius.circular(20), // Asegura bordes redondeados
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0), // Añade margen interno
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0), // Añade más padding inferior
                     child: LineChart(
                       LineChartData(
                         gridData: const FlGridData(show: false),
@@ -298,7 +302,7 @@ class _TransactionChartWidgetState extends State<TransactionChartWidget> {
                           bottomTitles: AxisTitles(
                             sideTitles: SideTitles(
                               showTitles: true,
-                              reservedSize: 30,
+                              reservedSize: 40,
                               interval: _getAxisInterval(_selectedRange),
                               getTitlesWidget: (value, meta) =>
                                   _buildAxisLabel(value, _selectedRange),
