@@ -4,9 +4,9 @@ class FundingNetwork {
   static final String getListOfIncomingPayments =
       '${Env.baseUrlWallet}/api/v1/wallets-rafiki/list-incoming-payments';
   static final String linkServerProvider =
-      '${Env.baseUrlWallet}/api/v1/wallets-rafiki/service-provider-link';
+      '${Env.baseUrlWs}/api/v1/wallets-rafiki/service-provider-link';
   static final String createIncomingPayment =
       '${Env.baseUrlWallet}/api/v1/wallets-rafiki/create/incoming-payment';
   static final String unlinkedServiceProvider =
-      '${Env.baseUrlWallet}/api/v1/wallets-rafiki/service-provider-unlink';
+      '${Env.baseUrlWs}/api/v1/wallets-rafiki/service-provider-unlink';
 }
