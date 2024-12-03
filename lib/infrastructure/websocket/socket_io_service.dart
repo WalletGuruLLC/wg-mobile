@@ -13,7 +13,7 @@ class SocketIOService implements IWebSocketService {
   Future<void> connect() async {
     final storage = await SharedPreferences.getInstance();
     final String? token = storage.getString('Basic');
-    socket = IO.io('${Env.baseUrlWallet}/users-balance', <String, dynamic>{
+    socket = IO.io('${Env.baseUrlWs}/users-balance', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
       'extraHeaders': {'Token': "Bearer $token"}
