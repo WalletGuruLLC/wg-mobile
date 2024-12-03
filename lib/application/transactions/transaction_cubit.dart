@@ -12,6 +12,7 @@ class TransactionCubit extends Cubit<TransactionState> {
   final webSocketService = Injector.resolve<IWebSocketService>();
 
   void webSocketTransacctions() async {
+    await webSocketService.connect();
     webSocketService.onMessage('transacctions').listen((data) {
       print(data);
       loadTransactions();
