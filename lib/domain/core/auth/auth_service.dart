@@ -4,6 +4,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wallet_guru/application/core/wallet_status/wallet_status_cubit.dart';
 import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/infrastructure/core/routes/router_provider.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';

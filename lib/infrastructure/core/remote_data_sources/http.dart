@@ -19,9 +19,9 @@ class HttpDataSource {
 
   static void cleanHeardes() async {
     final storage = await SharedPreferences.getInstance();
-    storage.remove('Basic');
+    // storage.remove('Basic');
     storage.remove('isWalletCreated');
-    storage.remove('refreshToken');
+    // storage.remove('refreshToken');
     storage.remove('firstFunding');
     _headers.clear();
   }

@@ -255,11 +255,14 @@ class LoginFormState extends State<LoginForm> {
   Future<void> _getIsBiometricAvailable() async {
     final storage = await SharedPreferences.getInstance();
     bool? isBiometricAvailable = storage.getBool('isBiometricAvailable');
+    final String? token = storage.getString('Basic');
     if (!mounted) return;
     setState(() {
-      this.isBiometricAvailable = isBiometricAvailable!;
-      BlocProvider.of<WalletStatusCubit>(context)
-          .updateBiometricStatus(isBiometricAvailable);
+      if (token != null) {
+        this.isBiometricAvailable = isBiometricAvailable!;
+        BlocProvider.of<WalletStatusCubit>(context)
+            .updateBiometricStatus(isBiometricAvailable);
+      }
     });
   }
 
