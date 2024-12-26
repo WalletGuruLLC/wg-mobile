@@ -12,6 +12,7 @@ import 'package:wallet_guru/application/login/login_cubit.dart';
 import 'package:wallet_guru/domain/core/auth/biometric_auth_service.dart';
 import 'package:wallet_guru/domain/core/enums/support_state_enum.dart';
 import 'package:wallet_guru/infrastructure/core/routes/routes.dart';
+import 'package:wallet_guru/infrastructure/login/data_sources/login_data_sources.dart';
 import 'package:wallet_guru/presentation/core/assets/assets.dart';
 import 'package:wallet_guru/presentation/core/widgets/text_base.dart';
 import 'package:wallet_guru/presentation/core/widgets/base_modal.dart';
@@ -127,7 +128,10 @@ class LoginFormState extends State<LoginForm> {
           Visibility(
             visible: isBiometricAvailable,
             child: GestureDetector(
-              onTap: () => _biometricAuthService.authenticateWithBiometric(),
+              onTap: () async {
+                await LoginDataSource().refreshToken();
+                _biometricAuthService.authenticateWithBiometric();
+              },
               child: Center(
                 child: SvgPicture.asset(
                   deviceType == DeviceType.android
@@ -257,6 +261,7 @@ class LoginFormState extends State<LoginForm> {
     bool? isBiometricAvailable = storage.getBool('isBiometricAvailable');
     final String? token = storage.getString('Basic');
     if (!mounted) return;
+    await LoginDataSource().refreshToken();
     setState(() {
       if (token != null) {
         this.isBiometricAvailable = isBiometricAvailable!;

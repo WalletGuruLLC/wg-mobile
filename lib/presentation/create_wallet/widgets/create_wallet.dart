@@ -257,7 +257,7 @@ class CreateWalletFormState extends State<CreateWalletForm> {
         return BaseModal(
           isSucefull: true,
           buttonWidth: locale.languageCode == 'en'
-              ? MediaQuery.of(context).size.width * 0.40
+              ? MediaQuery.of(context).size.width * 0.45
               : MediaQuery.of(context).size.width * 0.42,
           content: Column(
             children: [

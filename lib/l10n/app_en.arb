@@ -179,7 +179,7 @@
   "asset": "Asset",
   "selectAsset": "Select Asset",
   "random": "Random",
-  "successfullyCreated": "Successfully Created! Your wallet address is ready. You can easily share it from your profile",
+  "successfullyCreated": "Your wallet address is ready. You can easily share it from your profile",
   "confirmPaymentTitle": "Confirm Payment",
   "confirmPaymentText1": "You are about to send a payment",
   "confirmPaymentText2": "Do you want to proceed?",
