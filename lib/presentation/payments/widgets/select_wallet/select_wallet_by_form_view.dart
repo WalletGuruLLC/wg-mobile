@@ -51,6 +51,7 @@ class _SelectWalletByFormViewState extends State<SelectWalletByFormView> {
           hintText: l10n.walletAddress,
           validation: false,
           onChanged: (value) {
+            print(value);
             sendPaymentCubit.updateSendPaymentInformation(
               receiverWalletAddress: value,
             );
