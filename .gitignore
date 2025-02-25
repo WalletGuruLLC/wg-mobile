@@ -46,3 +46,5 @@ app.*.map.json
 
 # Ignore git configuration
 .gitconfig
+
+lib/infrastructure/core/env/env.g.dart
